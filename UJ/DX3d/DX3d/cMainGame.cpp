@@ -287,6 +287,11 @@ void cMainGame::Draw_Triangle()
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecTriangleVertex.size() / 3, &m_vecTriangleVertex[0],
 		sizeof(ST_PC_VERTEX));
+	LPD3DXMESH m_mesh;
+	//D3DXCreateSphere(g_pD3DDevice, 3.0f, 50, 100, &m_SphereMesh, NULL);
+	D3DXCreateTeapot(g_pD3DDevice, &m_mesh, NULL);
+	m_mesh->DrawSubset(0);
+
 }
 
 void cMainGame::Setup_Box()
