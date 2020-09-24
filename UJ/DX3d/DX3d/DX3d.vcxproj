@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D26AC7B8-868F-4F12-A952-54CAB03EB070}</ProjectGuid>
+    <ProjectGuid>{AD71D426-2C36-454B-B758-B96A1E8A6E11}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>API3D_Teacher</RootNamespace>
+    <RootNamespace>DX3d</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -87,6 +87,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,19 +144,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="API3D_Teacher.h" />
+    <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cMainGame.h" />
-    <ClInclude Include="cMatrix.h" />
-    <ClInclude Include="cVector3.h" />
+    <ClInclude Include="DX3d.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="API3D_Teacher.cpp" />
+    <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
-    <ClCompile Include="cMatrix.cpp" />
-    <ClCompile Include="cVector3.cpp" />
+    <ClCompile Include="DX3d.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -162,10 +163,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="API3D_Teacher.rc" />
+    <ResourceCompile Include="DX3d.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="API3D_Teacher.ico" />
+    <Image Include="DX3d.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
