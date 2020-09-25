@@ -22,7 +22,7 @@ private:
 	cGrid* m_pGrid;
 	cKids* m_pKids;
 	
-	
+	//df
 	
 public:
 	void Setup();
