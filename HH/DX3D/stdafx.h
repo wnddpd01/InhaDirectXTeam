@@ -70,4 +70,5 @@ enum SHAPE
 
 #include "Object.h"
 #include "cDeviceManager.h";
+#include "cBodyCube.h"
 // TODO: reference additional headers your program requires here

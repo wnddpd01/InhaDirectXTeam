@@ -1,4 +1,9 @@
 #pragma once
+class cCube;
+class cCamera;
+class cGrid;
+class cCharactor;
+
 class cMainGame
 {
 public:
@@ -10,12 +15,20 @@ private:
 	std::vector<ST_PC_VERTEX>	m_vecTriangleVertex;
 	std::vector<Object*>		m_vecObject;
 	float Fov;
-
 	D3DXVECTOR3 vEye;
 	D3DXVECTOR3 vLookAt;
 	D3DXVECTOR3 vUp;
-
 	float CameraDist;
+
+
+	cCube*		m_pCubePC;
+	cCamera*	m_pCamera;
+	cGrid*		m_pGrid;
+	cCharactor*	m_pCharactor;
+
+	
+
+
 	
 	
 public:
@@ -31,5 +44,12 @@ public:
 
 	void UpdateMove();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	//»ù
+	void WndProcTeacher(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+
+
+	
 };
 
