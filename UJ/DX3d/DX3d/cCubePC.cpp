@@ -13,13 +13,13 @@ cCubePC::~cCubePC()
 {
 }
 
-void cCubePC::Setup(float width, float height, float depth)
+void cCubePC::Setup(float width, float height, float depth, D3DXCOLOR color)
 {
 	m_vScale = { width, height, depth };
 	width = height = depth = 1;
 	ST_PC_VERTEX v;
 	//front
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
+	v.c = color;
 	v.p = D3DXVECTOR3(-width * 0.5, -height * 0.5, -depth * 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(-width * 0.5, height * 0.5, -depth * 0.5f);
@@ -35,7 +35,6 @@ void cCubePC::Setup(float width, float height, float depth)
 	m_vecVertex.push_back(v);
 
 	//back
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
 	v.p = D3DXVECTOR3(-width * 0.5, -height * 0.5f, depth* 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(width * 0.5, height * 0.5f, depth * 0.5f);
@@ -51,7 +50,6 @@ void cCubePC::Setup(float width, float height, float depth)
 	m_vecVertex.push_back(v);
 
 	//left
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
 	v.p = D3DXVECTOR3(-width * 0.5, -height * 0.5f, depth* 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(-width * 0.5, height * 0.5f, depth* 0.5f);
@@ -67,7 +65,6 @@ void cCubePC::Setup(float width, float height, float depth)
 	m_vecVertex.push_back(v);
 
 	//right
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
 	v.p = D3DXVECTOR3(width * 0.5, -height * 0.5f, -depth* 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(width * 0.5, height * 0.5f, -depth* 0.5f);
@@ -83,7 +80,6 @@ void cCubePC::Setup(float width, float height, float depth)
 	m_vecVertex.push_back(v);
 
 	//top
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
 	v.p = D3DXVECTOR3(-width * 0.5, height * 0.5f, -depth* 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(-width * 0.5, height * 0.5f, depth* 0.5f);
@@ -99,7 +95,6 @@ void cCubePC::Setup(float width, float height, float depth)
 	m_vecVertex.push_back(v);
 
 	//bottom
-	v.c = D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256);
 	v.p = D3DXVECTOR3(-width * 0.5, -height * 0.5f, depth* 0.5f);
 	m_vecVertex.push_back(v);
 	v.p = D3DXVECTOR3(-width * 0.5, -height * 0.5f, -depth* 0.5f);
@@ -117,27 +112,22 @@ void cCubePC::Setup(float width, float height, float depth)
 	Update();
 }
 
-void cCubePC::Setup(D3DXVECTOR3& size)
+void cCubePC::Setup(D3DXVECTOR3& size, D3DXCOLOR color)
 {
-	Setup(size.x, size.y, size.z);
+	Setup(size.x, size.y, size.z, color);
 }
 
 void cCubePC::Update()
 {
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
 	D3DXMATRIXA16 matS, matR, matT, matRX;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	
-	D3DXMATRIXA16 matTransXAxis;
-	D3DXMatrixTranslation(&matTransXAxis, 0, -m_vScale.y * 0.5, 0);
-
 	D3DXMatrixRotationX(&matRX, m_fRotX);
 	D3DXMatrixRotationY(&matR, m_fRotY);
 	matR = matRX * matR;
 	
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + m_vScale.y * 0.5, m_vPosition.z);
-	m_matWorld = matS *  matTransXAxis *  matR * matT;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	m_matWorld = matS * matR * matT;
 }
 
 void cCubePC::Update(D3DXMATRIXA16& mat)
@@ -211,4 +201,12 @@ void cCubePC::SetRotY(float rotY)
 void cCubePC::SetRotX(float rotX)
 {
 	m_fRotX = rotX;
+}
+
+void cCubePC::SetVertexY(float y)
+{
+	for (int i = 0; i < m_vecVertex.size(); ++i)
+	{
+		m_vecVertex[i].p.y += y;
+	}
 }
