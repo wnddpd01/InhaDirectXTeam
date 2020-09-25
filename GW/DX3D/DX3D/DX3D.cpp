@@ -163,11 +163,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	
     switch (message)
     {
-	case WM_TIMER:
-		if (g_pMainGame)
-			g_pMainGame->Update();
-		InvalidateRect(g_hWnd, NULL, false);
-		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
