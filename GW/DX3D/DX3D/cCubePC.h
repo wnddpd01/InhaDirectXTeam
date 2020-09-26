@@ -18,9 +18,11 @@ public:
 
 	float sx, sy, sz;
 	float tx, ty, tz;
+	float ry;
 
 	void SetTrans(float x, float y, float z);
 	void SetScling(float x, float y, float z);
+	void SetRotation(float x);
 
 	D3DXMATRIXA16 GetWorld()
 	{
