@@ -48,5 +48,32 @@ struct ST_PC_VERTEX	//포인트, 컬러
 	enum { FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE };
 };
 
+struct ST_PNT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR3 n;
+	D3DXVECTOR2 t;
+
+	enum {FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1};
+};
+
+struct ST_PT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR2 t;
+
+	enum { FVF = D3DFVF_XYZ | D3DFVF_TEX1 };
+};
+#define Synthesize(varType, varName, funName) \
+protected : varType varName ; \
+public	  : inline varType Get##funName(void) const { return varName;} \
+public	  : inline void Set##funName(varType var)   { varName = var;}
+
+#define Synthesize_pass_by_Ref(varType, varName, funName) \
+protected : varType varName ; \
+public	  : inline varType& Get##funName(void)  { return varName;} \
+public	  : inline void Set##funName(varType& var)   { varName = var;}
+
+
 #include "cMainGame.h"
 #include "cDeviceManager.h"

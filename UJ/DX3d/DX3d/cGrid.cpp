@@ -89,6 +89,7 @@ void cGrid::Setup(int nNumHalfTime, float fInterval)
 
 void cGrid::Render()
 {
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
@@ -99,4 +100,5 @@ void cGrid::Render()
 	{
 		m_vec_pyramid->Render();
 	}
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
