@@ -1,8 +1,16 @@
 #include "stdafx.h"
 #include "cMainGame.h"
 
+#include "cCamera.h"
+#include "cCube.h"
+#include "cGrid.h"
+#include "cCharactor.h"
 
 cMainGame::cMainGame()
+	: m_pCubePC(NULL)
+	, m_pCamera(NULL)
+	, m_pGrid(NULL)
+	, m_pCharactor(NULL)
 {
 	Fov = D3DX_PI / 4.f;
 	vEye = D3DXVECTOR3(5, 5, -5.f);
@@ -14,33 +22,67 @@ cMainGame::cMainGame()
 
 cMainGame::~cMainGame()
 {
+	//基
+	
+	SafeDelete(m_pCubePC);
+	SafeDelete(m_pCamera);
+	SafeDelete(m_pGrid);
+	g_pDeviceManager->Destroy();
+	//ddd
+
+
+
+	/*
 	for(auto i : m_vecObject)
 		delete i;
 	g_pDeviceManager->Destroy();
+	*/
 }
 
 void cMainGame::Setup()
 {
-	//SetupLine();
-	//SetupTriangle();
+	/*
 	m_vecObject.push_back(new Object(CUBE));
 	m_vecObject[0]->SetUp();
 
 	m_vecObject.push_back(new Object(GRID));
 	m_vecObject[1]->SetUp();
 
+	
+	*/
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	/*
-	D3DXMatrixRotationX()
-	D3DXVec3TransformCoord()
-	D3DXVec3TransformNormal()
-	*/
+
+	m_pCharactor = new cCharactor;
+	m_pCharactor->Setup();
+
+	
+	// 基内靛
+	//m_pCubePC = new cCube;
+	//m_pCubePC->Setup();
+
+	m_pCamera = new cCamera;
+	m_pCamera->Setup(&m_pCharactor->GetPosition());
+
+	m_pGrid = new cGrid;
+	m_pGrid->Setup();
+
+	
 }
 
 void cMainGame::Update()
 {
-	UpdateMove();
+	//UpdateMove();
+
+	// 基
+	if (m_pCubePC)
+		m_pCubePC->Update();
+
+	if (m_pCharactor)
+		m_pCharactor->Update();
+
+	if (m_pCamera)
+		m_pCamera->Update();
 }
 
 void cMainGame::Render()
@@ -48,8 +90,7 @@ void cMainGame::Render()
 	RECT rc;
 	GetClientRect(g_hwnd, &rc);
 
-
-
+	/*
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &vEye, &vLookAt, &vUp);
 
@@ -59,7 +100,7 @@ void cMainGame::Render()
 	D3DXMatrixPerspectiveFovLH(&matProj, Fov, rc.right / (float)rc.bottom,
 		1.f, 1000.f);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
-	
+	*/
 	
 	if (g_pD3DDevice)
 		g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
@@ -69,12 +110,27 @@ void cMainGame::Render()
 
 	//DrawLine();
 	//DrawTriangle();
+	/*
 	m_vecObject[0]->Render();
 	m_vecObject[1]->Render();
+	*/
+	// 基内靛
+	if (m_pGrid)
+		m_pGrid->Render();
+
+	//if (m_pCubePC)
+	//	m_pCubePC->Render();
 	
+	if (m_pCharactor)
+		m_pCharactor->Render();
+
+
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(0, 0, 0, 0);
+
+
+
 }
 
 void cMainGame::SetupLine()
@@ -190,4 +246,10 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		break;
 	}
+}
+
+void cMainGame::WndProcTeacher(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (m_pCamera)
+		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 }

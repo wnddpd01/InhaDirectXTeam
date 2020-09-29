@@ -93,10 +93,12 @@ void cKids::Update()
 	if (GetKeyState('W') & 0x8000)
 	{
 		m_vPosition += (m_vDirection*0.1f);
+		m_vecKids[2]->SetRotation(1.0f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
 		m_vPosition -= (m_vDirection*0.1f);
+		m_vecKids[2]->SetRotation(-1.0f);
 	}
 
 
@@ -115,7 +117,6 @@ void cKids::Render()
 
 	for each(auto p in m_vecKids)
 	{
-
 		p->Render();	
 	}
 

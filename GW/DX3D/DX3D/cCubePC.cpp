@@ -3,11 +3,11 @@
 
 
 cCubePC::cCubePC()
-	:m_vDirection(0,0,1)
-	,m_vPosition(0,0,0)
-	,m_fRotY(0.0f)
-	,tx(0.0f), ty(0.0f), tz(0.0f)
-	,sx(0.5f), sy(0.5f), sz(0.5f)
+	:m_vDirection(0, 0, 1)
+	, m_vPosition(0, 0, 0)
+	, m_fRotY(0.0f)
+	, tx(0.0f), ty(0.0f), tz(0.0f)
+	, sx(0.5f), sy(0.5f), sz(0.5f), ry(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -135,8 +135,8 @@ void cCubePC::Update(D3DXMATRIXA16* m_pWorld)
 
 	D3DXMatrixScaling(&matS,sx, sy, sz);
 
-
-	D3DXMatrixRotationY(&matR, m_fRotY);
+	
+	D3DXMatrixRotationY(&matR, m_fRotY+ry);
 
 	m_vDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
@@ -175,4 +175,9 @@ void cCubePC::SetScling(float x, float y, float z)
 	sx = x;
 	sy = y;
 	sz = z;
+}
+
+void cCubePC::SetRotation(float x)
+{
+	ry = x;
 }
