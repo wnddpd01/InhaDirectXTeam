@@ -117,7 +117,6 @@ void cKids::Render()
 
 	for each(auto p in m_vecKids)
 	{
-
 		p->Render();	
 	}
 
