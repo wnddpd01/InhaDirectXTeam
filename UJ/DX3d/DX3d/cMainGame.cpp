@@ -14,13 +14,12 @@ cMainGame::cMainGame()
 	m_pGrid(NULL),
 	m_pCharacter(NULL),
 	m_pCubeMan(NULL)
-
 {
 }
 
 cMainGame::~cMainGame()
 {
-	SafeDelete(m_pCubePc);
+	delete[] m_pCubePc;
 	SafeDelete(m_pCharacter);
 	SafeDelete(m_pCamera);
 	SafeDelete(m_pGrid);
@@ -32,8 +31,8 @@ void cMainGame::Setup()
 {
 	//m_pCubePc = new cCubePC;
 	//m_pCubePc->Setup();
-	m_pCharacter = new cCharacter;
-	m_pCharacter->Setup();
+	/*m_pCharacter = new cCharacter;
+	m_pCharacter->Setup();*/
 
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
@@ -42,7 +41,7 @@ void cMainGame::Setup()
 	m_pCamera->Setup(&(m_pCubeMan->GetPosition()));
 
 	m_pGrid = new cGrid;
-	m_pGrid->Setup();
+	m_pGrid->Setup(150, 0.1f);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	/*{
@@ -75,6 +74,44 @@ void cMainGame::Setup()
 	Set_Light();
 }
 
+void cMainGame::KeyInput()
+{
+	if (GetKeyState('A') & 0x8000)
+		m_pCubeMan->Command('A');
+	if (GetKeyState('D') & 0x8000)
+		m_pCubeMan->Command('D');
+	if (GetKeyState('W') & 0x8000)
+		m_pCubeMan->Command('W');
+	if (GetKeyState('S') & 0x8000)
+		m_pCubeMan->Command('S');
+	if(GetKeyState('Z') & 0x8000)
+	{
+		D3DLIGHT9 light;
+		g_pD3DDevice->GetLight(1, &light);
+		light.Range += 5.0f * 0.1f;
+		//light.Attenuation1 -= 0.125f * 0.1f;
+		g_pD3DDevice->SetLight(1, &light);
+	}
+	if(GetKeyState('X') & 0x8000)
+	{
+		D3DLIGHT9 light;
+		g_pD3DDevice->GetLight(1, &light);
+		light.Range -= 5.0f * 0.1f;
+		//light.Attenuation1 += 0.125f * 0.1f;
+		g_pD3DDevice->SetLight(1, &light);
+	}
+	if (GetKeyState('C') & 0x8000)
+	{
+		D3DLIGHT9 light;
+		g_pD3DDevice->GetLight(2, &light);
+		D3DXVECTOR3 dir = m_pCubeMan->GetPosition() - light.Position;
+		D3DXVec3Normalize(&dir, &dir);
+		light.Direction = dir;
+		//light.Attenuation1 += 0.125f * 0.1f;
+		g_pD3DDevice->SetLight(2, &light);
+	}
+}
+
 void cMainGame::Update()
 {
 	//if (m_pCharacter != NULL)
@@ -86,6 +123,29 @@ void cMainGame::Update()
 		m_pCubeMan->Update();
 	if (m_pCamera)
 		m_pCamera->Update();
+	if(m_pCubePc != NULL)
+	{
+		m_pCubePc[0].Update();
+		m_pCubePc[1].Update();
+	}
+	D3DLIGHT9 sun;
+	g_pD3DDevice->GetLight(0, &sun);
+	D3DXMATRIXA16 rotY;
+	D3DXMatrixRotationZ(&rotY, 0.01f);
+	D3DXVECTOR3 temp = sun.Direction;
+
+	D3DXVec3TransformNormal(&temp, &temp, &rotY);
+	sun.Direction = temp;
+	if(temp.y < 0)
+	{
+		g_pD3DDevice->LightEnable(0, true);
+	}
+	else
+	{
+		g_pD3DDevice->LightEnable(0, false);
+	}
+	g_pD3DDevice->SetLight(0, &sun);
+	
 }
 
 void cMainGame::Render()
@@ -93,6 +153,12 @@ void cMainGame::Render()
 	g_pD3DDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(47, 121, 112), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
 
+	if(m_pCubePc != NULL)
+	{
+		m_pCubePc[0].Render();
+		m_pCubePc[1].Render();
+	}
+	
 	if (m_pCubeMan != NULL)
 		m_pCubeMan->Render();
 	
@@ -112,17 +178,50 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void cMainGame::Set_Light()
 {
+	m_pCubePc = new cCubePC[2];
 	D3DLIGHT9 stLight;
 	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
 	stLight.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	stLight.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	stLight.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
-
-	D3DXVECTOR3 vDir = { 1.0f, -1.0f, 1.0f };
+	stLight.Range = 5.0f;
+	D3DXVECTOR3 vDir = { 1.0f, -3.0f, 1.0f };
 	D3DXVec3Normalize(&vDir, &vDir);
 	stLight.Direction = vDir;
 	g_pD3DDevice->SetLight(0, &stLight);
 	g_pD3DDevice->LightEnable(0, TRUE);
+
+	D3DLIGHT9 stPointLight;
+	ZeroMemory(&stPointLight, sizeof(D3DLIGHT9));
+	stPointLight.Type = D3DLIGHT_POINT;
+	stPointLight.Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	stPointLight.Diffuse = D3DXCOLOR(0.5f, 0.0f, 0.0f, 0.5f);
+	stPointLight.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stPointLight.Range = 8.0f;
+	stPointLight.Attenuation1 = 0.0625f;
+	stPointLight.Position = D3DXVECTOR3(5.0f, 5.0f, 5.0f);
+	g_pD3DDevice->SetLight(1, &stPointLight);
+	g_pD3DDevice->LightEnable(1, TRUE);
+	m_pCubePc[0].Setup();
+	m_pCubePc[0].SetPosition(stPointLight.Position);
+	
+	D3DLIGHT9 stSpotLight;
+	ZeroMemory(&stSpotLight, sizeof(D3DLIGHT9));
+	stSpotLight.Type = D3DLIGHT_SPOT;
+	stSpotLight.Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	stSpotLight.Diffuse = D3DXCOLOR(0.0f, 0.5f, 0.0f, 0.5f);
+	stSpotLight.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	stSpotLight.Range = 10.0f;
+	stSpotLight.Attenuation1 = 0.0625f;
+	stSpotLight.Position = D3DXVECTOR3(-5.0f, 5.0f, -5.0f);
+	stSpotLight.Direction = D3DXVECTOR3(0, -1, 0);
+	stSpotLight.Falloff = 1.0f;
+	stSpotLight.Theta = D3DX_PI / 4.0f;
+	stSpotLight.Phi = D3DX_PI / 2.0f;
+	g_pD3DDevice->SetLight(2, &stSpotLight);
+	g_pD3DDevice->LightEnable(2, TRUE);
+	m_pCubePc[1].Setup();
+	m_pCubePc[1].SetPosition(stSpotLight.Position);
 }
 

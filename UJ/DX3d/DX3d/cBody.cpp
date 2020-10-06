@@ -69,4 +69,6 @@ void cBody::Setup()
 		m_vecVertex[i + 5].t = { bodyStartX + 1.0f / 8.0f, bodyStartY };
 		bodyStartX += 1.0f / 8.0f;
 	}
+
+	this->m_vLocalPos.y = 0.9f;
 }

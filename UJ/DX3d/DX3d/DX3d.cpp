@@ -74,6 +74,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
 			if (GetTickCount() - frameEndTime > 8)
 			{
+				g_pMainGame->KeyInput();
 				g_pMainGame->Update();
 				g_pMainGame->Render();
 				frameEndTime = GetTickCount();

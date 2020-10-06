@@ -20,6 +20,7 @@ cCubeMan::~cCubeMan()
 	{
 		m_pRoot->Destroy();
 	}
+	SafeRelease(m_pTextrue);
 }
 
 void cCubeMan::Setup()
@@ -86,4 +87,16 @@ void cCubeMan::Render()
 			m_pRoot->Render();
 		g_pD3DDevice->SetTexture(0, NULL);
 	}
+}
+
+void cCubeMan::Command(WPARAM key)
+{
+	if (key == 'A')
+		m_fRotY -= 0.1f;
+	else if (key == 'D')
+		m_fRotY += 0.1f;
+	else if (key == 'W')
+		m_vPosition += (m_vDirection * 0.1f);
+	else if (key == 'S')
+		m_vPosition -= (m_vDirection * 0.1f);
 }

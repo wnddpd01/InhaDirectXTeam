@@ -21,15 +21,6 @@ void cCharacterSam::Setup()
 
 void cCharacterSam::Update()
 {
-	if (GetKeyState('A') & 0x8000)
-		m_fRotY -= 0.1f;
-	else if (GetKeyState('D') & 0x8000)
-		m_fRotY += 0.1f;
-
-	if (GetKeyState('W') & 0x8000)
-		m_vPosition += (m_vDirection * 0.1f);
-	else if (GetKeyState('S') & 0x8000)
-		m_vPosition -= (m_vDirection * 0.1f);
 
 	D3DXMATRIXA16   matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);   //Y축으로 회전된 행렬 제작
