@@ -64,7 +64,7 @@ void cCharacter::Setup()
 {
 	D3DXVECTOR3 bodySize = { 0.5f,0.5f,0.125f };
 	D3DXVECTOR3 headSize = { 0.3f,0.3f,0.3f };
-	D3DXVECTOR3 armSize = { bodySize.x * 0.2f ,bodySize.y * 1.0f,bodySize.z };
+	D3DXVECTOR3 armSize = { bodySize.x * 0.2f ,bodySize.y * 1.2f,bodySize.z };
 	D3DXVECTOR3 legSize = { bodySize.x * 0.25f,bodySize.y * 0.8f,bodySize.z };
 
 	
@@ -174,7 +174,7 @@ void cCharacter::UpdateIdle()
 void cCharacter::UpdateSwing()
 {
 	static vector<float> dir = { -0.01f, 0.01f, 0.01f, -0.01f };
-
+	static float scale_dir = 0.01f;
 	if (fabsf(m_fRotX) > 0.001f)
 	{
 		m_fRotX *= 0.8f;
@@ -202,7 +202,7 @@ void cCharacter::UpdateSwing()
 void cCharacter::UpdateNarutoRun()
 {
 	static vector<float> dir = { -0.01f, 0.01f, 0.01f, -0.01f };
-	if(m_fRotX < 0.7f)
+	if(m_fRotX < 0.45f)
 	{
 		m_fRotX += 0.05f;
 	}
@@ -213,7 +213,10 @@ void cCharacter::UpdateNarutoRun()
 	}
 	for (size_t i = 2; i < 4; i++)
 	{
-		character_body_vector_[i]->SetRotX(0.5f);
+		if (character_body_vector_[i]->GetRotX() < 0.45f)
+		{
+			character_body_vector_[i]->SetRotX(character_body_vector_[i]->GetRotX() + 0.05f);
+		}
 		character_body_vector_[i]->Update(m_matWorld);
 	}
 	for (size_t i = 4; i < character_body_vector_.size(); i++)

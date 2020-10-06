@@ -5,6 +5,7 @@ class cCamera;
 class cGrid;
 class cPyramid;
 class cCharacter;
+class cCubeMan;
 
 class cMainGame
 {
@@ -33,8 +34,12 @@ private:
 	//D3DXVECTOR3			m_vBoxDirection;			//박스의 방향
 	cCubePC * m_pCubePc;
 	cCharacter * m_pCharacter;
+	cCubeMan * m_pCubeMan;
 	cCamera * m_pCamera;
 	cGrid   * m_pGrid;
+
+	/*LPDIRECT3DTEXTURE9 m_pTextrue;
+	vector<ST_PT_VERTEX> m_vecVertex;*/
 
 public:
 	void Setup();
@@ -42,6 +47,7 @@ public:
 	void Render();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+	void Set_Light();
 	//void Setup_Line();
 	//void Draw_Line();
 	//void Setup_Triangle();
