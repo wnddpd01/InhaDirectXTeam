@@ -44,30 +44,6 @@ void cMainGame::Setup()
 	m_pLight = new cLight;
 	m_pLight->Setup();
 
-	//>>:for texture
-	{
-		//D3DXCreateTextureFromFile(g_pD3DDevice, L"monkey.png", &m_pTexture);
-
-		
-		ST_PT_VERTEX v;
-
-
-		v.p = D3DXVECTOR3(1, 1, 0);
-		v.t = D3DXVECTOR2(0.26f, 0.13f);
-		m_vecVertx.push_back(v);
-
-	
-		v.p = D3DXVECTOR3(1, 0, 0);
-		v.t = D3DXVECTOR2(0.26f, 0.25f);
-		m_vecVertx.push_back(v);
-
-	
-		
-		
-	}
-
-	
-
 }
 
 void cMainGame::Update()
@@ -98,6 +74,8 @@ void cMainGame::Render()
 	if (m_pCubeMan)
 		m_pCubeMan->Render();
 
+	if (m_pLight)
+		m_pLight->Render();
 
 	Draw_Texture();
 
@@ -114,8 +92,6 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 
-	if (m_pLight)
-		m_pLight->WndProc(hWnd, message, wParam, lParam);
 
 }
 
@@ -135,6 +111,6 @@ void cMainGame::Draw_Texture()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 //	g_pD3DDevice->SetTexture(0, m_pTexture); //texture¾²±â
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertx.size() / 3, &m_vecVertx[0], sizeof(ST_PT_VERTEX));
+	//g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertx.size() / 3, &m_vecVertx[0], sizeof(ST_PT_VERTEX));
 //	g_pD3DDevice->SetTexture(0, NULL); //texture »©±â
 }

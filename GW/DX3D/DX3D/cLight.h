@@ -1,6 +1,6 @@
 #pragma once
 
-
+class cCubePC;
 
 class cLight
 {
@@ -9,13 +9,15 @@ public:
 	~cLight();
 private:
 	std::vector<ST_PC_VERTEX>	m_vecVertex;
-	D3DLIGHT9 stLight[3];
-	float temp_range;
+	D3DLIGHT9 m_Light[3];
+
+	cCubePC* m_pSLC;
+	cCubePC* m_pPLC;
 
 public:
 	void Setup();
 	void Update();
 	void Render();
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 };
 
