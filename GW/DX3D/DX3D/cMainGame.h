@@ -4,6 +4,7 @@ class cCamera;
 class cGrid;
 class cKids;
 class cCubeMan;
+class cLight;
 
 class cMainGame
 {
@@ -22,10 +23,10 @@ private:
 	cCamera* m_pCamera;
 	cGrid* m_pGrid;
 	cCubeMan* m_pCubeMan;
-
+	cLight* m_pLight;
 
 	// >>: for texture
-	LPDIRECT3DTEXTURE9 m_pTexture;
+	//LPDIRECT3DTEXTURE9 m_pTexture;
 	std::vector<ST_PT_VERTEX> m_vecVertx;
 	// <<:
 	

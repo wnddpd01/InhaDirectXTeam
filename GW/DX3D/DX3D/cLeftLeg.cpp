@@ -18,12 +18,13 @@ void cLeftLeg::Setup()
 	D3DXMatrixScaling(&matS, 0.2f, 0.6f, 0.2f);
 	D3DXMatrixTranslation(&matT, -0.1f, -0.3f, 0.0f);
 
-	m_vecVertex[6].t = D3DXVECTOR2(0.30f, 0.5f);
-	m_vecVertex[7].t = D3DXVECTOR2(0.44f, 0.3f);
-	m_vecVertex[8].t = D3DXVECTOR2(0.30f, 0.3f);
-	m_vecVertex[9].t = D3DXVECTOR2(0.30f, 0.5f);
-	m_vecVertex[10].t = D3DXVECTOR2(0.44f, 0.5f);
-	m_vecVertex[11].t = D3DXVECTOR2(0.44f, 0.3f);
+
+	m_vecVertex[6].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[7].t = D3DXVECTOR2(0, 0.4f);
+	m_vecVertex[8].t = D3DXVECTOR2(0, 0.4f);
+	m_vecVertex[9].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[10].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[11].t = D3DXVECTOR2(0, 0.4f);
 
 
 	//:back

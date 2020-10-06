@@ -6,13 +6,14 @@
 #include "cGrid.h"
 #include "cKids.h"
 #include "cCubeMan.h"
+#include "cLight.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	,m_pCamera(NULL)
 	,m_pGrid(NULL)
 	,m_pCubeMan(NULL)
-, m_pTexture(NULL)
+, m_pLight(NULL)
 {
 }
 
@@ -22,7 +23,7 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCamera);
 	SafeDelete(m_pGrid);
 	SafeDelete(m_pCubeMan);
-	SafeRelease(m_pTexture);
+	SafeDelete(m_pLight);
 	g_pDeviceManager->Destroy();
 }
 
@@ -40,31 +41,16 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-
+	m_pLight = new cLight;
+	m_pLight->Setup();
 
 	//>>:for texture
 	{
-		D3DXCreateTextureFromFile(g_pD3DDevice, L"monkey.png", &m_pTexture);
+		//D3DXCreateTextureFromFile(g_pD3DDevice, L"monkey.png", &m_pTexture);
 
 		
 		ST_PT_VERTEX v;
-		v.p = D3DXVECTOR3(0, 0, 0);
-		v.t = D3DXVECTOR2(0.11f, 0.25f);
-		m_vecVertx.push_back(v);
 
-		v.p = D3DXVECTOR3(0, 1, 0);
-		v.t = D3DXVECTOR2(0.11f, 0.13f);
-		m_vecVertx.push_back(v);
-
-
-		v.p = D3DXVECTOR3(1, 1, 0);
-		v.t = D3DXVECTOR2(0.26f, 0.13f);
-		m_vecVertx.push_back(v);
-
-
-		v.p = D3DXVECTOR3(0, 0, 0);
-		v.t = D3DXVECTOR2(0.11f, 0.25f);
-		m_vecVertx.push_back(v);
 
 		v.p = D3DXVECTOR3(1, 1, 0);
 		v.t = D3DXVECTOR2(0.26f, 0.13f);
@@ -81,7 +67,6 @@ void cMainGame::Setup()
 	}
 
 	
-	Set_Light();
 
 }
 
@@ -93,6 +78,10 @@ void cMainGame::Update()
 	
 	if (m_pCamera)
 		m_pCamera->Update();
+
+	if (m_pLight)
+		m_pLight->Update();
+	
 	
 }
 
@@ -109,6 +98,7 @@ void cMainGame::Render()
 	if (m_pCubeMan)
 		m_pCubeMan->Render();
 
+
 	Draw_Texture();
 
 
@@ -123,33 +113,27 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+
+	if (m_pLight)
+		m_pLight->WndProc(hWnd, message, wParam, lParam);
+
 }
 
 
 void cMainGame::Set_Light()
 {
-	D3DLIGHT9 stLight;
-	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
-	stLight.Type = D3DLIGHT_DIRECTIONAL;
-	stLight.Ambient = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
-	stLight.Diffuse = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
-	stLight.Specular = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
+	
 
-	D3DXVECTOR3 vDir(1.0f, -1.0f, 1.0f);
-	D3DXVec3Normalize(&vDir, &vDir);
-	stLight.Direction = vDir;
-	g_pD3DDevice->SetLight(0, &stLight);
-	g_pD3DDevice->LightEnable(0, true);
 	
 }
 
 void cMainGame::Draw_Texture()
 {
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	g_pD3DDevice->SetTexture(0, m_pTexture); //texture쓰기
+//	g_pD3DDevice->SetTexture(0, m_pTexture); //texture쓰기
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertx.size() / 3, &m_vecVertx[0], sizeof(ST_PT_VERTEX));
 //	g_pD3DDevice->SetTexture(0, NULL); //texture 빼기
