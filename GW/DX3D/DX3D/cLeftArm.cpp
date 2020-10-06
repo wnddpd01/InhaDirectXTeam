@@ -18,12 +18,13 @@ void cLeftArm::Setup()
 	D3DXMatrixScaling(&matS, 0.2f, 0.6f, 0.2f);
 	D3DXMatrixTranslation(&matT, -0.3f, -0.3f, 0.0f);
 
-	m_vecVertex[6].t = D3DXVECTOR2(0.30f, 0.5f);
-	m_vecVertex[7].t = D3DXVECTOR2(0.44f, 0.3f);
-	m_vecVertex[8].t = D3DXVECTOR2(0.30f, 0.3f);
-	m_vecVertex[9].t = D3DXVECTOR2(0.30f, 0.5f);
-	m_vecVertex[10].t = D3DXVECTOR2(0.44f, 0.5f);
-	m_vecVertex[11].t = D3DXVECTOR2(0.44f, 0.3f);
+
+	m_vecVertex[6].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[7].t = D3DXVECTOR2(0, 0.4f);
+	m_vecVertex[8].t = D3DXVECTOR2(0, 0.4f);
+	m_vecVertex[9].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[10].t = D3DXVECTOR2(0, 0.5f);
+	m_vecVertex[11].t = D3DXVECTOR2(0, 0.4f);
 
 
 	//:back
@@ -55,12 +56,12 @@ void cLeftArm::Setup()
 
 
 	//:top
-	m_vecVertex[24].t = D3DXVECTOR2(0.13f, 0.5f);
-	m_vecVertex[26].t = D3DXVECTOR2(0.26f, 0.3f);
-	m_vecVertex[25].t = D3DXVECTOR2(0.13f, 0.3f);
-	m_vecVertex[27].t = D3DXVECTOR2(0.13f, 0.5f);
-	m_vecVertex[29].t = D3DXVECTOR2(0.26f, 0.5f);
-	m_vecVertex[28].t = D3DXVECTOR2(0.26f, 0.3f);
+	m_vecVertex[24].t = D3DXVECTOR2(0, 0.46f);
+	m_vecVertex[26].t = D3DXVECTOR2(0, 0.32f);
+	m_vecVertex[25].t = D3DXVECTOR2(0, 0.32f);
+	m_vecVertex[27].t = D3DXVECTOR2(0, 0.46f);
+	m_vecVertex[29].t = D3DXVECTOR2(0, 0.46f);
+	m_vecVertex[28].t = D3DXVECTOR2(0, 0.32f);
 	mat = matS * matT;
 	for (size_t i = 0; i<m_vecVertex.size(); i++)
 	{

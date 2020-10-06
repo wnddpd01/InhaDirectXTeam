@@ -27,12 +27,12 @@ void cRightArm::Setup()
 
 
 	//:back
-	m_vecVertex[0].t = D3DXVECTOR2(0, 0.5f);
-	m_vecVertex[1].t = D3DXVECTOR2(0, 0.4f);
-	m_vecVertex[2].t = D3DXVECTOR2(0, 0.4f);
-	m_vecVertex[3].t = D3DXVECTOR2(0, 0.5f);
-	m_vecVertex[4].t = D3DXVECTOR2(0, 0.5f);
-	m_vecVertex[5].t = D3DXVECTOR2(0, 0.4f);
+	m_vecVertex[0].t = D3DXVECTOR2(0.48f, 0.5f);
+	m_vecVertex[1].t = D3DXVECTOR2(0.48f, 0.3f);
+	m_vecVertex[2].t = D3DXVECTOR2(0.63f, 0.3f);
+	m_vecVertex[3].t = D3DXVECTOR2(0.48f, 0.5f);
+	m_vecVertex[4].t = D3DXVECTOR2(0.63f, 0.5f);
+	m_vecVertex[5].t = D3DXVECTOR2(0.63f, 0.3f);
 
 
 	//:left

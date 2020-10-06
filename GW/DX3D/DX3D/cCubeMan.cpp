@@ -10,6 +10,7 @@
 
 cCubeMan::cCubeMan()
 	:m_pRoot(NULL)
+	, m_pTexture(NULL)
 {
 }
 
@@ -18,6 +19,9 @@ cCubeMan::~cCubeMan()
 {
 	if (m_pRoot)
 		m_pRoot->Destroy();
+
+	SafeRelease(m_pTexture);
+	
 }
 
 void cCubeMan::Setup()
@@ -25,10 +29,13 @@ void cCubeMan::Setup()
 	cCharacter::Setup();
 
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
+	D3DXCreateTextureFromFile(g_pD3DDevice, L"monkey.png", &m_pTexture);
 	m_stMtl.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 	m_stMtl.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 	m_stMtl.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 
+
+	
 	cBody* pBody = new cBody;
 	pBody->Setup();
 	pBody->SetParentWorldTM(&m_matWorld);
@@ -57,6 +64,10 @@ void cCubeMan::Setup()
 	pRLeg->Setup();
 	pRLeg->SetRotDeltaX(0.1f);
 	m_pRoot->AddChild(pRLeg);
+
+
+
+	
 	
 }
 
@@ -79,8 +90,10 @@ void cCubeMan::Render()
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetTexture(0, m_pTexture);
 		if (m_pRoot)
 			m_pRoot->Render();
+		g_pD3DDevice->SetTexture(0, NULL);
 	}
 
 	
