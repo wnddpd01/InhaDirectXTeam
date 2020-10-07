@@ -1,7 +1,11 @@
 #pragma once
 
 #include "targetver.h"
-
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 #define WIN32_LEAN_AND_MEAN
 // Windows Header Files:
 #include <windows.h>
@@ -20,6 +24,7 @@
 #include <set>
 #include <list>
 #include <assert.h>
+#include <iostream>
 #include <time.h>
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -81,6 +86,19 @@ public	  : inline void Set##funName(varType var)   { varName = var;}
 protected : varType varName ; \
 public	  : inline varType& Get##funName(void)  { return varName;} \
 public	  : inline void Set##funName(varType& var)   { varName = var;}
+
+inline float factorial(int n)
+{
+	float ret = 1;
+	for (int i = 2; i <= n; ++i)
+	{
+		ret *= i;
+	}
+	return ret;
+}
+inline float binomial_coefficient(int n, int k) {
+	return factorial(n) / (factorial(k) * factorial(n - k));
+}
 
 
 #include "cMainGame.h"

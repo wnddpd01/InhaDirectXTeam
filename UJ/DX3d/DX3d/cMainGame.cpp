@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+
+#include <iostream>
+
 #include "cDeviceManager.h"
 #include "cCubePC.h"
 #include "cCamera.h"
@@ -7,13 +10,21 @@
 #include "cGrid.h"
 #include "cCharacter.h"
 #include "cCubeMan.h"
+#include "cHexagon.h"
+#include "cCubeAutoMan.h"
+#include <stdlib.h>
+#include <stdio.h>  
+
+#include "cBox.h"
+
 
 cMainGame::cMainGame()
 	:m_pCubePc(NULL),
 	m_pCamera(NULL),
 	m_pGrid(NULL),
 	m_pCharacter(NULL),
-	m_pCubeMan(NULL)
+	m_pCubeMan(NULL),
+	m_pBox(NULL)
 {
 }
 
@@ -34,15 +45,25 @@ void cMainGame::Setup()
 	/*m_pCharacter = new cCharacter;
 	m_pCharacter->Setup();*/
 
+	ObjectCreator();
+	
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
+
+	m_hexagon = new cHexagon;
+	m_hexagon->Setup();
 	
+	m_pCubeAutoMan = new cCubeAutoMan[2];
+	for (int i = 0; i < 2; ++i)
+	{
+		m_pCubeAutoMan[i].SetPosition(D3DXVECTOR3(10, 0, 0));
+	}
+	m_pCubeAutoMan[0].Setup(m_hexagon->st_pc_vertices_);
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pCubeMan->GetPosition()));
 
 	m_pGrid = new cGrid;
-	m_pGrid->Setup(150, 0.1f);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGrid->Setup();
 
 	/*{
 		
@@ -128,23 +149,27 @@ void cMainGame::Update()
 		m_pCubePc[0].Update();
 		m_pCubePc[1].Update();
 	}
-	D3DLIGHT9 sun;
-	g_pD3DDevice->GetLight(0, &sun);
-	D3DXMATRIXA16 rotY;
-	D3DXMatrixRotationZ(&rotY, 0.01f);
-	D3DXVECTOR3 temp = sun.Direction;
+	for (int i = 0; i < 1; ++i)
+	{
+		m_pCubeAutoMan[i].Update();
+	}
+	//D3DLIGHT9 sun;
+	//g_pD3DDevice->GetLight(0, &sun);
+	//D3DXMATRIXA16 rotY;
+	//D3DXMatrixRotationZ(&rotY, 0.01f);
+	//D3DXVECTOR3 temp = sun.Direction;
 
-	D3DXVec3TransformNormal(&temp, &temp, &rotY);
-	sun.Direction = temp;
-	if(temp.y < 0)
-	{
-		g_pD3DDevice->LightEnable(0, true);
-	}
-	else
-	{
-		g_pD3DDevice->LightEnable(0, false);
-	}
-	g_pD3DDevice->SetLight(0, &sun);
+	//D3DXVec3TransformNormal(&temp, &temp, &rotY);
+	//sun.Direction = temp;
+	//if(temp.y < 0)
+	//{
+	//	g_pD3DDevice->LightEnable(0, true);
+	//}
+	//else
+	//{
+	//	g_pD3DDevice->LightEnable(0, false);
+	//}
+	//g_pD3DDevice->SetLight(0, &sun);
 	
 }
 
@@ -161,9 +186,18 @@ void cMainGame::Render()
 	
 	if (m_pCubeMan != NULL)
 		m_pCubeMan->Render();
-	
+	for (int i = 0; i < 1; ++i)
+	{
+		m_pCubeAutoMan[i].Render();
+	}
 	if(m_pGrid != NULL)
 		m_pGrid->Render();
+
+	if (m_hexagon != NULL)
+		m_hexagon->Render();
+
+	if (m_pBox != NULL)
+		m_pBox->Render();
 	//if (m_pCharacter != NULL)
 	//	m_pCharacter->Render();
 	g_pD3DDevice->EndScene();
@@ -176,9 +210,158 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 }
 
+void cMainGame::ObjectCreator(string obj_file_name)
+{
+	m_pBox = new cBox;
+	
+	FILE *fp = fopen(obj_file_name.c_str(), "r");
+	if(!fp)
+	{
+		
+	}
+	char line[256];
+	char materialName[32];
+	vector<D3DXVECTOR3> vertices;
+	vector<D3DXVECTOR2> tex_vertices;
+	vector<D3DXVECTOR3> nomals;
+	
+	while(fgets(line, sizeof(line), fp) != NULL)
+	{
+		char *ptr = strtok(line, " ");
+		if(line[0] == '#')
+			continue;
+		else if(strcmp(ptr, "mtllib") == 0)
+		{
+			ptr = strtok(NULL, " ");
+			strcpy(materialName, ptr);
+			cout << materialName << endl;
+		}
+		else if (strcmp(ptr, "v") == 0)
+		{
+			D3DXVECTOR3 vertex;
+			
+			ptr = strtok(NULL, " ");
+			vertex.x = stof(ptr);
+			
+			ptr = strtok(NULL, " ");
+			vertex.y = stof(ptr);
+			
+			ptr = strtok(NULL, " ");
+			vertex.z = stof(ptr);
+			
+			vertices.push_back(vertex);
+			cout << "ver x : " << vertex.x << " y : " << vertex.y << " z : " << vertex.z << endl;
+		}
+		else if(strcmp(ptr, "vt") == 0)
+		{
+			D3DXVECTOR2 tex_vertex;
+			ptr = strtok(NULL, " ");
+			tex_vertex.x = stof(ptr);
+			ptr = strtok(NULL, " ");
+			tex_vertex.y = stof(ptr);
+			tex_vertices.push_back(tex_vertex);
+			cout << "tex x : " << tex_vertex.x << " y : " << tex_vertex.y << endl;
+		}
+		else if (strcmp(ptr, "vn") == 0)
+		{
+			D3DXVECTOR3 nomal;
+			ptr = strtok(NULL, " ");
+			nomal.x = stof(ptr);
+			ptr = strtok(NULL, " ");
+			nomal.y = stof(ptr);
+			ptr = strtok(NULL, " ");
+			nomal.z = stof(ptr);
+			D3DXVec3Normalize(&nomal, &nomal);
+			nomals.push_back(nomal);
+			cout << "nor x : " << nomal.x << " y : " << nomal.y << " z : " << nomal.z << endl;
+		}
+		else if (strcmp(ptr, "f") == 0)
+		{
+			ptr = strtok(NULL, " ");
+			while(ptr != NULL)
+			{
+				ST_PNT_VERTEX vt;
+				char *ptr2 = strtok(ptr, "/");
+				cout << stoi(ptr2) - 1 << '/';
+				vt.p = vertices[stoi(ptr2) - 1];
+				ptr2 = strtok(NULL, "/");
+				cout << stoi(ptr2) - 1 << '/';
+				vt.t = tex_vertices[stoi(ptr2) - 1];
+				ptr2 = strtok(NULL, "/");
+				cout << stoi(ptr2) - 1;
+				vt.n = nomals[stoi(ptr2) - 1];
+				cout << endl;
+				m_pBox->m_vecVertex.push_back(vt);
+				ptr = strtok(ptr2 + 2, " ");
+			}
+		}
+	}
+	fclose(fp);
+	char texFileName[32];
+
+
+	materialName[strlen(materialName) - 1] = '\0';
+	fp = fopen(materialName, "r");
+	if (!fp)
+	{
+		PostQuitMessage(0);
+	}
+	while (fgets(line, sizeof(line), fp) != NULL)
+	{
+		char *ptr = strtok(line, " ");
+		if (line[0] == '#')
+			continue;
+		else if (strcmp(ptr, "Ka") == 0)
+		{
+			m_pBox->m_stMtl.Ambient.a = 1.0f;
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Ambient.r = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Ambient.g = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Ambient.b = stof(ptr);
+		}
+		else if (strcmp(ptr, "Kd") == 0)
+		{
+			m_pBox->m_stMtl.Diffuse.a = 1.0f;
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Diffuse.r = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Diffuse.g = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Diffuse.b = stof(ptr);
+		}
+		else if (strcmp(ptr, "Ks") == 0)
+		{
+			m_pBox->m_stMtl.Specular.a = 1.0f;
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Specular.r = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Specular.g = stof(ptr);
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Specular.b = stof(ptr);
+		}
+		else if (strcmp(ptr, "d") == 0)
+		{
+			ptr = strtok(NULL, " ");
+			m_pBox->m_stMtl.Power = stof(ptr);
+		}
+		else if (strcmp(ptr, "map_Kd") == 0)
+		{
+			WCHAR texFile[32];
+			ZeroMemory(&texFile, sizeof(texFile));
+			ptr = strtok(NULL, " ");
+			ptr[strlen(ptr) - 1] = '\0';
+			//wsprintf(texFile, L"%s", ptr);
+			mbstowcs(texFile, ptr, strlen(ptr));
+			D3DXCreateTextureFromFile(g_pD3DDevice, texFile, &m_pBox->m_pTextrue);
+		}
+	}
+	fclose(fp);
+}
+
 void cMainGame::Set_Light()
 {
-	m_pCubePc = new cCubePC[2];
 	D3DLIGHT9 stLight;
 	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
 	stLight.Type = D3DLIGHT_DIRECTIONAL;
@@ -192,6 +375,8 @@ void cMainGame::Set_Light()
 	g_pD3DDevice->SetLight(0, &stLight);
 	g_pD3DDevice->LightEnable(0, TRUE);
 
+	/*
+	m_pCubePc = new cCubePC[2];
 	D3DLIGHT9 stPointLight;
 	ZeroMemory(&stPointLight, sizeof(D3DLIGHT9));
 	stPointLight.Type = D3DLIGHT_POINT;
@@ -222,6 +407,6 @@ void cMainGame::Set_Light()
 	g_pD3DDevice->SetLight(2, &stSpotLight);
 	g_pD3DDevice->LightEnable(2, TRUE);
 	m_pCubePc[1].Setup();
-	m_pCubePc[1].SetPosition(stSpotLight.Position);
+	m_pCubePc[1].SetPosition(stSpotLight.Position);*/
 }
 

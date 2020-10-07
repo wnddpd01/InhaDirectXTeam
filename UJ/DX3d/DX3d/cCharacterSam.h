@@ -14,6 +14,7 @@ public :
 	virtual void Setup();
 	virtual void Update();
 	virtual void Render();
+	virtual void SetPosition(D3DXVECTOR3& newPos);
 	virtual D3DXVECTOR3& GetPosition();
 	
 };

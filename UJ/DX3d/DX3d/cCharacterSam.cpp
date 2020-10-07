@@ -4,7 +4,7 @@
 
 cCharacterSam::cCharacterSam()
 	: m_fRotY(0.0f)
-	, m_vDirection(0.0f, 0.0f, 0.0f)
+	, m_vDirection(0.0f, 0.0f, 1.0f)
 	, m_vPosition(0.0f, 0.0f, 0.0f )
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -19,10 +19,10 @@ void cCharacterSam::Setup()
 {
 }
 
-void cCharacterSam::Update()
+void cCharacterSam:: Update()
 {
 
-	D3DXMATRIXA16   matR, matT;
+	D3DXMATRIXA16  matR ,matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);   //Y축으로 회전된 행렬 제작
 
 	m_vDirection = D3DXVECTOR3(0, 0, 1);
@@ -34,6 +34,11 @@ void cCharacterSam::Update()
 
 void cCharacterSam::Render()
 {
+}
+
+void cCharacterSam::SetPosition(D3DXVECTOR3& newPos)
+{
+	m_vPosition = newPos;
 }
 
 D3DXVECTOR3& cCharacterSam::GetPosition()

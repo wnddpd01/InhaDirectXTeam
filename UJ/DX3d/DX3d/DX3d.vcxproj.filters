@@ -84,6 +84,15 @@
     <ClInclude Include="cCubeMan.h">
       <Filter>CubeMan</Filter>
     </ClInclude>
+    <ClInclude Include="cHexagon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCubeAutoMan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -142,6 +151,15 @@
     </ClCompile>
     <ClCompile Include="cCubeMan.cpp">
       <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cHexagon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubeAutoMan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -145,9 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBody.h" />
+    <ClInclude Include="cBox.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
     <ClInclude Include="cCharacterSam.h" />
+    <ClInclude Include="cCubeAutoMan.h" />
     <ClInclude Include="cCubeMan.h" />
     <ClInclude Include="cCubeNode.h" />
     <ClInclude Include="cCubePC.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cHead.h" />
+    <ClInclude Include="cHexagon.h" />
     <ClInclude Include="cLeftArm.h" />
     <ClInclude Include="cLeftLeg.h" />
     <ClInclude Include="cMainGame.h" />
@@ -168,9 +171,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cBody.cpp" />
+    <ClCompile Include="cBox.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />
     <ClCompile Include="cCharacterSam.cpp" />
+    <ClCompile Include="cCubeAutoMan.cpp" />
     <ClCompile Include="cCubeMan.cpp" />
     <ClCompile Include="cCubeNode.cpp" />
     <ClCompile Include="cCubePC.cpp" />
@@ -178,6 +183,7 @@
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cHead.cpp" />
+    <ClCompile Include="cHexagon.cpp" />
     <ClCompile Include="cLeftArm.cpp" />
     <ClCompile Include="cLeftLeg.cpp" />
     <ClCompile Include="cMainGame.cpp" />

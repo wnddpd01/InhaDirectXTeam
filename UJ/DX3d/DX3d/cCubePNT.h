@@ -4,8 +4,8 @@ class cCubePNT
 public:
 	cCubePNT();
 protected:
-	std::vector<ST_PNT_VERTEX> m_vecVertex;
 public:
+	std::vector<ST_PNT_VERTEX> m_vecVertex;
 	virtual ~cCubePNT();
 	virtual void Setup();
 	virtual void Update();

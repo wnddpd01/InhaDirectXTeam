@@ -61,7 +61,6 @@ void cCubeMan::Setup()
 	p_right_leg->Setup();
 	p_right_leg->SetRotDeltaX(0.1f);
 	m_pRoot->AddChild(p_right_leg);
-
 }
 
 void cCubeMan::Update()
@@ -92,7 +91,9 @@ void cCubeMan::Render()
 void cCubeMan::Command(WPARAM key)
 {
 	if (key == 'A')
+	{
 		m_fRotY -= 0.1f;
+	}
 	else if (key == 'D')
 		m_fRotY += 0.1f;
 	else if (key == 'W')
