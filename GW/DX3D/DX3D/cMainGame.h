@@ -5,6 +5,7 @@ class cGrid;
 class cKids;
 class cCubeMan;
 class cLight;
+class cBPath;
 
 class cMainGame
 {
@@ -24,7 +25,7 @@ private:
 	cGrid* m_pGrid;
 	cCubeMan* m_pCubeMan;
 	cLight* m_pLight;
-
+	cBPath* m_pBPath;
 
 	
 public:

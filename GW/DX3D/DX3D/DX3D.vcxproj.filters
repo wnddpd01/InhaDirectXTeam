@@ -84,6 +84,12 @@
     <ClInclude Include="cLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cBPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cOpenFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -141,6 +147,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cBPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cOpenFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,8 +27,6 @@ void cCharacter::Update()
 	D3DXMATRIXA16 matR, matT;
 
 
-
-
 	if (GetKeyState('A') & 0x8000)
 	{
 		m_fRotY -= 0.1f;

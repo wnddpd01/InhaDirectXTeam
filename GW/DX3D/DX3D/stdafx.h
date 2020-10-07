@@ -22,6 +22,7 @@
 #include <map>
 #include <set>
 #include <list>
+#include <fstream>
 #include <assert.h> //경고 관련
 
 
