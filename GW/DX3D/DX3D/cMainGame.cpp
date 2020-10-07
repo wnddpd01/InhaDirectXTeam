@@ -4,16 +4,17 @@
 #include "cCubePC.h"
 #include "cCamera.h"
 #include "cGrid.h"
-#include "cKids.h"
 #include "cCubeMan.h"
 #include "cLight.h"
+#include "cBPath.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	,m_pCamera(NULL)
 	,m_pGrid(NULL)
 	,m_pCubeMan(NULL)
-, m_pLight(NULL)
+	,m_pLight(NULL)
+	,m_pBPath(NULL)
 {
 }
 
@@ -24,6 +25,7 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pGrid);
 	SafeDelete(m_pCubeMan);
 	SafeDelete(m_pLight);
+	SafeDelete(m_pBPath);
 	g_pDeviceManager->Destroy();
 }
 
@@ -44,30 +46,9 @@ void cMainGame::Setup()
 	m_pLight = new cLight;
 	m_pLight->Setup();
 
-	//>>:for texture
-	{
-		//D3DXCreateTextureFromFile(g_pD3DDevice, L"monkey.png", &m_pTexture);
-
+	m_pBPath = new cBPath;
+	m_pBPath->Setup();
 		
-		ST_PT_VERTEX v;
-
-
-		v.p = D3DXVECTOR3(1, 1, 0);
-		v.t = D3DXVECTOR2(0.26f, 0.13f);
-		m_vecVertx.push_back(v);
-
-	
-		v.p = D3DXVECTOR3(1, 0, 0);
-		v.t = D3DXVECTOR2(0.26f, 0.25f);
-		m_vecVertx.push_back(v);
-
-	
-		
-		
-	}
-
-	
-
 }
 
 void cMainGame::Update()
@@ -79,9 +60,9 @@ void cMainGame::Update()
 	if (m_pCamera)
 		m_pCamera->Update();
 
-	if (m_pLight)
-		m_pLight->Update();
-	
+	//if (m_pLight)
+	//	m_pLight->Update();
+
 	
 }
 
@@ -98,9 +79,15 @@ void cMainGame::Render()
 	if (m_pCubeMan)
 		m_pCubeMan->Render();
 
+	if (m_pLight)
+		m_pLight->Render();
+
+
+	if (m_pBPath)
+		m_pBPath->Render();
 
 	Draw_Texture();
-
+	
 
 	g_pD3DDevice->EndScene();
 
@@ -114,15 +101,13 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 
-	if (m_pLight)
-		m_pLight->WndProc(hWnd, message, wParam, lParam);
 
 }
 
 
 void cMainGame::Set_Light()
 {
-	
+
 
 	
 }
@@ -135,6 +120,5 @@ void cMainGame::Draw_Texture()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 //	g_pD3DDevice->SetTexture(0, m_pTexture); //texture¾²±â
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertx.size() / 3, &m_vecVertx[0], sizeof(ST_PT_VERTEX));
 //	g_pD3DDevice->SetTexture(0, NULL); //texture »©±â
 }

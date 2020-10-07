@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBody.h" />
+    <ClInclude Include="cBPath.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCharacter.h" />
     <ClInclude Include="cCubeMan.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="cLeftLeg.h" />
     <ClInclude Include="cLight.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cOpenFile.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRightArm.h" />
     <ClInclude Include="cRightLeg.h" />
@@ -167,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cBody.cpp" />
+    <ClCompile Include="cBPath.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCharacter.cpp" />
     <ClCompile Include="cCubeMan.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="cLeftLeg.cpp" />
     <ClCompile Include="cLight.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cOpenFile.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRightArm.cpp" />
     <ClCompile Include="cRightLeg.cpp" />

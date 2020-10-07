@@ -5,6 +5,7 @@ class cGrid;
 class cKids;
 class cCubeMan;
 class cLight;
+class cBPath;
 
 class cMainGame
 {
@@ -24,12 +25,8 @@ private:
 	cGrid* m_pGrid;
 	cCubeMan* m_pCubeMan;
 	cLight* m_pLight;
+	cBPath* m_pBPath;
 
-	// >>: for texture
-	//LPDIRECT3DTEXTURE9 m_pTexture;
-	std::vector<ST_PT_VERTEX> m_vecVertx;
-	// <<:
-	
 	
 public:
 	void Setup();
