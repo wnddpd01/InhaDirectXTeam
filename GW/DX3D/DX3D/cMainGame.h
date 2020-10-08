@@ -2,8 +2,11 @@
 class cCubePC;
 class cCamera;
 class cGrid;
-class cKids;
 class cCubeMan;
+class cObject;
+
+class cGroup;
+
 class cLight;
 class cBPath;
 
@@ -23,9 +26,13 @@ private:
 	cCubePC* m_pCubePC;
 	cCamera* m_pCamera;
 	cGrid* m_pGrid;
+	
 	cCubeMan* m_pCubeMan;
+	
 	cLight* m_pLight;
 	cBPath* m_pBPath;
+
+	std::vector<cGroup*> m_vecGroup;
 
 	
 public:
@@ -36,5 +43,9 @@ public:
 	void Set_Light();
 
 	void Draw_Texture();
+
+	void Setup_Obj();
+	void Obj_Render();
+	
 };
 

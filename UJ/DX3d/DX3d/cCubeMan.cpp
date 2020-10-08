@@ -93,9 +93,13 @@ void cCubeMan::Command(WPARAM key)
 	if (key == 'A')
 	{
 		m_fRotY -= 0.1f;
+		D3DXMatrixRotationY(&m_matR, m_fRotY);
 	}
 	else if (key == 'D')
+	{
 		m_fRotY += 0.1f;
+		D3DXMatrixRotationY(&m_matR, m_fRotY);
+	}
 	else if (key == 'W')
 		m_vPosition += (m_vDirection * 0.1f);
 	else if (key == 'S')

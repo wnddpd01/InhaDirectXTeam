@@ -73,25 +73,25 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 	ST_PN_VERTEX v;
 	v.n = D3DXVECTOR3(0, 1, 0);
 
-	//for (int i = 0; i < nNumHalfTile * 2; ++i)
-	//{
-	//	for (int j = 0; j < nNumHalfTile * 2; ++j)
-	//	{
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval };
-	//		m_vecVertex.push_back(v);
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval };
-	//		m_vecVertex.push_back(v);
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval - fInterval };
-	//		m_vecVertex.push_back(v);
+	for (int i = 0; i < nNumHalfTile * 2; ++i)
+	{
+		for (int j = 0; j < nNumHalfTile * 2; ++j)
+		{
+			v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval };
+			m_vecVertex.push_back(v);
+			v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval };
+			m_vecVertex.push_back(v);
+			v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval - fInterval };
+			m_vecVertex.push_back(v);
 
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval - fInterval };
-	//		m_vecVertex.push_back(v);
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval };
-	//		m_vecVertex.push_back(v);
-	//		v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval - fInterval };
-	//		m_vecVertex.push_back(v);
-	//	}
-	//}
+			v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval - fInterval };
+			m_vecVertex.push_back(v);
+			v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval };
+			m_vecVertex.push_back(v);
+			v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval - fInterval };
+			m_vecVertex.push_back(v);
+		}
+	}
 
 	/*for (int i = 0; i <= nNumHalfTile; i++)
 	{
@@ -145,13 +145,13 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 
 void cGrid::Render()
 {
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 
 	g_pD3DDevice->SetFVF(ST_PN_VERTEX::FVF);
-	//g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, m_vecVertex.size() /2, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, m_vecVertex.size() /2, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
 
 
 	for each (auto p in m_vecPyramid)
