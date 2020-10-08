@@ -9,7 +9,7 @@ class cGrid;
 class cPyramid;
 class cCharacter;
 class cCubeMan;
-
+class cGroup;
 class cMainGame
 {
 public:
@@ -43,6 +43,9 @@ private:
 	cCamera * m_pCamera;
 	cGrid   * m_pGrid;
 	cBox    * m_pBox;
+
+	vector<cGroup *> m_vecMap;
+	vector<cGroup *> m_vecMapSurface;
 	/*LPDIRECT3DTEXTURE9 m_pTextrue;
 	vector<ST_PT_VERTEX> m_vecVertex;*/
 
@@ -54,6 +57,8 @@ public:
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void ObjectCreator(string obj_file_name = "./box.obj");
 	void Set_Light();
+	void Setup_Obj();
+	void Obj_Render();
 	//void Setup_Line();
 	//void Draw_Line();
 	//void Setup_Triangle();

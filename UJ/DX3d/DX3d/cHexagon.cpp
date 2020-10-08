@@ -4,11 +4,13 @@
 
 void cHexagon::SetBezier(int num, size_t t_, vector<ST_PC_VERTEX>& vertex)
 {
+	if (num > vertex.size())
+		num = vertex.size();
 	ST_PC_VERTEX pc_vertex;
 	pc_vertex.c = RGB(255, 0 , 0);
 	pc_vertex.p = vertex[0].p;
-	st_pc_bezier_vertices_.push_back(pc_vertex);
-	for (int t = 1; t < t_; ++t)
+
+	for (int t = 0; t < t_; ++t)
 	{
 		float time = float(t) / t_;
 		D3DXVECTOR3 result = { 0, 0, 0 };
@@ -57,7 +59,8 @@ void cHexagon::Setup()
 		this->st_pc_vertices_.push_back(st_pc_vertex);
 		rotY += D3DX_PI / 3.0f;
 	}
-	SetBezier(6, 8, st_pc_vertices_);
+	this->st_pc_vertices_.push_back(st_pc_vertices_[0]);
+	SetBezier(7, 10, st_pc_vertices_);
 }
 
 void cHexagon::Render()

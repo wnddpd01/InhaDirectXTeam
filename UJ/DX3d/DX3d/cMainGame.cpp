@@ -16,6 +16,8 @@
 #include <stdio.h>  
 
 #include "cBox.h"
+#include "cGroup.h"
+#include "cObjLoader.h"
 
 
 cMainGame::cMainGame()
@@ -35,6 +37,12 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCamera);
 	SafeDelete(m_pGrid);
 	SafeDelete(m_pCubeMan);
+	for (auto it : m_vecMap)
+	{
+		SafeRelease(it);
+	}
+	m_vecMap.clear();
+	g_pObjectManager->Destroy();
 	g_pDeviceManager->Destroy();
 }
 
@@ -58,13 +66,16 @@ void cMainGame::Setup()
 	{
 		m_pCubeAutoMan[i].SetPosition(D3DXVECTOR3(10, 0, 0));
 	}
-	m_pCubeAutoMan[0].Setup(m_hexagon->st_pc_vertices_);
+	m_pCubeAutoMan[0].Setup(m_hexagon->st_pc_bezier_vertices_);
 	m_pCamera = new cCamera;
 	m_pCamera->Setup(&(m_pCubeMan->GetPosition()));
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
+	Setup_Obj();
+	Set_Light();
+	
 	/*{
 		
 		ST_PT_VERTEX v;
@@ -92,7 +103,6 @@ void cMainGame::Setup()
 		v.t = D3DXVECTOR2(1, 1);
 		m_vecVertex.push_back(v);
 	}*/
-	Set_Light();
 }
 
 void cMainGame::KeyInput()
@@ -170,6 +180,7 @@ void cMainGame::Update()
 	//	g_pD3DDevice->LightEnable(0, false);
 	//}
 	//g_pD3DDevice->SetLight(0, &sun);
+	//D3DXIntersectTri()
 	
 }
 
@@ -196,8 +207,10 @@ void cMainGame::Render()
 	if (m_hexagon != NULL)
 		m_hexagon->Render();
 
-	if (m_pBox != NULL)
-		m_pBox->Render();
+	Obj_Render();
+	
+	//if (m_pBox != NULL)
+	//	m_pBox->Render();
 	//if (m_pCharacter != NULL)
 	//	m_pCharacter->Render();
 	g_pD3DDevice->EndScene();
@@ -408,5 +421,25 @@ void cMainGame::Set_Light()
 	g_pD3DDevice->LightEnable(2, TRUE);
 	m_pCubePc[1].Setup();
 	m_pCubePc[1].SetPosition(stSpotLight.Position);*/
+}
+
+void cMainGame::Setup_Obj()
+{
+	cObjLoader l;
+	l.Load(m_vecMap, "obj", "map.obj");
+}
+
+void cMainGame::Obj_Render()
+{
+	D3DXMATRIXA16 matWorld, matS, matR;
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+
+	matWorld = matS * matR;
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	for (auto it : m_vecMap)
+	{
+		it->Render();
+	}
 }
 

@@ -84,8 +84,10 @@ public	  : inline void Set##funName(varType var)   { varName = var;}
 
 #define Synthesize_pass_by_Ref(varType, varName, funName) \
 protected : varType varName ; \
-public	  : inline varType& Get##funName(void)  { return varName;} \
-public	  : inline void Set##funName(varType& var)   { varName = var;}
+public	  :\
+inline varType& Get##funName(void)  { return varName;} \
+public	  :\
+inline void Set##funName(varType& var)   { varName = var;}
 
 inline float factorial(int n)
 {
@@ -99,7 +101,24 @@ inline float factorial(int n)
 inline float binomial_coefficient(int n, int k) {
 	return factorial(n) / (factorial(k) * factorial(n - k));
 }
+#define  SafeAddRef(p) {if(p) p->AddRef();}
+
+#define Synthesize_Add_Ref(varType, varName, funName) \
+protected : varType varName; \
+public : inline virtual varType Get##funName(void) const { return varName;} \
+public : inline virtual void Set##funName(varType var) { \
+	if(varName != var) \
+	{\
+		SafeAddRef(var);\
+		SafeRelease(varName); \
+		varName = var;\
+	}\
+}
+	
 
 
 #include "cMainGame.h"
 #include "cDeviceManager.h"
+#include "cObject.h"
+#include "cObjectManager.h"
+#include "cTextureManager.h"

@@ -9,6 +9,7 @@ protected:
 	D3DXVECTOR3 m_vPosition;
 	D3DXMATRIXA16 m_matWorld;
 public :
+	D3DXMATRIXA16 m_matR;
 	virtual  ~cCharacterSam();
 
 	virtual void Setup();
