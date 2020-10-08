@@ -9,7 +9,8 @@ public:
 	~cBPath();
 
 private:
-	std::vector<ST_PN_VERTEX> m_vecVertex;
+	std::vector<ST_PC_VERTEX> m_vecVertex;
+	cCubeMan* m_pCubeMan;
 
 public:
 	void Setup();

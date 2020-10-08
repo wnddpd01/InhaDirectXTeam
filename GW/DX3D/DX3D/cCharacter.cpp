@@ -17,7 +17,7 @@ cCharacter::~cCharacter()
 
 void cCharacter::Setup()
 {
-	
+
 }
 
 void cCharacter::Update()
@@ -46,6 +46,15 @@ void cCharacter::Update()
 
 
 	D3DXMatrixRotationY(&matR, m_fRotY);
+
+	/*
+	     ¡è¡è¡è¡è  ¹Ù²Ù±â
+	D3DXVECTOR3 vUP(0,1,0);
+	D3DXVECTOR3 vAt(1,0,0);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixLookAtLH(&matR, &m)vPosition, &vAt, &vUp);
+	D3DXMatrixTranspose(&matR,&matR); 
+	 */
 
 	m_vDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
