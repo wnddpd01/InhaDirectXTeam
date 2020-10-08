@@ -5,6 +5,10 @@
 #include "cCamera.h"
 #include "cGrid.h"
 #include "cCubeMan.h"
+#include "cObjLoader.h"
+#include "cGroup.h"
+
+
 #include "cLight.h"
 #include "cBPath.h"
 
@@ -26,6 +30,17 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCubeMan);
 	SafeDelete(m_pLight);
 	SafeDelete(m_pBPath);
+
+	for each(auto p in m_vecGroup)
+	{
+		SafeRelease(p);
+	}
+
+	m_vecGroup.clear();
+	g_pDeviceManager->Destroy();
+
+	
+	
 	g_pDeviceManager->Destroy();
 }
 
@@ -42,6 +57,11 @@ void cMainGame::Setup()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
+
+
+	Setup_Obj();
+
+	
 
 	m_pLight = new cLight;
 	m_pLight->Setup();
@@ -60,8 +80,8 @@ void cMainGame::Update()
 	if (m_pCamera)
 		m_pCamera->Update();
 
-	//if (m_pLight)
-	//	m_pLight->Update();
+	if (m_pLight)
+		m_pLight->Update();
 
 	
 }
@@ -78,6 +98,8 @@ void cMainGame::Render()
 
 	if (m_pCubeMan)
 		m_pCubeMan->Render();
+
+	Obj_Render();
 
 	if (m_pLight)
 		m_pLight->Render();
@@ -121,4 +143,32 @@ void cMainGame::Draw_Texture()
 //	g_pD3DDevice->SetTexture(0, m_pTexture); //texture¾²±â
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
 //	g_pD3DDevice->SetTexture(0, NULL); //texture »©±â
+}
+
+void cMainGame::Setup_Obj()
+{
+	cObjLoader l;
+	l.Load(m_vecGroup, "obj", "map.obj");
+
+	
+}
+
+void cMainGame::Obj_Render()
+{
+	D3DXMATRIXA16 matWorld, matS, matR;
+	//D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+
+	matWorld = matS * matR;
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	for each(auto p in m_vecGroup)
+	{
+		p->Render();
+	}
+
+
+	//D3DXIntersectTri(v1,v2,v3,rayPos,rayDir, u, v, f)
+	
 }

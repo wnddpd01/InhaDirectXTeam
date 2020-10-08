@@ -66,8 +66,6 @@ void cCubeMan::Setup()
 	m_pRoot->AddChild(pRLeg);
 
 
-
-	
 	
 }
 

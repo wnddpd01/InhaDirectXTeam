@@ -42,8 +42,8 @@ void cLight::Setup()
 	m_Light[1].Position.x = -5.0f;
 	m_Light[1].Position.y = 0.0f;
 	m_Light[1].Position.z = 0.0f;
-	//g_pD3DDevice->SetLight(1, &m_Light[1]);
-	//g_pD3DDevice->LightEnable(1, true);
+	g_pD3DDevice->SetLight(1, &m_Light[1]);
+	g_pD3DDevice->LightEnable(1, true);
 
 
 	ZeroMemory(&m_Light[2], sizeof(D3DLIGHT9));
@@ -69,14 +69,14 @@ void cLight::Setup()
 	D3DXVec3Normalize(&vDir2, &vDir2);
 	m_Light[2].Direction = vDir2;
 
-	//g_pD3DDevice->SetLight(2, &m_Light[2]);
-	//g_pD3DDevice->LightEnable(2, true);
+	g_pD3DDevice->SetLight(2, &m_Light[2]);
+	g_pD3DDevice->LightEnable(2, true);
 
-	/*m_pPLC = new cCubePC;
+	m_pPLC = new cCubePC;
 	m_pPLC->Setup();
 
 	m_pSLC = new cCubePC;
-	m_pSLC->Setup();*/
+	m_pSLC->Setup();
 
 }
 
@@ -84,9 +84,9 @@ void cLight::Update()
 {
 
 
-	D3DXMATRIXA16 matR;
+	/*D3DXMATRIXA16 matR;
 	D3DXMatrixRotationZ(&matR, 0.05f);
-	D3DXVec3TransformNormal((D3DXVECTOR3*)&m_Light[0].Direction, (D3DXVECTOR3*)&m_Light[0].Direction, &matR);
+	D3DXVec3TransformNormal((D3DXVECTOR3*)&m_Light[0].Direction, (D3DXVECTOR3*)&m_Light[0].Direction, &matR);*/
 
 	g_pD3DDevice->SetLight(0, &m_Light[0]);
 
