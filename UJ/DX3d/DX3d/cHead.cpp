@@ -16,7 +16,7 @@ void cHead::Setup()
 	cCubeNode::Setup();
 	D3DXMATRIXA16 matS, matT, mat;
 	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
-	D3DXMatrixTranslation(&matT, 0, 0 , 0);
+	D3DXMatrixTranslation(&matT, 0, 0 , 0.0f);
 	mat = matS * matT;
 
 	for (int i = 0; i < m_vecVertex.size(); ++i)

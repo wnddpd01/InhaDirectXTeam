@@ -7,7 +7,7 @@ void cRightArm::Setup()
 	cCubeNode::Setup();
 	D3DXMATRIXA16 matS, matT, mat;
 	D3DXMatrixScaling(&matS, 0.2f, 0.6f, 0.2f);
-	D3DXMatrixTranslation(&matT, 0.3f, -0.3f, 0);
+	D3DXMatrixTranslation(&matT, 0.3f, -0.3f, 0.0f);
 	mat = matS * matT;
 
 	for (int i = 0; i < m_vecVertex.size(); ++i)

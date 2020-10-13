@@ -58,6 +58,7 @@ public:
 	void ObjectCreator(string obj_file_name = "./box.obj");
 	void Set_Light();
 	void Setup_Obj();
+	void Setup_Ase();
 	void Obj_Render();
 	//void Setup_Line();
 	//void Draw_Line();

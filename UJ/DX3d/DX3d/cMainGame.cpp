@@ -18,6 +18,7 @@
 #include "cBox.h"
 #include "cGroup.h"
 #include "cObjLoader.h"
+#include "cAseLoader.h"
 
 
 cMainGame::cMainGame()
@@ -42,6 +43,7 @@ cMainGame::~cMainGame()
 		SafeRelease(it);
 	}
 	m_vecMap.clear();
+	m_vecMapSurface.clear();
 	g_pObjectManager->Destroy();
 	g_pDeviceManager->Destroy();
 }
@@ -53,7 +55,7 @@ void cMainGame::Setup()
 	/*m_pCharacter = new cCharacter;
 	m_pCharacter->Setup();*/
 
-	ObjectCreator();
+	//ObjectCreator();
 	
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
@@ -74,6 +76,7 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 	Setup_Obj();
+	Setup_Ase();
 	Set_Light();
 	
 	/*{
@@ -107,6 +110,7 @@ void cMainGame::Setup()
 
 void cMainGame::KeyInput()
 {
+	D3DXVECTOR3 prevPlayerPos = m_pCubeMan->GetPosition();
 	if (GetKeyState('A') & 0x8000)
 		m_pCubeMan->Command('A');
 	if (GetKeyState('D') & 0x8000)
@@ -115,6 +119,27 @@ void cMainGame::KeyInput()
 		m_pCubeMan->Command('W');
 	if (GetKeyState('S') & 0x8000)
 		m_pCubeMan->Command('S');
+	if(prevPlayerPos != m_pCubeMan->GetPosition())
+	{
+		//cout << prevPlayerPos.x << " " << prevPlayerPos.y << " " << prevPlayerPos.z << " " << m_pCubeMan->GetPosition().x << " " << m_pCubeMan->GetPosition().y << " " << m_pCubeMan->GetPosition().z << endl;
+		bool isRayHit = false;
+		const D3DXVECTOR3 rayDir = D3DXVECTOR3(0, -1, 0);
+		const D3DXVECTOR3 rayPos = m_pCubeMan->GetPosition() + D3DXVECTOR3(0, 0.1, 0);
+		float u, v, dist;
+		for (int i = 0; i < m_vecMapSurface[0]->GetVerTex().size() && isRayHit == false; i+=3)
+		{
+			isRayHit = D3DXIntersectTri(&m_vecMapSurface[0]->GetVerTex()[i].p, &m_vecMapSurface[0]->GetVerTex()[i + 1].p, &m_vecMapSurface[0]->GetVerTex()[i + 2].p, &rayPos, &rayDir, &u, &v, &dist);
+		}
+		if(isRayHit == false)
+		{
+			m_pCubeMan->SetPosition(prevPlayerPos);
+		}
+		else
+		{
+			m_pCubeMan->SetPosition(rayPos + (rayDir * dist));
+		}
+	}
+	
 	if(GetKeyState('Z') & 0x8000)
 	{
 		D3DLIGHT9 light;
@@ -427,13 +452,20 @@ void cMainGame::Setup_Obj()
 {
 	cObjLoader l;
 	l.Load(m_vecMap, "obj", "map.obj");
+	l.Load(m_vecMapSurface, "obj", "map_surface.obj");
+}
+
+void cMainGame::Setup_Ase()
+{
+	cAseLoader l;
+	l.Load(m_vecMap, "woman", "woman_01_all.ASE");
 }
 
 void cMainGame::Obj_Render()
 {
 	D3DXMATRIXA16 matWorld, matS, matR;
-	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
-	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+	D3DXMatrixScaling(&matS, 1, 1, 1);
+	D3DXMatrixRotationX(&matR, 0);
 
 	matWorld = matS * matR;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);

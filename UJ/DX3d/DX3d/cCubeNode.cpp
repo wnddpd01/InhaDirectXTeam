@@ -55,8 +55,8 @@ void cCubeNode::Update()
 	D3DXMATRIXA16 matR, matT, matRX, matRY;
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matT);
-	D3DXMatrixRotationX(&matR, m_fRotX);
-	D3DXMatrixTranslation(&matT, m_vLocalPos.x, m_vLocalPos.y, m_vLocalPos.z);
+	//D3DXMatrixRotationX(&matR, m_fRotX);
+	//D3DXMatrixTranslation(&matT, m_vLocalPos.x, m_vLocalPos.y, m_vLocalPos.z);
 	m_matLocalTM = matR * matT;
 	m_matWorldTM = m_matLocalTM;
 	if(m_pParentWorldTM)

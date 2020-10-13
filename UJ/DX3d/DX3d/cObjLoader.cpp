@@ -26,6 +26,10 @@ void cObjLoader::Load(std::vector<cGroup*>& vecGroup, char* szFolder, char* szFi
 	FILE *fp;
 	fopen_s(&fp, sFullPath.c_str(), "r");
 	string sMtlName;
+
+	D3DXMATRIXA16 matS, matR;
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2);
 	while(true)
 	{
 		if(feof(fp)) break;
@@ -90,6 +94,10 @@ void cObjLoader::Load(std::vector<cGroup*>& vecGroup, char* szFolder, char* szFi
 				v.p = vecV[nIndex[i][0] - 1];
 				v.t = vecVT[nIndex[i][1] - 1];
 				v.n = vecN[nIndex[i][2] - 1];
+				D3DXVec3TransformNormal(&v.p, &v.p, &matS);
+				D3DXVec3TransformNormal(&v.p, &v.p, &matR);
+				D3DXVec3TransformNormal(&v.n, &v.n, &matS);
+				D3DXVec3TransformNormal(&v.n, &v.n, &matR);
 				vecVertex.push_back(v);
 			}
 		}
