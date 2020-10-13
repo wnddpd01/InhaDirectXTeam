@@ -19,6 +19,9 @@
     <Filter Include="ObjLoader">
       <UniqueIdentifier>{939487a3-bf45-414f-85d4-684575f874fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{279f57a6-ee0b-42ce-898b-e6df6795a07f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -108,6 +111,15 @@
     <ClInclude Include="cGroup.h">
       <Filter>ObjLoader</Filter>
     </ClInclude>
+    <ClInclude Include="iMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cAseLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -187,6 +199,15 @@
     </ClCompile>
     <ClCompile Include="cGroup.cpp">
       <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="iMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cAseLoader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

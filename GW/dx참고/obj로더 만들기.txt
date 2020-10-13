@@ -1,0 +1,33 @@
+1. 각 개체가 objloader를 가지고 잇지 않고 게임매니져? 가 objloader를 하나 생성해서 각 개체를 생성해줄때 vector<ST_PNT_VERTEX> 와 텍스쳐, 머테리얼을 넘겨준다.
+
+<게임매니져에서>
+Cube * cube = new Cube;
+ObjLoader obj;
+obj.objLoad("파일명");
+cube->SetVertex(obj.GetVertex);
+cube->SetTex(obj.GetTex);
+cube->SetMtrl(obj.GetMtrl);
+
+이런식으로
+
+
+
+2. 각 개체는 vector<ST_PNT_VERTEX> 와 텍스쳐, 머테리얼의 정보들을 가지고 잇어야한다. 텍스쳐는 objloader가 addtexture해준후 해당 키값을 개체에게 넘겨주는형식으로한다.
+
+
+
+3. 여러개의 물체가 하나의 객체로 된 obj인 경우(맵) 이중벡터에 넣어줘야한다. 그래야 서로 매칭되는 머테리얼을 넣어줄수잇다. 예를들어 두 박스가 하나의 개체인경우 박스1은 m_vecTotal[0]에 버텍스정보가 담겨있고(그러니까 [0][0]은 박스1의 f1의 정보가 담겨있다.) 박스2는 m_vecTotal[1]에 버텍스정보가 담겨있다.
+
+4. 텍스쳐와 머테리얼은 매니져로 만들어서 키값으로 찾아서 로딩해준다. 따라서 objLoader 혹은 개체들은 텍스쳐 혹은 머테리얼의 키값을 가지고 잇으면 된다.
+
+
+5. 개체들에서 렌더를 해줄때 for문을 돌려줘야한다. 물체의 갯수만큼.(박스가 2개인 개체인경우 2번돌려야한다) 그런다음에 다음을 실행하면됨
+g_pD3DDevice->SetTexture(0, g_pTextureManager->GetTexture(m_pTex[i]));
+g_pD3DDevice->SetMaterial(m_pMtrl[i]);
+g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecPNTVertex[i].size() / 3, &m_vecPNTVertex[i][0], sizeof(ST_PNT_VERTEX));
+
+
+
+
+

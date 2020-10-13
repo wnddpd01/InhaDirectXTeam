@@ -26,7 +26,7 @@
 #include <assert.h> //경고 관련
 
 
-
+#include <string>
 
 #include <d3dx9.h>
 #pragma comment(lib, "d3d9.lib")
@@ -119,7 +119,7 @@ struct ST_PT_VERTEX
    }\
 }
 
-
+#include "iMap.h"
 
 
 
@@ -128,10 +128,12 @@ struct ST_PT_VERTEX
 #define PI 3.141592f
 
 
+
 #include "cDeviceManager.h"
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+
 
 
 // TODO: reference additional headers your program requires here
