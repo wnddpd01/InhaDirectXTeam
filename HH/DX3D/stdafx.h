@@ -85,6 +85,37 @@ struct CheckPoint
 	std::vector<D3DXVECTOR3> SplinePoint;
 };
 
+
+struct GeoNodeTm
+{
+	std::string		nodeName;
+	D3DXVECTOR3		inheritPos;
+	D3DXVECTOR3		inheritRot;
+	D3DXVECTOR3		inheritScl;
+	D3DXMATRIXA16	tmMat;
+	D3DXVECTOR3		tmPos;
+	D3DXVECTOR3		tmRotAxis;
+	float			tmRotAngle;
+	D3DXVECTOR3		tmScale;
+	D3DXVECTOR3		tmScaleAxis;
+	float			tmScaleAxisAng;
+};
+
+struct GeoMesh
+{
+	int timeValue;
+	int NumVertex;
+	int NumFaces;
+	std::vector<ST_PNT_VERTEX> vecVertex;
+};
+
+struct GeoAnimation
+{
+	std::map<int, D3DXVECTOR3> ControlPos;
+	std::map<int, D3DXVECTOR3> ControlRot;
+};
+
+
 #define Synthesize(varType, varName, funName) \
 	protected : varType varName ; \
 	public : inline varType Get##funName(void) const {return varName;} \

@@ -154,7 +154,7 @@ void cCubeMan::objUpdate(std::vector<tGroup*>& vecSufGroup)
 	
 	if (onSurface)
 	{
-		std::cout << (100.8f - (m_vPosition.y + dist)) << std::endl;
+		//std::cout << (100.8f - (m_vPosition.y + dist)) << std::endl;
 		if((100.8f - (m_vPosition.y + dist)) < 2.f)
 			m_vPosition.y = (100.8f - dist);
 		else

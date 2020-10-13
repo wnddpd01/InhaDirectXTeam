@@ -152,6 +152,7 @@
     <ClInclude Include="cCubeNode.h" />
     <ClInclude Include="cCubePNT.h" />
     <ClInclude Include="cDeviceManager.h" />
+    <ClInclude Include="cGeomObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cHead.h" />
     <ClInclude Include="cLeftArm.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRightArm.h" />
     <ClInclude Include="cRightLeg.h" />
+    <ClInclude Include="cSeoLoader.h" />
     <ClInclude Include="DX3D.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Object.h" />
@@ -186,6 +188,7 @@
     <ClCompile Include="cCubeNode.cpp" />
     <ClCompile Include="cCubePNT.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
+    <ClCompile Include="cGeomObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cHead.cpp" />
     <ClCompile Include="cLeftArm.cpp" />
@@ -194,6 +197,7 @@
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRightArm.cpp" />
     <ClCompile Include="cRightLeg.cpp" />
+    <ClCompile Include="cSeoLoader.cpp" />
     <ClCompile Include="DX3D.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="Object.cpp" />

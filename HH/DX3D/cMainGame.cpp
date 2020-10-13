@@ -13,6 +13,8 @@
 #include "ObjParser.h"
 #include "tObjLoader.h"
 #include "tGroup.h"
+#include "cSeoLoader.h"
+#include "cGeomObject.h"
 
 
 cMainGame::cMainGame()
@@ -411,7 +413,11 @@ void cMainGame::Setup_Obj()
 	l.Load(m_vecGroup, "obj", "map.obj");
 	l.Load(m_vecSurfGroup, "obj", "map_surface.obj");
 
-	
+	cSeoLoader sl;
+	sl.Load(m_vecGeomObject, "woman", "woman_01_all.ASE");
+
+	for (auto name : m_vecGeomObject)
+		std::cout << name->m_nodeName << std::endl;
 }
 
 void cMainGame::Obj_Render()
@@ -426,11 +432,17 @@ void cMainGame::Obj_Render()
 	*/
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	/*
 	for each(auto p in m_vecGroup)
 	{
 		p->Render();
 	}
-
+	*/
+	for each(auto p in m_vecGeomObject)
+	{
+		p->Render();
+	}
+	
 	//D3DXIntersectTri(v1, v2, v3, rayPos, rayDir, u, v, f);
 }
 

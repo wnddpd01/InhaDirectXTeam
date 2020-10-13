@@ -22,6 +22,9 @@
     <Filter Include="Map">
       <UniqueIdentifier>{db1177d7-f622-42bf-a5d0-5e3e1b748dff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AseParser">
+      <UniqueIdentifier>{75665a2c-53ff-4254-bf96-f42da219d8b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -123,6 +126,12 @@
     <ClInclude Include="iMap.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="cGeomObject.h">
+      <Filter>AseParser</Filter>
+    </ClInclude>
+    <ClInclude Include="cSeoLoader.h">
+      <Filter>AseParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -214,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="cGeomObject.cpp">
+      <Filter>AseParser</Filter>
+    </ClCompile>
+    <ClCompile Include="cSeoLoader.cpp">
+      <Filter>AseParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
