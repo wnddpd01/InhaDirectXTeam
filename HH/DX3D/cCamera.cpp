@@ -95,7 +95,7 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 		
 	case WM_MOUSEWHEEL:
-		m_fCameraDistance -= (GET_WHEEL_DELTA_WPARAM(wParam) / 30.f);
+		m_fCameraDistance -= (GET_WHEEL_DELTA_WPARAM(wParam) / 200.f);
 		if (m_fCameraDistance < 0.0001f)
 			m_fCameraDistance = 0.0001f;
 		

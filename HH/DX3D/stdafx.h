@@ -24,6 +24,10 @@
 #include <list>
 #include <ctime>
 #include <assert.h>
+#include <chrono>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 
 #include <d3dx9.h>
@@ -31,6 +35,10 @@
 #pragma comment(lib, "d3dx9.lib")
 
 extern HWND g_hwnd;
+
+#define RENDERTIME 0.02f
+#define GAMETIME 0.02f
+#define TEXTURESIZE 64.f
 
 #define SafeRelease(p)	{ if(p)	p->Release(); p = NULL; }
 #define SafeDelete(p)	{ if(p) delete p ; p = NULL; }
@@ -56,6 +64,44 @@ struct ST_PC_VERTEX
 	enum { FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE };
 };
 
+struct ST_PNT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR3 n;
+	D3DXVECTOR2 t;
+	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
+};
+
+struct ST_PT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR2 t;
+	enum { FVF = D3DFVF_XYZ | D3DFVF_TEX1 };
+};
+
+struct CheckPoint
+{
+	//D3DXVECTOR3 DestPoint;
+	std::vector<D3DXVECTOR3> SplinePoint;
+};
+
+#define Synthesize(varType, varName, funName) \
+	protected : varType varName ; \
+	public : inline varType Get##funName(void) const {return varName;} \
+	public : inline void Set##funName(varType var) { varName = var; }
+
+#define Synthesize_pass_by_Ref(varType, varName, funName) \
+	protected : varType varName ; \
+	public : inline varType& Get##funName(void) {return varName;} \
+	public : inline void Set##funName(varType& var) { varName = var; }
+
+
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+
 struct ST_TRIANGLE
 {
 	int index[3];
@@ -67,8 +113,43 @@ enum SHAPE
 	GRID = 2,
 	GIZMO = 3
 };
+#define SafeAddRef(p) { if(p) p->AddRef() ; }
 
+/*
+#define Synthesize_Add_Ref(varType, varName, funName) \
+	protected : varType varName ; \
+	public : virtual varType Get##funName(void) const { return varName ; } \
+	public : virtual void Set##funName(varType var) { \
+		if( varName != var ) \
+		{ \
+			SafeAddRef(var); \
+			SafeRelease(varName) \
+			varName = var; \
+		} \
+	}
+	*/
+
+#define Synthesize_Add_Ref(varType, varName, funName)\
+protected: varType varName;\
+public: virtual varType Get##funName(void) const {return varName;}\
+public:virtual void Set##funName(varType var){\
+   if(varName != var)\
+   {\
+      SafeAddRef(var);\
+      SafeRelease(varName);\
+      varName = var;\
+   }\
+}
+
+#include "iMap.h"
 #include "Object.h"
 #include "cDeviceManager.h";
 #include "cBodyCube.h"
+#include "ObjParser.h"
+
+#include "tObject.h"
+#include "tObjectManager.h"
+#include "tTextureManager.h"
+
+
 // TODO: reference additional headers your program requires here
