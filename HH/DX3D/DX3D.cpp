@@ -4,6 +4,9 @@
 #include "stdafx.h"
 #include "DX3D.h"
 
+#include <iostream>
+
+
 #include "cMainGame.h"
 
 #define MAX_LOADSTRING 100
@@ -12,7 +15,9 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-
+std::chrono::system_clock::time_point lastRenderTime;
+std::chrono::system_clock::time_point lastUpdateTime;
+std::chrono::duration<double> UpdateSec;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -79,8 +84,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			g_pMainGame->Update();
-			g_pMainGame->Render();
+			UpdateSec = (std::chrono::system_clock::now() - lastUpdateTime);
+			if (UpdateSec.count() > GAMETIME)
+			{
+				//std::cout << (std::chrono::system_clock::now() - lastUpdateTime).count() << std::endl;
+				g_pMainGame->Update();
+				lastUpdateTime = std::chrono::system_clock::now();
+			}
+
+			UpdateSec = (std::chrono::system_clock::now() - lastRenderTime);
+			if(UpdateSec.count() > RENDERTIME)
+			{
+				g_pMainGame->Render();
+				lastRenderTime = std::chrono::system_clock::now();
+			}
 		}
 	}
 	SafeDelete(g_pMainGame);
