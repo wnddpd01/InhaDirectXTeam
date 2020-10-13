@@ -48,6 +48,7 @@ void cSeoLoader::Load(OUT std::vector<cGeomObject*>& vecGeomObject, IN char * sz
 
 				if (stTemp == "}")
 				{
+					vecGeomObject.push_back(pGeomTemp);
 					break;
 				}
 				else if (stTemp == "*NODE_NAME")
@@ -72,6 +73,7 @@ void cSeoLoader::Load(OUT std::vector<cGeomObject*>& vecGeomObject, IN char * sz
 
 						if (stTemp == "}")
 						{
+							
 							break;
 						}
 					}
@@ -129,7 +131,7 @@ void cSeoLoader::Load(OUT std::vector<cGeomObject*>& vecGeomObject, IN char * sz
 							}
 							fgets(szTemp, 1024, fp);
 						}
-						else if (stTemp == "*MESH_FACE_LIST")
+						else if (stTemp == "*MESH_NUMTVERTEX")
 						{
 							
 						}
@@ -212,7 +214,6 @@ void cSeoLoader::Load(OUT std::vector<cGeomObject*>& vecGeomObject, IN char * sz
 					}
 				}
 			}
-			vecGeomObject.push_back(pGeomTemp);
 		}
 	}
 	fclose(fp);
