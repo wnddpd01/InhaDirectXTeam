@@ -7,7 +7,7 @@
 #include "cCubeMan.h"
 #include "cObjLoader.h"
 #include "cGroup.h"
-
+#include "cObjMap.h"
 
 #include "cLight.h"
 #include "cBPath.h"
@@ -19,6 +19,7 @@ cMainGame::cMainGame()
 	,m_pCubeMan(NULL)
 	,m_pLight(NULL)
 	,m_pBPath(NULL)
+,m_pMap(NULL)
 {
 }
 
@@ -30,6 +31,7 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCubeMan);
 	SafeDelete(m_pLight);
 	SafeDelete(m_pBPath);
+	SafeDelete(m_pMap);
 
 	for each(auto p in m_vecGroup)
 	{
@@ -75,7 +77,7 @@ void cMainGame::Update()
 {
 
 	if (m_pCubeMan)
-		m_pCubeMan->Update();
+		m_pCubeMan->Update(m_pMap);
 	
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -149,8 +151,8 @@ void cMainGame::Setup_Obj()
 {
 	cObjLoader l;
 	l.Load(m_vecGroup, "obj", "map.obj");
-
-	
+	l.LoadAse(m_vecGroup, "ASE", "map.obj");
+	Load_Surface();
 }
 
 void cMainGame::Obj_Render()
@@ -170,5 +172,16 @@ void cMainGame::Obj_Render()
 
 
 	//D3DXIntersectTri(v1,v2,v3,rayPos,rayDir, u, v, f)
+	
+}
+
+void cMainGame::Load_Surface()
+{
+	D3DXMATRIXA16 matWorld, matS, matR;
+	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+	matWorld = matS * matR;
+	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
+
 	
 }

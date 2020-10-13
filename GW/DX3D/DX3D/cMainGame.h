@@ -33,7 +33,7 @@ private:
 	cBPath* m_pBPath;
 
 	std::vector<cGroup*> m_vecGroup;
-
+	iMap* m_pMap;
 	
 public:
 	void Setup();
@@ -46,6 +46,8 @@ public:
 
 	void Setup_Obj();
 	void Obj_Render();
+
+	void Load_Surface();
 	
 };
 
