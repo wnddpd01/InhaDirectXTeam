@@ -29,7 +29,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="HackerRank7 Array.cpp">
+    <ClCompile Include="Hacker Rank dynamic allocation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

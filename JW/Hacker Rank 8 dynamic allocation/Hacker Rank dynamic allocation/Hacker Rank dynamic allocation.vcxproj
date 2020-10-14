@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{98679ADA-38AF-4CAB-8523-71CACDB83C2C}</ProjectGuid>
+    <ProjectGuid>{155B0037-DA77-48C4-B578-173E14E68198}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>HackerRank7Array</RootNamespace>
+    <RootNamespace>HackerRankdynamicallocation</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,7 +145,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HackerRank7 Array.cpp" />
+    <ClCompile Include="Hacker Rank dynamic allocation.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
