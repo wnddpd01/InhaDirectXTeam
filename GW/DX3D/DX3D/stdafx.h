@@ -25,7 +25,7 @@
 #include <fstream>
 #include <assert.h> //경고 관련
 
-
+#include <map>
 #include <string>
 
 #include <d3dx9.h>

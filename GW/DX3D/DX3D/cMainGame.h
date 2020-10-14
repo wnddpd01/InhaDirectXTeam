@@ -9,6 +9,7 @@ class cGroup;
 
 class cLight;
 class cBPath;
+class cFrame;
 
 class cMainGame
 {
@@ -34,6 +35,9 @@ private:
 
 	std::vector<cGroup*> m_vecGroup;
 	iMap* m_pMap;
+
+	cFrame* m_pRootFrame;
+	
 	
 public:
 	void Setup();

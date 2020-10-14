@@ -12,6 +12,10 @@
 #include "cLight.h"
 #include "cBPath.h"
 
+#include "cFrame.h"
+#include "cAseLoader.h"
+
+
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	,m_pCamera(NULL)
@@ -19,7 +23,8 @@ cMainGame::cMainGame()
 	,m_pCubeMan(NULL)
 	,m_pLight(NULL)
 	,m_pBPath(NULL)
-,m_pMap(NULL)
+	,m_pMap(NULL)
+	,m_pRootFrame(NULL)
 {
 }
 
@@ -39,9 +44,10 @@ cMainGame::~cMainGame()
 	}
 
 	m_vecGroup.clear();
-	g_pDeviceManager->Destroy();
 
+	m_pRootFrame->Destroy();
 	
+	g_pDeviceManager->Destroy();
 	
 	g_pDeviceManager->Destroy();
 }
@@ -63,7 +69,11 @@ void cMainGame::Setup()
 
 	Setup_Obj();
 
-	
+	{
+		cAseLoader l;
+		
+		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+	}
 
 	m_pLight = new cLight;
 	m_pLight->Setup();
@@ -103,14 +113,23 @@ void cMainGame::Render()
 
 	Obj_Render();
 
-	if (m_pLight)
-		m_pLight->Render();
+	//if (m_pLight)
+	//	m_pLight->Render();
 
 
 	if (m_pBPath)
 		m_pBPath->Render();
 
-	Draw_Texture();
+	//Draw_Texture();
+
+
+	{
+		if(m_pRootFrame)
+		{
+			m_pRootFrame->Render();
+		}
+	}
+
 	
 
 	g_pD3DDevice->EndScene();
@@ -151,7 +170,7 @@ void cMainGame::Setup_Obj()
 {
 	cObjLoader l;
 	l.Load(m_vecGroup, "obj", "map.obj");
-	l.LoadAse(m_vecGroup, "ASE", "map.obj");
+	//l.LoadAse(m_vecGroup, "ase", "woman_01_all.ASE");
 	Load_Surface();
 }
 
