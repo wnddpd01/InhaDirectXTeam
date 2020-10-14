@@ -7,10 +7,10 @@ class cCubeMan :
 {
 public:
 	cCubeMan();
-protected:
 	cCubeNode*	m_pRoot;
 	D3DMATERIAL9	m_stMtl;
 	LPDIRECT3DTEXTURE9 m_pTextrue;
+protected:
 public :
 	virtual ~cCubeMan();
 	virtual void Setup() override;

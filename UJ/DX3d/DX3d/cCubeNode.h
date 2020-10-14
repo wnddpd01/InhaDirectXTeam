@@ -1,5 +1,7 @@
 #pragma once
 #include "cCubePNT.h"
+#include "cMtlTex.h"
+
 class cCubeNode :
 	public cCubePNT
 {
@@ -17,11 +19,12 @@ public:
 	D3DXVECTOR3 m_vLocalPos;
 	D3DXMATRIXA16 m_matLocalTM;
 	D3DXMATRIXA16 m_matWorldTM;
+	cMtlTex* m_pMtlTex;
+	Synthesize(D3DXMATRIXA16 *, m_pParentWorldTM, ParentWorldTM);
 
 protected:
 	std::vector<cCubeNode*> m_vecChild;
 
-	Synthesize(D3DXMATRIXA16 *, m_pParentWorldTM, ParentWorldTM);
 	Synthesize(float, m_fRotDeltax, RotDeltaX);
 };
 
