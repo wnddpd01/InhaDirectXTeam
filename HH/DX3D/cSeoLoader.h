@@ -1,5 +1,5 @@
 #pragma once
-class cGeomObject;
+class cSeoGroup;
 
 class cSeoLoader
 {
@@ -9,7 +9,7 @@ public:
 	cSeoLoader();
 	~cSeoLoader();
 
-	void Load(OUT std::vector<cGeomObject*> & vecGeomObject, IN char* szFolder, IN char* szFile);
+	void Load(OUT std::vector<cSeoGroup*> & vecGeomObject, IN char* szFolder, IN char* szFile);
 	void LoadMtlLib(char* szFolder, char* szFile);
 };
 
