@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AD71D426-2C36-454B-B758-B96A1E8A6E11}</ProjectGuid>
+    <ProjectGuid>{155B0037-DA77-48C4-B578-173E14E68198}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>DX3d</RootNamespace>
+    <RootNamespace>HackerRankdynamicallocation</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,16 +71,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\DirectXSDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\DirectXSDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\DirectXSDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\DirectXSDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,13 +86,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>false</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -105,10 +98,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -119,10 +112,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,10 +128,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -148,80 +141,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cAseLoader.h" />
-    <ClInclude Include="cBody.h" />
-    <ClInclude Include="cBox.h" />
-    <ClInclude Include="cCamera.h" />
-    <ClInclude Include="cCharacter.h" />
-    <ClInclude Include="cCharacterSam.h" />
-    <ClInclude Include="cCubeAutoMan.h" />
-    <ClInclude Include="cCubeMan.h" />
-    <ClInclude Include="cCubeNode.h" />
-    <ClInclude Include="cCubePC.h" />
-    <ClInclude Include="cCubePNT.h" />
-    <ClInclude Include="cDeviceManager.h" />
-    <ClInclude Include="cGrid.h" />
-    <ClInclude Include="cGroup.h" />
-    <ClInclude Include="cHead.h" />
-    <ClInclude Include="cHexagon.h" />
-    <ClInclude Include="cLeftArm.h" />
-    <ClInclude Include="cLeftLeg.h" />
-    <ClInclude Include="cMainGame.h" />
-    <ClInclude Include="cMtlTex.h" />
-    <ClInclude Include="cObject.h" />
-    <ClInclude Include="cObjectManager.h" />
-    <ClInclude Include="cObjLoader.h" />
-    <ClInclude Include="cPyramid.h" />
-    <ClInclude Include="cRightArm.h" />
-    <ClInclude Include="cRightLeg.h" />
-    <ClInclude Include="cTextureManager.h" />
-    <ClInclude Include="DX3d.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cAseLoader.cpp" />
-    <ClCompile Include="cBody.cpp" />
-    <ClCompile Include="cBox.cpp" />
-    <ClCompile Include="cCamera.cpp" />
-    <ClCompile Include="cCharacter.cpp" />
-    <ClCompile Include="cCharacterSam.cpp" />
-    <ClCompile Include="cCubeAutoMan.cpp" />
-    <ClCompile Include="cCubeMan.cpp" />
-    <ClCompile Include="cCubeNode.cpp" />
-    <ClCompile Include="cCubePC.cpp" />
-    <ClCompile Include="cCubePNT.cpp" />
-    <ClCompile Include="cDeviceManager.cpp" />
-    <ClCompile Include="cGrid.cpp" />
-    <ClCompile Include="cGroup.cpp" />
-    <ClCompile Include="cHead.cpp" />
-    <ClCompile Include="cHexagon.cpp" />
-    <ClCompile Include="cLeftArm.cpp" />
-    <ClCompile Include="cLeftLeg.cpp" />
-    <ClCompile Include="cMainGame.cpp" />
-    <ClCompile Include="cMtlTex.cpp" />
-    <ClCompile Include="cObject.cpp" />
-    <ClCompile Include="cObjectManager.cpp" />
-    <ClCompile Include="cObjLoader.cpp" />
-    <ClCompile Include="cPyramid.cpp" />
-    <ClCompile Include="cRightArm.cpp" />
-    <ClCompile Include="cRightLeg.cpp" />
-    <ClCompile Include="cTextureManager.cpp" />
-    <ClCompile Include="DX3d.cpp" />
+    <ClCompile Include="Hacker Rank dynamic allocation.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DX3d.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="DX3d.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

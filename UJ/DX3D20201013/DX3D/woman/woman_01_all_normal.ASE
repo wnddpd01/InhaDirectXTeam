@@ -31,7 +31,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/hair_woman_01.jpg"
+			*BITMAP "C:\3dsealonline\character\hair_woman_01.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\hair_woman_01_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -67,7 +87,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/face_woman_02_s.jpg"
+			*BITMAP "C:\3dsealonline\character\face_woman_02_s.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\face_woman_02_s_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -103,7 +143,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/rabbit.jpg"
+			*BITMAP "C:\3dsealonline\character\rabbit.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\rabbit_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -139,7 +199,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/hand_woman_01.jpg"
+			*BITMAP "C:\3dsealonline\character\hand_woman_01.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\hand_woman_01_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -175,7 +255,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/body_woman_01_s.jpg"
+			*BITMAP "C:\3dsealonline\character\body_woman_01_s.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\body_woman_01_s_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -211,7 +311,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/shield.jpg"
+			*BITMAP "C:\3dsealonline\character\shield.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\shield_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -247,7 +367,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/sword_001.jpg"
+			*BITMAP "C:\3dsealonline\character\sword_001.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\sword_001_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -283,7 +423,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/foot_woman_01.jpg"
+			*BITMAP "C:\3dsealonline\character\foot_woman_01.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\foot_woman_01_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
@@ -319,7 +479,27 @@
 			*MAP_CLASS "Bitmap"
 			*MAP_SUBNO 1
 			*MAP_AMOUNT 1.0000
-			*BITMAP "./woman/leg_woman_01_s.jpg"
+			*BITMAP "C:\3dsealonline\character\leg_woman_01_s.jpg"
+			*MAP_TYPE Screen
+			*UVW_U_OFFSET 0.0000
+			*UVW_V_OFFSET 0.0000
+			*UVW_U_TILING 1.0000
+			*UVW_V_TILING 1.0000
+			*UVW_ANGLE 0.0000
+			*UVW_BLUR 1.0000
+			*UVW_BLUR_OFFSET 0.0000
+			*UVW_NOUSE_AMT 1.0000
+			*UVW_NOISE_SIZE 1.0000
+			*UVW_NOISE_LEVEL 1
+			*UVW_NOISE_PHASE 0.0000
+			*BITMAP_FILTER Pyramidal
+		}
+		*MAP_BUMP {
+			*MAP_NAME "Map #5"
+			*MAP_CLASS "Bitmap"
+			*MAP_SUBNO 1
+			*MAP_AMOUNT 1.0000
+			*BITMAP "C:\3dsealonline\character\leg_woman_01_s_normal.tga"
 			*MAP_TYPE Screen
 			*UVW_U_OFFSET 0.0000
 			*UVW_V_OFFSET 0.0000
