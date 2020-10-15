@@ -28,6 +28,18 @@ cMainGame::cMainGame()
 	,m_pMap(NULL)
 	,m_pRootFrame(NULL)
 {
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 45;
+	fd.Width = 28;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	wcscpy(fd.FaceName, L"궁서체");   //글꼴 스타일
+	AddFontResource(L"umberto.ttf");
+	wcscpy(fd.FaceName, L"umberto");
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
 }
 
 cMainGame::~cMainGame()
@@ -69,24 +81,6 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
-	
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 45;
-	fd.Width = 28;
-	fd.Weight = FW_MEDIUM;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	wcscpy(fd.FaceName, L"궁서체");   //글꼴 스타일
-	AddFontResource(L"umberto.ttf");
-	wcscpy(fd.FaceName, L"umberto");
-
-
-	g_Fps = 0;
-
-
-	
 	Setup_Obj();
 
 	{
@@ -117,12 +111,15 @@ void cMainGame::Update()
 
 	if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
+
 	
 }
 
 void cMainGame::Render()
 {
-	
+	static DWORD framecount = 0;
+	static DWORD frameStart = 0;
+	static DWORD frame = 0;
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(65, 65, 65), 1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
@@ -130,59 +127,66 @@ void cMainGame::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (m_pCubeMan)
-		m_pCubeMan->Render();
+	//if (m_pCubeMan)
+	//	m_pCubeMan->Render();
 
-	Obj_Render();
+	//Obj_Render();
 
 	//if (m_pLight)
 	//	m_pLight->Render();
 
 
-	if (m_pBPath)
-		m_pBPath->Render();
+	//if (m_pBPath)
+	//	m_pBPath->Render();
 
 	//Draw_Texture();
 
 	
-	DWORD start_time = GetTickCount();
-	{
+
 	
+
+
+	if (m_pRootFrame)
+	{
 		for (int i = 0; i < 1000; i++)
 		{
-			if (m_pRootFrame)
-			{
-				m_pRootFrame->Render();
-				
-			}
+			m_pRootFrame->Render();
 		}
-		
+
 	}
-	DWORD end_time = GetTickCount() - start_time;
-
-	
-	
-		g_Fps = end_time;
-		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
-		if (m_pFont)
-		{
-			RECT rc;
-			SetRect(&rc, 50, 50, 100, 100);
-			char szTemp[1024];
-			sprintf(szTemp, "FPS = %d", g_Fps);
-			m_pFont->DrawTextA(nullptr,
-				szTemp,
-				strlen(szTemp),
-				&rc,
-				DT_LEFT | DT_TOP | DT_NOCLIP,
-				D3DCOLOR_XRGB(255, 0, 0));
-		}
-	
 	
 
+	
+	
+	
+	if (m_pFont)
+	{
+		RECT rc;
+		SetRect(&rc, 50, 50, 100, 100);
+		char szTemp[1024];
+		sprintf(szTemp, "FPS = %d",frame);
+		m_pFont->DrawTextA(nullptr,
+			szTemp,
+			strlen(szTemp),
+			&rc,
+			DT_LEFT | DT_TOP | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 0, 0));
+	}
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+
+
+	framecount++;
+	DWORD frameEnd = GetTickCount();
+	if (frameEnd - frameStart > 999)
+	{
+		frameStart = frameEnd;
+		frame = framecount;
+		framecount = 0;
+	}
+
+
 }
 	
 

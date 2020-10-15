@@ -40,7 +40,7 @@ private:
 	
 	LPD3DXFONT m_pFont;
 	D3DXFONT_DESC fd;
-	DWORD g_Fps;
+	
 
 
 
