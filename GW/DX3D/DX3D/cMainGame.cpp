@@ -12,6 +12,12 @@
 #include "cLight.h"
 #include "cBPath.h"
 
+#include "cFrame.h"
+#include "cAseLoader.h"
+
+#include <sysinfoapi.h>
+
+
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	,m_pCamera(NULL)
@@ -19,7 +25,8 @@ cMainGame::cMainGame()
 	,m_pCubeMan(NULL)
 	,m_pLight(NULL)
 	,m_pBPath(NULL)
-,m_pMap(NULL)
+	,m_pMap(NULL)
+	,m_pRootFrame(NULL)
 {
 }
 
@@ -39,9 +46,10 @@ cMainGame::~cMainGame()
 	}
 
 	m_vecGroup.clear();
-	g_pDeviceManager->Destroy();
 
+	m_pRootFrame->Destroy();
 	
+	g_pDeviceManager->Destroy();
 	
 	g_pDeviceManager->Destroy();
 }
@@ -61,9 +69,31 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
-	Setup_Obj();
+	
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 45;
+	fd.Width = 28;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	wcscpy(fd.FaceName, L"궁서체");   //글꼴 스타일
+	AddFontResource(L"umberto.ttf");
+	wcscpy(fd.FaceName, L"umberto");
+
+
+	g_Fps = 0;
+
 
 	
+	Setup_Obj();
+
+	{
+		cAseLoader l;
+		
+		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+	}
 
 	m_pLight = new cLight;
 	m_pLight->Setup();
@@ -85,6 +115,8 @@ void cMainGame::Update()
 	if (m_pLight)
 		m_pLight->Update();
 
+	if (m_pRootFrame)
+		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
 	
 }
 
@@ -103,14 +135,49 @@ void cMainGame::Render()
 
 	Obj_Render();
 
-	if (m_pLight)
-		m_pLight->Render();
+	//if (m_pLight)
+	//	m_pLight->Render();
 
 
 	if (m_pBPath)
 		m_pBPath->Render();
 
-	Draw_Texture();
+	//Draw_Texture();
+
+	
+	DWORD start_time = GetTickCount();
+	{
+	
+		for (int i = 0; i < 1000; i++)
+		{
+			if (m_pRootFrame)
+			{
+				m_pRootFrame->Render();
+				
+			}
+		}
+		
+	}
+	DWORD end_time = GetTickCount() - start_time;
+
+	
+	
+		g_Fps = end_time;
+		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
+		if (m_pFont)
+		{
+			RECT rc;
+			SetRect(&rc, 50, 50, 100, 100);
+			char szTemp[1024];
+			sprintf(szTemp, "FPS = %d", g_Fps);
+			m_pFont->DrawTextA(nullptr,
+				szTemp,
+				strlen(szTemp),
+				&rc,
+				DT_LEFT | DT_TOP | DT_NOCLIP,
+				D3DCOLOR_XRGB(255, 0, 0));
+		}
+	
 	
 
 	g_pD3DDevice->EndScene();
@@ -124,7 +191,6 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
-
 
 }
 
@@ -151,7 +217,7 @@ void cMainGame::Setup_Obj()
 {
 	cObjLoader l;
 	l.Load(m_vecGroup, "obj", "map.obj");
-	l.LoadAse(m_vecGroup, "ASE", "map.obj");
+	//l.LoadAse(m_vecGroup, "ase", "woman_01_all.ASE");
 	Load_Surface();
 }
 

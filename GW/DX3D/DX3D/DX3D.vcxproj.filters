@@ -22,6 +22,9 @@
     <Filter Include="Map">
       <UniqueIdentifier>{279f57a6-ee0b-42ce-898b-e6df6795a07f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ASELoader">
+      <UniqueIdentifier>{842650b1-7aca-4b80-ac06-dad2598ff4ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -117,8 +120,14 @@
     <ClInclude Include="cObjMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Asciitok.h">
+      <Filter>ASELoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrame.h">
+      <Filter>ASELoader</Filter>
+    </ClInclude>
     <ClInclude Include="cAseLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>ASELoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,8 +215,11 @@
     <ClCompile Include="cObjMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cFrame.cpp">
+      <Filter>ASELoader</Filter>
+    </ClCompile>
     <ClCompile Include="cAseLoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ASELoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
