@@ -7,6 +7,7 @@ cCubeNode::cCubeNode()
 , m_pParentWorldTM(NULL)
 , m_vLocalPos(0,0,0)
 , m_fRotX(0.0f)
+, m_pMtlTex(NULL)
 {
 	D3DXMatrixIdentity(&m_matLocalTM);
 	D3DXMatrixIdentity(&m_matWorldTM);
@@ -72,8 +73,13 @@ void cCubeNode::Update()
 
 void cCubeNode::Render()
 {
+	if (m_pMtlTex != NULL)
+	{
+		g_pD3DDevice->SetTexture(0, m_pMtlTex->GetTexture());
+		g_pD3DDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+		cCubePNT::Render();
+	}
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
-	cCubePNT::Render();
 	for (auto child : m_vecChild)
 	{
 		child->Render();
