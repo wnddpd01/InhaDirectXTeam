@@ -23,7 +23,7 @@ cFrame* cAseLoader::Load(IN char* szFullPath)
 	{
 		if(IsEqual(szToken, ID_SCENE))
 		{
-			//: ProcessScene();
+			ProcessScene();
 		}
 		else if(IsEqual(szToken,ID_MATERIAL_LIST))
 		{
@@ -35,7 +35,7 @@ cFrame* cAseLoader::Load(IN char* szFullPath)
 			if(pRoot == NULL)
 			{
 				pRoot = pFrame;
-				//Set_SceneFrame(pRoot);
+				Set_SceneFrame(pRoot);
 			}
 		}
 	}
@@ -271,7 +271,7 @@ cFrame* cAseLoader::ProcessGEOMOBJECT()
 		}
 		else if(IsEqual(szToken, ID_TM_ANIMATION))
 		{
-			//:skip
+			ProcessTM_ANIMATION(pFrame);
 		}
 		else if(IsEqual(szToken, ID_MATERIAL_REF))
 		{
@@ -346,6 +346,9 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 	}
 
 	pFrame->SetVertex(vecVertex);
+	pFrame->BuildVB(vecVertex);
+	
+	pFrame->BuildIB(vecVertex);
 }
 
 void cAseLoader::ProcessMESH_VERTEX_LIST(std::vector<D3DXVECTOR3>& vecV)
@@ -514,29 +517,29 @@ void cAseLoader::ProcessNODE_TM(cFrame* pFrame)
 		else if (IsEqual(szToken, ID_TM_ROW0))
 		{
 			matWorld._11 = GetFloat();
-			matWorld._12 = GetFloat();
 			matWorld._13 = GetFloat();
+			matWorld._12 = GetFloat();
 			matWorld._14 = 0.0f;	
 		}
 		else if (IsEqual(szToken, ID_TM_ROW1))
 		{
 			matWorld._31 = GetFloat();
-			matWorld._32 = GetFloat();
 			matWorld._33 = GetFloat();
+			matWorld._32 = GetFloat();
 			matWorld._34 = 0.0f;
 		}
 		else if (IsEqual(szToken, ID_TM_ROW2))
 		{
 			matWorld._21 = GetFloat();
-			matWorld._22 = GetFloat();
 			matWorld._23 = GetFloat();
+			matWorld._22 = GetFloat();
 			matWorld._24 = 0.0f;
 		}
 		else if (IsEqual(szToken, ID_TM_ROW3))
 		{
 			matWorld._41 = GetFloat();
-			matWorld._42 = GetFloat();
 			matWorld._43 = GetFloat();
+			matWorld._42 = GetFloat();
 			matWorld._44 = 1.0f;
 		}
 	} while (nLevel > 0);
@@ -548,8 +551,158 @@ void cAseLoader::ProcessNODE_TM(cFrame* pFrame)
 
 inline void cAseLoader::ProcessScene()
 {
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if(IsEqual(szToken, ID_FIRSTFRAME))
+		{
+			m_dwFirstFrame = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_LASTFRAME))
+		{
+			m_dwLastFrame = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_FRAMESPEED))
+		{
+			m_dwFrameSpeed = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_TICKSPERFRAME))
+		{
+			m_dwTicksPerFrame= GetInteger();
+		}
+
+		
+	} while (nLevel > 0);
+	
 }
 
 void cAseLoader::Set_SceneFrame(cFrame* pRoot)
 {
+	pRoot->m_dwFirstFrame = m_dwFirstFrame;
+	pRoot->m_dwLastFrame = m_dwLastFrame;
+	pRoot->m_dwFrameSpeed = m_dwFrameSpeed;
+	pRoot->m_dwTicksPerFrame = m_dwTicksPerFrame;
+
+	
+}
+
+
+void cAseLoader::ProcessTM_ANIMATION(cFrame* pFrame)
+{
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_TRACK))
+		{
+			ProcessCONTROL_POS_TRACK(pFrame);
+		}
+		else if (IsEqual(szToken, ID_ROT_TRACK))
+		{
+			ProcessCONTROL_ROT_TRACK(pFrame);
+		}
+
+
+	} while (nLevel > 0);
+}
+
+void cAseLoader::ProcessCONTROL_POS_TRACK(cFrame* pFrame)
+{
+	std::vector<ST_POS_SAMPLE> vecPosTrack;
+	
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_SAMPLE))
+		{
+			ST_POS_SAMPLE s;
+			s.n = GetInteger();
+			s.v.x = GetFloat();
+			s.v.z = GetFloat();
+			s.v.y = GetFloat();
+			vecPosTrack.push_back(s);
+			
+		}
+		
+	} while (nLevel > 0);
+
+
+	pFrame->SetPosTrack(vecPosTrack);
+	
+}
+
+void cAseLoader::ProcessCONTROL_ROT_TRACK(cFrame* pFrame)
+{
+	std::vector<ST_ROT_SAMPLE> vecRotTrack;
+	
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if(IsEqual(szToken, ID_ROT_SAMPLE))
+		{
+			
+			ST_ROT_SAMPLE s; 
+			
+			s.n = GetInteger(); 
+			s.q.x = GetFloat();
+			s.q.z = GetFloat();
+			s.q.y = GetFloat();
+			s.q.w = GetFloat();
+			
+			//축변환관련
+			s.q.x *= sinf(s.q.w / 2.f);
+			s.q.y *= sinf(s.q.w / 2.f);
+			s.q.z *= sinf(s.q.w / 2.f);
+			s.q.w = cosf(s.q.w / 2.f);
+
+			if(!vecRotTrack.empty())
+			{
+				s.q = vecRotTrack.back().q * s.q; //회전값 누적
+					
+			}
+			vecRotTrack.push_back(s);	
+		}	
+	} while (nLevel > 0);
+
+	pFrame->SetRotTrack(vecRotTrack);
+	
 }

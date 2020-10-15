@@ -37,10 +37,29 @@ private:
 	void ProcessMESH_NORMALS(OUT std::vector<ST_PNT_VERTEX>& vecVertex);
 	void ProcessNODE_TM(OUT cFrame* pFrame);
 
+	void ProcessTM_ANIMATION(OUT cFrame* pFrame);
+	void ProcessCONTROL_POS_TRACK(OUT cFrame* pFrame);
+	void ProcessCONTROL_ROT_TRACK(OUT cFrame* pFrame);
 
+
+	
 	void ProcessScene();
 	void Set_SceneFrame(OUT cFrame* pRoot);
-		
+
+	DWORD m_dwFirstFrame;
+	DWORD m_dwLastFrame;
+	DWORD m_dwFrameSpeed;
+	DWORD m_dwTicksPerFrame;
+
+
+
+
+	
+
+
+	
+	
 };
+
 
 

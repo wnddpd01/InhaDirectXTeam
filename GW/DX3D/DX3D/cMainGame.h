@@ -38,6 +38,12 @@ private:
 
 	cFrame* m_pRootFrame;
 	
+	LPD3DXFONT m_pFont;
+	D3DXFONT_DESC fd;
+	DWORD g_Fps;
+
+
+
 	
 public:
 	void Setup();
@@ -52,6 +58,8 @@ public:
 	void Obj_Render();
 
 	void Load_Surface();
+
+	
 	
 };
 

@@ -27,7 +27,7 @@
 
 #include <map>
 #include <string>
-
+#include <mmsystem.h>
 #include <d3dx9.h>
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -87,6 +87,33 @@ struct ST_PT_VERTEX
 	enum { FVF = D3DFVF_XYZ| D3DFVF_TEX1 };
 
 };
+
+
+struct ST_POS_SAMPLE
+{
+	int 		n;
+	D3DXVECTOR3 v;
+	ST_POS_SAMPLE()
+		:n(0)
+	,v(0,0,0)
+	{}
+};
+
+struct ST_ROT_SAMPLE
+{
+	int 		n;
+	D3DXQUATERNION q;
+	ST_ROT_SAMPLE()
+		:n(0)
+	{
+		D3DXQuaternionIdentity(&q);
+	}
+};
+
+
+
+
+
 
 
 #define Synthesize(varType, varName, funName) \
