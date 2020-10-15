@@ -3,6 +3,9 @@
 
 #include "stdafx.h"
 #include "DX3D.h"
+
+#include <iostream>
+
 #include "cMainGame.h"
 
 #define MAX_LOADSTRING 100
@@ -11,6 +14,7 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+HDC g_hdc;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -72,8 +76,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
 		else
 		{
-			g_pMainGame->Update(); 
-			g_pMainGame->Render(); 
+			g_pMainGame->Update();
+			
+			
+			
+			g_pMainGame->Render();
+			//system("cls");
+			
+
+
+			
 		}
     }
 
@@ -178,7 +190,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
+    		
+            g_hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
             EndPaint(hWnd, &ps);
         }

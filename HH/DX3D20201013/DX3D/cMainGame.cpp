@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+
+#include <iostream>
+
 #include "cDeviceManager.h"
 #include "cCamera.h"
 #include "cCubePC.h"
@@ -19,6 +22,7 @@ cMainGame::cMainGame()
 	, m_pTexture(NULL)
 	, m_pMap(NULL)
 	, m_pRootFrame(NULL)
+	, m_pRootFrame2(NULL)
 {
 }
 
@@ -39,6 +43,7 @@ cMainGame::~cMainGame()
 	m_vecGroup.clear();
 
 	m_pRootFrame->Destroy();
+	m_pRootFrame2->Destroy();
 	g_pObjectManager->Destroy(); 
 
 	g_pDeviceManager->Destroy();
@@ -62,12 +67,32 @@ void cMainGame::Setup()
 	{
 		cAseLoader l;
 		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+		//m_pRootFrame2 = l.Load("woman/woman_01_all.ASE");
+		//m_pRootFrame2->BuildIB();
 	}
 
 	
 	Setup_Texture(); 
 	Setup_Obj(); 
-	Set_Light(); 
+	Set_Light();
+
+
+	//폰트 생성
+	D3DXFONT_DESC fd;
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 45;
+	fd.Width = 28;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	//strcpy_s(fd.FaceName, "궁서체");   //글꼴 스타일
+	AddFontResource(L"umberto.ttf");
+	strcpy((char*)fd.FaceName, "umberto");
+
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
+	
 }
 
 void cMainGame::Update()
@@ -79,7 +104,13 @@ void cMainGame::Update()
 		m_pCubeMan->Update(m_pMap); 
 
 	if (m_pCamera)
-		m_pCamera->Update(); 
+		m_pCamera->Update();
+
+	if (m_pRootFrame)
+		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
+
+	if (m_pRootFrame2)
+		m_pRootFrame2->Update(m_pRootFrame2->GetKeyFrame(), NULL);
 }
 
 void cMainGame::Render()
@@ -90,23 +121,51 @@ void cMainGame::Render()
 		1.0F, 0);
 
 	g_pD3DDevice->BeginScene();
+	static chrono::system_clock::time_point lastTime;
+	lastTime = std::chrono::system_clock::now();
 
+	
 	if (m_pGrid)
 		m_pGrid->Render(); 
 
 	//if (m_pCubePC)
 	//	m_pCubePC->Render(); 
-	Obj_Render(); 
+	//Obj_Render(); 
 
-	if (m_pCubeMan)
-		m_pCubeMan->Render(); 
+	//if (m_pCubeMan)
+	//	m_pCubeMan->Render(); 
 
 	//Draw_Texture(); 
 
 	{
-		if (m_pRootFrame)
-			m_pRootFrame->Render();
+		for(int i = 0; i < 1000; i++)
+		{
+
+			if (m_pRootFrame)
+				m_pRootFrame->Render();
+			//if (m_pRootFrame2)
+			//	m_pRootFrame2->RenderIndex();
+		}
+		
+		
 	}
+
+	chrono::duration<double> time = chrono::system_clock::now() - lastTime;
+	
+	if (m_pFont)
+	{
+		RECT rc;
+		SetRect(&rc, 100, 100, 103, 103);
+		char szTemp[1024];
+		sprintf(szTemp, "FPS = %f", (1 / time.count()));
+		m_pFont->DrawTextA(nullptr,
+			szTemp,
+			strlen(szTemp),
+			&rc,
+			DT_LEFT | DT_TOP | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 0, 0));
+	}
+
 	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

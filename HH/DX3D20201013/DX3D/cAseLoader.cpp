@@ -37,7 +37,6 @@ cFrame* cAseLoader::Load(char* szFullPath)
 				pRoot = pFrame;
 				SetSceneFrame(pRoot);
 			}
-			
 		}
 	}
 	fclose(m_fp);
@@ -256,10 +255,11 @@ cFrame* cAseLoader::ProcessGEOMOBJECT()
 		else if (IsEqual(szToken, ID_MESH))
 		{
 			ProcessMESH(pFrame);
+			
 		}
 		else if (IsEqual(szToken, ID_TM_ANIMATION))
 		{
-			
+			ProcessTM_ANIMATION(pFrame);
 		}
 		else if (IsEqual(szToken, ID_MATERIAL_REF))
 		{
@@ -275,6 +275,7 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 	vector<D3DXVECTOR3>		vecV;
 	vector<D3DXVECTOR2>		vecVT;
 	vector<ST_PNT_VERTEX>	vecVertex;
+	vector<ST_ABC_INDEX>	vecIndex;
 
 	
 
@@ -303,7 +304,7 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 		}
 		else if (IsEqual(szToken, ID_MESH_FACE_LIST))
 		{
-			ProcessMESH_FACE_LIST(vecVertex, vecV);
+			ProcessMESH_FACE_LIST(vecVertex, vecV, vecIndex);
 		}
 		else if (IsEqual(szToken, ID_MESH_NUMTVERTEX))
 		{
@@ -330,7 +331,24 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 		D3DXVec3TransformCoord(&vecVertex[i].p, &vecVertex[i].p, &matInvWorld);
 		D3DXVec3TransformNormal(&vecVertex[i].n, &vecVertex[i].n, &matInvWorld);
 	}
-	pFrame->SetVertex(vecVertex);
+	
+	//pFrame->SetVertex(vecVertex);
+	//버텍스버퍼를 위해 제거
+	//인덱스 버퍼
+	
+	for (auto ver : vecV)
+	{
+		ST_PNT_VERTEX temp;
+		temp.p = ver;
+		pFrame->GetVertex4Index().push_back(temp);
+	}
+	
+	for (auto ver : vecIndex)
+	{
+		pFrame->GetIndex().push_back(ver);
+	}
+	//pFrame->BuildVB(pFrame->GetVertex4Index());
+	pFrame->BuildVB(vecVertex);
 }
 
 void cAseLoader::ProcessMESH_VERTEX_LIST(vector<D3DXVECTOR3>& vecV)
@@ -354,9 +372,11 @@ void cAseLoader::ProcessMESH_VERTEX_LIST(vector<D3DXVECTOR3>& vecV)
 			vecV[nIndex].y = GetFloat();
 		}
 	} while (nLevel > 0);
+
+	
 }
 
-void cAseLoader::ProcessMESH_FACE_LIST(vector<ST_PNT_VERTEX>& vecVertex, vector<D3DXVECTOR3>& vecV)
+void cAseLoader::ProcessMESH_FACE_LIST(vector<ST_PNT_VERTEX>& vecVertex, vector<D3DXVECTOR3>& vecV, vector<ST_ABC_INDEX>& vecIndex)
 {
 	int nLevel = 0;
 	do {
@@ -371,10 +391,18 @@ void cAseLoader::ProcessMESH_FACE_LIST(vector<ST_PNT_VERTEX>& vecVertex, vector<
 		}
 		else if (IsEqual(szToken, ID_MESH_FACE))
 		{
+			ST_ABC_INDEX abc;
 			int nFaceIndex = GetIneger();
-			GetToken();	vecVertex[nFaceIndex * 3 + 0].p = vecV[GetIneger()];
-			GetToken();	vecVertex[nFaceIndex * 3 + 2].p = vecV[GetIneger()];
-			GetToken();	vecVertex[nFaceIndex * 3 + 1].p = vecV[GetIneger()];
+			GetToken(); abc.a = GetIneger();
+			vecVertex[nFaceIndex * 3 + 0].p = vecV[abc.a];
+			
+			GetToken(); abc.b = GetIneger();
+			vecVertex[nFaceIndex * 3 + 2].p = vecV[abc.b];
+			
+			GetToken(); abc.c = GetIneger();
+			vecVertex[nFaceIndex * 3 + 1].p = vecV[abc.c];
+			
+			vecIndex.push_back(abc);
 		}
 	} while (nLevel > 0);
 }
@@ -510,12 +538,137 @@ void cAseLoader::ProcessNODE_TM(cFrame* pFrame)
 	pFrame->SetWorldTM(matWorld);
 }
 
+
+void cAseLoader::ProcessTM_ANIMATION(cFrame* pFrame)
+{
+	int nLevel = 0;
+	do {
+		char* szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_TRACK))
+		{
+			ProcessCONTROL_POS_TRACK(pFrame);
+		}
+		else if (IsEqual(szToken, ID_ROT_TRACK))
+		{
+			ProcessCONTROL_ROT_TRACK(pFrame);
+		}
+	} while (nLevel > 0);
+}
+
+void cAseLoader::ProcessCONTROL_POS_TRACK(cFrame* pFrame)
+{
+	vector<ST_POS_SAMPLE> vecPosTrack;
+	
+	int nLevel = 0;
+	do {
+		char* szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_SAMPLE))
+		{
+			ST_POS_SAMPLE s;
+			s.n = GetIneger();
+			s.v.x = GetFloat();
+			s.v.z = GetFloat();
+			s.v.y = GetFloat();
+			vecPosTrack.push_back(s);
+		}
+	} while (nLevel > 0);
+
+	pFrame->SetPosTrack(vecPosTrack);
+}
+
+void cAseLoader::ProcessCONTROL_ROT_TRACK(cFrame* pFrame)
+{
+	vector<ST_ROT_SAMPLE> vecRotTrack;
+	int nLevel = 0;
+	do {
+		char* szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_ROT_SAMPLE ))
+		{
+			ST_ROT_SAMPLE s;
+			s.n = GetIneger();
+			s.q.x = GetFloat();
+			s.q.z = GetFloat();
+			s.q.y = GetFloat();
+			s.q.w = GetFloat();
+
+			s.q.x *= sinf(s.q.w / 2.f);
+			s.q.y *= sinf(s.q.w / 2.f);
+			s.q.z *= sinf(s.q.w / 2.f);
+			s.q.w = cosf(s.q.w / 2.f);
+
+			if(!vecRotTrack.empty())
+			{
+				s.q = vecRotTrack.back().q * s.q;
+			}
+			vecRotTrack.push_back(s);
+		}
+	} while (nLevel > 0);
+
+	pFrame->SetRotTrack(vecRotTrack);
+}
+
+
+
 void cAseLoader::ProcessScene()
 {
-	
+	int nLevel = 0;
+	do {
+		char* szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_FIRSTFRAME))
+		{
+			m_dwFirstFrame = GetIneger();
+		}
+		else if (IsEqual(szToken, ID_LASTFRAME))
+		{
+			m_dwLastFrame = GetIneger();
+		}
+		else if (IsEqual(szToken, ID_FRAMESPEED))
+		{
+			m_dwFrameSpeed = GetIneger();
+		}
+		else if (IsEqual(szToken, ID_TICKSPERFRAME))
+		{
+			m_dwTicksPerFrame = GetIneger();
+		}
+	} while (nLevel > 0);
 }
 
 void cAseLoader::SetSceneFrame(cFrame* pRoot)
 {
-	
+	pRoot->m_dwFirstFrame = m_dwFirstFrame;
+	pRoot->m_dwLastFrame = m_dwLastFrame;
+	pRoot->m_dwFrameSpeed = m_dwFrameSpeed;
+	pRoot->m_dwTicksPerFrame = m_dwTicksPerFrame;
 }

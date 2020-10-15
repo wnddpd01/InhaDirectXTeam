@@ -28,8 +28,9 @@ private :
 	iMap*					m_pMap;
 
 	cFrame*					m_pRootFrame;
+	cFrame*					m_pRootFrame2;
 
-	
+	LPD3DXFONT m_pFont;
 public :
 	void Setup(); 
 	void Update(); 
