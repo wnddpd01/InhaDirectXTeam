@@ -27,6 +27,8 @@ private :
 	vector<cGroup*>			m_vecGroup; 
 	iMap*					m_pMap;
 	cFrame*					m_pRootFrame;
+	vector<cFrame*>			m_vecPFrame;
+	LPD3DXFONT				m_font;
 public :
 	void Setup(); 
 	void Update(); 

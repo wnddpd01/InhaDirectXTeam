@@ -7,6 +7,8 @@
 
 #define MAX_LOADSTRING 100
 
+extern DWORD g_DrawMode;
+
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -54,7 +56,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// << : 
 
     MSG msg;
-
+	RECT clientRect;
+	GetClientRect(g_hWnd, &clientRect);
     // Main message loop:
     while (true)
     {
@@ -73,7 +76,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		else
 		{
 			g_pMainGame->Update(); 
-			g_pMainGame->Render(); 
+			g_pMainGame->Render();
 		}
     }
 
@@ -186,6 +189,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+	case WM_CHAR :
+		switch(wParam)
+		{
+		case 'p' :
+			g_DrawMode++;
+			if (g_DrawMode > 2)
+				g_DrawMode = 0;
+			break;
+		}
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

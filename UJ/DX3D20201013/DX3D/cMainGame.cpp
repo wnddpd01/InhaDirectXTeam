@@ -20,6 +20,20 @@ cMainGame::cMainGame()
 	, m_pMap(NULL)
 	, m_pRootFrame(NULL)
 {
+	D3DXFONT_DESC fd;
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 45;
+	fd.Width = 28;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	//strcpy_s(fd.FaceName, "궁서체");   //글꼴 스타일
+	AddFontResource(L"umberto.ttf");
+	wcscpy(fd.FaceName, L"umberto");
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_font);
+
 }
 
 
@@ -43,6 +57,9 @@ cMainGame::~cMainGame()
 
 void cMainGame::Setup()
 {
+	D3DPRESENT_PARAMETERS temp;
+	temp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE
 	m_pCubePC = new cCubePC; 
 	m_pCubePC->Setup(); 
 
@@ -51,7 +68,7 @@ void cMainGame::Setup()
 
 	m_pCamera = new cCamera; 
 	m_pCamera->Setup(&m_pCubeMan->GetPosition()); 
-	// &m_pCubePC->GetPosition());
+	//&m_pCubePC->GetPosition());
 
 	m_pGrid = new cGrid; 
 	m_pGrid->Setup(); 
@@ -59,27 +76,41 @@ void cMainGame::Setup()
 	{
 		cAseLoader l;
 		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+		/*for (int i = 0; i < 10; ++i)
+		{
+			m_vecPFrame.push_back(l.Load("woman/woman_01_all.ASE"));
+		}*/
 	}
 	
 	Setup_Texture(); 
-	//Setup_Obj(); 
+	Setup_Obj(); 
 	Set_Light(); 
 }
 
 void cMainGame::Update()
 {
-	//if (m_pCubePC)
-	//	m_pCubePC->Update(); 
+	if (m_pCubePC)
+		m_pCubePC->Update(); 
 
 	if (m_pCubeMan)
 		m_pCubeMan->Update(m_pMap); 
 
 	if (m_pCamera)
-		m_pCamera->Update(); 
+		m_pCamera->Update();
+
+	if (m_pRootFrame)
+		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
+	for (auto frame : m_vecPFrame)
+	{
+		frame->Update(frame->GetKeyFrame(), NULL);
+	}
 }
 
 void cMainGame::Render()
 {
+	static DWORD framecount = 0;
+	static DWORD frameStart = 0;
+	static DWORD frame = 0;
 	g_pD3DDevice->Clear(NULL, NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		D3DCOLOR_XRGB(47, 121, 112) , 
@@ -97,11 +128,42 @@ void cMainGame::Render()
 		//m_pCubeMan->Render(); 
 
 	if (m_pRootFrame)
-		m_pRootFrame->Render();
+	{
+		for (int i = 0; i < 1000; ++i)
+		{
+			m_pRootFrame->Render();
+		}
+	}
+	for (auto frame : m_vecPFrame)
+	{
+		frame->Render();
+	}
+	
 	//Draw_Texture(); 
-
+	if (m_font)
+	{
+		RECT rc;
+		SetRect(&rc, 0, 0, 103, 103);
+		char szTemp[1024];
+		sprintf(szTemp, "FPS = %d", frame);
+		m_font->DrawTextA(nullptr,
+			szTemp,
+			strlen(szTemp),
+			&rc,
+			DT_LEFT | DT_TOP | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 0, 0));
+	}
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+	
+	framecount++;
+	DWORD frameEnd = GetTickCount();
+	if(frameEnd - frameStart > 999)
+	{
+		frameStart = frameEnd;
+		frame = framecount;
+		framecount = 0;
+	}
 }
 
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -117,7 +117,8 @@ void cCubePC::Setup()
 
 void cCubePC::Update()
 {
-	if (GetKeyState('A') & 0X8000)
+	if (
+		('A') & 0X8000)
 	{
 		m_fRotY -= 0.1f;
 	}

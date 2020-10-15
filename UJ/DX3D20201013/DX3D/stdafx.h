@@ -30,6 +30,8 @@
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib") 
 
+
+
 using namespace std; 
 
 extern HWND g_hWnd;
@@ -76,6 +78,27 @@ struct ST_PN_VERTEX
 	D3DXVECTOR3	p;
 	D3DXVECTOR3	n;
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL };
+};
+
+struct ST_POS_SAMPLE
+{
+	int			n;
+	D3DXVECTOR3 v;
+	ST_POS_SAMPLE()
+		: n(0)
+		, v(0,0,0)
+	{}
+};
+
+struct ST_ROT_SAMPLE
+{
+	int			   n;
+	D3DXQUATERNION q;
+	ST_ROT_SAMPLE()
+		: n(0)
+	{
+		D3DXQuaternionIdentity(&q);
+	}
 };
 
 #define Synthesize(varType , varName , funName) \
