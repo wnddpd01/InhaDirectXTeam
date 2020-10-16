@@ -23,6 +23,10 @@ cMainGame::cMainGame()
 	, m_pMap(NULL)
 	, m_pRootFrame(NULL)
 	, m_pRootFrame2(NULL)
+	, m_pMeshTeapot(NULL)
+	, m_pMeshSphere(NULL)
+	, m_pObjMesh(NULL)
+	, m_pGirlMesh(NULL)
 {
 }
 
@@ -34,8 +38,22 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pGrid); 
 	SafeDelete(m_pCubeMan); 
 	SafeDelete(m_pMap); 
-	SafeRelease(m_pTexture); 
+	SafeRelease(m_pTexture);
+	SafeRelease(m_pMeshTeapot);
+	SafeRelease(m_pMeshSphere);
+	SafeRelease(m_pObjMesh);
+	SafeRelease(m_pGirlMesh);
 
+	for each(auto p in m_vecGirlMtlTex)
+	{
+		SafeRelease(p);
+	}
+	
+	for each(auto p in m_vecObjMtlTex)
+	{
+		SafeRelease(p);
+	}
+	
 	for each(auto p in m_vecGroup)
 	{
 		SafeRelease(p); 
@@ -51,6 +69,10 @@ cMainGame::~cMainGame()
 
 void cMainGame::Setup()
 {
+	
+
+
+	
 	m_pCubePC = new cCubePC; 
 	m_pCubePC->Setup(); 
 
@@ -66,8 +88,8 @@ void cMainGame::Setup()
 
 	{
 		cAseLoader l;
-		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
-		//m_pRootFrame2 = l.Load("woman/woman_01_all.ASE");
+		//m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+		m_pRootFrame2 = l.Load("woman/woman_01_all.ASE");
 		//m_pRootFrame2->BuildIB();
 	}
 
@@ -75,6 +97,9 @@ void cMainGame::Setup()
 	Setup_Texture(); 
 	Setup_Obj(); 
 	Set_Light();
+
+	Setup_MeshObject();
+	
 
 
 	//폰트 생성
@@ -123,14 +148,15 @@ void cMainGame::Render()
 	g_pD3DDevice->BeginScene();
 	static chrono::system_clock::time_point lastTime;
 	lastTime = std::chrono::system_clock::now();
-
 	
+	
+
 	if (m_pGrid)
 		m_pGrid->Render(); 
-
+	
 	//if (m_pCubePC)
 	//	m_pCubePC->Render(); 
-	//Obj_Render(); 
+	//
 
 	//if (m_pCubeMan)
 	//	m_pCubeMan->Render(); 
@@ -138,18 +164,23 @@ void cMainGame::Render()
 	//Draw_Texture(); 
 
 	{
-		for(int i = 0; i < 1000; i++)
+		for(int i = 0; i < 10; i++)
 		{
-
-			if (m_pRootFrame)
-				m_pRootFrame->Render();
-			//if (m_pRootFrame2)
-			//	m_pRootFrame2->RenderIndex();
+			//Mesh_Render();
+			
+			//Obj_Render();
+			
+			//if (m_pRootFrame)
+			//	m_pRootFrame->Render();
+			if (m_pRootFrame2)
+				m_pRootFrame2->RenderIndex();
 		}
 		
 		
 	}
 
+
+	
 	chrono::duration<double> time = chrono::system_clock::now() - lastTime;
 	
 	if (m_pFont)
@@ -268,6 +299,71 @@ void cMainGame::Load_Surface()
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
 	matWorld = matS * matR;
 	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
+}
+
+void cMainGame::Setup_MeshObject()
+{
+	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
+	D3DXCreateSphere(g_pD3DDevice, 0.5f, 10,10, &m_pMeshSphere, NULL);
+	ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
+	m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.f);
+	m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.f);
+	m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.f);
+	ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
+	m_stMtlSphere.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.f);
+	m_stMtlSphere.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.f);
+	m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.f);
+
+	cObjLoader l;
+	m_pObjMesh = l.LoadMesh(m_vecObjMtlTex, "obj", "map.obj");
+
+	
+}
+
+void cMainGame::Mesh_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetTexture(0, NULL);
+	
+	D3DXMATRIXA16 matWorld, matS, matR;
+	/*
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+		D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlTeapot);
+		m_pMeshTeapot->DrawSubset(0);	
+	}
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+		//D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlSphere);
+		m_pMeshSphere->DrawSubset(0);
+	}
+	*/
+	{
+
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		
+		D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+		D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
+
+		matWorld = matS * matR;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		for (size_t i = 0; i < m_vecObjMtlTex.size(); i++)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecObjMtlTex[i]->GetMaterial());
+			g_pD3DDevice->SetTexture(0, m_vecObjMtlTex[i]->GetTexture());
+			m_pObjMesh->DrawSubset(i);
+		}
+	}
 }
 
 

@@ -102,7 +102,7 @@ struct ST_ROT_SAMPLE
 
 struct ST_ABC_INDEX
 {
-	DWORD a, b, c;
+	WORD a, b, c;
 };
 
 

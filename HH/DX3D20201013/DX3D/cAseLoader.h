@@ -17,7 +17,9 @@ private:
 
 public:
 	cFrame*		Load(IN char* szFullPath);
+	cFrame*		LoadMesh(IN char* szFullPath);
 
+	
 private:
 	char*		GetToken();
 	int			GetIneger();

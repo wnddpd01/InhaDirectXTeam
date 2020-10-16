@@ -49,6 +49,48 @@ cFrame* cAseLoader::Load(char* szFullPath)
 	pRoot->CalsOriginLocalTM(NULL);
 	
 	return pRoot;
+
+
+	// ¸Þ½Ã
+	
+}
+
+cFrame* cAseLoader::LoadMesh(char* szFullPath)
+{
+	cFrame* pRoot = NULL;
+
+	fopen_s(&m_fp, szFullPath, "r");
+	while (char* szToken = GetToken())
+	{
+		if (IsEqual(szToken, ID_SCENE))
+		{
+			ProcessScene();
+		}
+		else if (IsEqual(szToken, ID_MATERIAL_LIST))
+		{
+			ProcessMATERIAL_LIST();
+		}
+		else if (IsEqual(szToken, ID_GEOMETRY))
+		{
+			cFrame* pFrame = ProcessGEOMOBJECT();
+			if (pRoot == NULL)
+			{
+				pRoot = pFrame;
+				SetSceneFrame(pRoot);
+			}
+		}
+	}
+	fclose(m_fp);
+
+	for each(auto p in m_vecMtlTex)
+	{
+		SafeRelease(p);
+	}
+
+	pRoot->CalsOriginLocalTM(NULL);
+
+	return pRoot;
+
 }
 
 char* cAseLoader::GetToken()
@@ -342,13 +384,23 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 		temp.p = ver;
 		pFrame->GetVertex4Index().push_back(temp);
 	}
+	D3DXMATRIXA16 inTemp;
+	D3DXMatrixInverse(&inTemp, NULL, &pFrame->GetWorldTM());
+
+	/*
+	for (auto ver : pFrame->GetVertex4Index())
+		D3DXVec3TransformCoord(&ver.p, &ver.p, &inTemp);
+	*/
 	
 	for (auto ver : vecIndex)
 	{
 		pFrame->GetIndex().push_back(ver);
 	}
-	//pFrame->BuildVB(pFrame->GetVertex4Index());
-	pFrame->BuildVB(vecVertex);
+	
+	pFrame->BuildVB(pFrame->GetVertex4Index());
+	pFrame->BuildIB();
+	//pFrame->BuildVB(vecVertex);
+	
 }
 
 void cAseLoader::ProcessMESH_VERTEX_LIST(vector<D3DXVECTOR3>& vecV)
