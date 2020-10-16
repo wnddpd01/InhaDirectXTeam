@@ -27,6 +27,10 @@ cMainGame::cMainGame()
 	,m_pBPath(NULL)
 	,m_pMap(NULL)
 	,m_pRootFrame(NULL)
+	,m_pMeshSphere(NULL)
+	,m_pMeshTeapot(NULL)
+	,m_pObjMesh(NULL)
+	
 {
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
 	fd.Height = 45;
@@ -51,7 +55,17 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pLight);
 	SafeDelete(m_pBPath);
 	SafeDelete(m_pMap);
-
+	
+	//<<<<<<<<<<<<<<<<<<<<<<<<<mesh
+	SafeRelease(m_pMeshSphere);
+	SafeRelease(m_pMeshTeapot);
+	SafeRelease(m_pObjMesh);
+	for each (auto p in m_vecObjMtlTex)
+	{
+		SafeRelease(p);
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
 	for each(auto p in m_vecGroup)
 	{
 		SafeRelease(p);
@@ -94,6 +108,11 @@ void cMainGame::Setup()
 
 	m_pBPath = new cBPath;
 	m_pBPath->Setup();
+
+
+	//<<<<<<<<<<<<<<<<<<<mesh
+	Setup_MeshObject();
+	//<<<<<<<<<<<<<<<<<<<
 		
 }
 
@@ -124,6 +143,8 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
+	
+	
 	if (m_pGrid)
 		m_pGrid->Render();
 
@@ -148,15 +169,12 @@ void cMainGame::Render()
 
 	if (m_pRootFrame)
 	{
-		for (int i = 0; i < 1000; i++)
-		{
-			m_pRootFrame->Render();
-		}
-
+		m_pRootFrame->Render();	
 	}
 	
 
-	
+
+	Mesh_Render();
 	
 	
 	if (m_pFont)
@@ -227,6 +245,8 @@ void cMainGame::Setup_Obj()
 
 void cMainGame::Obj_Render()
 {
+	g_pD3DDevice->SetTexture(0, NULL);
+
 	D3DXMATRIXA16 matWorld, matS, matR;
 	//D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
@@ -253,5 +273,72 @@ void cMainGame::Load_Surface()
 	matWorld = matS * matR;
 	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
 
+	
+}
+
+void cMainGame::Setup_MeshObject()
+{
+	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
+	D3DXCreateSphere(g_pD3DDevice,0.5f,10,10, &m_pMeshSphere, NULL);
+
+	ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
+	m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+
+
+	ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
+	m_stMtlSphere.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlSphere.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+
+	cObjLoader l;
+	m_pObjMesh = l.LoadMesh(m_vecObjMtlTex, "obj", "map.obj");
+
+	
+}
+
+void cMainGame::Mesh_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	D3DXMATRIXA16 matWorld, matS, matR;
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;	
+		D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlTeapot);
+		m_pMeshTeapot->DrawSubset(0);
+	}
+
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlSphere);
+		m_pMeshSphere->DrawSubset(0);
+	}
+
+	{
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+
+		D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+		D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+		matWorld = matS * matR;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		for(size_t i = 0; i<m_vecObjMtlTex.size(); i++)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecObjMtlTex[i]->GetMaterial());
+			g_pD3DDevice->SetTexture(0, m_vecObjMtlTex[i]->GetTexture());
+			m_pObjMesh->DrawSubset(i);
+		}
+	}
 	
 }
