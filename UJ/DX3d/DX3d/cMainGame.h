@@ -1,5 +1,6 @@
 #pragma once
 
+class cCubeNode;
 class cBox;
 class cCubeAutoMan;
 class cHexagon;
@@ -46,6 +47,7 @@ private:
 
 	vector<cGroup *> m_vecMap;
 	vector<cGroup *> m_vecMapSurface;
+	cCubeNode * m_pCubeNode;
 	/*LPDIRECT3DTEXTURE9 m_pTextrue;
 	vector<ST_PT_VERTEX> m_vecVertex;*/
 

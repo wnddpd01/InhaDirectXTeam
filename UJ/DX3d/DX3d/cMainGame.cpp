@@ -12,6 +12,7 @@
 #include "cCubeMan.h"
 #include "cHexagon.h"
 #include "cCubeAutoMan.h"
+#include "cCubeNode.h"
 #include <stdlib.h>
 #include <stdio.h>  
 
@@ -27,7 +28,8 @@ cMainGame::cMainGame()
 	m_pGrid(NULL),
 	m_pCharacter(NULL),
 	m_pCubeMan(NULL),
-	m_pBox(NULL)
+	m_pBox(NULL),
+	m_pCubeNode(NULL)
 {
 }
 
@@ -38,6 +40,7 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCamera);
 	SafeDelete(m_pGrid);
 	SafeDelete(m_pCubeMan);
+	SafeDelete(m_pCubeNode);
 	for (auto it : m_vecMap)
 	{
 		SafeRelease(it);
@@ -188,6 +191,10 @@ void cMainGame::Update()
 	{
 		m_pCubeAutoMan[i].Update();
 	}
+	if (m_pCubeNode != NULL)
+	{
+		m_pCubeNode->Update();
+	}
 	//D3DLIGHT9 sun;
 	//g_pD3DDevice->GetLight(0, &sun);
 	//D3DXMATRIXA16 rotY;
@@ -220,8 +227,8 @@ void cMainGame::Render()
 		m_pCubePc[1].Render();
 	}
 	
-	if (m_pCubeMan != NULL)
-		m_pCubeMan->Render();
+	/*if (m_pCubeMan != NULL)
+		m_pCubeMan->Render();*/
 	for (int i = 0; i < 1; ++i)
 	{
 		m_pCubeAutoMan[i].Render();
@@ -232,6 +239,11 @@ void cMainGame::Render()
 	if (m_hexagon != NULL)
 		m_hexagon->Render();
 
+	if(m_pCubeNode != NULL)
+	{
+		m_pCubeNode->Render();
+	}
+	
 	Obj_Render();
 	
 	//if (m_pBox != NULL)
@@ -458,7 +470,7 @@ void cMainGame::Setup_Obj()
 void cMainGame::Setup_Ase()
 {
 	cAseLoader l;
-	l.Load(m_vecMap, "woman", "woman_01_all.ASE");
+	l.Load(&m_pCubeNode, "woman", "woman_01_all.ASE");
 }
 
 void cMainGame::Obj_Render()
@@ -471,7 +483,7 @@ void cMainGame::Obj_Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	for (auto it : m_vecMap)
 	{
-		it->Render();
+		//it->Render();
 	}
 }
 

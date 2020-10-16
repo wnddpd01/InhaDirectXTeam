@@ -26,7 +26,7 @@ void cObjLoader::Load(std::vector<cGroup*>& vecGroup, char* szFolder, char* szFi
 	
 	vector<D3DXVECTOR3>vecVN;
 
-	vector<ST_PNT_VERTEX> vecVertex;
+	vector<ST_PNT_VERTEX>vecVertex;
 
 	string sFullPath(szFolder);
 	
@@ -51,7 +51,7 @@ void cObjLoader::Load(std::vector<cGroup*>& vecGroup, char* szFolder, char* szFi
 		else if (szTemp[0] == 'm')
 		{
 			char szMtlFile[1024];
-			sscanf_s(szTemp, "%*s %s", szMtlFile, 1024); //%*s ���� ������   <- m���õȰ͵��� ����������
+			sscanf_s(szTemp, "%*s %s", szMtlFile, 1024); 
 			LoadMtlLib(szFolder, szMtlFile);
 		}
 		else if (szTemp[0] == 'g')
@@ -209,6 +209,116 @@ void cObjLoader::LoadMtlLib(char* szFolder, char* szFile)
 
 void cObjLoader::LoadAse(std::vector<cGroup*>& vecGroup, char* szFolder, char* szFile)
 {
+
+	vector<D3DXVECTOR3>vecV;
+
+	vector<D3DXVECTOR2>vecVT;
+
+	vector<D3DXVECTOR3>vecVN;
+
+	vector<ST_PNT_VERTEX> vecVertex;
+
+	string sFullPath(szFolder);
+	sFullPath += (string("/") + string(szFile));
+
+	FILE *fp;
+	fopen_s(&fp, sFullPath.c_str(), "r");
+
+	string sMtlName;
+
+	while (true)
+	{
+		if (feof(fp))break;
+
+		char szTemp[1024];
+		fgets(szTemp, 1024, fp);
+
+		if (strstr(szTemp, "SCENE"))
+		{
+			while (true)
+			{
+				fgets(szTemp, 1024, fp);
+				
+				/*
+				*사이
+				*
+				*/
+				if (szTemp[0] == '}')
+					break;
+
+			}
+		}
+		else if (strstr(szTemp, "MATERIAL_LIST"))
+		{
+			while (true)
+			{
+				fgets(szTemp, 1024, fp);
+				
+				if (szTemp[0] == '}')
+					break;
+				
+				int temp = 0;
+				
+				sscanf_s(szTemp, "\t%*s %d", &temp);
+
+				for(int i = 0 ; i < temp ; i++)
+				{
+					while (true)
+					{
+						fgets(szTemp, 1024, fp);
+					
+
+						if (szTemp[1] == '}')
+							break;
+
+					}//:while
+				}//:>> for
+
+			}//:>>while 
+		}//:>> else if 
+		else if(strstr(szTemp, "GEOMOBJECT"))
+		{
+			float  x = 0, y = 0, z = 0;
+			int iIndex = 0;
+		
+			while(true)//NODE_TM
+			{
+				fgets(szTemp, 1024, fp);
+				if (szTemp[0] == '}')
+					break;
+				
+				if(strstr(szTemp, "TM_ROW"))
+				{
+					sscanf_s(szTemp, "%*s %f %f %f", &x,&z,&y);
+					
+				}
+				else if(strstr(szTemp, "MESH_VERTEX_LIST"))
+				{
+					
+					sscanf_s(szTemp, "%*s%*d %f %f %f", &x, &z, &y);
+					
+				}
+				else if(strstr(szTemp, "MESH_FACE_LIST"))
+				{
+			
+					sscanf_s(szTemp, "%*s %*s %*s %f %*s %f %*s %f", &x, &z, &y);
+					
+				}
+				else if (strstr(szTemp, "MESH_FACENORMAL"))
+				{
+					sscanf_s(szTemp, "%*s %*d %f %f %f", &x, &z, &y);
+				}
+				else if (strstr(szTemp, "MESH_VERTEXNORMAL"))
+				{
+					sscanf_s(szTemp, "%*s %*d %f %f %f", &x, &z, &y);
+				}
+					
+			}//:>>while
+		}
+
+
+	}
+	fclose(fp);
 }
 
 
