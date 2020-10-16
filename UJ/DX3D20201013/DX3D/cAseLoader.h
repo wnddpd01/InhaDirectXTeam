@@ -13,11 +13,12 @@ private :
 	FILE * m_fp;
 	char m_szToken[1024];
 	vector<cMtlTex*>	m_vecMtlTex;
+	vector<WORD>		m_vecAttr;
 	map<string, cFrame*> m_mapFrame;
 
 public :
 	cFrame * Load(IN char* szFullPath);
-
+	LPD3DXMESH LoadMesh(OUT vector<cMtlTex*>& vecMtlTex, IN char* szFullPath);
 private :
 	char*	GetToken();
 	int		GetInteger();

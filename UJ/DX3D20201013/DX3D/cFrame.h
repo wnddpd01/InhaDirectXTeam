@@ -35,8 +35,10 @@ private :
 	int	m_nNumTri;
 	LPDIRECT3DVERTEXBUFFER9	m_pVB;
 	LPDIRECT3DINDEXBUFFER9	m_pIB;
+	LPD3DXMESH m_pObjMesh;
 public :
 	void BuildVB(vector<ST_PNT_VERTEX>& vecVertex);
 	void BuildIB(vector<ST_PNT_VERTEX>& vecVertex);
+	void BuildAB(vector<ST_PNT_VERTEX>& vecVertex);
 };
 

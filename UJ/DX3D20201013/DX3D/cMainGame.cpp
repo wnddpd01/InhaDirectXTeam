@@ -19,6 +19,9 @@ cMainGame::cMainGame()
 	, m_pTexture(NULL)
 	, m_pMap(NULL)
 	, m_pRootFrame(NULL)
+	, m_pMeshTeapot(NULL)
+	, m_pMeshSphere(NULL)
+	, m_pObjMesh(NULL)
 {
 	D3DXFONT_DESC fd;
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
@@ -45,6 +48,13 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pCubeMan); 
 	SafeDelete(m_pMap); 
 	SafeRelease(m_pTexture);
+	SafeRelease(m_pMeshSphere);
+	SafeRelease(m_pMeshTeapot);
+	SafeRelease(m_pObjMesh);
+	for (auto it : m_vecObjMtlTex)
+	{
+		SafeRelease(it);
+	}
 	m_pRootFrame->Destroy();
 	for each(auto p in m_vecGroup)
 	{
@@ -84,7 +94,9 @@ void cMainGame::Setup()
 	
 	Setup_Texture(); 
 	Setup_Obj(); 
-	Set_Light(); 
+	Set_Light();
+
+	Setup_MeshObject();
 }
 
 void cMainGame::Update()
@@ -117,6 +129,7 @@ void cMainGame::Render()
 		1.0F, 0);
 
 	g_pD3DDevice->BeginScene();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 
 	if (m_pGrid)
 		m_pGrid->Render(); 
@@ -127,18 +140,18 @@ void cMainGame::Render()
 	//if (m_pCubeMan)
 		//m_pCubeMan->Render(); 
 
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pRootFrame)
 	{
-		for (int i = 0; i < 1000; ++i)
-		{
-			m_pRootFrame->Render();
-		}
+		m_pRootFrame->Render();
 	}
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	for (auto frame : m_vecPFrame)
 	{
 		frame->Render();
 	}
-	
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	Mesh_Render();
 	//Draw_Texture(); 
 	if (m_font)
 	{
@@ -181,7 +194,7 @@ void cMainGame::Set_Light()
 	stLight.Diffuse = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
 	stLight.Specular = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
 
-	D3DXVECTOR3  vDir(1.0f, -1.0f, 1.0f); 
+	D3DXVECTOR3  vDir(0.0f, -1.0f, 1.0f); 
 	D3DXVec3Normalize(&vDir, &vDir); 
 	stLight.Direction = vDir; 
 	g_pD3DDevice->SetLight(0, &stLight); 
@@ -263,6 +276,70 @@ void cMainGame::Load_Surface()
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
 	matWorld = matS * matR;
 	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
+}
+
+void cMainGame::Setup_MeshObject()
+{
+	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
+	D3DXCreateSphere(g_pD3DDevice, 0.5, 10, 10, &m_pMeshSphere, NULL);
+	ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
+	m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
+	m_stMtlSphere.Ambient  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+	m_stMtlSphere.Diffuse  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+	m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+
+	//cObjLoader l;
+	//m_pObjMesh = l.LoadMesh(m_vecObjMtlTex, "obj", "map.obj");
+	/*cAseLoader l;
+	m_pObjMesh = l.LoadMesh(m_vecObjMtlTex, "woman/woman_01_all.ASE");*/
+}
+
+void cMainGame::Mesh_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetTexture(0, NULL);
+	D3DXMATRIXA16 matWorld, matS, matR;
+	{
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+		D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlTeapot);
+		m_pMeshTeapot->DrawSubset(0);
+	}
+	{
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+		//D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlSphere);
+		m_pMeshSphere->DrawSubset(0);
+	}
+
+	{
+		D3DXMATRIXA16 matWorld, matS, matR;
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+		D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
+		matWorld = matS * matR;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		for (size_t i = 0; i < m_vecObjMtlTex.size(); i++)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecObjMtlTex[i]->GetMaterial());
+			g_pD3DDevice->SetTexture(0, m_vecObjMtlTex[0]->GetTexture());
+			m_pObjMesh->DrawSubset(i);
+		}
+	}
 }
 
 

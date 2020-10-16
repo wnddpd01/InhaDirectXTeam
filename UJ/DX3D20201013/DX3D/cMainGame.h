@@ -1,4 +1,5 @@
 #pragma once
+class cMtlTex;
 class cFrame;
 class cCubePC; 
 class cCamera; 
@@ -43,6 +44,17 @@ public :
 	void Setup_Obj(); 
 	void Obj_Render(); 
 
-	void Load_Surface(); 
+	void Load_Surface();
+
+private :
+	LPD3DXMESH	 m_pMeshTeapot;
+	LPD3DXMESH	 m_pMeshSphere;
+	D3DMATERIAL9 m_stMtlTeapot;
+	D3DMATERIAL9 m_stMtlSphere;
+	LPD3DXMESH	 m_pObjMesh;
+	vector<cMtlTex*> m_vecObjMtlTex;
+public :
+	void Setup_MeshObject();
+	void Mesh_Render();
 };
 
