@@ -86,6 +86,59 @@ struct CheckPoint
 };
 
 
+struct Scene
+{
+	std::string		FileName;
+	int				FirstFrame;
+	int				LastFrame;
+	int				FrameSpeed;
+	int				TickSperFrame;
+	D3DXVECTOR3		BackGraound_Static;
+	D3DXVECTOR3		Ambient_Static;
+};
+
+struct MapDiffuse
+{
+	std::string		MapName;
+	std::string		MapClass;
+	int				SubNo;
+	float			MapAmount;
+	std::string		Bitmap;
+	std::string		MapType;
+	float			UVW_U_Offset;
+	float			UVW_V_Offset;
+	float			UVW_U_Tiling;
+	float			UVW_V_Tiling;
+	float			UVW_Angel;
+	float			UVW_Blur;
+	float			UVW_Blur_Offset;
+	float			UVW_Nouse_Amt;
+	float			UVW_Noise_Size;
+	int				UVW_Noise_Level;
+	float			UVW_Noise_Phase;
+	std::string		Bitmap_Filter;
+};
+
+struct Material
+{
+	std::string		Name;
+	std::string		Class;
+	D3DXVECTOR3		Ambient;
+	D3DXVECTOR3		Diffuse;
+	D3DXVECTOR3		Specular;
+	float			Shine;
+	float			ShineStrength;
+	float			Transparency;
+	float			WireSize;
+	std::string		Shading;
+	float			Xp_Falloff;
+	float			SelfIllum;
+	std::string		Falloff;
+	std::string		XP_Type;
+	MapDiffuse		structDiffuse;
+};
+
+
 struct GeoNodeTm
 {
 	std::string		nodeName;
@@ -106,6 +159,8 @@ struct GeoMesh
 	int timeValue;
 	int NumVertex;
 	int NumFaces;
+	int NumTVertex;
+	int NumTFace;
 	std::vector<ST_PNT_VERTEX> vecVertex;
 };
 

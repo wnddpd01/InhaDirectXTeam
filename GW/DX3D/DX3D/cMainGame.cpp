@@ -27,7 +27,23 @@ cMainGame::cMainGame()
 	,m_pBPath(NULL)
 	,m_pMap(NULL)
 	,m_pRootFrame(NULL)
+	,m_pMeshSphere(NULL)
+	,m_pMeshTeapot(NULL)
+	,m_pObjMesh(NULL)
+	
 {
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 45;
+	fd.Width = 28;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	wcscpy(fd.FaceName, L"궁서체");   //글꼴 스타일
+	AddFontResource(L"umberto.ttf");
+	wcscpy(fd.FaceName, L"umberto");
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
 }
 
 cMainGame::~cMainGame()
@@ -39,7 +55,17 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pLight);
 	SafeDelete(m_pBPath);
 	SafeDelete(m_pMap);
-
+	
+	//<<<<<<<<<<<<<<<<<<<<<<<<<mesh
+	SafeRelease(m_pMeshSphere);
+	SafeRelease(m_pMeshTeapot);
+	SafeRelease(m_pObjMesh);
+	for each (auto p in m_vecObjMtlTex)
+	{
+		SafeRelease(p);
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
 	for each(auto p in m_vecGroup)
 	{
 		SafeRelease(p);
@@ -69,24 +95,6 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
-	
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 45;
-	fd.Width = 28;
-	fd.Weight = FW_MEDIUM;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	wcscpy(fd.FaceName, L"궁서체");   //글꼴 스타일
-	AddFontResource(L"umberto.ttf");
-	wcscpy(fd.FaceName, L"umberto");
-
-
-	g_Fps = 0;
-
-
-	
 	Setup_Obj();
 
 	{
@@ -100,6 +108,11 @@ void cMainGame::Setup()
 
 	m_pBPath = new cBPath;
 	m_pBPath->Setup();
+
+
+	//<<<<<<<<<<<<<<<<<<<mesh
+	Setup_MeshObject();
+	//<<<<<<<<<<<<<<<<<<<
 		
 }
 
@@ -117,72 +130,81 @@ void cMainGame::Update()
 
 	if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
+
 	
 }
 
 void cMainGame::Render()
 {
-	
+	static DWORD framecount = 0;
+	static DWORD frameStart = 0;
+	static DWORD frame = 0;
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(65, 65, 65), 1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
 
+	
+	
 	if (m_pGrid)
 		m_pGrid->Render();
 
-	if (m_pCubeMan)
-		m_pCubeMan->Render();
+	//if (m_pCubeMan)
+	//	m_pCubeMan->Render();
 
-	Obj_Render();
+	//Obj_Render();
 
 	//if (m_pLight)
 	//	m_pLight->Render();
 
 
-	if (m_pBPath)
-		m_pBPath->Render();
+	//if (m_pBPath)
+	//	m_pBPath->Render();
 
 	//Draw_Texture();
 
 	
-	DWORD start_time = GetTickCount();
+
+	
+
+
+	if (m_pRootFrame)
 	{
-	
-		for (int i = 0; i < 1000; i++)
-		{
-			if (m_pRootFrame)
-			{
-				m_pRootFrame->Render();
-				
-			}
-		}
-		
+		m_pRootFrame->Render();	
 	}
-	DWORD end_time = GetTickCount() - start_time;
-
-	
-	
-		g_Fps = end_time;
-		D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
-		if (m_pFont)
-		{
-			RECT rc;
-			SetRect(&rc, 50, 50, 100, 100);
-			char szTemp[1024];
-			sprintf(szTemp, "FPS = %d", g_Fps);
-			m_pFont->DrawTextA(nullptr,
-				szTemp,
-				strlen(szTemp),
-				&rc,
-				DT_LEFT | DT_TOP | DT_NOCLIP,
-				D3DCOLOR_XRGB(255, 0, 0));
-		}
-	
 	
 
+
+	Mesh_Render();
+	
+	
+	if (m_pFont)
+	{
+		RECT rc;
+		SetRect(&rc, 50, 50, 100, 100);
+		char szTemp[1024];
+		sprintf(szTemp, "FPS = %d",frame);
+		m_pFont->DrawTextA(nullptr,
+			szTemp,
+			strlen(szTemp),
+			&rc,
+			DT_LEFT | DT_TOP | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 0, 0));
+	}
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+
+
+	framecount++;
+	DWORD frameEnd = GetTickCount();
+	if (frameEnd - frameStart > 999)
+	{
+		frameStart = frameEnd;
+		frame = framecount;
+		framecount = 0;
+	}
+
+
 }
 	
 
@@ -223,6 +245,8 @@ void cMainGame::Setup_Obj()
 
 void cMainGame::Obj_Render()
 {
+	g_pD3DDevice->SetTexture(0, NULL);
+
 	D3DXMATRIXA16 matWorld, matS, matR;
 	//D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
@@ -249,5 +273,72 @@ void cMainGame::Load_Surface()
 	matWorld = matS * matR;
 	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
 
+	
+}
+
+void cMainGame::Setup_MeshObject()
+{
+	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
+	D3DXCreateSphere(g_pD3DDevice,0.5f,10,10, &m_pMeshSphere, NULL);
+
+	ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
+	m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+
+
+	ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
+	m_stMtlSphere.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlSphere.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+
+	cObjLoader l;
+	m_pObjMesh = l.LoadMesh(m_vecObjMtlTex, "obj", "map.obj");
+
+	
+}
+
+void cMainGame::Mesh_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	D3DXMATRIXA16 matWorld, matS, matR;
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;	
+		D3DXMatrixTranslation(&matWorld, 0, 0, 10);
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlTeapot);
+		m_pMeshTeapot->DrawSubset(0);
+	}
+
+	{
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		matWorld = matS * matR;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&m_stMtlSphere);
+		m_pMeshSphere->DrawSubset(0);
+	}
+
+	{
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+
+		D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
+		D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
+		matWorld = matS * matR;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		for(size_t i = 0; i<m_vecObjMtlTex.size(); i++)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecObjMtlTex[i]->GetMaterial());
+			g_pD3DDevice->SetTexture(0, m_vecObjMtlTex[i]->GetTexture());
+			m_pObjMesh->DrawSubset(i);
+		}
+	}
 	
 }

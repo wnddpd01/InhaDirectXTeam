@@ -18,11 +18,11 @@ void cLight::Setup()
 {
 	ZeroMemory(&m_Light[0], sizeof(D3DLIGHT9));
 	m_Light[0].Type = D3DLIGHT_DIRECTIONAL;
-	m_Light[0].Ambient = D3DXCOLOR(0.1F, 0.1F, 0.1F, 1.0F);
-	m_Light[0].Diffuse = D3DXCOLOR(0.5f, 0.5F, 0.5F, 1.0F);
+	m_Light[0].Ambient = D3DXCOLOR(0.0F, 0.8F, 0.8F, 1.0F);
+	m_Light[0].Diffuse = D3DXCOLOR(0.8f, 0.8F, 0.8F, 1.0F);
 	m_Light[0].Specular = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
 
-	D3DXVECTOR3 vDir(1.0f, -1.0f, 0.0f);
+	D3DXVECTOR3 vDir(0.0f, -1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light[0].Direction = vDir;
 	g_pD3DDevice->SetLight(0, &m_Light[0]);
@@ -43,7 +43,7 @@ void cLight::Setup()
 	m_Light[1].Position.y = 0.0f;
 	m_Light[1].Position.z = 0.0f;
 	g_pD3DDevice->SetLight(1, &m_Light[1]);
-	g_pD3DDevice->LightEnable(1, true);
+	//g_pD3DDevice->LightEnable(1, true);
 
 
 	ZeroMemory(&m_Light[2], sizeof(D3DLIGHT9));
@@ -70,7 +70,7 @@ void cLight::Setup()
 	m_Light[2].Direction = vDir2;
 
 	g_pD3DDevice->SetLight(2, &m_Light[2]);
-	g_pD3DDevice->LightEnable(2, true);
+	//g_pD3DDevice->LightEnable(2, true);
 
 	m_pPLC = new cCubePC;
 	m_pPLC->Setup();

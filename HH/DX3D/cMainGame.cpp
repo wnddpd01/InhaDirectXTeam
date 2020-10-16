@@ -15,6 +15,7 @@
 #include "tGroup.h"
 #include "cSeoLoader.h"
 #include "cGeomObject.h"
+#include "cSeoGroup.h"
 
 
 cMainGame::cMainGame()
@@ -414,10 +415,17 @@ void cMainGame::Setup_Obj()
 	l.Load(m_vecSurfGroup, "obj", "map_surface.obj");
 
 	cSeoLoader sl;
-	sl.Load(m_vecGeomObject, "woman", "woman_01_all.ASE");
-
+	sl.Load(m_vecSeoGroup, "woman", "woman_01_all.ASE");
+	for each(auto p in m_vecSeoGroup)
+	{
+		p->Setup();
+	}
+	
+	
+	/*
 	for (auto name : m_vecGeomObject)
-		std::cout << name->m_nodeName << std::endl;
+		name->InverseAllMesh();
+		*/
 }
 
 void cMainGame::Obj_Render()
@@ -438,7 +446,7 @@ void cMainGame::Obj_Render()
 		p->Render();
 	}
 	*/
-	for each(auto p in m_vecGeomObject)
+	for each(auto p in m_vecSeoGroup)
 	{
 		p->Render();
 	}

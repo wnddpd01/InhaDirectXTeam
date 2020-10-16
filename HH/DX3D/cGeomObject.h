@@ -12,6 +12,7 @@ public:
 	bool m_motionBlur;
 	bool m_castShadow;
 	bool m_recvShadow;
+	int		mtl_ref;
 
 	D3DXVECTOR3 m_wireFrameColor;
 	GeoAnimation m_GeoAnimation;
@@ -22,6 +23,7 @@ public:
 
 	cGeomObject* GetInstance(std::string nodeName);
 	void Render();
+	void InverseAllMesh();
 
 };
 
