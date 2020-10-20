@@ -22,7 +22,9 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 {
 	float fMax = nNumHalfTile * fInterval;
 	float fMin = -fMax;
-	/*for (int i = 1; i <= nNumHalfTile; i++)
+	/*ST_PC_VERTEX v;
+	
+	for (int i = 1; i <= nNumHalfTile; i++)
 	{
 		if (i % 5 == 0)
 			v.c = D3DCOLOR_XRGB(255, 255, 255);
@@ -50,33 +52,30 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 		v.p = D3DXVECTOR3(-i*fInterval, -0.8f, fMax);
 		m_vecVertex.push_back(v);
 
-	}
+	}*/
+
+	//v.c = D3DCOLOR_XRGB(255, 0, 0);
+	//v.p = D3DXVECTOR3(fMin, 0, 0); m_vecVertex.push_back(v);
+	//v.p = D3DXVECTOR3(fMax, 0, 0); m_vecVertex.push_back(v);
+
+	//v.c = D3DCOLOR_XRGB(0, 255, 0);
+	//v.p = D3DXVECTOR3(0, fMin, 0); m_vecVertex.push_back(v);
+	//v.p = D3DXVECTOR3(0, fMax, 0); m_vecVertex.push_back(v);
+
+	//v.c = D3DCOLOR_XRGB(0, 0, 255);
+	//v.p = D3DXVECTOR3(0, 0, fMin); m_vecVertex.push_back(v);
+	//v.p = D3DXVECTOR3(0, 0, fMax); m_vecVertex.push_back(v);
 
 
 
-
-
-	v.c = D3DCOLOR_XRGB(255, 0, 0);
-	v.p = D3DXVECTOR3(fMin, 0, 0); m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(fMax, 0, 0); m_vecVertex.push_back(v);
-
-	v.c = D3DCOLOR_XRGB(0, 255, 0);
-	v.p = D3DXVECTOR3(0, fMin, 0); m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(0, fMax, 0); m_vecVertex.push_back(v);
-
-	v.c = D3DCOLOR_XRGB(0, 0, 255);
-	v.p = D3DXVECTOR3(0, 0, fMin); m_vecVertex.push_back(v);
-	v.p = D3DXVECTOR3(0, 0, fMax); m_vecVertex.push_back(v);
-*/
-
-
-	ST_PN_VERTEX v;
-	v.n = D3DXVECTOR3(0, 1, 0);
+	ST_PC_VERTEX v;
+	v.c = D3DCOLOR_XRGB(150, 150, 150);
 
 	for (int i = 0; i < nNumHalfTile * 2; ++i)
 	{
 		for (int j = 0; j < nNumHalfTile * 2; ++j)
 		{
+			
 			v.p = D3DXVECTOR3{ fMin + j * fInterval, 0, fMax - i * fInterval };
 			m_vecVertex.push_back(v);
 			v.p = D3DXVECTOR3{ fMin + j * fInterval + fInterval, 0, fMax - i * fInterval };
@@ -93,32 +92,30 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 		}
 	}
 
-	/*for (int i = 0; i <= nNumHalfTile; i++)
-	{
-		
+	//for (int i = 0; i <= nNumHalfTile; i++)
+	//{
+	//	v.p = D3DXVECTOR3(fMin, 0, i*fInterval);
+	//	m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(fMax, 0, i*fInterval);
+	//	m_vecVertex.push_back(v);
 
-		v.p = D3DXVECTOR3(fMin, 0, i*fInterval);
-		m_vecVertex.push_back(v);
-		v.p = D3DXVECTOR3(fMax, 0, i*fInterval);
-		m_vecVertex.push_back(v);
-
-		v.p = D3DXVECTOR3(fMin, 0, -i*fInterval);
-		m_vecVertex.push_back(v);
-		v.p = D3DXVECTOR3(fMax, 0, -i*fInterval);
-		m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(fMin, 0, -i*fInterval);
+	//	m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(fMax, 0, -i*fInterval);
+	//	m_vecVertex.push_back(v);
 
 
-		v.p = D3DXVECTOR3(i*fInterval, 0, fMin);
-		m_vecVertex.push_back(v);
-		v.p = D3DXVECTOR3(i*fInterval, 0, fMax);
-		m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(i*fInterval, 0, fMin);
+	//	m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(i*fInterval, 0, fMax);
+	//	m_vecVertex.push_back(v);
 
-		v.p = D3DXVECTOR3(-i*fInterval, 0, fMin);
-		m_vecVertex.push_back(v);
-		v.p = D3DXVECTOR3(-i*fInterval, 0, fMax);
-		m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(-i*fInterval, 0, fMin);
+	//	m_vecVertex.push_back(v);
+	//	v.p = D3DXVECTOR3(-i*fInterval, 0, fMax);
+	//	m_vecVertex.push_back(v);
 
-	}*/
+	//}
 	
 
 	cPyramid* pPyramid = NULL;
@@ -151,8 +148,8 @@ void cGrid::Render()
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 
-	g_pD3DDevice->SetFVF(ST_PN_VERTEX::FVF);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, m_vecVertex.size() /2, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertex.size() /3, &m_vecVertex[0], sizeof(ST_PC_VERTEX));
 
 
 	for each (auto p in m_vecPyramid)
