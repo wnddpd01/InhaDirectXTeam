@@ -43,6 +43,7 @@ cFrame* cAseLoader::Load(char* szFullPath)
 		SafeRelease(m_vec_mtl_tex);
 	}
 	pRoot->CaclOriginLocalTM(NULL);
+	
 	return pRoot;
 }
 

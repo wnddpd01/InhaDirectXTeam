@@ -55,7 +55,7 @@ void cCamera::Update()
 	D3DXMATRIXA16 matView; 
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp); 
 
-	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView); 
+	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 }
 
 void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

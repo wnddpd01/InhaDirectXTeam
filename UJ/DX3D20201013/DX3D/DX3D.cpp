@@ -75,6 +75,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
 		else
 		{
+            g_pMainGame->InputProcess();
 			g_pMainGame->Update(); 
 			g_pMainGame->Render();
 		}

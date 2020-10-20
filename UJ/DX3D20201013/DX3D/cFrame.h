@@ -30,7 +30,6 @@ public:
 	DWORD	m_dwLastFrame;
 	DWORD	m_dwFrameSpeed;
 	DWORD	m_dwTicksPerFrame;
-
 private :
 	int	m_nNumTri;
 	LPDIRECT3DVERTEXBUFFER9	m_pVB;

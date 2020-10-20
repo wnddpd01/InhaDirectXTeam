@@ -5,8 +5,8 @@
 extern DWORD g_DrawMode;
 cFrame::cFrame()
 	:m_pMtlTex(NULL)
-, m_pVB(NULL)
-, m_nNumTri(0)
+	, m_pVB(NULL)
+	, m_nNumTri(0)
 {
 	D3DXMatrixIdentity(&m_matLocalTM);
 	D3DXMatrixIdentity(&m_matWorldTM);
@@ -22,10 +22,10 @@ cFrame::~cFrame()
 void cFrame::Update(int nKeyFrame, D3DXMATRIXA16* pMatParent)
 {
 	D3DXMATRIXA16 matR, matT;
-	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matR);
 	CalcLocalR(nKeyFrame, matR);
 	CalcLocalT(nKeyFrame, matT);
-	m_matLocalTM = matR * matT;
+	m_matLocalTM = matR  * matT;
 	m_matWorldTM = m_matLocalTM;
 	if(pMatParent)
 	{
@@ -63,12 +63,6 @@ void cFrame::Render()
 		}
 		else if(g_DrawMode == 3)
 		{
-			for (size_t i = 0; i < m_vecObjMtlTex.size(); i++)
-			{
-				g_pD3DDevice->SetMaterial(&m_vecObjMtlTex[i]->GetMaterial());
-				g_pD3DDevice->SetTexture(0, m_vecObjMtlTex[0]->GetTexture());
-				m_pObjMesh->DrawSubset(i);
-			}
 		}
 	}
 	for (auto child : m_vecChild)

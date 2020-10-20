@@ -5,7 +5,26 @@ class cCubePC;
 class cCamera; 
 class cGrid; 
 class cCubeMan; 
-class cGroup; 
+class cGroup;
+class cMesh;
+
+struct BasicObject
+{
+	D3DMATERIAL9 m_mtl;
+	LPD3DXMESH	 m_pMesh;
+	D3DXVECTOR3  m_pos;
+	float		 m_fScale;
+	D3DXMATRIXA16 m_matWorld;
+
+	BasicObject()
+	{
+		ZeroMemory(&m_mtl, sizeof(D3DMATERIAL9));
+		m_pos = { 0, 0, 0 };
+		m_fScale = 1;
+		D3DXMatrixIdentity(&m_matWorld);
+	}
+};
+
 
 class cMainGame
 {
@@ -28,10 +47,14 @@ private :
 	vector<cGroup*>			m_vecGroup; 
 	iMap*					m_pMap;
 	cFrame*					m_pRootFrame;
+	D3DXVECTOR3				m_vecPos;
+	D3DXVECTOR3				m_vecDir;
+	D3DXVECTOR3*            m_pVecTargetPos;
 	vector<cFrame*>			m_vecPFrame;
 	LPD3DXFONT				m_font;
 public :
-	void Setup(); 
+	void Setup();
+	void InputProcess();
 	void Update(); 
 	void Render(); 
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam); 
@@ -51,8 +74,10 @@ private :
 	LPD3DXMESH	 m_pMeshSphere;
 	D3DMATERIAL9 m_stMtlTeapot;
 	D3DMATERIAL9 m_stMtlSphere;
+	D3DMATERIAL9 m_stMtlSelectedSphere;
 	LPD3DXMESH	 m_pObjMesh;
 	vector<cMtlTex*> m_vecObjMtlTex;
+	vector<BasicObject*>	m_vecObject;
 public :
 	void Setup_MeshObject();
 	void Mesh_Render();
