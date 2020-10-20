@@ -80,7 +80,7 @@ private:
 	D3DMATERIAL9 m_stMtlTeapot;
 	D3DMATERIAL9 m_stMtlSphere;
 
-	BoundingSphere bs[5];
+	BoundingSphere bs[6];
 
 	LPD3DXMESH m_pObjMesh;
 	std::vector<cMtlTex*> m_vecObjMtlTex;

@@ -246,8 +246,14 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			if (raySphereIntersectionTest(&ray, &bs[i]))
 			{
-				bs[i]._check = true;
-			
+				if (bs[i]._check)
+				{
+					bs[i]._check = false;
+				}
+				else
+				{
+					bs[i]._check = true;
+				}
 			}
 			else
 			{
@@ -374,7 +380,7 @@ void cMainGame::Mesh_Render()
 			m_pMeshSphere->DrawSubset(0);
 
 
-			if(bs[j]._check)
+			if(bs[j+1]._check)
 			{
 				m_stMtlSphere.Ambient = D3DXCOLOR(5.7f, 0.7f, 0.0f, 1.0f);
 				m_stMtlSphere.Diffuse = D3DXCOLOR(5.7f, 0.7f, 0.0f, 1.0f);
