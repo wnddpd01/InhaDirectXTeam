@@ -85,11 +85,22 @@ private:
 	LPD3DXMESH m_pObjMesh;
 	std::vector<cMtlTex*> m_vecObjMtlTex;
 
+
+	std::vector<ST_SPHERE> m_vecSphere;
+	D3DMATERIAL9 m_stMtlNone;
+	D3DMATERIAL9 m_stMtlPicked;
+	D3DMATERIAL9 m_stMtlPlane;
+	std::vector<ST_PN_VERTEX> m_vecPlaneVertex;
+	D3DXVECTOR3 m_vPickedPosition;
 	
 public:
 	void Setup_MeshObject();
 	void Mesh_Render();
 
+
+	void Setup_PickingObj();
+	void PickingObj_Render();
+	
 
 public:
 	
