@@ -123,6 +123,12 @@
     <ClInclude Include="cFrame.h">
       <Filter>AseLoader</Filter>
     </ClInclude>
+    <ClInclude Include="cRay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -208,6 +214,12 @@
     </ClCompile>
     <ClCompile Include="cFrame.cpp">
       <Filter>AseLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

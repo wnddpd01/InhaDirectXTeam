@@ -7,6 +7,7 @@ class cGrid;
 class cCubeMan; 
 class cGroup;
 class cMesh;
+class cTerrain;
 
 struct BasicObject
 {
@@ -52,6 +53,7 @@ private :
 	D3DXVECTOR3*            m_pVecTargetPos;
 	vector<cFrame*>			m_vecPFrame;
 	LPD3DXFONT				m_font;
+	cTerrain*				m_pTerrain;
 public :
 	void Setup();
 	void InputProcess();
@@ -78,8 +80,17 @@ private :
 	LPD3DXMESH	 m_pObjMesh;
 	vector<cMtlTex*> m_vecObjMtlTex;
 	vector<BasicObject*>	m_vecObject;
+	vector<ST_SPHERE> m_vecSphere;
+	D3DMATERIAL9	  m_stMtlNone;
+	D3DMATERIAL9	  m_stMtlPicked;
+	D3DMATERIAL9	  m_stMtlPlane;
+	vector<ST_PN_VERTEX> m_vecPlaneVertex;
+	D3DXVECTOR3		  m_vPickedPosition;
 public :
 	void Setup_MeshObject();
 	void Mesh_Render();
+
+	void Setup_PickingObj();
+	void PickingObj_Render();
 };
 
