@@ -53,6 +53,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     MSG msg;
 
+	static DWORD frameEndTime = 0;
+	
     // Main message loop:
     while (1)
     {
@@ -70,8 +72,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     	}
 		else
         {
-			g_pMainGame->Update();
-			g_pMainGame->Render();
+			if (GetTickCount() - frameEndTime > 8)
+			{
+				g_pMainGame->KeyInput();
+				g_pMainGame->Update();
+				g_pMainGame->Render();
+				frameEndTime = GetTickCount();
+			}
         }
     }
 

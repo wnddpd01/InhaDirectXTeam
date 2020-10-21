@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="CubeMan">
+      <UniqueIdentifier>{f54201d2-813b-43c2-b743-d02257fdab39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjLoader">
+      <UniqueIdentifier>{939487a3-bf45-414f-85d4-684575f874fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{279f57a6-ee0b-42ce-898b-e6df6795a07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ASELoader">
+      <UniqueIdentifier>{842650b1-7aca-4b80-ac06-dad2598ff4ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{0d38fe7b-69ec-4abd-bc3a-d3fa32cec087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -48,7 +63,79 @@
     <ClInclude Include="cPyramid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cKids.h">
+    <ClInclude Include="cCubePNT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCubeNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBody.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cHead.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cLeftArm.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cLeftLeg.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cRightArm.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cRightLeg.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCubeMan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjectManager.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjLoader.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureManager.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cMtlTex.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cGroup.h">
+      <Filter>ObjLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="iMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Asciitok.h">
+      <Filter>ASELoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrame.h">
+      <Filter>ASELoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cAseLoader.h">
+      <Filter>ASELoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cRay.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +164,76 @@
     <ClCompile Include="cPyramid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cKids.cpp">
+    <ClCompile Include="cCubePNT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubeNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cLeftArm.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cLeftLeg.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cRightArm.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cRightLeg.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cHead.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cBody.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubeMan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cBPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureManager.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjLoader.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjectManager.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cMtlTex.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cGroup.cpp">
+      <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="iMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cFrame.cpp">
+      <Filter>ASELoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cAseLoader.cpp">
+      <Filter>ASELoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

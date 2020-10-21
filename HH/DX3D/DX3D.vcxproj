@@ -141,37 +141,79 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CasteljouMove.h" />
+    <ClInclude Include="cBody.h" />
     <ClInclude Include="cBodyCube.h" />
     <ClInclude Include="cCamera.h" />
+    <ClInclude Include="cCharacterT.h" />
     <ClInclude Include="cCharactor.h" />
     <ClInclude Include="cCube.h" />
+    <ClInclude Include="cCubeMan.h" />
+    <ClInclude Include="cCubeNode.h" />
+    <ClInclude Include="cCubePNT.h" />
     <ClInclude Include="cDeviceManager.h" />
+    <ClInclude Include="cGeomObject.h" />
     <ClInclude Include="cGrid.h" />
+    <ClInclude Include="cHead.h" />
+    <ClInclude Include="cLeftArm.h" />
+    <ClInclude Include="cLeftLeg.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cPyramid.h" />
+    <ClInclude Include="cRightArm.h" />
+    <ClInclude Include="cRightLeg.h" />
+    <ClInclude Include="cSeoLoader.h" />
     <ClInclude Include="DX3D.h" />
+    <ClInclude Include="iMap.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tGroup.h" />
+    <ClInclude Include="tMtlTex.h" />
+    <ClInclude Include="tObject.h" />
+    <ClInclude Include="tObjectManager.h" />
+    <ClInclude Include="tObjLoader.h" />
+    <ClInclude Include="tTextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CasteljouMove.cpp" />
+    <ClCompile Include="cBody.cpp" />
     <ClCompile Include="cBodyCube.cpp" />
     <ClCompile Include="cCamera.cpp" />
+    <ClCompile Include="cCharacterT.cpp" />
     <ClCompile Include="cCharactor.cpp" />
     <ClCompile Include="cCube.cpp" />
+    <ClCompile Include="cCubeMan.cpp" />
+    <ClCompile Include="cCubeNode.cpp" />
+    <ClCompile Include="cCubePNT.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
+    <ClCompile Include="cGeomObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
+    <ClCompile Include="cHead.cpp" />
+    <ClCompile Include="cLeftArm.cpp" />
+    <ClCompile Include="cLeftLeg.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cPyramid.cpp" />
+    <ClCompile Include="cRightArm.cpp" />
+    <ClCompile Include="cRightLeg.cpp" />
+    <ClCompile Include="cSeoLoader.cpp" />
     <ClCompile Include="DX3D.cpp" />
+    <ClCompile Include="iMap.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tGroup.cpp" />
+    <ClCompile Include="tMtlTex.cpp" />
+    <ClCompile Include="tObject.cpp" />
+    <ClCompile Include="tObjectManager.cpp" />
+    <ClCompile Include="tObjLoader.cpp" />
+    <ClCompile Include="tTextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc" />

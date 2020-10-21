@@ -1,11 +1,16 @@
 #pragma once
 
+class cCubeNode;
+class cBox;
+class cCubeAutoMan;
+class cHexagon;
 class cCubePC;
 class cCamera;
 class cGrid;
 class cPyramid;
 class cCharacter;
-
+class cCubeMan;
+class cGroup;
 class cMainGame
 {
 public:
@@ -32,16 +37,31 @@ private:
 	//float				m_fBoxRotY;					//박스 회전량
 	//D3DXVECTOR3			m_vBoxDirection;			//박스의 방향
 	cCubePC * m_pCubePc;
+	cHexagon * m_hexagon;
 	cCharacter * m_pCharacter;
+	cCubeMan * m_pCubeMan;
+	cCubeAutoMan * m_pCubeAutoMan;
 	cCamera * m_pCamera;
 	cGrid   * m_pGrid;
+	cBox    * m_pBox;
+
+	vector<cGroup *> m_vecMap;
+	vector<cGroup *> m_vecMapSurface;
+	cCubeNode * m_pCubeNode;
+	/*LPDIRECT3DTEXTURE9 m_pTextrue;
+	vector<ST_PT_VERTEX> m_vecVertex;*/
 
 public:
 	void Setup();
+	void KeyInput();
 	void Update();
 	void Render();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+	void ObjectCreator(string obj_file_name = "./box.obj");
+	void Set_Light();
+	void Setup_Obj();
+	void Setup_Ase();
+	void Obj_Render();
 	//void Setup_Line();
 	//void Draw_Line();
 	//void Setup_Triangle();

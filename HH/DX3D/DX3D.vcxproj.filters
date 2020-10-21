@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="CubeMan">
+      <UniqueIdentifier>{abb41a7a-c704-46a8-9c53-86045b182718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Obj">
+      <UniqueIdentifier>{1f59dbff-9189-4519-a089-fcb74e3ff6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{db1177d7-f622-42bf-a5d0-5e3e1b748dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AseParser">
+      <UniqueIdentifier>{75665a2c-53ff-4254-bf96-f42da219d8b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -57,6 +69,69 @@
     <ClInclude Include="cBodyCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cCubePNT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cLeftArm.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cLeftLeg.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cHead.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cBody.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cRightArm.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cRightLeg.h">
+      <Filter>CubeMan</Filter>
+    </ClInclude>
+    <ClInclude Include="cCubeNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharacterT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCubeMan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CasteljouMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tTextureManager.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="tObject.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="tObjectManager.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="tObjLoader.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="tGroup.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="tMtlTex.h">
+      <Filter>Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="iMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="cGeomObject.h">
+      <Filter>AseParser</Filter>
+    </ClInclude>
+    <ClInclude Include="cSeoLoader.h">
+      <Filter>AseParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +166,69 @@
     </ClCompile>
     <ClCompile Include="cBodyCube.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubePNT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cHead.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cLeftArm.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cLeftLeg.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cRightArm.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cRightLeg.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cBody.cpp">
+      <Filter>CubeMan</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubeNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharacterT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCubeMan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CasteljouMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tTextureManager.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="tGroup.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="tMtlTex.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="tObject.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="tObjectManager.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="tObjLoader.cpp">
+      <Filter>Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="iMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="cGeomObject.cpp">
+      <Filter>AseParser</Filter>
+    </ClCompile>
+    <ClCompile Include="cSeoLoader.cpp">
+      <Filter>AseParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

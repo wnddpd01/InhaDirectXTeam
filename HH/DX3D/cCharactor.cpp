@@ -85,7 +85,7 @@ void cCharactor::Setup()
 	
 	cBodyCube* leftArm = new cBodyCube(&m_matWorld, D3DXVECTOR3(-1.5f, 0.f, 0),
 		D3DXVECTOR3(0.5f, 1.5f, 0.6f),
-		D3DXVECTOR3(0.f, -1.f, 0.f));
+		D3DXVECTOR3(0.f, 1.f, 0.f));
 	leftArm->OnMove(true);
 	
 	cBodyCube* rightLeg = new cBodyCube(&m_matWorld, D3DXVECTOR3(0.5, -3, 0),

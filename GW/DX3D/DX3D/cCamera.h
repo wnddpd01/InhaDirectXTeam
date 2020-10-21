@@ -1,4 +1,7 @@
 #pragma once
+
+class cRay;
+
 class cCamera
 {
 public:
@@ -14,6 +17,8 @@ private:
 	bool m_isLButtonDown;
 	float m_fCameraDistance;
 	D3DXVECTOR3 m_vCamRotAngle;
+
+	cRay* m_pRay;
 
 public:
 	void Setup(D3DXVECTOR3* pvTarget);
