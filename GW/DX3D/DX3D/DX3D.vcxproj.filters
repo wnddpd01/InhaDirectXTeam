@@ -129,6 +129,9 @@
     <ClInclude Include="cAseLoader.h">
       <Filter>ASELoader</Filter>
     </ClInclude>
+    <ClInclude Include="cRay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="cAseLoader.cpp">
       <Filter>ASELoader</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

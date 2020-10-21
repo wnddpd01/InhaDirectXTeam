@@ -33,6 +33,7 @@ cFrame* cAseLoader::Load(char* szFullPath)
 			if (pRoot == NULL)
 			{
 				pRoot = pFrame;
+				Set_SceneFrame(pRoot);
 			}
 		}
 	}
@@ -42,6 +43,7 @@ cFrame* cAseLoader::Load(char* szFullPath)
 		SafeRelease(m_vec_mtl_tex);
 	}
 	pRoot->CaclOriginLocalTM(NULL);
+	
 	return pRoot;
 }
 
@@ -142,6 +144,7 @@ void cAseLoader::Process_MATERIAL_LIST()
 		{
 			int nIndex = GetInteger();
 			m_vecMtlTex[nIndex] = new cMtlTex;
+			m_vecMtlTex[nIndex]->SetAttrID(nIndex);
 			Process_MATERIAL(m_vecMtlTex[nIndex]);
 		}
 	} while (nLevel > 0);
@@ -248,12 +251,13 @@ cFrame* cAseLoader::Process_GEOMOBJECT()
 		}
 		else if(IsEqual(szToken, ID_TM_ANIMATION))
 		{
-			// todo
+			Process_TM_ANIMATION(pFrame);
 		}
 		else if(IsEqual(szToken, ID_MATERIAL_REF))
 		{
 			int nMtlIndex = GetInteger();
 			pFrame->SetMtlTex(m_vecMtlTex[nMtlIndex]);
+			m_vecAttr.push_back(nMtlIndex);
 		}
 	} while (nLevel > 0);
 	return pFrame;
@@ -318,6 +322,9 @@ void cAseLoader::Process_MESH(cFrame* pFrame)
 		D3DXVec3TransformNormal(&vecVertex[i].n, &vecVertex[i].n, &matInvWorld);
 	}
 	pFrame->SetVertex(vecVertex);
+	pFrame->BuildVB(vecVertex);
+	pFrame->BuildIB(vecVertex);
+	pFrame->BuildAB(vecVertex);
 }
 
 void cAseLoader::Process_MESH_VERTEX_LIST(vector<D3DXVECTOR3>& vecV)
@@ -503,10 +510,138 @@ void cAseLoader::Process_NODE_TM(cFrame* pFrame)
 	pFrame->SetWorldTM(matWorld);
 }
 
+void cAseLoader::Process_TM_ANIMATION(cFrame* pFrame)
+{
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_TRACK))
+		{
+			Process_CONTROL_POS_TRACK(pFrame);
+		}
+		else if (IsEqual(szToken, ID_ROT_TRACK))
+		{
+			Process_CONTROL_ROT_TRACK(pFrame);
+		}
+	} while (nLevel > 0);
+}
+
+void cAseLoader::Process_CONTROL_POS_TRACK(cFrame* pFrame)
+{
+	vector<ST_POS_SAMPLE> st_pos_samples;
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_POS_SAMPLE))
+		{
+			ST_POS_SAMPLE s;
+			s.n = GetInteger();
+			s.v.x = GetFloat();
+			s.v.z = GetFloat();
+			s.v.y = GetFloat();
+			st_pos_samples.push_back(s);
+		}
+	} while (nLevel > 0);
+
+	pFrame->SetPosTrack(st_pos_samples);
+}
+
+void cAseLoader::Process_CONTROL_ROT_TRACK(OUT cFrame * pFrame)
+{
+	vector<ST_ROT_SAMPLE> st_rot_samples;
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_ROT_SAMPLE))
+		{
+			ST_ROT_SAMPLE s;
+			s.n = GetInteger();
+			s.q.x = GetFloat();
+			s.q.z = GetFloat();
+			s.q.y = GetFloat();
+			s.q.w = GetFloat();
+
+			s.q.x *= sinf(s.q.w / 2.f);
+			s.q.y *= sinf(s.q.w / 2.f);
+			s.q.z *= sinf(s.q.w / 2.f);
+			s.q.w = cosf(s.q.w / 2.f);
+
+			if(!st_rot_samples.empty())
+			{
+				s.q = st_rot_samples.back().q * s.q;
+			}
+			st_rot_samples.push_back(s);
+		}
+	} while (nLevel > 0);
+
+	pFrame->SetRotTrack(st_rot_samples);
+}
+
 void cAseLoader::Process_Scene()
 {
+	int nLevel = 0;
+	do
+	{
+		char * szToken = GetToken();
+		if (IsEqual(szToken, "{"))
+		{
+			++nLevel;
+		}
+		else if (IsEqual(szToken, "}"))
+		{
+			--nLevel;
+		}
+		else if (IsEqual(szToken, ID_FIRSTFRAME))
+		{
+			m_dwFirstFrame = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_LASTFRAME))
+		{
+			m_dwLastFrame = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_FRAMESPEED))
+		{
+			m_dwFrameSpeed = GetInteger();
+		}
+		else if (IsEqual(szToken, ID_TICKSPERFRAME))
+		{
+			m_dwTicksPerFrame = GetInteger();
+		}
+	} while (nLevel > 0);
 }
 
 void cAseLoader::Set_SceneFrame(cFrame* pRoot)
 {
+	pRoot->m_dwFirstFrame =  m_dwFirstFrame;
+	pRoot->m_dwLastFrame = m_dwLastFrame;
+	pRoot->m_dwFrameSpeed = m_dwFrameSpeed;
+	pRoot->m_dwTicksPerFrame = m_dwTicksPerFrame;
+	
 }

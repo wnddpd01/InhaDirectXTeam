@@ -8,6 +8,7 @@ class cCharactor;
 class CasteljouMove;
 class tGroup;
 class cGeomObject;
+class cSeoGroup;
 
 class cCubeMan;
 
@@ -45,7 +46,7 @@ private:
 	std::vector<tGroup*>		m_vecSurfGroup;
 	
 	std::vector<cGeomObject*>	m_vecGeomObject;
-	
+	std::vector<cSeoGroup*>		m_vecSeoGroup;
 	std::vector<ST_PT_VERTEX>	m_vecVertex;
 	
 	

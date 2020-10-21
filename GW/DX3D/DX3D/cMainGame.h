@@ -10,6 +10,17 @@ class cGroup;
 class cLight;
 class cBPath;
 class cFrame;
+class cMtlTex;
+
+class cRay;
+
+struct BoundingSphere
+{
+	D3DXVECTOR3 _center;
+	float _radius;
+	bool _check = false;
+};
+
 
 class cMainGame
 {
@@ -38,6 +49,12 @@ private:
 
 	cFrame* m_pRootFrame;
 	
+	LPD3DXFONT m_pFont;
+	D3DXFONT_DESC fd;
+	
+	cRay* m_pRay;
+
+
 	
 public:
 	void Setup();
@@ -52,6 +69,48 @@ public:
 	void Obj_Render();
 
 	void Load_Surface();
+
+
+// mesh
+private:
+	LPD3DXMESH m_pMeshTeapot;
+	LPD3DXMESH m_pMeshSphere;
+
+	
+	D3DMATERIAL9 m_stMtlTeapot;
+	D3DMATERIAL9 m_stMtlSphere;
+
+	BoundingSphere bs[6];
+
+	LPD3DXMESH m_pObjMesh;
+	std::vector<cMtlTex*> m_vecObjMtlTex;
+
+	
+public:
+	void Setup_MeshObject();
+	void Mesh_Render();
+
+
+public:
+	
+	
+	struct Ray
+	{
+		D3DXVECTOR3 _origin;
+		D3DXVECTOR3 _direction;
+	};
+
+	Ray CalcPickingRay(int x, int y);
+	void TransformRay(Ray* ray, D3DXMATRIX* T);
+
+
+
+
+	bool raySphereIntersectionTest(Ray* ray, BoundingSphere* sphere);
+
+
+
+
 	
 };
 

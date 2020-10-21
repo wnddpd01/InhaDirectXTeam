@@ -7,8 +7,9 @@ class cGrid
 public:
 	cGrid();
 	~cGrid();
+	vector<ST_PC_VERTEX>	m_vecVertex;
 private :
-	vector<ST_PC_VERTEX>	m_vecVertex; 
+	D3DMATERIAL9 m_stMtl;
 	vector<cPyramid*>		m_vecPyramid; 
 	std::vector<ST_PN_VERTEX>   m_vecBoardVertex;
 public :
