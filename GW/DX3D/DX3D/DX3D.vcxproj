@@ -171,6 +171,7 @@
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cRightArm.h" />
     <ClInclude Include="cRightLeg.h" />
+    <ClInclude Include="cTerrain.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="DX3D.h" />
     <ClInclude Include="iMap.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cRightArm.cpp" />
     <ClCompile Include="cRightLeg.cpp" />
+    <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="DX3D.cpp" />
     <ClCompile Include="iMap.cpp" />
