@@ -319,8 +319,6 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 	vector<ST_PNT_VERTEX>	vecVertex;
 	vector<ST_ABC_INDEX>	vecIndex;
 
-	
-
 	int nLevel = 0;
 	do {
 		char* szToken = GetToken();
@@ -368,15 +366,21 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 
 	D3DXMATRIXA16 matInvWorld;
 	D3DXMatrixInverse(&matInvWorld, 0, &pFrame->GetWorldTM());
+	
 	for (size_t i = 0; i < vecVertex.size(); i++)
 	{
 		D3DXVec3TransformCoord(&vecVertex[i].p, &vecVertex[i].p, &matInvWorld);
 		D3DXVec3TransformNormal(&vecVertex[i].n, &vecVertex[i].n, &matInvWorld);
 	}
+	pFrame->BuildVB(vecVertex);
+
 	
 	//pFrame->SetVertex(vecVertex);
 	//버텍스버퍼를 위해 제거
+	//
+	//
 	//인덱스 버퍼
+	/*
 	
 	for (auto ver : vecV)
 	{
@@ -387,10 +391,10 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 	D3DXMATRIXA16 inTemp;
 	D3DXMatrixInverse(&inTemp, NULL, &pFrame->GetWorldTM());
 
-	/*
+	
 	for (auto ver : pFrame->GetVertex4Index())
-		D3DXVec3TransformCoord(&ver.p, &ver.p, &inTemp);
-	*/
+	D3DXVec3TransformCoord(&ver.p, &ver.p, &inTemp);
+	
 	
 	for (auto ver : vecIndex)
 	{
@@ -399,7 +403,8 @@ void cAseLoader::ProcessMESH(cFrame* pFrame)
 	
 	pFrame->BuildVB(pFrame->GetVertex4Index());
 	pFrame->BuildIB();
-	//pFrame->BuildVB(vecVertex);
+	//
+	*/
 	
 }
 

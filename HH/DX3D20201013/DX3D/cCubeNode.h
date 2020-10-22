@@ -24,7 +24,9 @@ public :
 
 	virtual void Setup() override; 
 	virtual void Update() override; 
-	virtual void Render() override; 
+	virtual void Render() override;
+
+	void multiLocalMat(D3DXMATRIXA16& lookto);
 
 	
 

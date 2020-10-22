@@ -8,6 +8,7 @@ cDeviceManager::cDeviceManager()
 {
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
+	
 	D3DCAPS9	stCaps;
 	int			nVertexProcessing;
 	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &stCaps);
@@ -30,8 +31,8 @@ cDeviceManager::cDeviceManager()
 	stD3DPP.BackBufferFormat = D3DFMT_UNKNOWN;
 	stD3DPP.EnableAutoDepthStencil = TRUE;
 	stD3DPP.AutoDepthStencilFormat = D3DFMT_D16;
-	stD3DPP.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	
+	//stD3DPP.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
 	m_pD3D->CreateDevice(D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL, g_hWnd,
 		nVertexProcessing, &stD3DPP,

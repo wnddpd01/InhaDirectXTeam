@@ -1,11 +1,14 @@
 #pragma once
 #include "cMtlTex.h"
+class Ray;
 class cCubePC; 
 class cCamera; 
 class cGrid; 
 class cCubeMan; 
 class cGroup;
 class cFrame;
+class MapObjectCenter;
+class HeightMap;
 
 class cMainGame
 {
@@ -31,7 +34,13 @@ private :
 	cFrame*					m_pRootFrame;
 	cFrame*					m_pRootFrame2;
 
-	LPD3DXFONT m_pFont;
+	MapObjectCenter*		m_MapObjCenter;
+	Ray*					m_pRay;
+
+	HeightMap*				m_pHeightMap;
+	
+	LPD3DXFONT				m_pFont;
+	
 public :
 	void Setup(); 
 	void Update(); 
@@ -47,6 +56,8 @@ public :
 	void Obj_Render(); 
 
 	void Load_Surface();
+	D3DXVECTOR3 LParam2Vec3(LPARAM lParam);
+	
 
 private:
 	LPD3DXMESH		m_pMeshTeapot;
@@ -59,6 +70,8 @@ private:
 	
 	LPD3DXMESH			m_pGirlMesh;
 	vector<cMtlTex*>	m_vecGirlMtlTex;
+
+	PickingMap		m_PickingMap;
 	
 public:
 	void Setup_MeshObject();

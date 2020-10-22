@@ -6,6 +6,7 @@
 #include "cLeftLeg.h"
 #include "cRightLeg.h"
 #include "cHead.h"
+#include "HeightMap.h"
 
 #include "cCubeMan.h"
 
@@ -25,9 +26,9 @@ cCubeMan::~cCubeMan()
 	SafeRelease(m_pTexture); 
 }
 
-void cCubeMan::Setup()
+void cCubeMan::Setup(HeightMap* hMap)
 {
-	cCharacter::Setup(); 
+	cCharacter::Setup(hMap);
 
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9)); 
 	m_stMtl.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f); 
@@ -65,13 +66,29 @@ void cCubeMan::Setup()
 	pRLeg->Setup();
 	pRLeg->SetRotDeltaX(0.1f);
 	m_pRoot->AddChild(pRLeg);
+	
+	m_vDirection = { 0,0,0 };
 }
 
-void cCubeMan::Update(iMap* pMap)
+void cCubeMan::Update()
 {
-	cCharacter::Update(pMap); 
+	cCharacter::Update();
+
+	//m_vDirection = m_LookAt - m_vPosition;
+	//D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+
+	//m_vPosition += m_vDirection*0.1f;
+	
 	if (m_pRoot)
-		m_pRoot->Update(); 
+		m_pRoot->Update();
+
+	m_vPosition.y = m_pHeightMap->GetHeight(m_vPosition);
+
+	/*
+	D3DXMATRIXA16  matR;
+	D3DXMatrixLookAtLH(&matR, &m_vPosition, &m_LookAt, &D3DXVECTOR3(0, 1.f, 0));
+	m_pRoot->multiLocalMat(matR);
+	*/
 }
 
 void cCubeMan::Render()
@@ -83,14 +100,22 @@ void cCubeMan::Render()
 
 		cCharacter::Render(); 
 
-		D3DXMATRIXA16 matWorld; 
-		D3DXMatrixIdentity(&matWorld); 
+		D3DXMATRIXA16 matWorld, matR; 
+		D3DXMatrixIdentity(&matWorld);
+		
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld); 
 		g_pD3DDevice->SetTexture(0, m_pTexture); 
 		if (m_pRoot)
 			m_pRoot->Render(); 
 		g_pD3DDevice->SetTexture(0,NULL);
 	}
+}
+
+void cCubeMan::SetLookat(D3DXVECTOR3 lookAt)
+{
+	m_LookAt = lookAt;
+	
+
 }
 
 /* 

@@ -1,4 +1,6 @@
 #pragma once
+class HeightMap;
+
 class cCharacter
 {
 public:
@@ -10,14 +12,16 @@ protected :
 	D3DXVECTOR3		m_vPosition; 
 	D3DXMATRIXA16	m_matWorld; 
 
-	iMap*			m_pMap; 
+	HeightMap*		m_pHeightMap;
+	
 public : 
 	virtual ~cCharacter(void); 
 
-	virtual void Setup(); 
-	virtual void Update(iMap* pMap); 
+	virtual void Setup(HeightMap* hMap);
+	virtual void Update(); 
 	virtual void Render(); 
-	virtual D3DXVECTOR3& GetPosition(); 
+	virtual D3DXVECTOR3& GetPosition();
+
 
 };
 

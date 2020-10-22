@@ -169,8 +169,14 @@
     <ClInclude Include="cRightLeg.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="DX3D.h" />
+    <ClInclude Include="HeightMap.h" />
     <ClInclude Include="iMap.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MapObjectCenter.h" />
+    <ClInclude Include="PickingMap.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -201,7 +207,13 @@
     <ClCompile Include="cRightLeg.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="DX3D.cpp" />
+    <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="iMap.cpp" />
+    <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="MapObjectCenter.cpp" />
+    <ClCompile Include="PickingMap.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

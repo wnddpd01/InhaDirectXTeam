@@ -105,6 +105,15 @@ struct ST_ABC_INDEX
 	WORD a, b, c;
 };
 
+/*
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+*/
+
+#define Lerp(u, v, s) {   }
 
 #define Synthesize(varType , varName , funName) \
 protected : varType varName ; \
@@ -141,4 +150,5 @@ public : virtual void Set##funName(varType var ) { \
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+#include "PickingMap.h"
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cCamera.h"
+#include "Ray.h"
 
 
 cCamera::cCamera()
@@ -22,16 +23,18 @@ cCamera::~cCamera()
 
 void cCamera::Setup(D3DXVECTOR3 * pvTarget)
 {
+
+	
 	m_pvTarget = pvTarget; 
 
 	RECT rc; 
 	GetClientRect(g_hWnd, &rc); 
 
-	D3DXMATRIXA16   matProj; 
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F,
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, D3DX_PI / 4.0F,
 		rc.right / (float)rc.bottom, 1.0f, 1000.0f); 
 
-	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj); 
+	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProjection);
+
 }
 
 void cCamera::Update()
@@ -55,7 +58,8 @@ void cCamera::Update()
 	D3DXMATRIXA16 matView; 
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp); 
 
-	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView); 
+	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+
 }
 
 void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -63,9 +67,13 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_LBUTTONDOWN :
-		m_ptPrevMouse.x = LOWORD(lParam); 
-		m_ptPrevMouse.y = HIWORD(lParam);
-		m_isLButtonDown = true; 
+		if(wParam & MK_SHIFT)
+		{
+			m_ptPrevMouse.x = LOWORD(lParam);
+			m_ptPrevMouse.y = HIWORD(lParam);
+			m_isLButtonDown = true;
+		}
+
 		break; 
 
 	case WM_LBUTTONUP :
@@ -96,9 +104,20 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		m_fCameraDistance -= (GET_WHEEL_DELTA_WPARAM(wParam) / 30.0f); 
 		if (m_fCameraDistance < 0.0001f)
 			m_fCameraDistance = 0.0001f; 
+		break;
+		
 
-		break; 
 	}
+}
+
+D3DXMATRIXA16 cCamera::GetProjectionMat()
+{
+	return this->GetProjectionMat();
+}
+
+D3DXVECTOR3 cCamera::GetvEye()
+{
+	return m_vEye;
 }
 
 

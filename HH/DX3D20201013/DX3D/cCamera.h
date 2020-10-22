@@ -1,4 +1,6 @@
 #pragma once
+class Ray;
+
 class cCamera
 {
 public:
@@ -13,12 +15,18 @@ private :
 	POINT			m_ptPrevMouse; 
 	bool			m_isLButtonDown; 
 	float			m_fCameraDistance; 
-	D3DXVECTOR3		m_vCamRotAngle; 
+	D3DXVECTOR3		m_vCamRotAngle;
+
+	D3DXMATRIXA16	m_matProjection;
+
+	
 
 public :
 	void Setup(D3DXVECTOR3* pvTarget); 
 	void Update(); 
 
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam); 
+	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	D3DXMATRIXA16 GetProjectionMat();
+	D3DXVECTOR3 GetvEye();
 };
 

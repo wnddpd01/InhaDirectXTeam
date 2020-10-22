@@ -8,6 +8,7 @@ cFrame::cFrame()
 	, m_pIB(NULL)
 	, m_nNumTri(0)
 	, m_pMesh(NULL)
+	, m_pvDir(NULL)
 {
 	D3DXMatrixIdentity(&m_matLocalTM);
 	D3DXMatrixIdentity(&m_matWorldTM);
@@ -20,13 +21,18 @@ cFrame::~cFrame()
 	SafeRelease(m_pVB);
 	SafeRelease(m_pIB);
 	SafeRelease(m_pMesh);
+	SafeDelete(m_pvDir);
 }
 
 void cFrame::Update(int nKeyFrame, D3DXMATRIXA16* pmatParent)
 {
+	D3DXMATRIXA16		matLocalR, matLocalT;
+	D3DXMatrixIdentity(&matLocalR);
 	D3DXMATRIXA16		matR, matT;
 	CalcLocalR(nKeyFrame, matR);
 	CalcLocalT(nKeyFrame, matT);
+
+
 	m_matLocalTM = matR * matT;
 	
 	m_matWorldTM = m_matLocalTM;
@@ -57,7 +63,7 @@ void cFrame::Render()
 		g_pD3DDevice->SetStreamSource(0, m_pVB, 0, sizeof(ST_PNT_VERTEX));
 		g_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_nNumTri);
 		//g_pD3DDevice->DrawIndexedPrimitive()
-		
+		g_pD3DDevice->SetTexture(0, NULL);
 	}
 
 	for each (auto c in m_vecChild)
@@ -310,4 +316,13 @@ void cFrame::BuildMesh()
 		&vecAdj[0], 0, 0, 0);
 
 	return;
+}
+
+void cFrame::SetDir(D3DXVECTOR3 dir)
+{
+	m_pvDir = new D3DXVECTOR3(dir);
+	D3DXVec3Normalize(m_pvDir, m_pvDir);
+	
+	//for each(auto c in m_vecChild)
+	//	c->SetDir(dir);
 }

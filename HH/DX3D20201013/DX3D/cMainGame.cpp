@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "cMainGame.h"
 
 #include <iostream>
@@ -7,18 +8,23 @@
 #include "cCamera.h"
 #include "cCubePC.h"
 #include "cGrid.h"
+
 #include "cCubeMan.h"
 #include "cObjLoader.h"
 #include "cGroup.h"
 #include "cObjMap.h"
 #include "cAseLoader.h"
+#include "Sphere.h"
+#include "MapObjectCenter.h"
+#include "Ray.h"
+#include "HeightMap.h"
 #include "cFrame.h"         // << : 
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	, m_pCamera(NULL)
 	, m_pGrid(NULL)
-	, m_pCubeMan(NULL) 
+	, m_pCubeMan(NULL)
 	, m_pTexture(NULL)
 	, m_pMap(NULL)
 	, m_pRootFrame(NULL)
@@ -27,6 +33,9 @@ cMainGame::cMainGame()
 	, m_pMeshSphere(NULL)
 	, m_pObjMesh(NULL)
 	, m_pGirlMesh(NULL)
+	, m_MapObjCenter(NULL)
+	, m_pRay(NULL)
+	, m_pHeightMap(NULL)
 {
 }
 
@@ -43,7 +52,9 @@ cMainGame::~cMainGame()
 	SafeRelease(m_pMeshSphere);
 	SafeRelease(m_pObjMesh);
 	SafeRelease(m_pGirlMesh);
-
+	SafeDelete(m_MapObjCenter);
+	SafeDelete(m_pRay);
+	SafeDelete(m_pHeightMap);
 	for each(auto p in m_vecGirlMtlTex)
 	{
 		SafeRelease(p);
@@ -70,14 +81,14 @@ cMainGame::~cMainGame()
 void cMainGame::Setup()
 {
 	
-
-
-	
 	m_pCubePC = new cCubePC; 
 	m_pCubePC->Setup(); 
 
+	m_pHeightMap = new HeightMap;
+	m_pHeightMap->Setup(L"../HeightMapData/HeightMap.raw");
+	
 	m_pCubeMan = new cCubeMan; 
-	m_pCubeMan->Setup(); 
+	m_pCubeMan->Setup(m_pHeightMap); 
 
 	m_pCamera = new cCamera; 
 	m_pCamera->Setup(&m_pCubeMan->GetPosition()); 
@@ -86,20 +97,36 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid; 
 	m_pGrid->Setup(); 
 
+	
+	//m_pRay = new Ray;
+	
 	{
 		cAseLoader l;
-		//m_pRootFrame = l.Load("woman/woman_01_all.ASE");
-		m_pRootFrame2 = l.Load("woman/woman_01_all.ASE");
+		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
+		//m_pRootFrame2 = l.Load("woman/woman_01_all.ASE");
 		//m_pRootFrame2->BuildIB();
 	}
 
-	
-	Setup_Texture(); 
-	Setup_Obj(); 
-	Set_Light();
+	/*
+	m_MapObjCenter = new MapObjectCenter;
 
-	Setup_MeshObject();
+	for(int i = -8; i <= 8 ; i += 2)
+	{
+		new Sphere(m_MapObjCenter, D3DXVECTOR3(0,0, i));
+	}
+
+	m_MapObjCenter->Setup();
+
+	//Setup_Texture(); 
+	//Setup_Obj(); 
 	
+
+	m_PickingMap.SetupBoard();
+
+	//Setup_MeshObject();
+	*/
+	
+	Set_Light();
 
 
 	//폰트 생성
@@ -126,7 +153,7 @@ void cMainGame::Update()
 	//	m_pCubePC->Update(); 
 
 	if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap); 
+		m_pCubeMan->Update(); 
 
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -134,8 +161,8 @@ void cMainGame::Update()
 	if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
 
-	if (m_pRootFrame2)
-		m_pRootFrame2->Update(m_pRootFrame2->GetKeyFrame(), NULL);
+	//if (m_pRootFrame2)
+	//	m_pRootFrame2->Update(m_pRootFrame2->GetKeyFrame(), NULL);
 }
 
 void cMainGame::Render()
@@ -149,22 +176,25 @@ void cMainGame::Render()
 	static chrono::system_clock::time_point lastTime;
 	lastTime = std::chrono::system_clock::now();
 	
+//	m_PickingMap.RenderBoard();
+	m_pHeightMap->Render();
 	
-
 	if (m_pGrid)
-		m_pGrid->Render(); 
+		m_pGrid->Render();
+
+	//m_MapObjCenter->Render();
 	
 	//if (m_pCubePC)
 	//	m_pCubePC->Render(); 
 	//
 
-	//if (m_pCubeMan)
-	//	m_pCubeMan->Render(); 
+	if (m_pCubeMan)
+		m_pCubeMan->Render(); 
 
 	//Draw_Texture(); 
 
 	{
-		for(int i = 0; i < 10; i++)
+		for(int i = 0; i < 1; i++)
 		{
 			//Mesh_Render();
 			
@@ -172,15 +202,14 @@ void cMainGame::Render()
 			
 			//if (m_pRootFrame)
 			//	m_pRootFrame->Render();
-			if (m_pRootFrame2)
-				m_pRootFrame2->RenderIndex();
+			
+			//if (m_pRootFrame2)
+			//	m_pRootFrame2->RenderIndex();
 		}
 		
 		
 	}
 
-
-	
 	chrono::duration<double> time = chrono::system_clock::now() - lastTime;
 	
 	if (m_pFont)
@@ -205,7 +234,44 @@ void cMainGame::Render()
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
-		m_pCamera->WndProc(hWnd, message, wParam, lParam); 
+		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+
+	/*
+	switch (message)
+	{
+	case WM_LBUTTONDOWN:
+	{
+		if(!(wParam & MK_SHIFT))
+		{
+			m_pRay->SetStart(m_pCamera->GetvEye());
+			m_pRay->SetDir(LParam2Vec3(lParam));
+
+			for (auto i : m_MapObjCenter->GetVecMapObj())
+			{
+				if (m_pRay->CheckCollisionMesh(*i))
+				{
+					i->ToggleMtl();
+					break;
+				}
+			}
+		}
+	}
+	break;
+		
+	case WM_RBUTTONDOWN:
+	{
+		if (!(wParam & MK_SHIFT))
+		{
+			m_pRay->SetStart(m_pCamera->GetvEye());
+			m_pRay->SetDir(LParam2Vec3(lParam));
+			m_pRay->CheckCollisionBoard(m_PickingMap);
+			m_pRootFrame->SetDir(m_PickingMap.GetWayPoint());
+			m_pCubeMan->SetLookat(m_PickingMap.GetWayPoint());
+		}
+	}
+	break;
+	}
+	*/
 }
 
 void cMainGame::Set_Light()
@@ -274,7 +340,6 @@ void cMainGame::Setup_Obj()
 {
 	cObjLoader l; 
 	l.Load(m_vecGroup, "obj", "map.obj"); 
-
 	Load_Surface();
 }
 
@@ -299,6 +364,25 @@ void cMainGame::Load_Surface()
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
 	matWorld = matS * matR;
 	m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
+}
+
+D3DXVECTOR3 cMainGame::LParam2Vec3(LPARAM lParam)
+{
+	D3DXVECTOR3 temp(LOWORD(lParam), HIWORD(lParam),1.f);
+	D3DXVECTOR3 result;
+	D3DVIEWPORT9 viewport;
+	g_pD3DDevice->GetViewport(&viewport);
+	D3DXMATRIXA16 matProj, matView, matWorld;
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matWorld);
+	
+	D3DXVec3Unproject(&result, &temp, &viewport, &matProj,
+		&matView, &matWorld);
+
+	result = result - m_pCamera->GetvEye();
+	
+	return result;
 }
 
 void cMainGame::Setup_MeshObject()

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cCharacter.h"
 
-
+#include "HeightMap.h"
 cCharacter::cCharacter()
 	: m_fRotY(0.0f)
 	, m_vDirection(0,0,1)
@@ -15,13 +15,14 @@ cCharacter::~cCharacter()
 {
 }
 
-void cCharacter::Setup()
+void cCharacter::Setup(HeightMap* hMap)
 {
+	m_pHeightMap = hMap;
 }
 
-void cCharacter::Update(iMap* pMap )
+void cCharacter::Update()
 {
-	m_pMap = pMap; 
+	//m_pMap = pMap; 
 	if (GetKeyState('A') & 0X8000)
 	{
 		m_fRotY -= 0.1f;
@@ -35,11 +36,11 @@ void cCharacter::Update(iMap* pMap )
 	D3DXVECTOR3 vPosition = m_vPosition; 
 	if (GetKeyState('W') & 0X8000)
 	{
-		vPosition = m_vPosition + (m_vDirection*0.1f);
+		m_vPosition += (m_vDirection*0.5f);
 	}
 	if (GetKeyState('S') & 0X8000)
 	{
-		vPosition = m_vPosition - (m_vDirection*0.1f);
+		m_vPosition -= (m_vDirection*0.5f);
 	}
 
 	RECT rc;
@@ -50,7 +51,7 @@ void cCharacter::Update(iMap* pMap )
 
 	m_vDirection = D3DXVECTOR3(0, 0, 1);
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-
+	/*
 	if (pMap)
 	{
 		if (pMap->GetHeight(vPosition.x, vPosition.y, vPosition.z))
@@ -58,7 +59,7 @@ void cCharacter::Update(iMap* pMap )
 			m_vPosition = vPosition; 
 		}
 	}
-	
+	*/
 	D3DXMatrixTranslation(&matT, 
 		m_vPosition.x, 
 		m_vPosition.y + 0.9f, 

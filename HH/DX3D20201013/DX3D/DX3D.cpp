@@ -83,9 +83,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			g_pMainGame->Render();
 			//system("cls");
 			
-
-
-			
 		}
     }
 

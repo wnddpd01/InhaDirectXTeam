@@ -25,6 +25,9 @@
     <Filter Include="ASELoader">
       <UniqueIdentifier>{30e2725f-efd5-4623-b735-74ace9cccee3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\HeightMap">
+      <UniqueIdentifier>{a9076641-7f08-48a3-a76f-1bcbdd75e6a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -123,6 +126,24 @@
     <ClInclude Include="cFrame.h">
       <Filter>ASELoader</Filter>
     </ClInclude>
+    <ClInclude Include="MapObjectCenter.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="PickingMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>Map\HeightMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -208,6 +229,24 @@
     </ClCompile>
     <ClCompile Include="cAseLoader.cpp">
       <Filter>ASELoader</Filter>
+    </ClCompile>
+    <ClCompile Include="PickingMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjectCenter.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>Map\HeightMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -132,6 +132,9 @@
     <ClInclude Include="cSeoLoader.h">
       <Filter>AseParser</Filter>
     </ClInclude>
+    <ClInclude Include="cSeoGroup.h">
+      <Filter>AseParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -228,6 +231,9 @@
       <Filter>AseParser</Filter>
     </ClCompile>
     <ClCompile Include="cSeoLoader.cpp">
+      <Filter>AseParser</Filter>
+    </ClCompile>
+    <ClCompile Include="cSeoGroup.cpp">
       <Filter>AseParser</Filter>
     </ClCompile>
   </ItemGroup>

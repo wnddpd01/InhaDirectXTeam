@@ -1,6 +1,15 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,c++,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,c++,windows
 
+### edit hyunho ###
+*.png
+*.jpg
+*.bmp
+*.ase
+*.tga
+*.raw
+
+
 ### C++ ###
 # Prerequisites
 *.d

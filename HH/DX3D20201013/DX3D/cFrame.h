@@ -26,6 +26,7 @@ private:
 	Synthesize_Pass_by_Ref(vector<ST_ROT_SAMPLE>, m_vecRotTrack, RotTrack);
 
 	LPD3DXMESH			m_pMesh;
+	D3DXVECTOR3*		m_pvDir;
 
 public:
 	void Update(int nKeyFrame, D3DXMATRIXA16* pmatParent);
@@ -57,5 +58,6 @@ public:
 	void BuildVB(vector<ST_PNT_VERTEX>& vecVertex);
 	void BuildIB();
 	void BuildMesh();
+	void SetDir(D3DXVECTOR3 dir);
 };
 

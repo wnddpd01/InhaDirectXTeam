@@ -161,6 +161,7 @@
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRightArm.h" />
     <ClInclude Include="cRightLeg.h" />
+    <ClInclude Include="cSeoGroup.h" />
     <ClInclude Include="cSeoLoader.h" />
     <ClInclude Include="DX3D.h" />
     <ClInclude Include="iMap.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRightArm.cpp" />
     <ClCompile Include="cRightLeg.cpp" />
+    <ClCompile Include="cSeoGroup.cpp" />
     <ClCompile Include="cSeoLoader.cpp" />
     <ClCompile Include="DX3D.cpp" />
     <ClCompile Include="iMap.cpp" />

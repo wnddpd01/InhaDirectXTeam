@@ -84,3 +84,8 @@ void cCubeNode::Render()
 		p->Render(); 
 	}
 }
+
+void cCubeNode::multiLocalMat(D3DXMATRIXA16& lookto)
+{
+	m_matLocalTM = lookto;
+}
