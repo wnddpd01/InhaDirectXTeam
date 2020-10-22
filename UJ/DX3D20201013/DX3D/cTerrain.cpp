@@ -66,7 +66,7 @@ cTerrain * cTerrain::LoadFromRawFile(char* fileDir)
 		}
 	}
 
-	D3DXCreateMeshFVF(new_terrain->m_vecVertex.size() / 3, new_terrain->m_vecVertex.size(), D3DXMESH_MANAGED, ST_PNT_VERTEX::FVF, g_pD3DDevice, &new_terrain->m_mesh);
+	D3DXCreateMeshFVF(new_terrain->m_vecVertex.size() / 3, new_terrain->m_vecVertex.size(), D3DXMESH_MANAGED |D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pD3DDevice, &new_terrain->m_mesh);
 	
 	
 	return new_terrain;
