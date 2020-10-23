@@ -10,6 +10,8 @@ class cXfileLoader;
 
 class cSkinnedMesh;
 
+class CFrustum;
+
 class cMainGame
 {
 public:
@@ -37,7 +39,8 @@ private :
 	//cXfileLoader* m_pXfileLoader;
 
 	cSkinnedMesh* m_pSkinnedMesh;
-	
+
+	CFrustum* m_pFrustum;
 	
 public :
 	void Setup(); 

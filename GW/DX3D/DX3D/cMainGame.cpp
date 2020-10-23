@@ -101,19 +101,19 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
-	Setup_Obj();
+	//Setup_Obj();
 
-	{
+	/*{
 		cAseLoader l;
 		
 		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
-	}
+	}*/
 
-	m_pLight = new cLight;
+	/*m_pLight = new cLight;
 	m_pLight->Setup();
 
 	m_pBPath = new cBPath;
-	m_pBPath->Setup();
+	m_pBPath->Setup();*/
 
 	
 	Setup_PickingObj();
@@ -128,8 +128,8 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 
-	if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap);
+	/*if (m_pCubeMan)
+		m_pCubeMan->Update(m_pMap);*/
 	
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -154,8 +154,8 @@ void cMainGame::Render()
 
 	
 	
-	/*if (m_pGrid)
-		m_pGrid->Render();*/
+	if (m_pGrid)
+		m_pGrid->Render();
 
 
 	PickingObj_Render();
@@ -401,7 +401,7 @@ void cMainGame::Mesh_Render()
 
 	
 
-	/*	int i = 0;
+		/*int i = 0;
 		for (int j = 0 ; j<5; j++)
 		{
 			
@@ -585,3 +585,10 @@ bool cMainGame::raySphereIntersectionTest(Ray* ray, BoundingSphere* sphere)
 }
 
 
+/*
+D3DXVec3Unproject(vertex1, vertex2, NULL, proj, view, NULL); 공간상 뷰에 위치에서 바라보는 절두체의 면을 생성
+
+D3DXPlaneFromPoints(OUT 면 plane , v1, v2, v3);
+
+D3DXPlaneDotCoord(plane, vC); 값이 양수인가 음수인가 판별 (앞에있는가 뒤에있는가) 이걸로 그릴지 말지 판별  
+ */

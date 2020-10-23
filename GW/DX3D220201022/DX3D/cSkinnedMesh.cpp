@@ -5,6 +5,9 @@
 cSkinnedMesh::cSkinnedMesh()
 	: m_pRoot(NULL)
 	, m_pAnimController(NULL)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
 {
 }
 
@@ -39,7 +42,38 @@ void cSkinnedMesh::Setup(char* szFolder, char* szFile)
 
 void cSkinnedMesh::Update()
 {
+	
+	if(m_isAnimBlend)
+	{
+		
+		m_fPassedBlendTime += g_pTimeManager->GetElapsedTime();
+		if(m_fPassedBlendTime >= m_fBlendTime)
+		{
+			m_isAnimBlend = false;
+			m_pAnimController->SetTrackWeight(0, 1.0f);
+			m_pAnimController->SetTrackEnable(1, false);
+		}
+		else
+		{
+			float fWeight = m_fPassedBlendTime / m_fBlendTime;
+			m_pAnimController->SetTrackWeight(0, fWeight);
+			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
+		}
+		
+	}
+	 
+	LPD3DXANIMATIONSET curAnimation;
+
+	m_pAnimController->GetTrackAnimationSet(0, &curAnimation);
+	
+	if(GetTickCount() - startAnimation > curAnimation->GetPeriod()*1000-500)
+	{
+		SetAnimationIndexBlend(4);
+	}
+
+	
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+
 	Update(m_pRoot, NULL);
 	UpdateSkinnedMesh(m_pRoot);
 }
@@ -175,5 +209,53 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		UpdateSkinnedMesh(pFrame->pFrameSibling);
 
 	
+	
+}
+
+void cSkinnedMesh::SetAnimationIndex(int nIndex)
+{
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (nIndex > num)nIndex = nIndex% num;
+
+	LPD3DXANIMATIONSET pAnimSet = NULL;
+	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
+
+	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	//m_pAnimController->ResetTime(); 
+	
+	m_pAnimController->GetPriorityBlend();
+	
+	
+}
+
+void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
+{
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
+
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (nIndex > num) nIndex = nIndex%num;
+
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	SafeRelease(pPrevAnimSet);
+	SafeRelease(pNextAnimSet);
+
+	startAnimation = GetTickCount();
 	
 }
