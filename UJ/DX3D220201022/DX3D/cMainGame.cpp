@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+
+#include <iostream>
+
 #include "cDeviceManager.h"
 #include "cCamera.h"
 #include "cCubePC.h"
@@ -88,12 +91,25 @@ void cMainGame::Setup()
 	//Setup_Texture(); 
 	//Setup_Obj(); 
 	Set_Light(); 
-	//Setup_HeightMap();
-	//Setup_MeshObject(); 
+	Setup_HeightMap();
+	Setup_MeshObject(); 
 	//Setup_PickingObj();
-
+	int numSphere = 30;
+	for (int x = 0; x < numSphere; ++x)
+	{
+		for (int y = 0; y < numSphere; ++y)
+		{
+			for (int z = 0; z < numSphere; ++z)
+			{
+				ST_SPHERE s;
+				s.fRadius = 0.8f;
+				s.vCenter = D3DXVECTOR3(-numSphere * 0.5f + x + 0.5f, -numSphere * 0.5f + y + 0.5f, -numSphere * 0.5f + z + 0.5f);
+				m_vecSphere.push_back(s);
+			}
+		}
+	}
 	m_pSkinnedMesh = new cSkinnedMesh;
-	m_pSkinnedMesh->Setup("x", "Wolf_One_x.x");
+	m_pSkinnedMesh->Setup("Zealot", "zealot.x");
 }
 
 void cMainGame::Update()
@@ -138,8 +154,24 @@ void cMainGame::Render()
 
 	if (m_pSkinnedMesh)
 		SkinnedMesh_Render();
-	/*if (m_pMap)
-		m_pMap->Render();*/
+
+	/*g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetMaterial(&m_stMtlSphere);
+	g_pD3DDevice->SetTexture(0, NULL);
+	for (auto m_vec_sphere : m_vecSphere)
+	{
+		if (m_vec_sphere.isPicked == false)
+		{
+			D3DXMATRIXA16 matScale, matWorld;
+			D3DXMatrixTranslation(&matScale, m_vec_sphere.vCenter.x, m_vec_sphere.vCenter.y, m_vec_sphere.vCenter.z);
+			D3DXMatrixScaling(&matWorld, m_vec_sphere.fRadius, m_vec_sphere.fRadius, m_vec_sphere.fRadius);
+			matWorld *= matScale;
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+			m_pMeshSphere->DrawSubset(0);
+		}
+	}*/
+	if (m_pMap)
+		m_pMap->Render();
 	//Draw_Texture(); 
 	/*{
 		if (m_pRootFrame)
@@ -156,6 +188,7 @@ void cMainGame::Render()
 
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static thread t1;
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam); 
 
@@ -163,16 +196,19 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONDOWN:
 		{
-			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam)); 
+			/*cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam)); 
 			for (int i = 0; i < m_vecSphere.size(); i++)
 			{
 				m_vecSphere[i].isPicked = r.IsPicked(&m_vecSphere[i]); 
-			}
+			}*/
 		}
 		break;
 	case WM_RBUTTONDOWN:
 		{
-			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+			static int n = 0;
+			//m_pSkinnedMesh->SetAnimationIndex(++n);
+			m_pSkinnedMesh->SetAnimationIndexBlend(rand() % 3);
+			/*cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
 			for (int i = 0; i < m_vecPlaneVertex.size(); i+= 3)
 			{
 				D3DXVECTOR3 v(0, 0, 0); 
@@ -184,6 +220,55 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				))
 				{
 					m_vPickedPosition = v; 
+				}
+			}*/
+			vector<D3DXVECTOR3> vecFrustum;
+
+			D3DXVECTOR3 vecUnProjFrustrum[8];
+			D3DXMATRIXA16 matProj, matView, matWorld;
+			D3DVIEWPORT9 viewPort;
+			g_pD3DDevice->GetViewport(&viewPort);
+			g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+			g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+			vecFrustum.push_back(D3DXVECTOR3(0, viewPort.Height, 1.f));
+			vecFrustum.push_back(D3DXVECTOR3(viewPort.Width, viewPort.Height, 1.f));
+			vecFrustum.push_back(D3DXVECTOR3(viewPort.Width, 0, 1.f));
+			vecFrustum.push_back(D3DXVECTOR3(0, 0, 1.f));
+
+			vecFrustum.push_back(D3DXVECTOR3(0, viewPort.Height, 0));
+			vecFrustum.push_back(D3DXVECTOR3(viewPort.Width, viewPort.Height, 0));
+			vecFrustum.push_back(D3DXVECTOR3(viewPort.Width, 0, 0));
+			vecFrustum.push_back(D3DXVECTOR3(0, 0, 0));
+			D3DXMatrixIdentity(&matWorld);
+			for (int i = 0; i < 8; ++i)
+			{
+				D3DXVec3Unproject(&vecUnProjFrustrum[i], &vecFrustum[i], &viewPort, &matProj, &matView, &matWorld);
+			}
+
+			D3DXPLANE frustrumPlane[6];
+			D3DXPlaneFromPoints(&frustrumPlane[0], &vecUnProjFrustrum[0], &vecUnProjFrustrum[3], &vecUnProjFrustrum[7]); //¿Þ
+			D3DXPlaneFromPoints(&frustrumPlane[1], &vecUnProjFrustrum[3], &vecUnProjFrustrum[0], &vecUnProjFrustrum[1]); //µÚ
+			D3DXPlaneFromPoints(&frustrumPlane[2], &vecUnProjFrustrum[6], &vecUnProjFrustrum[2], &vecUnProjFrustrum[1]); //¿À
+			D3DXPlaneFromPoints(&frustrumPlane[3], &vecUnProjFrustrum[7], &vecUnProjFrustrum[6], &vecUnProjFrustrum[4]); //¾Õ
+			D3DXPlaneFromPoints(&frustrumPlane[4], &vecUnProjFrustrum[7], &vecUnProjFrustrum[3], &vecUnProjFrustrum[2]); //
+			D3DXPlaneFromPoints(&frustrumPlane[5], &vecUnProjFrustrum[4], &vecUnProjFrustrum[5], &vecUnProjFrustrum[0]);
+			cHeightMap* height_map = (cHeightMap*)m_pMap;
+			
+			//height_map->BuildThreadCall(frustrumPlane);
+			t1 = thread(&cHeightMap::BuildMesh, (cHeightMap*)m_pMap, frustrumPlane);
+			t1.join();
+		}
+		break;
+		case WM_CHAR :
+		{
+			if (wParam == 'k')
+			{
+				cHeightMap* height_map = (cHeightMap*)m_pMap;
+				height_map->m_setNotDrawIdx.clear();
+				//height_map->BuildMesh();
+				for (int i = 0; i < m_vecSphere.size(); ++i)
+				{
+					m_vecSphere[i].isPicked = false;
 				}
 			}
 		}

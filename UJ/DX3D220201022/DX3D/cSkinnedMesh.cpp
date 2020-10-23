@@ -1,10 +1,16 @@
 #include "stdafx.h"
 #include "cSkinnedMesh.h"
+
+#include <iostream>
+
 #include "cAllocateHierarchy.h"
 
 cSkinnedMesh::cSkinnedMesh()
 	: m_pRoot(NULL)
 	, m_pAnimController(NULL)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
 {
 }
 
@@ -29,19 +35,38 @@ void cSkinnedMesh::Setup(char* szFolder, char* szFile)
 	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, g_pD3DDevice, &ah, NULL, &m_pRoot, &m_pAnimController);
 
 	SetupBoneMatrixPtrs(m_pRoot);
-	ID3DXAnimationSet *a;
-	m_pAnimController->GetAnimationSet(3, &a);
-	m_pAnimController->SetTrackAnimationSet(0, a);
-	m_pAnimController->SetTrackSpeed(0, 10000.f);
-	
 }
 
 void cSkinnedMesh::Update()
 {
+	if(m_isAnimBlend)
+	{
+		m_fPassedBlendTime += g_pTimeManager->GetElapsedTime();
+		if(m_fPassedBlendTime >= m_fBlendTime)
+		{
+			m_isAnimBlend = false;
+			m_pAnimController->SetTrackWeight(0, 1.0f);
+			m_pAnimController->SetTrackEnable(1, false);
+		}
+		else
+		{
+			float fWeight = m_fPassedBlendTime / m_fBlendTime;
+			m_pAnimController->SetTrackWeight(0, fWeight);
+			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
+		}
+	}
+	LPD3DXANIMATIONSET curAnimSet;
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
+	
+	if(GetTickCount() - m_animationStartTime > curAnimSet->GetPeriod() * 1000 - 500)
+	{
+		SetAnimationIndexBlend(4);
+	}
+	
 	Update(m_pRoot, NULL);
 	UpdateSkinnedMesh(m_pRoot);
-
+	SafeRelease(curAnimSet);
 
 }
 
@@ -155,4 +180,48 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		UpdateSkinnedMesh(pFrame->pFrameFirstChild);
 	if (pFrame->pFrameSibling)
 		UpdateSkinnedMesh(pFrame->pFrameSibling);
+}
+
+void cSkinnedMesh::SetAnimationIndex(int index)
+{
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (index > num) index = index % num;
+
+	LPD3DXANIMATIONSET pAnimSet = NULL;
+	//m_pAnimController->ResetTime();
+	m_pAnimController->GetAnimationSet(index, &pAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	m_pAnimController->GetPriorityBlend();
+}
+
+void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
+{
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (nIndex > num) nIndex = nIndex % num;
+
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	if(pNextAnimSet)
+		cout << nIndex << " " << pNextAnimSet->GetName() << endl;
+
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	SafeRelease(pPrevAnimSet);
+	SafeRelease(pNextAnimSet);
+
+	m_animationStartTime = GetTickCount();
 }

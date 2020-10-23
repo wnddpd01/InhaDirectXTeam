@@ -2,7 +2,11 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 //
-
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 #pragma once
 
 #include "targetver.h"
@@ -105,7 +109,7 @@ struct ST_SPHERE
 	float		fRadius; 
 	D3DXVECTOR3	vCenter; 
 	bool		isPicked; 
-	ST_SPHERE() : fRadius(0.0f), vCenter(0, 0, 0) {}
+	ST_SPHERE() : fRadius(0.0f), vCenter(0, 0, 0), isPicked(false) {}
 };
 
 

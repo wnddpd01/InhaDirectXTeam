@@ -2,6 +2,10 @@
 #include "cHeightMap.h"
 
 
+#include <iostream>
+#include <thread>
+
+
 cHeightMap::cHeightMap()
 	: m_pTexture(NULL)
 	, m_pMesh(NULL)
@@ -12,6 +16,96 @@ cHeightMap::cHeightMap()
 cHeightMap::~cHeightMap()
 {
 	Destroy();
+}
+
+void cHeightMap::BuildThreadCall(D3DXPLANE * planes)
+{
+	//m_thread = 
+}
+
+void cHeightMap::BuildMesh(D3DXPLANE * planes)
+{
+	cout << "thread Start\n";
+	if (planes)
+	{
+		for (int p = 0; p < 6; ++p)
+		{
+			/*for (int i = 0; i < m_vecSphere.size(); ++i)
+			{
+			if (D3DXPlaneDotCoord(&frustrumPlane[p], &m_vecSphere[i].vCenter) > 0.5f)
+			{
+			m_vecSphere[i].isPicked = true;
+			}
+			}*/
+			for (int i = 0; i < m_vecVertex.size(); ++i)
+			{
+				if (D3DXPlaneDotCoord(&planes[p], &m_vecVertex[i]) > 0.5f)
+				{
+					if (m_setNotDrawIdx.find(i) == m_setNotDrawIdx.end())
+					{
+						m_setNotDrawIdx.insert(i);
+					}
+				}
+			}
+
+		}
+	}
+	size_t nNumVertex = 257 * 257;
+	size_t nCol = 257;
+	size_t nTimeN = 256;
+	//vector<ST_PNT_VERTEX> vecVertex(nNumVertex);
+	vector<DWORD> vecIndex;
+	vecIndex.reserve(nTimeN * nTimeN * 2 * 3);
+	LPD3DXMESH tempMesh;
+	for (int x = 0; x < nTimeN; ++x)
+	{
+		for (int z = 0; z < nTimeN; ++z)
+		{
+			size_t _0 = (z + 0) * nCol + x + 0;
+			size_t _1 = (z + 1) * nCol + x + 0;
+			size_t _2 = (z + 1) * nCol + x + 1;
+			size_t _3 = (z + 0) * nCol + x + 1;
+
+			if (m_setNotDrawIdx.find(_0) == m_setNotDrawIdx.end() && m_setNotDrawIdx.find(_1) == m_setNotDrawIdx.end() && m_setNotDrawIdx.find(_2) == m_setNotDrawIdx.end())
+			{
+				vecIndex.push_back(_0);
+				vecIndex.push_back(_1);
+				vecIndex.push_back(_3);
+			}
+			if (m_setNotDrawIdx.find(_2) == m_setNotDrawIdx.end() && m_setNotDrawIdx.find(_3) == m_setNotDrawIdx.end() && m_setNotDrawIdx.find(_1) == m_setNotDrawIdx.end())
+			{
+				vecIndex.push_back(_2);
+				vecIndex.push_back(_3);
+				vecIndex.push_back(_1);
+			}
+		}
+	}
+	
+	D3DXCreateMeshFVF(vecIndex.size() / 3, m_vecPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pD3DDevice, &tempMesh);
+	
+	ST_PNT_VERTEX * pV = NULL;
+	tempMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+	memcpy(pV, &m_vecPNTVertex[0], m_vecPNTVertex.size() * sizeof(ST_PNT_VERTEX));
+	tempMesh->UnlockVertexBuffer();
+
+	DWORD* pI = NULL;
+	tempMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
+	tempMesh->UnlockIndexBuffer();
+
+	DWORD* pA = NULL;
+	tempMesh->LockAttributeBuffer(0, &pA);
+	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
+	tempMesh->UnlockAttributeBuffer();
+	vector<DWORD> vecAdj(vecIndex.size());
+	tempMesh->GenerateAdjacency(0.0f, &vecAdj[0]);
+	tempMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &vecAdj[0], 0, 0, 0);
+	if (m_pMesh)
+	{
+		SafeRelease(m_pMesh);
+	}
+	m_pMesh = tempMesh;
+	cout << "thread End\n";
 }
 
 void cHeightMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel)
@@ -33,9 +127,9 @@ void cHeightMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	int nTimeN = nRow - 1;
 	m_nTileNum = nTimeN;
 	fseek(fp, 0, SEEK_SET);
-	vector<ST_PNT_VERTEX> vecVertex(nNumVertex);
 	m_vecVertex.resize(nNumVertex);
-
+	m_vecPNTVertex.resize(nNumVertex);
+	vector<ST_PNT_VERTEX> vecVertex(nNumVertex);
 	vector<DWORD> vecIndex;
 	vecIndex.reserve(nTimeN * nTimeN * 2 * 3);
 
@@ -46,7 +140,7 @@ void cHeightMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 		v.n = D3DXVECTOR3(0, 1, 0);
 		v.t = D3DXVECTOR2(i % nCol / (float)(nCol), (i / nCol) / (float)nCol);
 
-		vecVertex[i] = v;
+		m_vecPNTVertex[i] = v;
 		m_vecVertex[i] = v.p;
 
 		if (dwBytesPerPixel == 3)
@@ -55,7 +149,6 @@ void cHeightMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 		}
 	}
 	fclose(fp);
-
 	for (int x = 1; x < nTimeN; ++x)
 	{
 		for (int z = 1; z < nTimeN; ++z)
@@ -73,53 +166,16 @@ void cHeightMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 			D3DXVec3Normalize(&normal, &normal);
 
 			int nIndex = z * nCol + x;
-			vecVertex[nIndex].n = normal;
+			m_vecPNTVertex[nIndex].n = normal;
 		}
 	}
 
-	for (int x = 0; x < nTimeN; ++x)
-	{
-		for (int z = 0; z < nTimeN; ++z)
-		{
-			int _0 = (z + 0) * nCol + x + 0;
-			int _1 = (z + 1) * nCol + x + 0;
-			int _2 = (z + 1) * nCol + x + 1;
-			int _3 = (z + 0) * nCol + x + 1;
-
-			vecIndex.push_back(_0);
-			vecIndex.push_back(_1);
-			vecIndex.push_back(_3);
-
-			vecIndex.push_back(_2);
-			vecIndex.push_back(_3);
-			vecIndex.push_back(_1);
-		}
-	}
-
-	D3DXCreateMeshFVF(vecIndex.size() / 3, vecVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pD3DDevice, &m_pMesh);
-
-	ST_PNT_VERTEX * pV = NULL;
-	m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
-	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
-	m_pMesh->UnlockVertexBuffer();
-
-	DWORD* pI = NULL;
-	m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
-	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
-	m_pMesh->UnlockIndexBuffer();
-
-	DWORD* pA = NULL;
-	m_pMesh->LockAttributeBuffer(0, &pA);
-	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
-	m_pMesh->UnlockAttributeBuffer();
-	vector<DWORD> vecAdj(vecIndex.size());
-	m_pMesh->GenerateAdjacency(0.0f, &vecAdj[0]);
-	m_pMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &vecAdj[0], 0, 0, 0);
-
+	BuildMesh();
+	
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
 	m_stMtl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_stMtl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
-	m_stMtl.Specular= D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+	m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 }
 
 void cHeightMap::Render()
