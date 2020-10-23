@@ -17,6 +17,8 @@
 
 #include "cSkinnedMesh.h"
 
+#include "CFrustum.h"
+
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	, m_pCamera(NULL)
@@ -30,6 +32,7 @@ cMainGame::cMainGame()
 	, m_pObjMesh(NULL)
 	//, m_pXfileLoader(NULL)
 	, m_pSkinnedMesh(NULL)
+	, m_pFrustum(NULL)
 {
 }
 
@@ -43,7 +46,7 @@ cMainGame::~cMainGame()
 	SafeDelete(m_pMap);
 	
 	SafeDelete(m_pSkinnedMesh);
-
+	SafeDelete(m_pFrustum);
 	
 	SafeRelease(m_pTexture); 
 	SafeRelease(m_pMeshSphere); 
@@ -101,6 +104,10 @@ void cMainGame::Setup()
 	//Setup_MeshObject(); 
 	//Setup_PickingObj();
 
+	m_pFrustum = new CFrustum;
+	m_pFrustum->Setup_Object();
+
+	
 	m_pSkinnedMesh = new cSkinnedMesh;
 	m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
 	
@@ -159,8 +166,10 @@ void cMainGame::Render()
 			m_pRootFrame->Render(); 
 	}
 */
+	if (m_pFrustum)
+		m_pFrustum->Render_Object();
 
-
+	
 	SkinnedMesh_Render();
 
 
@@ -173,8 +182,11 @@ void cMainGame::Render()
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
-		m_pCamera->WndProc(hWnd, message, wParam, lParam); 
+		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 
+	if (m_pFrustum)
+		m_pFrustum->WndProc(hWnd, message, wParam, lParam);
+	
 	switch (message)
 	{
 	case WM_LBUTTONDOWN:
@@ -188,6 +200,12 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_RBUTTONDOWN:
 		{
+			static int n = 0;
+			//m_pSkinnedMesh->SetAnimationIndex(++n);
+			m_pSkinnedMesh->SetAnimationIndexBlend(++n);
+			
+		}
+	/*	{
 			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
 			for (int i = 0; i < m_vecPlaneVertex.size(); i+= 3)
 			{
@@ -202,7 +220,12 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					m_vPickedPosition = v; 
 				}
 			}
-		}
+		}*/
+		break;
+	default:
+
+
+		
 		break;
 	}
 }
