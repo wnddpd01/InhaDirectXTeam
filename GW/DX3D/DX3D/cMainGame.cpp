@@ -101,21 +101,22 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
-	Setup_Obj();
+	//Setup_Obj();
 
-	{
+	/*{
 		cAseLoader l;
 		
 		m_pRootFrame = l.Load("woman/woman_01_all.ASE");
-	}
+	}*/
 
-	m_pLight = new cLight;
+	/*m_pLight = new cLight;
 	m_pLight->Setup();
 
 	m_pBPath = new cBPath;
-	m_pBPath->Setup();
+	m_pBPath->Setup();*/
 
-
+	
+	Setup_PickingObj();
 
 
 	//<<<<<<<<<<<<<<<<<<<mesh
@@ -127,8 +128,8 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 
-	if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap);
+	/*if (m_pCubeMan)
+		m_pCubeMan->Update(m_pMap);*/
 	
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -156,6 +157,9 @@ void cMainGame::Render()
 	if (m_pGrid)
 		m_pGrid->Render();
 
+
+	PickingObj_Render();
+
 	/*if (m_pCubeMan)
 		m_pCubeMan->Render();*/
 
@@ -182,7 +186,7 @@ void cMainGame::Render()
 	
 
 
-	Mesh_Render();
+	//Mesh_Render();
 	
 	
 	/*if (m_pFont)
@@ -228,39 +232,71 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		m_pRay->WndProc(hWnd, message, wParam, lParam, );*/
 
 
+	//switch (message)
+	//{
+	//case WM_LBUTTONDOWN:
+
+	//	Ray ray = CalcPickingRay(LOWORD(lParam), HIWORD(lParam));
+
+	//	D3DXMATRIX view;
+	//	g_pD3DDevice->GetTransform(D3DTS_VIEW, &view);
+
+	//	D3DXMATRIX viewInverse;
+	//	D3DXMatrixInverse(&viewInverse, 0, &view);
+
+	//	TransformRay(&ray, &viewInverse);
+
+	//	for (int i = 0; i < 5; i++)
+	//	{
+	//		if (raySphereIntersectionTest(&ray, &bs[i]))
+	//		{
+	//			if (bs[i]._check)
+	//			{
+	//				bs[i]._check = false;
+	//			}
+	//			else
+	//			{
+	//				bs[i]._check = true;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			bs[i]._check = false;
+	//		}
+	//	}
+
+	//	break;
+	//}
+
+
 	switch (message)
 	{
-	case WM_LBUTTONDOWN:
-
-		Ray ray = CalcPickingRay(LOWORD(lParam), HIWORD(lParam));
-
-		D3DXMATRIX view;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &view);
-
-		D3DXMATRIX viewInverse;
-		D3DXMatrixInverse(&viewInverse, 0, &view);
-
-		TransformRay(&ray, &viewInverse);
-
-		for (int i = 0; i < 5; i++)
-		{
-			if (raySphereIntersectionTest(&ray, &bs[i]))
+		case WM_LBUTTONDOWN :
 			{
-				if (bs[i]._check)
+			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+				for(int i = 0 ; i< m_vecSphere.size(); i++)
 				{
-					bs[i]._check = false;
-				}
-				else
-				{
-					bs[i]._check = true;
+					m_vecSphere[i].isPicked = r.IsPicked(&m_vecSphere[i]);
 				}
 			}
-			else
-			{
-				bs[i]._check = false;
-			}
-		}
+		break;
 
+		case WM_RBUTTONDOWN :
+			{
+			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+				for(int i = 0; i<m_vecPlaneVertex.size(); i+= 3)
+				{
+					D3DXVECTOR3 v(0, 0, 0);
+					if(r.IntersectTri(m_vecPlaneVertex[i+0].p, 
+						m_vecPlaneVertex[i + 1].p,
+						m_vecPlaneVertex[i + 2].p, 
+						v))
+					{
+						m_vPickedPosition = v;
+						
+					}
+				}
+			}
 		break;
 	}
 	
@@ -365,7 +401,7 @@ void cMainGame::Mesh_Render()
 
 	
 
-		int i = 0;
+		/*int i = 0;
 		for (int j = 0 ; j<5; j++)
 		{
 			
@@ -393,7 +429,7 @@ void cMainGame::Mesh_Render()
 				m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
 			}		
 			i+=2;
-		}
+		}*/
 
 
 
@@ -423,6 +459,78 @@ void cMainGame::Mesh_Render()
 	
 }
 
+void cMainGame::Setup_PickingObj()
+{
+	for (int i = 0; i <= 10; i++)
+	{
+		ST_SPHERE s;
+		s.fRadius = 0.5f;
+		s.vCenter = D3DXVECTOR3(0, 0, -10 + 2 * i);
+		m_vecSphere.push_back(s);
+	}
+
+	ZeroMemory(&m_stMtlNone, sizeof(D3DMATERIAL9));
+	m_stMtlNone.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlNone.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlNone.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+
+	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
+	m_stMtlPicked.Ambient = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+	m_stMtlPicked.Diffuse = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+	m_stMtlPicked.Specular = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+
+
+	ZeroMemory(&m_stMtlPlane, sizeof(D3DMATERIAL9));
+	m_stMtlPlane.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stMtlPlane.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stMtlPlane.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	
+	ST_PN_VERTEX v;
+	v.n = D3DXVECTOR3(0, 1, 0);
+	v.p = D3DXVECTOR3(-10, 0, -10); m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(-10, 0, 10); m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, 10); m_vecPlaneVertex.push_back(v);
+
+	v.p = D3DXVECTOR3(-10, 0, -10); m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, 10); m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, -10); m_vecPlaneVertex.push_back(v);
+
+	
+}
+
+void cMainGame::PickingObj_Render()
+{
+	D3DXMATRIXA16 matWorld;
+
+	g_pD3DDevice->SetFVF(ST_PN_VERTEX::FVF);
+	g_pD3DDevice->SetMaterial(&m_stMtlPlane);
+
+	D3DXMatrixIdentity(&matWorld);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pD3DDevice->SetTexture(0, 0);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &m_vecPlaneVertex[0], sizeof(ST_PN_VERTEX));
+
+	for(int i = 0; i<m_vecSphere.size(); i++)
+	{
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._41 = m_vecSphere[i].vCenter.x;
+		matWorld._42 = m_vecSphere[i].vCenter.y;
+		matWorld._43 = m_vecSphere[i].vCenter.z;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(m_vecSphere[i].isPicked ? &m_stMtlPicked : &m_stMtlNone);
+		m_pMeshSphere->DrawSubset(0);
+	}
+
+
+	g_pD3DDevice->SetMaterial(&m_stMtlNone);
+	D3DXMatrixTranslation(&matWorld, m_vPickedPosition.x, m_vPickedPosition.y, m_vPickedPosition.z);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pMeshSphere->DrawSubset(0);
+	
+}
+
 cMainGame::Ray cMainGame::CalcPickingRay(int x, int y)
 {
 	float px = 0.0f;
@@ -440,7 +548,7 @@ cMainGame::Ray cMainGame::CalcPickingRay(int x, int y)
 	Ray ray;
 	ray._origin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	ray._direction = D3DXVECTOR3(px, py, 1.0f);
-
+	
 	return ray;
 }
 
@@ -477,3 +585,10 @@ bool cMainGame::raySphereIntersectionTest(Ray* ray, BoundingSphere* sphere)
 }
 
 
+/*
+D3DXVec3Unproject(vertex1, vertex2, NULL, proj, view, NULL); 공간상 뷰에 위치에서 바라보는 절두체의 면을 생성
+
+D3DXPlaneFromPoints(OUT 면 plane , v1, v2, v3);
+
+D3DXPlaneDotCoord(plane, vC); 값이 양수인가 음수인가 판별 (앞에있는가 뒤에있는가) 이걸로 그릴지 말지 판별  
+ */

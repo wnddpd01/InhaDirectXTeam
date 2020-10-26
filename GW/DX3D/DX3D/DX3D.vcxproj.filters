@@ -25,6 +25,9 @@
     <Filter Include="ASELoader">
       <UniqueIdentifier>{842650b1-7aca-4b80-ac06-dad2598ff4ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{0d38fe7b-69ec-4abd-bc3a-d3fa32cec087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -130,6 +133,12 @@
       <Filter>ASELoader</Filter>
     </ClInclude>
     <ClInclude Include="cRay.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -225,6 +234,12 @@
       <Filter>ASELoader</Filter>
     </ClCompile>
     <ClCompile Include="cRay.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

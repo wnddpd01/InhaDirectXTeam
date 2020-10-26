@@ -13,6 +13,8 @@
 #include "cObjMap.h"	// << :
 #include "cAseLoader.h"
 #include "cFrame.h"
+#include "cRay.h"
+#include "cTerrain.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
@@ -26,6 +28,7 @@ cMainGame::cMainGame()
 	, m_pMeshSphere(NULL)
 	, m_pObjMesh(NULL)
 	, m_pVecTargetPos(NULL)
+	, m_pTerrain(NULL)
 {
 	m_vecPos = { 0, 0, 0 };
 	m_vecDir = { 0, 0, 1 };
@@ -106,15 +109,45 @@ void cMainGame::Setup()
 	Setup_Texture(); 
 	//Setup_Obj(); 
 	Set_Light();
-
 	Setup_MeshObject();
+	Setup_PickingObj();
+
+	m_pTerrain = cTerrain::LoadFromRawFile("HeightMapData/HeightMap.raw");
+	m_pTerrain->SetTextureFromFile("HeightMapData/terrain.jpg");
 }
 
 void cMainGame::InputProcess()
 {
 	if(GetKeyState('W') & 0x8000)
 	{
-		m_vecPos += m_vecDir * 0.01f;
+		m_vecPos += m_vecDir * 0.1f;
+		if (m_vecPos.x < 0)
+			m_vecPos.x = 0;
+		if (m_vecPos.z < 0)
+			m_vecPos.z = 0;
+		int col = floorf(m_vecPos.x);
+		int row = floorf(m_vecPos.z);
+		float A = m_pTerrain->m_arrMapVertex[row][col];
+		float B = m_pTerrain->m_arrMapVertex[row + 1][col];
+		float C = m_pTerrain->m_arrMapVertex[row + 1][col + 1];
+		float D = m_pTerrain->m_arrMapVertex[row][col + 1];
+
+		float dx = m_vecPos.x - col;
+		float dz = m_vecPos.z - row;
+		float height = 0;
+		if(dz > dx)
+		{
+			float uy = C - B;
+			float vy = A - B;
+			height = B + Lerp(0, uy,  dx) + Lerp(0, vy, 1.0f - dz);
+		}
+		else
+		{
+			float uy = A - D;
+			float vy = C - D;
+			height = D + Lerp(0, uy, 1.0f - dx) + Lerp(0, vy, dz);
+		}
+		m_vecPos.y = height - m_pTerrain->m_arrMapVertex[0][0];
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
@@ -196,15 +229,16 @@ void cMainGame::Render()
 	g_pD3DDevice->BeginScene();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 
-	if (m_pGrid)
-		m_pGrid->Render(); 
+	/*if (m_pGrid)
+		m_pGrid->Render();*/
 	//if (m_pCubePC)
 	//	m_pCubePC->Render(); 
 	//Obj_Render(); 
 
 	//if (m_pCubeMan)
 		//m_pCubeMan->Render(); 
-
+	
+	//PickingObj_Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pRootFrame)
 	{
@@ -216,13 +250,14 @@ void cMainGame::Render()
 		frame->Render();
 	}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	g_pD3DDevice->SetTexture(0, NULL);
+	m_pTerrain->Render();
+	/*g_pD3DDevice->SetTexture(0, NULL);
 	for (auto object : m_vecObject)
 	{
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &object->m_matWorld);
 		g_pD3DDevice->SetMaterial(&object->m_mtl);
 		object->m_pMesh->DrawSubset(0);
-	}
+	}*/
 	//Mesh_Render();
 	//Draw_Texture(); 
 	if (m_font)
@@ -259,7 +294,7 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONUP:
 	{
-		POINT ptMouse;
+		/*POINT ptMouse;
 		ptMouse.x = LOWORD(lParam);
 		ptMouse.y = HIWORD(lParam);
 		D3DXMATRIXA16 matProj, matView;
@@ -306,13 +341,17 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				m_vec_object->m_mtl = m_stMtlSphere;
 			}
+		}*/
+		cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+		for (int i = 0; i < m_vecSphere.size(); ++i)
+		{
+			m_vecSphere[i].isPicked = r.IsPicked(&m_vecSphere[i]);
 		}
-
 	}
 	break;
 	case WM_RBUTTONDOWN:
 	{
-		for (int i = 0; i < m_pGrid->m_vecVertex.size(); i += 6)
+		/*for (int i = 0; i < m_pGrid->m_vecVertex.size(); i += 6)
 		{
 			POINT ptMouse;
 			ptMouse.x = LOWORD(lParam);
@@ -348,6 +387,15 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				m_pVecTargetPos = new D3DXVECTOR3((m_pGrid->m_vecVertex[i + 0].p.x + m_pGrid->m_vecVertex[i + 5].p.x) / 2.0f, 0, (m_pGrid->m_vecVertex[i + 0].p.z + m_pGrid->m_vecVertex[i + 5].p.z) / 2.0f);
 				break;
+			}
+		}*/
+		cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+		for (int i = 0; i < m_vecPlaneVertex.size(); i+=3)
+		{
+			D3DXVECTOR3 v(0, 0, 0);
+			if (r.IntersectTri(m_vecPlaneVertex[i + 0].p, m_vecPlaneVertex[i + 1].p, m_vecPlaneVertex[i + 2].p, v))
+			{
+				m_vPickedPosition = v;
 			}
 		}
 	}
@@ -450,16 +498,16 @@ void cMainGame::Load_Surface()
 
 void cMainGame::Setup_MeshObject()
 {
-	//D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
-	//D3DXCreateSphere(g_pD3DDevice, 0.5, 10, 10, &m_pMeshSphere, NULL);
-	//ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
-	//m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
-	//m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
-	//m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
-	//ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
-	//m_stMtlSphere.Ambient  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
-	//m_stMtlSphere.Diffuse  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
-	//m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL);
+	D3DXCreateSphere(g_pD3DDevice, 0.5, 10, 10, &m_pMeshSphere, NULL);
+	ZeroMemory(&m_stMtlTeapot, sizeof(D3DMATERIAL9));
+	m_stMtlTeapot.Ambient = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Diffuse = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	m_stMtlTeapot.Specular = D3DXCOLOR(0.0f, 0.7f, 0.7f, 1.0f);
+	ZeroMemory(&m_stMtlSphere, sizeof(D3DMATERIAL9));
+	m_stMtlSphere.Ambient  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+	m_stMtlSphere.Diffuse  = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
+	m_stMtlSphere.Specular = D3DXCOLOR(0.7f, 0.7f, 0, 1.0f);
 
 	BasicObject* object = new BasicObject;
 	D3DXCreateSphere(g_pD3DDevice, 0.5, 10, 10, &object->m_pMesh, NULL);
@@ -515,6 +563,82 @@ void cMainGame::Mesh_Render()
 			m_pObjMesh->DrawSubset(i);
 		}
 	}
+}
+
+void cMainGame::Setup_PickingObj()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		ST_SPHERE s;
+		s.fRadius = 0.5f;
+		s.vCenter = D3DXVECTOR3(0, 0, -10 + 2 * i);
+		m_vecSphere.push_back(s);
+	}
+
+	ZeroMemory(&m_stMtlNone, sizeof(D3DMATERIAL9));
+	m_stMtlNone.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlNone.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+	m_stMtlNone.Specular = D3DXCOLOR(0.7f, 0.7f, 0.0f, 1.0f);
+
+	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
+	m_stMtlPicked.Ambient = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+	m_stMtlPicked.Diffuse = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+	m_stMtlPicked.Specular = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
+
+
+	ZeroMemory(&m_stMtlPlane, sizeof(D3DMATERIAL9));
+	m_stMtlPlane.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stMtlPlane.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stMtlPlane.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+
+	ST_PN_VERTEX v;
+	v.n = D3DXVECTOR3(0, 1, 0);
+	v.p = D3DXVECTOR3(-10, 0, -10);
+	m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(-10, 0, 10);
+	m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, 10);
+	m_vecPlaneVertex.push_back(v);
+
+
+	v.p = D3DXVECTOR3(-10, 0, -10);
+	m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, 10);
+	m_vecPlaneVertex.push_back(v);
+	v.p = D3DXVECTOR3(10, 0, -10);
+	m_vecPlaneVertex.push_back(v);
+}
+
+void cMainGame::PickingObj_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	D3DXMATRIXA16 matWorld;
+
+	g_pD3DDevice->SetFVF(ST_PN_VERTEX::FVF);
+	g_pD3DDevice->SetMaterial(&m_stMtlPlane);
+	D3DXMatrixIdentity(&matWorld);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &m_vecPlaneVertex[0], sizeof(ST_PN_VERTEX));
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	for (int i = 0; i < m_vecSphere.size(); ++i)
+	{
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._41 = m_vecSphere[i].vCenter.x;
+		matWorld._42 = m_vecSphere[i].vCenter.y;
+		matWorld._43 = m_vecSphere[i].vCenter.z;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetMaterial(&(m_vecSphere[i].isPicked ? m_stMtlPicked : m_stMtlNone));
+		m_pMeshSphere->DrawSubset(0);
+	}
+
+	g_pD3DDevice->SetMaterial(&m_stMtlNone);
+	D3DXMatrixTranslation(&matWorld, m_vPickedPosition.x, m_vPickedPosition.y, m_vPickedPosition.z);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pMeshSphere->DrawSubset(0);
+	
 }
 
 
