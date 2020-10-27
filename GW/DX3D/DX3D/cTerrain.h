@@ -5,8 +5,8 @@ public:
 	cTerrain();
 	~cTerrain();
 private:
-
+	float m_aMapVertex[257][257];
 public:
-	bool readRawFile(std::string filename);
+	bool readRawFile(char* filename);
 };
 
