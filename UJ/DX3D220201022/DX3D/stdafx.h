@@ -148,5 +148,6 @@ public : virtual void Set##funName(varType var ) { \
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+#include "cSkinnedMeshManager.h"
 #include "cTimeManager.h"
 
