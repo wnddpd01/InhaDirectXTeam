@@ -18,7 +18,7 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh)
 
 	m_vOriCenterPos = (vMin + vMax) / 2.f;
 	m_vOriAxisDir[0] = D3DXVECTOR3(1, 0, 0);
-	m_vOriAxisDir[1] = D3DXVECTOR3(0, 0, 0);
+	m_vOriAxisDir[1] = D3DXVECTOR3(0, 1, 0);
 	m_vOriAxisDir[2] = D3DXVECTOR3(0, 0, 1);
 
 	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
@@ -167,4 +167,82 @@ bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
 void cOBB::OBBBOX_Render(D3DCOLOR c)
 {
 	
+	vector<D3DXVECTOR3>vertexs;
+
+	D3DXVECTOR3 temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) + (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos + (m_vAxisDir[0] * m_fAxisHalfLen[0]) + (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos + (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) + (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) + (m_vAxisDir[1] * m_fAxisHalfLen[1]) + (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos + (m_vAxisDir[0] * m_fAxisHalfLen[0]) + (m_vAxisDir[1] * m_fAxisHalfLen[1]) + (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	temp = m_vCenterPos + (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) + (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	vertexs.push_back(temp);
+
+	vector<ST_PC_VERTEX> vecVertex;
+	ST_PC_VERTEX v;
+
+	v.c = c;
+	
+	v.p = vertexs[0]; vecVertex.push_back(v);
+	v.p = vertexs[1]; vecVertex.push_back(v);
+
+	v.p = vertexs[1]; vecVertex.push_back(v);
+	v.p = vertexs[2]; vecVertex.push_back(v);
+
+	v.p = vertexs[2]; vecVertex.push_back(v);
+	v.p = vertexs[3]; vecVertex.push_back(v);
+
+	v.p = vertexs[3]; vecVertex.push_back(v);
+	v.p = vertexs[0]; vecVertex.push_back(v);
+
+	v.p = vertexs[4]; vecVertex.push_back(v);
+	v.p = vertexs[5]; vecVertex.push_back(v);
+
+	v.p = vertexs[5]; vecVertex.push_back(v);
+	v.p = vertexs[6]; vecVertex.push_back(v);
+
+	v.p = vertexs[6]; vecVertex.push_back(v);
+	v.p = vertexs[7]; vecVertex.push_back(v);
+
+	v.p = vertexs[7]; vecVertex.push_back(v);
+	v.p = vertexs[4]; vecVertex.push_back(v);
+
+	v.p = vertexs[1]; vecVertex.push_back(v);
+	v.p = vertexs[5]; vecVertex.push_back(v);
+
+	v.p = vertexs[2]; vecVertex.push_back(v);
+	v.p = vertexs[6]; vecVertex.push_back(v);
+
+	v.p = vertexs[0]; vecVertex.push_back(v);
+	v.p = vertexs[4]; vecVertex.push_back(v);
+
+	v.p = vertexs[3]; vecVertex.push_back(v);
+	v.p = vertexs[7]; vecVertex.push_back(v);
+
+	
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+
+	g_pD3DDevice->SetTexture(0, NULL);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, vecVertex.size() / 2, &vecVertex[0], sizeof(ST_PC_VERTEX));
+
+
 }
