@@ -66,7 +66,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 
 	if(pMeshData && pMeshData->pMesh)
 	{
-		std::cout << "asd" << endl;
 		D3DXVECTOR3 vMin(0, 0, 0), vMax(0,0,0);
 		LPVOID pV = NULL;
 		pMeshData->pMesh->LockVertexBuffer(0, &pV);
@@ -74,7 +73,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		D3DXVec3Minimize(&m_vMin, &m_vMin, &vMin);
 		D3DXVec3Maximize(&m_vMax, &m_vMax, &vMax);
 		pMeshData->pMesh->UnlockVertexBuffer();
-		std::cout << "dsa" << endl;
 	}
 	
 

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "cOBB.h"
+
+#include <iostream>
+
 #include "cSkinnedMesh.h"
 
 cOBB::cOBB()
@@ -156,31 +159,58 @@ bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
 
 void cOBB::OBBBOX_Render(D3DCOLOR c)
 {
-	vector<D3DXVECTOR3> planePoint;
-	D3DXVECTOR3 planeVector;
 	vector<ST_PC_VERTEX> drawPoint;
+	vector<ST_PC_VERTEX> drawVertex;
 	ST_PC_VERTEX vertex;
 	vertex.c = c;
+	//cout << c << endl;
+	int plusMinus[2] = { 1, -1 };
 
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
-		planeVector = m_vCenterPos + m_vAxisDir[i] * m_fAxisHalfLen[i];
-		planePoint.push_back(planeVector);
-		planeVector = m_vCenterPos - m_vAxisDir[i] * m_fAxisHalfLen[i];
-		planePoint.push_back(planeVector);
-	}
-	for (auto point : planePoint)
-	{
-		for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 2; ++j)
 		{
-			vertex.p = point + m_vAxisDir[i] * m_fAxisHalfLen[i];
-			drawPoint.push_back(vertex);
-			vertex.p = point - m_vAxisDir[i] * m_fAxisHalfLen[i];
-			drawPoint.push_back(vertex);
+			for (int k = 0; k < 2; ++k)
+			{
+				vertex.p = m_vCenterPos
+					+ (m_vAxisDir[0] * m_fAxisHalfLen[0] * plusMinus[i])
+					+ (m_vAxisDir[1] * m_fAxisHalfLen[1] * plusMinus[j])
+					+ (m_vAxisDir[2] * m_fAxisHalfLen[2] * plusMinus[k]);
+				drawPoint.push_back(vertex);
+			}
 		}
 	}
+	/*                4--------------0
+	 *               /|             /|
+	 *              / |            / |
+	 *             /  |           /  |
+	 *            5--------------1   |
+	 *            |   |          |   |
+	 *            |   6----------|---2
+	 *            |  /           |  /
+	 *            | /            | /
+	 *            7--------------3
+	 */
+	drawVertex.push_back(drawPoint[0]); drawVertex.push_back(drawPoint[1]);
+	drawVertex.push_back(drawPoint[1]); drawVertex.push_back(drawPoint[3]);
+	drawVertex.push_back(drawPoint[3]); drawVertex.push_back(drawPoint[2]);
+	drawVertex.push_back(drawPoint[2]); drawVertex.push_back(drawPoint[0]);
+
+	drawVertex.push_back(drawPoint[4]); drawVertex.push_back(drawPoint[5]);
+	drawVertex.push_back(drawPoint[5]); drawVertex.push_back(drawPoint[7]);
+	drawVertex.push_back(drawPoint[7]); drawVertex.push_back(drawPoint[6]);
+	drawVertex.push_back(drawPoint[6]); drawVertex.push_back(drawPoint[4]);
+
+	drawVertex.push_back(drawPoint[5]); drawVertex.push_back(drawPoint[1]);
+	drawVertex.push_back(drawPoint[4]); drawVertex.push_back(drawPoint[0]);
+
+	drawVertex.push_back(drawPoint[6]); drawVertex.push_back(drawPoint[2]);
+	drawVertex.push_back(drawPoint[7]); drawVertex.push_back(drawPoint[3]);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, drawPoint.size() - 1, &drawPoint[0], sizeof(ST_PC_VERTEX));
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, drawVertex.size() * 0.5f, &drawVertex[0], sizeof(ST_PC_VERTEX));
 }

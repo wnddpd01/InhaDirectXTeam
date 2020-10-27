@@ -28,11 +28,11 @@ void cZealot::Render(D3DCOLOR c)
 	if (m_pCharacterController)
 		m_pSkinnedMesh->SetTransform(m_pCharacterController->GetTransform());
 	m_pSkinnedMesh->UpdateAndRender();
-
-	if(m_pOBB)
+	if (m_pOBB)
 	{
 		m_pOBB->OBBBOX_Render(c);
 	}
+
 }
 
 cOBB* cZealot::GetOBB()
