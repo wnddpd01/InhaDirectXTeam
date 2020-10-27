@@ -37,6 +37,9 @@
     <Filter Include="SkinnedMesh">
       <UniqueIdentifier>{99f04f67-f999-472a-9aa4-a3d461425bb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OBB">
+      <UniqueIdentifier>{fdbca222-4787-453a-b875-57b3e174a884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -147,13 +150,22 @@
     <ClInclude Include="cTimeManager.h">
       <Filter>SkinnedMesh</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>SkinnedMesh</Filter>
-    </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>SkinnedMesh</Filter>
     </ClInclude>
     <ClInclude Include="CFrustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="cZealot.h">
+      <Filter>OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,13 +266,22 @@
     <ClCompile Include="cTimeManager.cpp">
       <Filter>SkinnedMesh</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>SkinnedMesh</Filter>
-    </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>SkinnedMesh</Filter>
     </ClCompile>
     <ClCompile Include="CFrustum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="cZealot.cpp">
+      <Filter>OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

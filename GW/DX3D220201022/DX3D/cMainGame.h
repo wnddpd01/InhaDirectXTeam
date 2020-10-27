@@ -12,6 +12,8 @@ class cSkinnedMesh;
 
 class CFrustum;
 
+class cZealot;
+
 class cMainGame
 {
 public:
@@ -40,7 +42,7 @@ private :
 
 	cSkinnedMesh* m_pSkinnedMesh;
 
-	CFrustum* m_pFrustum;
+	
 	
 public :
 	void Setup(); 
@@ -74,6 +76,19 @@ private :
 	vector<ST_PN_VERTEX>	m_vecPlaneVertex; 
 	D3DXVECTOR3			m_vPickedPosition; 
 
+
+	//>>:
+	LPD3DXMESH	m_pSphere;
+	D3DMATERIAL9 m_stCullingMtl;
+	vector<ST_SPHERE*> m_vecCullingSphere;
+	CFrustum* m_pFrustum;
+
+	//<<:
+
+	cZealot* m_pHoldZealot;
+	cZealot* m_pMoveZealot;
+
+	
 public :
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
@@ -84,9 +99,17 @@ public :
 
 	void SkinnedMesh_Render();
 
-
-	
 	void Setup_HeightMap();
 
+
+
+	//>>:
+	void Setup_Frustum();
+	void Frustum_Render();
+	//<<:
+
+	void Setup_OBB();
+	void OBB_Render();
+	
 };
 

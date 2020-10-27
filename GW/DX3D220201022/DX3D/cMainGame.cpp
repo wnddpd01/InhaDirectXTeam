@@ -19,6 +19,9 @@
 
 #include "CFrustum.h"
 
+#include "cZealot.h"
+#include "cOBB.h"
+
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	, m_pCamera(NULL)
@@ -33,12 +36,18 @@ cMainGame::cMainGame()
 	//, m_pXfileLoader(NULL)
 	, m_pSkinnedMesh(NULL)
 	, m_pFrustum(NULL)
+	, m_pHoldZealot(NULL)
+	, m_pMoveZealot(NULL)
 {
 }
 
 
 cMainGame::~cMainGame()
 {
+	SafeDelete(m_pHoldZealot);
+	SafeDelete(m_pMoveZealot);
+
+	
 	SafeDelete(m_pCubePC); 
 	SafeDelete(m_pCamera); 
 	SafeDelete(m_pGrid); 
@@ -73,8 +82,8 @@ cMainGame::~cMainGame()
 
 void cMainGame::Setup()
 {
-	//m_pCubePC = new cCubePC; 
-	//m_pCubePC->Setup(); 
+	m_pCubePC = new cCubePC; 
+	m_pCubePC->Setup(); 
 
 	m_pCubeMan = new cCubeMan; 
 	m_pCubeMan->Setup(); 
@@ -93,6 +102,8 @@ void cMainGame::Setup()
 	//	m_pRootFrame = l.Load("woman/woman_01_all.ASE"); 
 	//}
 
+	Setup_OBB();
+
 	//Setup_Texture(); 
 	//Setup_Obj(); 
 	Set_Light(); 
@@ -104,34 +115,47 @@ void cMainGame::Setup()
 	//Setup_MeshObject(); 
 	//Setup_PickingObj();
 
-	m_pFrustum = new CFrustum;
-	m_pFrustum->Setup_Object();
+	//Setup_Frustum();
 
 	
-	m_pSkinnedMesh = new cSkinnedMesh;
-	m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
+	//m_pSkinnedMesh = new cSkinnedMesh;
+	//m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
 	
 }
 
 void cMainGame::Update()
 {
-	//if (m_pCubePC)
-	//	m_pCubePC->Update(); 
+	/*if (m_pCubePC)
+		m_pCubePC->Update(); 
 
 	if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap); 
+		m_pCubeMan->Update(m_pMap); */
 
+
+	/*g_pTimeManager->Update();
+	if (m_pSkinnedMesh)
+		m_pSkinnedMesh->Update();*/
+
+
+	//if (m_pFrustum)
+	//	m_pFrustum->Update();
 
 	g_pTimeManager->Update();
-	if (m_pSkinnedMesh)
-		m_pSkinnedMesh->Update();
-
+	
 	
 	if (m_pCamera)
 		m_pCamera->Update(); 
 
-	//if (m_pRootFrame)
-	//	m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL); 
+
+	if (m_pHoldZealot)
+		m_pHoldZealot->Update(m_pMap);
+
+	if (m_pMoveZealot)
+		m_pMoveZealot->Update(m_pMap);
+	
+
+	/*if (m_pRootFrame)
+		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL); */
 }
 
 void cMainGame::Render()
@@ -144,7 +168,11 @@ void cMainGame::Render()
 	g_pD3DDevice->BeginScene();
 
 	if (m_pGrid)
-		m_pGrid->Render(); 
+		m_pGrid->Render();
+
+	//Frustum_Render();
+
+	OBB_Render();
 
 	//PickingObj_Render(); 
 	//Mesh_Render();
@@ -166,11 +194,11 @@ void cMainGame::Render()
 			m_pRootFrame->Render(); 
 	}
 */
-	if (m_pFrustum)
-		m_pFrustum->Render_Object();
+	/*if (m_pFrustum)
+		m_pFrustum->Render_Object();*/
 
 	
-	SkinnedMesh_Render();
+	//SkinnedMesh_Render();
 
 
 	
@@ -184,8 +212,8 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
 
-	if (m_pFrustum)
-		m_pFrustum->WndProc(hWnd, message, wParam, lParam);
+	//if (m_pFrustum)
+	//	m_pFrustum->WndProc(hWnd, message, wParam, lParam);
 	
 	switch (message)
 	{
@@ -200,11 +228,25 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_RBUTTONDOWN:
 		{
-			static int n = 0;
-			//m_pSkinnedMesh->SetAnimationIndex(++n);
-			m_pSkinnedMesh->SetAnimationIndexBlend(++n);
+			for each(ST_SPHERE* sphere in m_vecCullingSphere)
+			{
+				if(m_pFrustum->IsIn(sphere))
+				{
+					sphere->isPicked = true;
+				}
+				else
+				{
+					sphere->isPicked = false;
+				}
+			}
 			
 		}
+		//{
+		//	//static int n = 0;
+		//	//m_pSkinnedMesh->SetAnimationIndex(++n);
+		//	//m_pSkinnedMesh->SetAnimationIndexBlend(++n);
+		//	
+		//}
 	/*	{
 			cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
 			for (int i = 0; i < m_vecPlaneVertex.size(); i+= 3)
@@ -475,6 +517,88 @@ void cMainGame::Setup_HeightMap()
 	cHeightMap* pMap = new cHeightMap;
 	pMap->Setup("HeightMapData/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pMap;
+	
+}
+
+void cMainGame::Setup_Frustum()
+{
+	D3DXCreateSphere(g_pD3DDevice, 0.5f, 10, 10, &m_pSphere, NULL);
+
+	for(int i = -20; i<= 20; i++)
+	{
+		for (int j = -20; j <= 20; j++)
+		{
+			for (int k = -20; k <= 20; k++)
+			{
+				ST_SPHERE* s = new ST_SPHERE;
+				s->fRadius = 0.5f;
+				s->vCenter = D3DXVECTOR3((float)i, (float)j, (float)k);
+				s->isPicked = true;
+				m_vecCullingSphere.push_back(s);
+			}
+		}
+	}
+
+	ZeroMemory(&m_stCullingMtl, sizeof(D3DMATERIAL9));
+	m_stCullingMtl.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stCullingMtl.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	m_stCullingMtl.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+
+
+	m_pFrustum = new CFrustum;
+	m_pFrustum->Setup();
+
+	
+}
+
+void cMainGame::Frustum_Render()
+{
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	for each(ST_SPHERE* sphere in m_vecCullingSphere)
+	{
+		if(sphere->isPicked)
+		{
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._41 = sphere->vCenter.x;
+			matWorld._42 = sphere->vCenter.y;
+			matWorld._43 = sphere->vCenter.z;
+			
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+			g_pD3DDevice->SetMaterial(&m_stCullingMtl);
+			m_pSphere->DrawSubset(0);
+		}
+	}
+}
+
+void cMainGame::Setup_OBB()
+{
+	m_pHoldZealot = new cZealot;
+	m_pHoldZealot->Setup();
+
+	m_pMoveZealot = new cZealot;
+	m_pMoveZealot->Setup();
+
+	cCharacter* pCharacter = new cCharacter;
+	m_pMoveZealot->SetCharacterController(pCharacter);
+	SafeRelease(pCharacter);
+}
+
+void cMainGame::OBB_Render()
+{
+	D3DCOLOR c = cOBB::IsCollision(m_pHoldZealot->GetOBB(), m_pMoveZealot->GetOBB()) ?
+		D3DCOLOR_XRGB(255, 0, 0) : D3DCOLOR_XRGB(255, 255, 255);
+
+	if (m_pHoldZealot)
+		m_pHoldZealot->Render(c);
+
+	if (m_pMoveZealot)
+		m_pMoveZealot->Render(c);
+	
+
 	
 }
 
