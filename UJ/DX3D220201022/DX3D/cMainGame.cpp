@@ -18,6 +18,8 @@
 #include "cRay.h"
 #include "cHeightMap.h"
 #include "cSkinnedMesh.h"
+#include "cOBB.h"
+#include "cZealot.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
@@ -32,12 +34,16 @@ cMainGame::cMainGame()
 	, m_pObjMesh(NULL)
 	, m_pBigShip(NULL)
 	, m_pSkinnedMesh(NULL)
+	, m_pHoldZealot(NULL)
+	, m_pMoveZealot(NULL)
 {
 }
 
 
 cMainGame::~cMainGame()
 {
+	SafeDelete(m_pMoveZealot);
+	SafeDelete(m_pHoldZealot);
 	SafeDelete(m_pCubePC); 
 	SafeDelete(m_pCamera); 
 	SafeDelete(m_pGrid); 
@@ -88,28 +94,30 @@ void cMainGame::Setup()
 	//	m_pRootFrame = l.Load("woman/woman_01_all.ASE"); 
 	//}
 
+	Setup_OBB();
+	
 	//Setup_Texture(); 
 	//Setup_Obj(); 
 	Set_Light(); 
-	Setup_HeightMap();
-	Setup_MeshObject(); 
-	//Setup_PickingObj();
-	int numSphere = 30;
-	for (int x = 0; x < numSphere; ++x)
-	{
-		for (int y = 0; y < numSphere; ++y)
-		{
-			for (int z = 0; z < numSphere; ++z)
-			{
-				ST_SPHERE s;
-				s.fRadius = 0.8f;
-				s.vCenter = D3DXVECTOR3(-numSphere * 0.5f + x + 0.5f, -numSphere * 0.5f + y + 0.5f, -numSphere * 0.5f + z + 0.5f);
-				m_vecSphere.push_back(s);
-			}
-		}
-	}
-	m_pSkinnedMesh = new cSkinnedMesh;
-	m_pSkinnedMesh->Setup("Zealot", "zealot.x");
+	//Setup_HeightMap();
+	//Setup_MeshObject(); 
+	////Setup_PickingObj();
+	//int numSphere = 30;
+	//for (int x = 0; x < numSphere; ++x)
+	//{
+	//	for (int y = 0; y < numSphere; ++y)
+	//	{
+	//		for (int z = 0; z < numSphere; ++z)
+	//		{
+	//			ST_SPHERE s;
+	//			s.fRadius = 0.8f;
+	//			s.vCenter = D3DXVECTOR3(-numSphere * 0.5f + x + 0.5f, -numSphere * 0.5f + y + 0.5f, -numSphere * 0.5f + z + 0.5f);
+	//			m_vecSphere.push_back(s);
+	//		}
+	//	}
+	//}
+	//m_pSkinnedMesh = new cSkinnedMesh;
+	//m_pSkinnedMesh->Setup("Zealot", "zealot.x");
 }
 
 void cMainGame::Update()
@@ -121,8 +129,13 @@ void cMainGame::Update()
 		m_pCubeMan->Update(m_pMap); 
 
 	if (m_pCamera)
-		m_pCamera->Update(); 
+		m_pCamera->Update();
 	g_pTimeManager->Update();
+	if (m_pHoldZealot)
+		m_pHoldZealot->Update(m_pMap);
+	if (m_pMoveZealot)
+		m_pMoveZealot->Update(m_pMap);
+	
 	if (m_pSkinnedMesh)
 		m_pSkinnedMesh->Update();
 	
@@ -149,8 +162,10 @@ void cMainGame::Render()
 	//	m_pCubePC->Render(); 
 //	Obj_Render(); 
 
-	if (m_pCubeMan)
-		m_pCubeMan->Render();
+	OBB_Render();
+	
+	/*if (m_pCubeMan)
+		m_pCubeMan->Render();*/
 
 	if (m_pSkinnedMesh)
 		SkinnedMesh_Render();
@@ -524,6 +539,27 @@ void cMainGame::Setup_HeightMap()
 	cHeightMap * pMap = new cHeightMap;
 	pMap->Setup("HeightMapData/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pMap;
+}
+
+void cMainGame::Setup_OBB()
+{
+	m_pHoldZealot = new cZealot;
+	m_pHoldZealot->Setup();
+	m_pMoveZealot = new cZealot;
+	m_pMoveZealot->Setup();
+
+	cCharacter* pCharacter = new cCharacter;
+	m_pMoveZealot->SetCharacterController(pCharacter);
+	SafeRelease(pCharacter);
+}
+
+void cMainGame::OBB_Render()
+{
+	D3DCOLOR c = cOBB::IsCollision(m_pHoldZealot->GetOBB(), m_pMoveZealot->GetOBB()) ? D3DCOLOR_XRGB(255,0,0) : D3DCOLOR_XRGB(255,255,255);
+	if (m_pHoldZealot)
+		m_pHoldZealot->Render(c);
+	if (m_pMoveZealot)
+		m_pMoveZealot->Render(c);
 }
 
 

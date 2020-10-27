@@ -48,7 +48,7 @@ void cCharacter::Update(iMap* pMap )
 	D3DXMATRIXA16 matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);
 
-	m_vDirection = D3DXVECTOR3(0, 0, 1);
+	m_vDirection = D3DXVECTOR3(0, 0, -1);
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 
 	if (pMap)
@@ -59,7 +59,7 @@ void cCharacter::Update(iMap* pMap )
 	m_vPosition = vPosition;
 	D3DXMatrixTranslation(&matT, 
 		m_vPosition.x, 
-		m_vPosition.y + 0.9f, 
+		m_vPosition.y, 
 		m_vPosition.z);
 
 	m_matWorld = matR * matT;

@@ -8,6 +8,7 @@ class cGroup;
 class cFrame; 
 class cMtlTex;
 class cSkinnedMesh;
+class cZealot;
 
 class cMainGame
 {
@@ -32,6 +33,9 @@ private :
 
 	cFrame*					m_pRootFrame; 
 
+	cZealot*				m_pHoldZealot;
+	cZealot*				m_pMoveZealot;
+	
 public :
 	void Setup(); 
 	void Update(); 
@@ -74,5 +78,8 @@ public :
 
 	void SkinnedMesh_Render();
 	void Setup_HeightMap();
+
+	void Setup_OBB();
+	void OBB_Render();
 };
 
