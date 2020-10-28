@@ -11,8 +11,8 @@ cUI::cUI()
 	, m_rc(NULL)
 	, m_isLButtonDown(false)
 {
-	m_box.x = 0;
-	m_box.y = 0;
+	m_box.x = 300;
+	m_box.y =300;
 	temp.x = 0;
 	temp.y = 0;
 }
@@ -144,16 +144,16 @@ void cUI::UI_Render()
 	
 	temp.x = (m_rc[0].left - m_rc[0].right) / 2;
 	temp.y = (m_rc[0].top - m_rc[0].bottom) / 2;
-	if (m_box.x == 0)
-	{
-		m_pSprite->Draw(m_pTextureUI[0], &m_rc[0], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(190, 255, 255, 255));
-		m_pSprite->Draw(m_click, &m_rc[1], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_stImageInfo[0].Width / 4, m_stImageInfo[0].Height / 1.5, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
-		m_pSprite->Draw(m_pTextureUI[2], &m_rc[2], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_stImageInfo[0].Width / 1.3, m_stImageInfo[0].Height / 7, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+	//if (m_box.x == 0)
+	//{
+	//	m_pSprite->Draw(m_pTextureUI[0], &m_rc[0], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(190, 255, 255, 255));
+	//	m_pSprite->Draw(m_click, &m_rc[1], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_stImageInfo[0].Width / 4, m_stImageInfo[0].Height / 1.5, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+	//	m_pSprite->Draw(m_pTextureUI[2], &m_rc[2], &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_stImageInfo[0].Width / 1.3, m_stImageInfo[0].Height / 7, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 
-	}
-	else
+	//}
+	//else
 	{
-		m_pSprite->Draw(m_pTextureUI[0], &m_rc[0], &D3DXVECTOR3(-m_box.x - temp.x, -m_box.y - temp.y, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(190, 255, 255, 255));
+		m_pSprite->Draw(m_pTextureUI[0], &m_rc[0], &D3DXVECTOR3(-m_box.x - temp.x, -m_box.y - temp.y, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 		m_pSprite->Draw(m_click, &m_rc[1], &D3DXVECTOR3(-m_box.x - temp.x, -m_box.y - temp.y, 0), &D3DXVECTOR3(m_stImageInfo[0].Width/4, m_stImageInfo[0].Height/1.5, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 		m_pSprite->Draw(m_pTextureUI[2], &m_rc[2], &D3DXVECTOR3(-m_box.x - temp.x, -m_box.y - temp.y, 0), &D3DXVECTOR3(m_stImageInfo[0].Width / 1.3, m_stImageInfo[0].Height / 7, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
@@ -178,40 +178,44 @@ void cUI::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
-				m_click = m_pTextureUI[2];
+				m_click = m_pTextureUI[1];
 			}
-
-			m_isLButtonDown = true;
+			m_isLButtonDown = false;
+			
 			break;
 		case WM_LBUTTONUP:
-			m_isLButtonDown = false;
+			
+
+				m_isLButtonDown = true;
+			
 			break;
 		case WM_MOUSEMOVE:
-			
+			POINT ptCurMouse;
+			ptCurMouse.x = LOWORD(lParam);
+			ptCurMouse.y = HIWORD(lParam);
 
 			if (m_isLButtonDown)
 			{
-				m_box.x = LOWORD(lParam);
-				m_box.y = HIWORD(lParam);
+				if ((m_rc[0].left + m_box.x - m_stImageInfo[0].Width / 2<LOWORD(lParam) && m_rc[0].right + m_box.x - m_stImageInfo[0].Width / 2>LOWORD(lParam)) &&
+					(m_rc[0].top<HIWORD(lParam) && m_rc[0].bottom>HIWORD(lParam)))
+				{
+					m_box.x = ptCurMouse.x;
+					m_box.y = ptCurMouse.y;
+				}
+			}
 
+				
+			if( (m_rc[1].left+ m_box.x - m_stImageInfo[1].Width/2< ptCurMouse.x && m_rc[1].right+ m_box.x - m_stImageInfo[1].Width / 2 > ptCurMouse.x) &&
+				(m_stImageInfo[1].Height  + m_rc[1].top+m_box.y < ptCurMouse.y && m_rc[1].bottom+ m_stImageInfo[1].Height + m_box.y > ptCurMouse.y))
+			{
+				m_click = m_pTextureUI[3];
+			}
+			else
+			{
+				m_click = m_pTextureUI[1];
 			}
 
 			
-			
-				POINT ptCurMouse;
-				ptCurMouse.x = LOWORD(lParam);
-				ptCurMouse.y = HIWORD(lParam);
-				if ((-m_box.x - temp.x+m_rc[1].right > ptCurMouse.x &&  -m_box.x - temp.x+m_rc[1].left < ptCurMouse.x) &&
-					(-m_box.y - temp.y+m_rc[1].bottom > ptCurMouse.y &&  -m_box.y - temp.y+m_rc[1].top < ptCurMouse.y))
-				{
-					m_click = m_pTextureUI[3];
-				}
-				else
-				{
-					m_click = m_pTextureUI[1];
-				}
-
-
 			
 			
 
@@ -317,7 +321,7 @@ void cUI::Text_Render()
 void cUI::Destroy()
 {
 
-	SafeRelease(m_pFont);
+	/*SafeRelease(m_pFont);
 	SafeRelease(m_click);
 	SafeRelease(m_pSprite);
 
@@ -325,7 +329,7 @@ void cUI::Destroy()
 		SafeRelease(p);
 	m_pTextureUI.clear();
 
-	m_stImageInfo.clear();
+	m_stImageInfo.clear();*/
 
 	
 }
