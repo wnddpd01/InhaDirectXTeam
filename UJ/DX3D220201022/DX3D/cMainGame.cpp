@@ -19,7 +19,9 @@
 #include "cHeightMap.h"
 #include "cSkinnedMesh.h"
 #include "cOBB.h"
+#include "cUIButton.h"
 #include "cZealot.h"
+#include "cUIImage.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
@@ -36,12 +38,20 @@ cMainGame::cMainGame()
 	, m_pSkinnedMesh(NULL)
 	, m_pHoldZealot(NULL)
 	, m_pMoveZealot(NULL)
+	, m_font(NULL)
+	, m_p3DText(NULL)
+	,m_pSprite(NULL)
+	,m_pTextureUI(NULL)
 {
 }
 
 
 cMainGame::~cMainGame()
 {
+	SafeRelease(m_p3DText);
+	SafeRelease(m_font);
+	SafeRelease(m_pSprite);
+	SafeRelease(m_pTextureUI);
 	SafeDelete(m_pMoveZealot);
 	SafeDelete(m_pHoldZealot);
 	SafeDelete(m_pCubePC); 
@@ -68,7 +78,7 @@ cMainGame::~cMainGame()
 	if(m_pRootFrame)
 		m_pRootFrame->Destroy(); 
 	g_pObjectManager->Destroy(); 
-
+	g_pFontManager->Destroy();
 	g_pDeviceManager->Destroy();
 }
 
@@ -95,7 +105,8 @@ void cMainGame::Setup()
 	//}
 
 	Setup_OBB();
-	
+	Setup_UI();
+	Create_Font();
 	//Setup_Texture(); 
 	//Setup_Obj(); 
 	Set_Light(); 
@@ -160,8 +171,7 @@ void cMainGame::Render()
 
 	//if (m_pCubePC)
 	//	m_pCubePC->Render(); 
-//	Obj_Render(); 
-
+//	Obj_Render();
 	OBB_Render();
 	
 	/*if (m_pCubeMan)
@@ -193,29 +203,54 @@ void cMainGame::Render()
 			m_pRootFrame->Render(); 
 	}
 */
+	Text_Render();
 	if (m_pBigShip)
 	{
 		m_pBigShip->Render(0.01);
 	}
+	UI_Render();
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
 
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static thread t1;
-	if (m_pCamera)
+	static bool mouseLClicked = false;
+	/*if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam); 
-
+*/
 	switch (message)
 	{
 	case WM_LBUTTONDOWN:
 		{
+			mouseLClicked = true;
+			MouseEvent e;
+			e.mousePt.x = LOWORD(lParam);
+			e.mousePt.y = HIWORD(lParam);
+			e.bClicked = mouseLClicked;
+			for (auto ui : m_vecUI)
+			{
+				ui->Update(e);
+			}
 			/*cRay r = cRay::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam)); 
 			for (int i = 0; i < m_vecSphere.size(); i++)
 			{
 				m_vecSphere[i].isPicked = r.IsPicked(&m_vecSphere[i]); 
 			}*/
+		}
+		break;
+	case WM_LBUTTONUP :
+		{
+			mouseLClicked = false;
+			MouseEvent e;
+			e.mousePt.x = LOWORD(lParam);
+			e.mousePt.y = HIWORD(lParam);
+			e.bClicked = mouseLClicked;
+			for (auto ui : m_vecUI)
+			{
+				ui->Update(e);
+			}
+			mouseLClicked = false;
 		}
 		break;
 	case WM_RBUTTONDOWN:
@@ -268,10 +303,7 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			D3DXPlaneFromPoints(&frustrumPlane[4], &vecUnProjFrustrum[7], &vecUnProjFrustrum[3], &vecUnProjFrustrum[2]); //
 			D3DXPlaneFromPoints(&frustrumPlane[5], &vecUnProjFrustrum[4], &vecUnProjFrustrum[5], &vecUnProjFrustrum[0]);
 			cHeightMap* height_map = (cHeightMap*)m_pMap;
-			
-			//height_map->BuildThreadCall(frustrumPlane);
-			t1 = thread(&cHeightMap::BuildMesh, (cHeightMap*)m_pMap, frustrumPlane);
-			t1.join();
+
 		}
 		break;
 		case WM_CHAR :
@@ -285,6 +317,18 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					m_vecSphere[i].isPicked = false;
 				}
+			}
+		}
+		break;
+		case WM_MOUSEMOVE :
+		{
+			MouseEvent e;
+			e.mousePt.x = LOWORD(lParam);
+			e.mousePt.y = HIWORD(lParam);
+			e.bClicked = mouseLClicked;
+			for (auto ui : m_vecUI)
+			{
+				ui->Update(e);
 			}
 		}
 		break;
@@ -560,6 +604,109 @@ void cMainGame::OBB_Render()
 		m_pHoldZealot->Render(c);
 	if (m_pMoveZealot)
 		m_pMoveZealot->Render(c);
+}
+
+void cMainGame::Create_Font()
+{
+	D3DXFONT_DESC fd;
+	ZeroMemory(&fd, sizeof D3DXFONT_DESC);
+	fd.Height = 50;
+	fd.Width = 25;
+	fd.Weight = FW_MEDIUM;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+
+	//wcscpy_s(fd.FaceName, L"±¼¸²Ã¼");
+	AddFontResource(L"Font/umberto.ttf");
+	wcscpy_s(fd.FaceName, L"umberto");
+
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_font);
+	
+	HDC hdc = CreateCompatibleDC(NULL);
+	LOGFONT lf;
+	ZeroMemory(&lf, sizeof(LOGFONT));
+	lf.lfHeight = 25;
+	lf.lfWidth = 12;
+	lf.lfWeight = 500;
+	lf.lfItalic = false;
+	lf.lfUnderline = false;
+	lf.lfStrikeOut = false;
+	lf.lfCharSet = DEFAULT_CHARSET;
+	wcscpy(lf.lfFaceName, L"umberto");
+	HFONT hFont;
+	HFONT hFontOld;
+
+	hFont = CreateFontIndirect(&lf);
+	hFontOld = (HFONT)SelectObject(hdc, hFont);
+	D3DXCreateText(g_pD3DDevice, hdc, L"°¡³ª´Ù¶ó¸¶", 0.001f, 0.01f, &m_p3DText, 0, 0);
+	SelectObject(hdc, hFontOld);
+	DeleteObject(hFont);
+	DeleteDC(hdc);
+}
+
+void cMainGame::Text_Render()
+{
+	string sText("ABC 123 !@#$ °¡³ª´Ù¶ó");
+	RECT rc;
+	SetRect(&rc, 100, 100, 301, 201);
+
+	LPD3DXFONT pFont = g_pFontManager->GetFont(cFontManager::E_DEFAULT);
+	//pFont->DrawTextA(NULL, sText.c_str(), sText.length(), &rc, DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 0));
+
+	/*D3DXMATRIXA16 matWorld, matS, matR, matT;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 4.0f);
+	D3DXMatrixTranslation(&matT, -2.f, 1.f, 0.f);
+	matWorld = matS * matR * matT;
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	m_p3DText->DrawSubset(0);*/
+}
+
+void cMainGame::Setup_UI()
+{
+	//D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+	////m_pTextureUI = g_pTextureManager->GetTexture("UI/±èÅÂÈñ.jpg");
+	//D3DXCreateTextureFromFileEx(g_pD3DDevice, L"UI/±èÅÂÈñ.jpg", D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE,D3DX_DEFAULT, 0, &m_stImageInfo, NULL, &m_pTextureUI);
+	m_vecUI.push_back(new cUIImage(wstring(L"UI/panel.png")));
+
+	cUIButton * btn = new cUIButton();
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, m_vecUI[0]->m_width * 0.5f - btn->m_width * 0.5f, m_vecUI[0]->m_height * 0.6f, 0);
+	D3DXVec3TransformCoord(&btn->m_pos, &btn->m_pos, &matT);
+	m_vecUI[0]->AddChild(btn);
+	
+	btn = new cUIButton();
+	D3DXMatrixTranslation(&matT, m_vecUI[0]->m_width * 0.5f - btn->m_width * 0.5f, m_vecUI[0]->m_height * 0.75f, 0);
+	D3DXVec3TransformCoord(&btn->m_pos, &btn->m_pos, &matT);
+	m_vecUI[0]->AddChild(btn);
+}
+
+void cMainGame::UI_Render()
+{
+	//m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	//RECT rc;
+	//SetRect(&rc, m_stImageInfo.Width / 2, m_stImageInfo.Height / 2, m_stImageInfo.Width, m_stImageInfo.Height);
+	//D3DXMATRIXA16 matT, matS, matR, mat;
+	//D3DXMatrixTranslation(&matT, 100, 100, 0);
+	////mat = matT;
+
+	//static float fAngle = 0.0f;
+	////fAngle -= 0.001f;
+	//D3DXMatrixRotationY(&matR, fAngle);
+	//mat = matR * matT;
+	//m_pSprite->SetTransform(&mat);
+	//m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(127,255, 255, 255));
+	//m_pSprite->End();
+	for (auto ui : m_vecUI)
+	{
+		ui->Render();
+	}
 }
 
 

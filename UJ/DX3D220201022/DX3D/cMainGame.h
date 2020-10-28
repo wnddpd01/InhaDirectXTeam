@@ -9,6 +9,7 @@ class cFrame;
 class cMtlTex;
 class cSkinnedMesh;
 class cZealot;
+class cUI;
 
 class cMainGame
 {
@@ -69,6 +70,13 @@ private :
 	D3DXVECTOR3			m_vPickedPosition; 
 	cBigShip*			m_pBigShip;
 	cSkinnedMesh*		m_pSkinnedMesh;
+
+	LPD3DXFONT			m_font;
+	ID3DXMesh*			m_p3DText;
+	LPD3DXSPRITE		m_pSprite;
+	D3DXIMAGE_INFO		m_stImageInfo;
+	LPDIRECT3DTEXTURE9	m_pTextureUI;
+	vector<cUI*>		m_vecUI;
 public :
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
@@ -81,5 +89,11 @@ public :
 
 	void Setup_OBB();
 	void OBB_Render();
+
+	void Create_Font();
+	void Text_Render();
+
+	void Setup_UI();
+	void UI_Render();
 };
 
