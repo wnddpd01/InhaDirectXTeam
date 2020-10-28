@@ -23,6 +23,7 @@
 #include "cZealot.h"
 #include "cUIImage.h"
 
+
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
 	, m_pCamera(NULL)
@@ -679,11 +680,19 @@ void cMainGame::Setup_UI()
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_vecUI[0]->m_width * 0.5f - btn->m_width * 0.5f, m_vecUI[0]->m_height * 0.6f, 0);
 	D3DXVec3TransformCoord(&btn->m_pos, &btn->m_pos, &matT);
+	btn->name = string("OK");
 	m_vecUI[0]->AddChild(btn);
 	
 	btn = new cUIButton();
 	D3DXMatrixTranslation(&matT, m_vecUI[0]->m_width * 0.5f - btn->m_width * 0.5f, m_vecUI[0]->m_height * 0.75f, 0);
 	D3DXVec3TransformCoord(&btn->m_pos, &btn->m_pos, &matT);
+	btn->name = string("NO");
+	m_vecUI[0]->AddChild(btn);
+
+	btn = new cUIButton();
+	D3DXMatrixTranslation(&matT, m_vecUI[0]->m_width * 0.5f - btn->m_width * 0.5f, m_vecUI[0]->m_height * 0.75f, 0);
+	D3DXVec3TransformCoord(&btn->m_pos, &btn->m_pos, &matT);
+	btn->name = string("Close");
 	m_vecUI[0]->AddChild(btn);
 }
 
@@ -693,7 +702,8 @@ void cMainGame::UI_Render()
 	//RECT rc;
 	//SetRect(&rc, m_stImageInfo.Width / 2, m_stImageInfo.Height / 2, m_stImageInfo.Width, m_stImageInfo.Height);
 	//D3DXMATRIXA16 matT, matS, matR, mat;
-	//D3DXMatrixTranslation(&matT, 100, 100, 0);
+	//D3DXMatrixTr
+	//anslation(&matT, 100, 100, 0);
 	////mat = matT;
 
 	//static float fAngle = 0.0f;

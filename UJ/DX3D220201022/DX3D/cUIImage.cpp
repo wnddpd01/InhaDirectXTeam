@@ -72,18 +72,17 @@ void cUIImage::Update(MouseEvent mouseEvent)
 void cUIImage::Render(D3DXMATRIXA16* parentMat)
 {
 	D3DXMATRIXA16 matWorld = m_matWorld;
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	matWorld *= matT;
 	if(parentMat != NULL)
 	{
 		matWorld *= *parentMat;
 	}
-	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	matWorld *= matT;
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	m_pSprite->SetTransform(&matWorld);
 	m_pSprite->Draw(m_pTextureUI, &m_drawRect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0,0,0),D3DCOLOR_ARGB(255,255, 255, 255));
 	m_pSprite->End();
-	string^ asd;
 	for (auto child : m_vecChild)
 	{
 		child->Render(&matWorld);
