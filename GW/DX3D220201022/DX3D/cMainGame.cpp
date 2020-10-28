@@ -21,6 +21,7 @@
 
 #include "cZealot.h"
 #include "cOBB.h"
+#include "cUI.h"
 
 cMainGame::cMainGame()
 	: m_pCubePC(NULL)
@@ -38,6 +39,7 @@ cMainGame::cMainGame()
 	, m_pFrustum(NULL)
 	, m_pHoldZealot(NULL)
 	, m_pMoveZealot(NULL)
+	, m_pUI(NULL)
 {
 }
 
@@ -46,7 +48,6 @@ cMainGame::~cMainGame()
 {
 	SafeDelete(m_pHoldZealot);
 	SafeDelete(m_pMoveZealot);
-
 	
 	SafeDelete(m_pCubePC); 
 	SafeDelete(m_pCamera); 
@@ -56,11 +57,16 @@ cMainGame::~cMainGame()
 	
 	SafeDelete(m_pSkinnedMesh);
 	SafeDelete(m_pFrustum);
+
+	SafeDelete(m_pUI);
+	
 	
 	SafeRelease(m_pTexture); 
 	SafeRelease(m_pMeshSphere); 
 	SafeRelease(m_pMeshTeapot); 
 	SafeRelease(m_pObjMesh);
+	
+	
 
 	
 
@@ -76,7 +82,7 @@ cMainGame::~cMainGame()
 
 	m_pRootFrame->Destroy(); 
 	g_pObjectManager->Destroy(); 
-
+	g_pFontManager->Destroy();
 	g_pDeviceManager->Destroy();
 }
 
@@ -111,12 +117,14 @@ void cMainGame::Setup()
 	/*m_pXfileLoader = new cXfileLoader;
 	m_pXfileLoader->Setup();*/
 
-	
+
+	//Create_Font();
 	//Setup_MeshObject(); 
 	//Setup_PickingObj();
 
 	//Setup_Frustum();
-
+	m_pUI = new cUI;
+	m_pUI->Setup_UI();
 	
 	//m_pSkinnedMesh = new cSkinnedMesh;
 	//m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
@@ -167,6 +175,8 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
+
+	
 	if (m_pGrid)
 		m_pGrid->Render();
 
@@ -174,6 +184,9 @@ void cMainGame::Render()
 
 	OBB_Render();
 
+	
+	//Text_Render();
+	
 	//PickingObj_Render(); 
 	//Mesh_Render();
 
@@ -201,7 +214,9 @@ void cMainGame::Render()
 	//SkinnedMesh_Render();
 
 
-	
+	if (m_pUI)
+		m_pUI->UI_Render();
+
 	//m_pXfileLoader->Display(0.01f);
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
@@ -209,9 +224,13 @@ void cMainGame::Render()
 
 void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (m_pCamera)
-		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+	/*if (m_pCamera)
+		m_pCamera->WndProc(hWnd, message, wParam, lParam);*/
 
+
+	if (m_pUI)
+		m_pUI->WndProc(hWnd, message, wParam, lParam);
+	
 	//if (m_pFrustum)
 	//	m_pFrustum->WndProc(hWnd, message, wParam, lParam);
 	
@@ -228,19 +247,22 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_RBUTTONDOWN:
 		{
-			for each(ST_SPHERE* sphere in m_vecCullingSphere)
-			{
-				if(m_pFrustum->IsIn(sphere))
-				{
-					sphere->isPicked = true;
-				}
-				else
-				{
-					sphere->isPicked = false;
-				}
-			}
+			
 			
 		}
+
+		/*for each(ST_SPHERE* sphere in m_vecCullingSphere)
+		{
+		if(m_pFrustum->IsIn(sphere))
+		{
+		sphere->isPicked = true;
+		}
+		else
+		{
+		sphere->isPicked = false;
+		}
+		}*/
+		
 		//{
 		//	//static int n = 0;
 		//	//m_pSkinnedMesh->SetAnimationIndex(++n);

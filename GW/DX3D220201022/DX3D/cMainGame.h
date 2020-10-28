@@ -14,6 +14,9 @@ class CFrustum;
 
 class cZealot;
 
+class cUI;
+
+
 class cMainGame
 {
 public:
@@ -42,6 +45,7 @@ private :
 
 	cSkinnedMesh* m_pSkinnedMesh;
 
+	cUI* m_pUI;
 	
 	
 public :
@@ -88,6 +92,9 @@ private :
 	cZealot* m_pHoldZealot;
 	cZealot* m_pMoveZealot;
 
+
+
+	
 	
 public :
 	void Setup_MeshObject(); 
@@ -110,6 +117,10 @@ public :
 
 	void Setup_OBB();
 	void OBB_Render();
+
+
+
+
 	
 };
 

@@ -169,7 +169,8 @@ void cOBB::OBBBOX_Render(D3DCOLOR c)
 	
 	vector<D3DXVECTOR3>vertexs;
 
-	D3DXVECTOR3 temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
+	D3DXVECTOR3 temp;
+	temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) - (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
 	vertexs.push_back(temp);
 
 	temp = m_vCenterPos - (m_vAxisDir[0] * m_fAxisHalfLen[0]) + (m_vAxisDir[1] * m_fAxisHalfLen[1]) - (m_vAxisDir[2] * m_fAxisHalfLen[2]);
@@ -239,7 +240,6 @@ void cOBB::OBBBOX_Render(D3DCOLOR c)
 	D3DXMatrixIdentity(&matWorld);
 
 	g_pD3DDevice->SetTexture(0, NULL);
-
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, vecVertex.size() / 2, &vecVertex[0], sizeof(ST_PC_VERTEX));
