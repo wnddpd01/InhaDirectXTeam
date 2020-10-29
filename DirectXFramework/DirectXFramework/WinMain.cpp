@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "SceneCenter.h"
-
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280, UINT windowHeight = 720);
 
-int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrevIns, LPSTR lpCmdLine, int nCmdShow)
+
+int APIENTRY wWinMain(_In_ HINSTANCE hIns,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
 	SceneCenter sceneCenter;
 	if(GenerateWindow(hIns, nCmdShow, L"Win32Window", L"DirectXFramework"))
