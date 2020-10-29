@@ -22,23 +22,24 @@ cUIButton::~cUIButton()
 {
 }
 
-void cUIButton::Update(MouseEvent mouseEvent)
+void cUIButton::Update(MouseEvent& mouseEvent)
 {
-	cout << mouseEvent.bClicked << endl;
-	if(PtInRect(&GetRectInViewPort(), mouseEvent.mousePt))
-	{
-		if (mouseEvent.bClicked == true)
-		{
-			m_pTextureUI = m_pTextureBtn[2];
-		}
-		else
-		{
-			m_pTextureUI = m_pTextureBtn[1];
-		}
-	}
-	else
-	{
-		m_pTextureUI = m_pTextureBtn[0];
-	}
+	//cout << mouseEvent.bClicked << endl;
+	//if(PtInRect(&GetRectInViewPort(), mouseEvent.mousePt))
+	//{
+	//	if (mouseEvent.bClicked == true)
+	//	{
+	//		m_pTextureUI = m_pTextureBtn[2];
+	//		mouseEvent.isUsed = true;
+	//	}
+	//	else
+	//	{
+	//		m_pTextureUI = m_pTextureBtn[1];
+	//	}
+	//}
+	//else
+	//{
+	//	m_pTextureUI = m_pTextureBtn[0];
+	//}
 }
 

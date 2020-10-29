@@ -77,6 +77,9 @@ private :
 	D3DXIMAGE_INFO		m_stImageInfo;
 	LPDIRECT3DTEXTURE9	m_pTextureUI;
 	vector<cUI*>		m_vecUI;
+	map<string, cUI*>   m_mapUI;
+
+	vector<ST_PC_VERTEX> m_vecVertexParticle;
 public :
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
@@ -95,5 +98,31 @@ public :
 
 	void Setup_UI();
 	void UI_Render();
+
+	void UI_ClickEventProcess(string UIName);
+
+	void Setup_Particle();
+	void Update_Particle();
+	void Render_Particle();
+
+	int	m_nType;
+	LPDIRECT3DTEXTURE9 m_tex[4];
+	vector<ST_PT_VERTEX> m_vecVertex_Multi;
+
+	void Setup_MultiTexture();
+	void Update_MultiTexture();
+	void MultiTexture_Render();
+	
+	void MultiTexture_Render1();
+	void MultiTexture_Render2();
+	void MultiTexture_Render3();
+	void MultiTexture_Render4();
+	void MultiTexture_Render5();
+	void MultiTexture_Render6();
+	void MultiTexture_Render7();
+	void MultiTexture_Render8();
+	void MultiTexture_Render9();
+	void MultiTexture_Render0();
+	void MultiTexture_Render_default();
 };
 

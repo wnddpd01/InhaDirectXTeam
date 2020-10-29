@@ -4,10 +4,37 @@
 #include <iostream>
 
 
-RECT cUIImage::GetRectInViewPort()
+bool cUIImage::isClicked(MouseEvent& mouse_event)
 {
-	RECT ret = { m_pos.x, m_pos.y, m_width + m_pos.x, m_height + m_pos.y };
-	return ret;
+	if(PtInRect(&GetRectInViewPort(), mouse_event.mousePt))
+	{
+		if (m_bMouseClicked == true && mouse_event.bClicked == false)
+		{
+			m_bMouseClicked = false;
+			return true;
+		}
+		else if(m_bMouseClicked == false && mouse_event.bClicked == true)
+		{
+			m_prevPos = mouse_event.mousePt;
+			m_bMouseClicked = true;
+			return false;
+		}
+	}
+	return false;
+}
+
+bool cUIImage::isDragging(MouseEvent& mouse_event)
+{
+	if (mouse_event.bClicked == false)
+	{
+		m_bMouseClicked = false;
+		return false;
+	}
+	if(m_bMouseClicked == true && m_prevPos != mouse_event.mousePt)
+	{
+		return true;
+	}
+	return false;
 }
 
 cUIImage::cUIImage(wstring texture_path)
@@ -33,8 +60,45 @@ cUIImage::~cUIImage()
 	SafeRelease(m_pSprite);
 }
 
-void cUIImage::Update(MouseEvent mouseEvent)
+void cUIImage::Update(MouseEvent & mouseEvent)
 {
+	cUI::Update(mouseEvent);
+
+	if (mouseEvent.isUsed == true)
+		return;
+	
+	if(isClicked(mouseEvent))
+	{
+		//TODO 클릭처리
+		mouseEvent.isUsed = true;
+	}
+	else if(isDragging(mouseEvent))
+	{
+		D3DXMATRIXA16 matT;
+		D3DXMatrixTranslation(&matT, mouseEvent.mousePt.x - m_prevPos.x, mouseEvent.mousePt.y - m_prevPos.y, 0);
+		D3DXVec3TransformCoord(&m_pos, &m_pos, &matT);
+		m_prevPos = mouseEvent.mousePt;
+		mouseEvent.isUsed = true;
+	}
+	
+	/*POINT prevMousePt = mouseEvent.mousePt;
+	if (PtInRect(&GetRectInViewPort(), mouseEvent.mousePt))
+	{
+		mouseEvent.mousePt.x -= m_pos.x;
+		mouseEvent.mousePt.y -= m_pos.y;
+		for (auto child : m_vecChild)
+		{
+			child->Update(mouseEvent);
+		}
+	}
+
+	mouseEvent.mousePt = prevMousePt;
+
+	if (mouseEvent.isUsed == true)
+	{
+		return;
+	}
+	
 	if (m_bMouseClicked)
 	{
 		if (mouseEvent.bClicked == false)
@@ -47,9 +111,9 @@ void cUIImage::Update(MouseEvent mouseEvent)
 			D3DXMatrixTranslation(&matT, mouseEvent.mousePt.x - m_prevPos.x, mouseEvent.mousePt.y - m_prevPos.y, 0);
 			D3DXVec3TransformCoord(&m_pos, &m_pos, &matT);
 			m_prevPos = mouseEvent.mousePt;
+			mouseEvent.isUsed = true;
 		}
 	}
-	
 	
 	if(PtInRect(&GetRectInViewPort(), mouseEvent.mousePt))
 	{
@@ -57,16 +121,9 @@ void cUIImage::Update(MouseEvent mouseEvent)
 		{
 			m_prevPos = mouseEvent.mousePt;
 			m_bMouseClicked = mouseEvent.bClicked;
+			mouseEvent.isUsed = true;
 		}
-		mouseEvent.mousePt.x -= m_pos.x;
-		mouseEvent.mousePt.y -= m_pos.y;
-		for (auto child : m_vecChild)
-		{
-			child->Update(mouseEvent);
-		}
-	}
-
-	
+	}*/
 }
 
 void cUIImage::Render(D3DXMATRIXA16* parentMat)
