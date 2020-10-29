@@ -23,7 +23,9 @@ cMainGame*	g_pMainGame;
 HWND		g_hWnd; 
 // << : 
 
-
+LARGE_INTEGER g_tSecond;
+LARGE_INTEGER g_tTime;
+float g_fDeltaTime;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -77,6 +79,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
     }
 
+
+	QueryPerformanceFrequency(&g_tSecond);
+	QueryPerformanceCounter(&g_tTime);
+
+	
 	SafeDelete(g_pMainGame); 
 
     return (int) msg.wParam;
