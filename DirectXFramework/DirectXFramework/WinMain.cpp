@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "SceneCenter.h"
 
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280, UINT windowHeight = 720);
@@ -24,9 +23,14 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrevIns, LPSTR lpCmdLine, int nCmd
 			}
 			else
 			{
+				gTimeManager->SetGameLoopStratTime();
+
 				sceneCenter.InputProcess(); // TODO Input처리 어떻게 할지 연구, 논의 필요
-				sceneCenter.Update(); // TODO timeProgressRatio 계산 필요
+				//sceneCenter.Update(); // TODO timeProgressRatio 계산 필요
+				sceneCenter.Update(gDeltaTime);
 				sceneCenter.Render();
+
+				gTimeManager->SetGameLoopEndTime();
 			}
 		}
 		return msg.wParam;

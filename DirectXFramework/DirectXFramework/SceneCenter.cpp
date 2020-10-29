@@ -1,4 +1,9 @@
+
 #include "stdafx.h"
+
+// µð¹ö±ë¿ë
+#include <iostream>
+
 #include "SceneCenter.h"
 #include "Scene.h"
 
@@ -47,6 +52,8 @@ void SceneCenter::InputProcess()
 
 void SceneCenter::Update(float timeProgressRatio)
 {
+	cout << timeProgressRatio << endl;
+
 	if(mCurScene != NULL)
 	{
 	}

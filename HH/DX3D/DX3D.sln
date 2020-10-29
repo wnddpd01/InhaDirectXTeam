@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX3D", "DX3D.vcxproj", "{09
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{099003D3-415E-468A-AA75-6B927A651932}.Debug|x64.ActiveCfg = Debug|x64
+		{099003D3-415E-468A-AA75-6B927A651932}.Debug|x64.Build.0 = Debug|x64
 		{099003D3-415E-468A-AA75-6B927A651932}.Debug|x86.ActiveCfg = Debug|Win32
 		{099003D3-415E-468A-AA75-6B927A651932}.Debug|x86.Build.0 = Debug|Win32
+		{099003D3-415E-468A-AA75-6B927A651932}.Release|x64.ActiveCfg = Release|x64
+		{099003D3-415E-468A-AA75-6B927A651932}.Release|x64.Build.0 = Release|x64
 		{099003D3-415E-468A-AA75-6B927A651932}.Release|x86.ActiveCfg = Release|Win32
 		{099003D3-415E-468A-AA75-6B927A651932}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
