@@ -30,7 +30,7 @@
 #include <list>
 #include <assert.h>
 
-#include <d3dx9.h>
+#include "d3dx9.h"
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib") 
 
@@ -148,5 +148,13 @@ public : virtual void Set##funName(varType var ) { \
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+#include "cSkinnedMeshManager.h"
 #include "cTimeManager.h"
+#include "cFontManager.h"
 
+inline bool operator!=(POINT &pt1, POINT &pt2)
+{
+	if (pt1.x != pt2.x || pt1.y != pt2.y)
+		return true;
+	return false;
+}

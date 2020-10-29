@@ -1,9 +1,23 @@
 #pragma once
+
+class ST_BONE;
+
 class cSkinnedMesh
 {
 public:
 	cSkinnedMesh();
 	~cSkinnedMesh();
+	cSkinnedMesh(char * szFolder, char*szFilename);
+	void Load(char* szFolder, char* szFilename);
+	void Destroy();
+	void UpdateAndRender();
+	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pMatWorld);
+	void SetRandomTrackPosition();
+	void SetTransform(D3DXMATRIXA16* pMat);
+	D3DXMATRIXA16 m_matWorldTM;
+	Synthesize(D3DXVECTOR3, m_vMin, Min);
+	Synthesize(D3DXVECTOR3, m_vMax, Max);
+
 protected:
 	LPD3DXFRAME m_pRoot;
 	LPD3DXANIMATIONCONTROLLER m_pAnimController;

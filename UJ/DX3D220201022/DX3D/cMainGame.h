@@ -8,6 +8,8 @@ class cGroup;
 class cFrame; 
 class cMtlTex;
 class cSkinnedMesh;
+class cZealot;
+class cUI;
 
 class cMainGame
 {
@@ -32,6 +34,9 @@ private :
 
 	cFrame*					m_pRootFrame; 
 
+	cZealot*				m_pHoldZealot;
+	cZealot*				m_pMoveZealot;
+	
 public :
 	void Setup(); 
 	void Update(); 
@@ -65,6 +70,16 @@ private :
 	D3DXVECTOR3			m_vPickedPosition; 
 	cBigShip*			m_pBigShip;
 	cSkinnedMesh*		m_pSkinnedMesh;
+
+	LPD3DXFONT			m_font;
+	ID3DXMesh*			m_p3DText;
+	LPD3DXSPRITE		m_pSprite;
+	D3DXIMAGE_INFO		m_stImageInfo;
+	LPDIRECT3DTEXTURE9	m_pTextureUI;
+	vector<cUI*>		m_vecUI;
+	map<string, cUI*>   m_mapUI;
+
+	vector<ST_PC_VERTEX> m_vecVertexParticle;
 public :
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
@@ -74,5 +89,40 @@ public :
 
 	void SkinnedMesh_Render();
 	void Setup_HeightMap();
+
+	void Setup_OBB();
+	void OBB_Render();
+
+	void Create_Font();
+	void Text_Render();
+
+	void Setup_UI();
+	void UI_Render();
+
+	void UI_ClickEventProcess(string UIName);
+
+	void Setup_Particle();
+	void Update_Particle();
+	void Render_Particle();
+
+	int	m_nType;
+	LPDIRECT3DTEXTURE9 m_tex[4];
+	vector<ST_PT_VERTEX> m_vecVertex_Multi;
+
+	void Setup_MultiTexture();
+	void Update_MultiTexture();
+	void MultiTexture_Render();
+	
+	void MultiTexture_Render1();
+	void MultiTexture_Render2();
+	void MultiTexture_Render3();
+	void MultiTexture_Render4();
+	void MultiTexture_Render5();
+	void MultiTexture_Render6();
+	void MultiTexture_Render7();
+	void MultiTexture_Render8();
+	void MultiTexture_Render9();
+	void MultiTexture_Render0();
+	void MultiTexture_Render_default();
 };
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cSkinnedMesh.h"
 #include "cAllocateHierarchy.h"
-
+#include "cSkinnedMeshManager.h"
 cSkinnedMesh::cSkinnedMesh()
 	: m_pRoot(NULL)
 	, m_pAnimController(NULL)
@@ -9,13 +9,14 @@ cSkinnedMesh::cSkinnedMesh()
 	, m_fPassedBlendTime(0.0f)
 	, m_isAnimBlend(false)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
 cSkinnedMesh::~cSkinnedMesh()
 {
-	cAllocateHierarchy ah;
-	D3DXFrameDestroy(m_pRoot, &ah);
+	//cAllocateHierarchy ah;
+	//D3DXFrameDestroy(m_pRoot, &ah);
 	SafeRelease(m_pAnimController);
 }
 
@@ -258,4 +259,109 @@ void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
 
 	startAnimation = GetTickCount();
 	
+}
+
+cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
+	: m_pRoot(NULL)
+	, m_pAnimController(NULL)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
+	, m_vMin(0, 0, 0)
+	, m_vMax(0,0,0)
+{
+	D3DXMatrixIdentity(&m_matWorldTM);
+	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
+
+
+	m_pRoot = pSkinnedMesh->m_pRoot;
+	
+	m_vMin = pSkinnedMesh->m_vMin;
+	m_vMax = pSkinnedMesh->m_vMax;
+
+	pSkinnedMesh->m_pAnimController->CloneAnimationController(
+		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
+		&m_pAnimController);
+	
+}
+
+void cSkinnedMesh::Load(char* szFolder, char* szFileName)
+{
+	cAllocateHierarchy ah;
+	ah.SetFolder(szFolder);
+
+	string sFullPath(szFolder);
+	sFullPath += (string("/") + string(szFileName));
+
+	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), 
+		D3DXMESH_MANAGED,
+		g_pD3DDevice, 
+		&ah, 
+		NULL, 
+		(LPD3DXFRAME*)& m_pRoot, 
+		&m_pAnimController);
+
+	m_vMax = ah.GetMax();
+	m_vMin = ah.GetMin();
+
+	if (m_pRoot)
+		SetupBoneMatrixPtrs(m_pRoot);
+	
+	
+}
+
+void cSkinnedMesh::Destroy()
+{
+	cAllocateHierarchy ah;
+	D3DXFrameDestroy((LPD3DXFRAME)m_pRoot, &ah);
+}
+
+void cSkinnedMesh::UpdateAndRender()
+{
+	if (m_pAnimController)
+	{		
+		m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+	}
+	
+	if(m_pRoot)
+	{
+		Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+		Render(m_pRoot);
+	}
+}
+
+void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent)
+{
+	if (pCurrent == NULL)
+		pCurrent = (ST_BONE*)m_pRoot;
+	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
+
+	if (pmatParent)
+	{
+		pCurrent->CombinedTransformationMatrix =
+			pCurrent->CombinedTransformationMatrix *(*pmatParent);
+	}
+
+	if (pCurrent->pFrameSibling)
+		Update((ST_BONE*)pCurrent->pFrameSibling, pmatParent);
+
+	if (pCurrent->pFrameFirstChild)
+		Update((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->CombinedTransformationMatrix));
+
+	
+	
+	
+}
+
+void cSkinnedMesh::SetRandomTrackPosition()
+{
+	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
+}
+
+void cSkinnedMesh::SetTransform(D3DXMATRIXA16* pmat)
+{
+	m_matWorldTM = *pmat;
 }

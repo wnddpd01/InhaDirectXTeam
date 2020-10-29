@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "SceneCenter.h"
 
-bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280, UINT windowHeight = 720);
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280, UINT windowHeight = 720);
 
 int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrevIns, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -38,6 +38,25 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrevIns, LPSTR lpCmdLine, int nCmd
 	return 0;
 }
 
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		return 0;
+	}
+	break;
+	default:
+	{
+		DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	break;
+	}
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth, UINT windowHeight)
 {
 	HWND hWnd;
@@ -64,21 +83,3 @@ bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windo
 	return true;
 }
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message)
-	{
-	case WM_DESTROY :
-		{
-			PostQuitMessage(0);
-			return 0;
-		}
-		break;
-	default :
-		{
-			DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		break;
-	}
-	return DefWindowProc(hWnd, message, wParam, lParam);
-}
