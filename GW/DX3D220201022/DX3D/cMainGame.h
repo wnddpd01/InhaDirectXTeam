@@ -48,7 +48,10 @@ private :
 	//cUI* m_pUI;
 
 
-	
+	LPD3DXEFFECT m_pShader;
+
+	bool LoadAssets();
+	LPD3DXEFFECT LoadShader(const char * filename);
 	
 public :
 	void Setup(); 
@@ -154,7 +157,7 @@ public :
 	void Update_Particle();
 	void Particle_Render();
 
-
+	void SetBillboard();
 	
 };
 
