@@ -168,10 +168,13 @@
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjMap.h" />
     <ClInclude Include="cPyramid.h" />
+    <ClInclude Include="cRay.h" />
     <ClInclude Include="cRightArm.h" />
     <ClInclude Include="cRightLeg.h" />
+    <ClInclude Include="cTerrain.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="DX3D.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -202,10 +205,13 @@
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjMap.cpp" />
     <ClCompile Include="cPyramid.cpp" />
+    <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cRightArm.cpp" />
     <ClCompile Include="cRightLeg.cpp" />
+    <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="DX3D.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

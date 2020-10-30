@@ -43,6 +43,7 @@ cFrame* cAseLoader::Load(char* szFullPath)
 		SafeRelease(m_vec_mtl_tex);
 	}
 	pRoot->CaclOriginLocalTM(NULL);
+	
 	return pRoot;
 }
 
@@ -143,6 +144,7 @@ void cAseLoader::Process_MATERIAL_LIST()
 		{
 			int nIndex = GetInteger();
 			m_vecMtlTex[nIndex] = new cMtlTex;
+			m_vecMtlTex[nIndex]->SetAttrID(nIndex);
 			Process_MATERIAL(m_vecMtlTex[nIndex]);
 		}
 	} while (nLevel > 0);
@@ -255,6 +257,7 @@ cFrame* cAseLoader::Process_GEOMOBJECT()
 		{
 			int nMtlIndex = GetInteger();
 			pFrame->SetMtlTex(m_vecMtlTex[nMtlIndex]);
+			m_vecAttr.push_back(nMtlIndex);
 		}
 	} while (nLevel > 0);
 	return pFrame;
@@ -321,6 +324,7 @@ void cAseLoader::Process_MESH(cFrame* pFrame)
 	pFrame->SetVertex(vecVertex);
 	pFrame->BuildVB(vecVertex);
 	pFrame->BuildIB(vecVertex);
+	pFrame->BuildAB(vecVertex);
 }
 
 void cAseLoader::Process_MESH_VERTEX_LIST(vector<D3DXVECTOR3>& vecV)

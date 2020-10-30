@@ -2,7 +2,11 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 //
-
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 #pragma once
 
 #include "targetver.h"
@@ -101,6 +105,14 @@ struct ST_ROT_SAMPLE
 	}
 };
 
+struct ST_SPHERE
+{
+	float fRadius;
+	D3DXVECTOR3 vCenter;
+	bool isPicked;
+	ST_SPHERE() : fRadius(0), vCenter(0, 0, 0), isPicked(false){}
+};
+
 #define Synthesize(varType , varName , funName) \
 protected : varType varName ; \
 public : inline varType Get##funName(void) const { return varName ; } \
@@ -136,4 +148,9 @@ public : virtual void Set##funName(varType var ) { \
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+
+inline float Lerp(float a, float b, float t)
+{
+	return a - (a * t) + (b * t);
+}
 

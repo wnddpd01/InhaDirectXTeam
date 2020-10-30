@@ -5,8 +5,8 @@
 extern DWORD g_DrawMode;
 cFrame::cFrame()
 	:m_pMtlTex(NULL)
-, m_pVB(NULL)
-, m_nNumTri(0)
+	, m_pVB(NULL)
+	, m_nNumTri(0)
 {
 	D3DXMatrixIdentity(&m_matLocalTM);
 	D3DXMatrixIdentity(&m_matWorldTM);
@@ -22,10 +22,10 @@ cFrame::~cFrame()
 void cFrame::Update(int nKeyFrame, D3DXMATRIXA16* pMatParent)
 {
 	D3DXMATRIXA16 matR, matT;
-	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matR);
 	CalcLocalR(nKeyFrame, matR);
 	CalcLocalT(nKeyFrame, matT);
-	m_matLocalTM = matR * matT;
+	m_matLocalTM = matR  * matT;
 	m_matWorldTM = m_matLocalTM;
 	if(pMatParent)
 	{
@@ -46,8 +46,10 @@ void cFrame::Render()
 		g_pD3DDevice->SetMaterial(&m_pMtlTex->GetMaterial());
 
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-		if(g_DrawMode == 0)
+		if (g_DrawMode == 0)
+		{
 			g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertex.size() / 3, &m_vecVertex[0], sizeof(ST_PNT_VERTEX));
+		}
 		else if (g_DrawMode == 1)
 		{
 			g_pD3DDevice->SetStreamSource(0, m_pVB, 0, sizeof(ST_PNT_VERTEX));
@@ -58,6 +60,9 @@ void cFrame::Render()
 			g_pD3DDevice->SetStreamSource(0, m_pVB, 0, sizeof(ST_PNT_VERTEX));
 			g_pD3DDevice->SetIndices(m_pIB);
 			g_pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vecVertex.size(), 0, m_vecVertex.size() / 3);
+		}
+		else if(g_DrawMode == 3)
+		{
 		}
 	}
 	for (auto child : m_vecChild)
@@ -217,4 +222,13 @@ void cFrame::BuildIB(vector<ST_PNT_VERTEX>& vecVertex)
 	m_pIB->Lock(0, 0, (LPVOID*)&plndices, 0);
 	memcpy(plndices, &word[0], vecVertex.size() * sizeof(WORD));
 	m_pIB->Unlock();
+}
+
+void cFrame::BuildAB(vector<ST_PNT_VERTEX>& vecVertex)
+{
+	if (m_pVB == NULL)
+		BuildVB(vecVertex);
+	if (m_pIB == NULL)
+		BuildIB(vecVertex);
+	
 }
