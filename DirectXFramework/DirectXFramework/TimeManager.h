@@ -7,8 +7,17 @@ using namespace chrono;
 
 class TimeManager
 {
-	Singletone(TimeManager);
+	private:
+		TimeManager(void);
+		~TimeManager(void);
+	public:
+		static TimeManager* GetInstance()
+	{
+	static TimeManager instance;
+	return &instance;
+	}
 
+	
 	private:
 		system_clock::time_point	lastTime;
 		system_clock::time_point	newTime;
