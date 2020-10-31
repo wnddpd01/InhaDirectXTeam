@@ -11,8 +11,16 @@
 
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
+
+#ifdef _WIN32
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
+#ifdef _WIN64
+#pragma comment(lib, "DirectX9SDK/Lib/x64/d3d9.lib")
+#pragma comment(lib, "DirectX9SDK/Lib/x64/d3dx9.lib")
+#endif
+#endif
+
 
 #define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
 #define SafeDelete(p)	{ if( p) delete p ; p=NULL ; }
