@@ -9,16 +9,10 @@
 #include <chrono>
 #include <cassert>
 
-//싱글턴 매크로
-#define Singletone(class_name) \
-	private : \
-		class_name(void) ; \
-		~class_name(void) ;	\
-	public : \
-		static class_name* GetInstance() \
-		{	\
-			static class_name instance; \
-			return &instance ; \
-		}
+#include "DirectX9SDK/Include/d3d9.h"
+#include "DirectX9SDK/Include/d3dx9.h"
+#pragma comment(lib, "DirectX9SDK/Lib/x86/d3d9.lib")
+#pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
 
 #include "TimeManager.h"
+#include "DeviceManager.h"

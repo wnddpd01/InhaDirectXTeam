@@ -1,34 +1,24 @@
 #include "stdafx.h"
 #include "TimeManager.h"
 
-TimeManager::TimeManager()
-	: deltaTime(NULL)
-	, lastTime(system_clock::now())
-	, newTime(system_clock::now())
-{
-}
 
-TimeManager::~TimeManager()
+void TimeManager::SetGameLoopStartTime()
 {
-}
-
-void TimeManager::SetGameLoopStratTime()
-{
-	newTime = GetCurTime();
-	deltaTime = newTime - lastTime;
+	mNewTime = GetCurTime();
+	mDeltaTime = mNewTime - mLastTime;
 	//assert(deltaTime.count() < 0);
 }
 
 void TimeManager::SetGameLoopEndTime()
 {
-	lastTime = newTime;
+	mLastTime = mNewTime;
 }
 
 float TimeManager::GetDeltaTime()
 {
-	//최초부분 코드 추가 필요
+	// TODO 최초부분 코드 추가 필요
 
-	return deltaTime.count();
+	return mDeltaTime.count();
 }
 
 system_clock::time_point TimeManager::GetCurTime()
