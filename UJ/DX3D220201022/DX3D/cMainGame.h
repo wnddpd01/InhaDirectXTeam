@@ -36,6 +36,7 @@ private :
 
 	cZealot*				m_pHoldZealot;
 	cZealot*				m_pMoveZealot;
+
 	
 public :
 	void Setup(); 
@@ -80,6 +81,11 @@ private :
 	map<string, cUI*>   m_mapUI;
 
 	vector<ST_PC_VERTEX> m_vecVertexParticle;
+	LPD3DXEFFECT		 m_pShader;
+	LPDIRECT3DTEXTURE9   m_pShaderTexture;
+	bool LoadAssets();
+	LPD3DXEFFECT LoadShader(const char * filename);
+	LPDIRECT3DTEXTURE9 LoadTexture(const wchar_t * filename);
 public :
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
@@ -124,5 +130,10 @@ public :
 	void MultiTexture_Render9();
 	void MultiTexture_Render0();
 	void MultiTexture_Render_default();
+
+	void SetBillBoard();
+
+	LPD3DXFRAME m_Frame;
+	LPD3DXANIMATIONCONTROLLER m_animation_controller_;
 };
 
