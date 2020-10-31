@@ -4,7 +4,7 @@ template <class T>
 class Singleton
 {
 public :
-	static T* Instance()
+	static T* GetInstance()
 	{
 		if (!mInstance)
 		{
@@ -33,7 +33,7 @@ protected:
 	};
 private:
 	static T* mInstance;
-	Singleton(Singletone const&);
+	Singleton(Singleton const&);
 	Singleton& operator=(Singleton const&);
 };
 

@@ -14,5 +14,9 @@
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
 
+#define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
+#define SafeDelete(p)	{ if( p) delete p ; p=NULL ; }
+
+
 #include "TimeManager.h"
 #include "DeviceManager.h"
