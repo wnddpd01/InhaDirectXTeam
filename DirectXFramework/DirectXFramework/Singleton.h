@@ -31,6 +31,7 @@ protected:
 		assert(!mInstance);
 		assert(mbInitialized);
 	};
+	virtual ~Singleton() = default;
 private:
 	static T* mInstance;
 	Singleton(Singleton const&);

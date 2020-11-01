@@ -5,22 +5,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{65c0f78f-cf66-48dc-84c2-951d577398d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="WinMain">
       <UniqueIdentifier>{0e7d50b4-ed6d-43a2-82d4-5e97b1de93ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{60919a31-5903-47c6-929f-72e66152dae1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Singleton">
+      <UniqueIdentifier>{65c0f78f-cf66-48dc-84c2-951d577398d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Singleton</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Singleton</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>WinMain</Filter>
@@ -34,13 +34,16 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Singleton</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Singleton</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>WinMain</Filter>
@@ -52,7 +55,10 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Manager</Filter>
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXLoader.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
