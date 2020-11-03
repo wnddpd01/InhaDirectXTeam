@@ -23,6 +23,7 @@
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCenter.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -38,6 +39,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCenter.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
@@ -94,8 +96,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
+    <IncludePath>D:\Work\DirectX\InhaTeamProj\DirectXFramework\DirectXFramework\FMOD\api\core\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include</IncludePath>
+    <LibraryPath>D:\Work\DirectX\InhaTeamProj\DirectXFramework\DirectXFramework\FMOD\api\core\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -127,6 +129,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

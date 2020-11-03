@@ -50,9 +50,9 @@ void SceneCenter::InputProcess()
 {
 }
 
-void SceneCenter::Update(float timeProgressRatio)
+void SceneCenter::Update()
 {
-	//cout << timeProgressRatio << endl;
+	gTimeManager->Update();
 
 	if(mCurScene != NULL)
 	{
