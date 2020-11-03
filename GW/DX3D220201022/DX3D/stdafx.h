@@ -28,7 +28,14 @@
 
 #include <d3dx9.h>
 #pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib") 
+#pragma comment(lib, "d3dx9.lib")
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "msimg32.lib")
+#pragma comment(lib, "fmodex_vc.lib")
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 using namespace std; 
 

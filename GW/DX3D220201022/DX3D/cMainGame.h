@@ -16,6 +16,10 @@ class cZealot;
 
 class cUI;
 
+class SoundManager;
+
+class CSound;
+
 
 class cMainGame
 {
@@ -52,6 +56,13 @@ private :
 
 	bool LoadAssets();
 	LPD3DXEFFECT LoadShader(const char * filename);
+
+
+	//SoundManager* mSoundManager;
+
+	CSound* mSound;
+
+	
 	
 public :
 	void Setup(); 
