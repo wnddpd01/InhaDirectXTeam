@@ -52,7 +52,7 @@ void SceneCenter::InputProcess()
 
 void SceneCenter::Update(float timeProgressRatio)
 {
-	cout << timeProgressRatio << endl;
+	//cout << timeProgressRatio << endl;
 
 	if(mCurScene != NULL)
 	{

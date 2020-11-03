@@ -14,10 +14,12 @@ class TimeManager : public Singleton<TimeManager>
 		system_clock::time_point	mLastTime;
 		system_clock::time_point	mNewTime;
 		duration<float>				mDeltaTime;
-	public:
-		void SetGameLoopStartTime();
-		void SetGameLoopEndTime();
-		float GetDeltaTime();
 		system_clock::time_point GetCurTime();
+	
+	public:
+		void Update();
+		float GetDeltaTime();
+	
+
 };
 
