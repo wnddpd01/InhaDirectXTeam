@@ -26,11 +26,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 			}
 			else
 			{
-				gTimeManager->Update();
-				cout << gDeltaTime << endl;
 				sceneCenter.InputProcess(); // TODO Input처리 어떻게 할지 연구, 논의 필요
+				
 				//sceneCenter.Update(); // TODO timeProgressRatio 계산 필요
-				sceneCenter.Update(gDeltaTime);
+				sceneCenter.Update();
 				sceneCenter.Render();
 			}
 		}

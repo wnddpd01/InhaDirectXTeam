@@ -22,6 +22,9 @@
 #include "cZealot.h"
 #include "cOBB.h"
 #include "cUI.h"
+#include "SoundManager.h"
+
+#include "CSound.h"
 
 DWORD FtoDw(float f)
 {
@@ -53,6 +56,8 @@ cMainGame::cMainGame()
 	, m_pTex3(NULL)
 	, m_nType(-1)
 	, m_pShader(NULL)
+	//, mSoundManager(NULL)
+	, mSound(NULL)
 {
 }
 
@@ -81,9 +86,14 @@ cMainGame::~cMainGame()
 	SafeRelease(m_pMeshTeapot); 
 	SafeRelease(m_pObjMesh);
 	
-	
+	//SafeDelete(mSoundManager);
 
+
+	//>>>>>>>>>>>>>>>>>>>>>>
 	
+	SafeDelete(mSound);
+	mSound->Release();
+	//<<<<<<<<<<<<<<<<<<<<<<<
 
 	for each(auto p in m_vecObjMtlTex)
 		SafeRelease(p); 
@@ -187,6 +197,13 @@ void cMainGame::Setup()
 	m_pUI->Setup_UI();*/
 
 	LoadAssets();
+
+	mSound->Init();
+	mSound = new CSound("sounds/Forest.mp3", false);
+
+	
+	//mSoundManager = new SoundManager;
+	//mSoundManager->init();
 	
 	m_pSkinnedMesh = new cSkinnedMesh;
 	m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
@@ -231,6 +248,22 @@ void cMainGame::Update()
 		m_pMoveZealot->Update(m_pMap);
 	
 
+	if (mSound)
+	{
+		if (::GetAsyncKeyState('Q') & 0x8000)
+			mSound->Play(); // pause->resume   stop->play 
+		if (::GetAsyncKeyState('P') & 0x8000)
+			mSound->Pause();
+		if (::GetAsyncKeyState('R') & 0x8000)
+			mSound->Resume();
+		if (::GetAsyncKeyState('S') & 0x8000)
+			mSound->Stop();
+		if (::GetAsyncKeyState('U') & 0x8000)
+			mSound->VolumeUp();
+		if (::GetAsyncKeyState('D') & 0x8000)
+			mSound->VolumeDown();
+		mSound->Update();
+	}
 	/*if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL); */
 }
@@ -282,7 +315,7 @@ void cMainGame::Render()
 	/*if (m_pFrustum)
 		m_pFrustum->Render_Object();*/
 
-	
+
 
 
 	/*if (m_pUI)
@@ -297,7 +330,6 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCamera)
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
-
 
 	/*if (m_pUI)
 		m_pUI->WndProc(hWnd, message, wParam, lParam);*/

@@ -12,7 +12,7 @@ public :
 	void SceneChange(std::wstring sceneName);
 	void RegisterScene(std::wstring sceneName);
 	void InputProcess();
-	void Update(float timeProgressRatio = 1.0f);
+	void Update();
 	void Render();
 };
 
