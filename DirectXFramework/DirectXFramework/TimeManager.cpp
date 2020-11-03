@@ -2,17 +2,14 @@
 #include "TimeManager.h"
 
 
-void TimeManager::SetGameLoopStartTime()
+void TimeManager::Update()
 {
 	mNewTime = GetCurTime();
 	mDeltaTime = mNewTime - mLastTime;
-	//assert(deltaTime.count() < 0);
-}
-
-void TimeManager::SetGameLoopEndTime()
-{
 	mLastTime = mNewTime;
 }
+
+
 
 float TimeManager::GetDeltaTime()
 {
