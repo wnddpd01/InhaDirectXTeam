@@ -9,6 +9,10 @@ Scene::Scene(eSceneName SceneName)
 	mCamera = new Camera;
 	mCamera->Setup(&tempTarget);
 
+	//추후 게임신에서만 생성되도록 변경
+	mQuarterMap = new QuarterMap;
+	mQuarterMap->Setup("HeightMapData/", "HeightMap.raw", "terrain.jpg");
+
 }
 
 Scene::~Scene()
@@ -37,6 +41,9 @@ void Scene::Render()
 		D3DCOLOR_XRGB(200, 200, 200),
 		1.0F, 0);
 	gD3Device->BeginScene();
+
+	if(mQuarterMap)
+		mQuarterMap->Render();
 	
 	for (auto gameObject : mGameObjects)
 	{

@@ -12,7 +12,7 @@ public:
 	
 	string GetObjectName()
 	{
-		return objectName;
+		//return objectName;
 	}
 };
 

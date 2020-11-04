@@ -65,7 +65,10 @@
       <Filter>BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="QuarterMap.cpp" />
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -105,6 +108,9 @@
       <Filter>BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="UIBase.h" />
+    <ClInclude Include="QuarterMap.h" />
+    <ClInclude Include="TextureManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

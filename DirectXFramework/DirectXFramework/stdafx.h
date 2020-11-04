@@ -136,6 +136,6 @@ using namespace std;
 
 #include "TimeManager.h"
 #include "DeviceManager.h"
-
+#include "TextureManager.h"
 
 #include "QuarterMap.h"
