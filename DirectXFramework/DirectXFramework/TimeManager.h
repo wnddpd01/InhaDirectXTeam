@@ -10,16 +10,13 @@ using namespace chrono;
 
 class TimeManager : public Singleton<TimeManager>
 {
-	private:
-		system_clock::time_point	mLastTime;
-		system_clock::time_point	mNewTime;
-		duration<float>				mDeltaTime;
-		system_clock::time_point GetCurTime();
-	
-	public:
-		void Update();
-		float GetDeltaTime();
-	
+private:
+	system_clock::time_point mLastTime;
+	system_clock::time_point mNewTime;
+	duration<float> mDeltaTime;
+	system_clock::time_point GetCurTime();
 
+public:
+	void Update();
+	float GetDeltaTime();
 };
-

@@ -7,18 +7,19 @@ class BaseObject;
 class Scene
 {
 	eSceneName mSceneName;
-	Camera * mCamera;
+	Camera* mCamera;
 public:
 	Scene(eSceneName SceneName);
 	~Scene();
 
 	map<string, BaseObject*> mGameObjects;
 	map<string, BaseObject*> mGameUIs;
-	
+
 	eSceneName GetSceneName() const
 	{
 		return mSceneName;
 	}
+
 	void SetSceneName(const eSceneName& m_scene_name)
 	{
 		mSceneName = m_scene_name;
@@ -28,6 +29,4 @@ public:
 	virtual void Render();
 
 private:
-
 };
-

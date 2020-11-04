@@ -3,7 +3,7 @@
 
 BOOL MouseInputManager::PushLeft(POINT* const outPosition)
 {
-	if(GetKeyState(VK_LBUTTON) & 0x8000)
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
 	{
 		GetCursorPos(outPosition);
 		return true;
@@ -27,19 +27,16 @@ BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
 {
 	static POINT privMousePosition;
 	POINT curMousePosition;
-	
+
 	GetCursorPos(&curMousePosition);
-	
-	if(curMousePosition.x == privMousePosition.x && curMousePosition.y == privMousePosition.y)
+
+	if (curMousePosition.x == privMousePosition.x && curMousePosition.y == privMousePosition.y)
 	{
 		return false;
 	}
 	
-	else
-	{
-		*outPosition = curMousePosition;
-	}
-	
+	*outPosition = curMousePosition;
+
 	return true;
 }
 

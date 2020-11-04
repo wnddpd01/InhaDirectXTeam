@@ -1,20 +1,23 @@
 #pragma once
 #include "EventManager.h"
+#include "Singleton.h"
 
-class KeyboardInputManager : public EventManager
+#define gKeyboardInputManager KeyboardInputManager::GetInstance()
+
+//struct KeyState
+//{
+//	bool bFrontKey;
+//	bool bBackKey;
+//	bool b
+//	bool
+//	bool
+//	bool
+//
+//	
+//};
+
+class KeyboardInputManager : public Singleton<KeyboardInputManager>
 {
-public:	
-	
-	
-private:
-	LPDIRECTINPUT8		 mDI;
-	LPDIRECTINPUTDEVICE8 mKeyboard;
-	HWND				 mHWnd;
-	BYTE				 mKeys[256];
-	
-	bool PressUpKey();
-	bool PressDownKey();
-	bool PressLeftKey();
-	bool PressRightKey();
+public:
+	int ReadKey();
 };
-

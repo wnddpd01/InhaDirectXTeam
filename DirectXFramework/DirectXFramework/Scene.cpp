@@ -32,9 +32,9 @@ void Scene::Update()
 void Scene::Render()
 {
 	gD3Device->Clear(0, nullptr,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(200, 255, 255),
-		1.0F, 0);
+	                 D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+	                 D3DCOLOR_XRGB(200, 255, 255),
+	                 1.0F, 0);
 	gD3Device->BeginScene();
 
 	D3DXMATRIXA16 matWorld;
@@ -48,11 +48,11 @@ void Scene::Render()
 	m_stmtl.Power = 1.f;
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	gD3Device->SetMaterial(&m_stmtl);
-	gD3Device->SetTexture(0, NULL);
+	gD3Device->SetTexture(0, nullptr);
 	LPD3DXMESH tepotMesh;
 	D3DXCreateTeapot(gD3Device, &tepotMesh, nullptr);
 	tepotMesh->DrawSubset(0);
-	
+
 	for (auto gameObject : mGameObjects)
 	{
 		gameObject.second->Render();
@@ -63,5 +63,5 @@ void Scene::Render()
 	}
 
 	gD3Device->EndScene();
-	gD3Device->Present(NULL, NULL, NULL, NULL);
+	gD3Device->Present(nullptr, nullptr, nullptr, nullptr);
 }
