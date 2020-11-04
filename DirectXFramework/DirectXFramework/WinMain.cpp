@@ -4,6 +4,7 @@
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280,
                     UINT windowHeight = 720);
+HWND hWnd;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hIns,
                       _In_opt_ HINSTANCE hPrevInstance,
@@ -60,7 +61,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth,
                     UINT windowHeight)
 {
-	HWND hWnd;
 	WNDCLASSEX wcex;
 	ZeroMemory(&wcex, sizeof(WNDCLASSEX));
 	wcex.cbSize = sizeof(wcex);
