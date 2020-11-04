@@ -19,7 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicObserver.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FBXLoader.cpp" />
+    <ClCompile Include="KeyboardInputManager.cpp" />
+    <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCenter.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -33,8 +38,12 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseObserver.h" />
+    <ClInclude Include="BasicObserver.h" />
     <ClInclude Include="DeviceManager.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FBXLoader.h" />
+    <ClInclude Include="KeyboardInputManager.h" />
+    <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCenter.h" />
     <ClInclude Include="Singleton.h" />
@@ -95,8 +104,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Work\DirectX\InhaTeamProj\DirectXFramework\DirectXFramework\FMOD\api\core\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include</IncludePath>
-    <LibraryPath>D:\Work\DirectX\InhaTeamProj\DirectXFramework\DirectXFramework\FMOD\api\core\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86;$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

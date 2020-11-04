@@ -9,8 +9,6 @@ void TimeManager::Update()
 	mLastTime = mNewTime;
 }
 
-
-
 float TimeManager::GetDeltaTime()
 {
 	// TODO 최초부분 코드 추가 필요
