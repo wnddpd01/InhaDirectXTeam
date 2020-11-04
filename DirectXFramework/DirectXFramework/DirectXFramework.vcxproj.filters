@@ -14,6 +14,9 @@
     <Filter Include="Singleton">
       <UniqueIdentifier>{65c0f78f-cf66-48dc-84c2-951d577398d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{cf233152-502d-4c59-9cdb-eed9d1dbff31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -33,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>Singleton</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>Singleton</Filter>
@@ -60,11 +60,11 @@
     <ClInclude Include="Singleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="FBXLoader.h">
-      <Filter>Singleton</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserver.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
