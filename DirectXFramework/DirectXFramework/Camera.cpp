@@ -3,7 +3,12 @@
 
 
 Camera::Camera() :
-	mTarget(nullptr)
+	mEye(0, 0, -5)
+	, mLookAt(0, 0, 0)
+	, mUp(0, 1, 0)
+	, mTarget(nullptr)
+	, mCameraDistance(5.0f)
+	, mCamRotAngle(0, 0, 0)
 {
 }
 

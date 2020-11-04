@@ -1,7 +1,8 @@
 #pragma once
 class BaseObject
 {
-	string objectName;
+protected:
+	string mObjectName;
 public:
 	BaseObject();
 	virtual ~BaseObject();

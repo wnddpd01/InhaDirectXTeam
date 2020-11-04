@@ -25,7 +25,7 @@ public :
 		return mSceneMap[sceneName];
 	}
 
-	Scene* GetCurrScene()
+	Scene* GetCurScene()
 	{
 		return mCurScene;
 	}
