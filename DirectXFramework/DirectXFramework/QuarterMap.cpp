@@ -3,6 +3,9 @@
 
 
 QuarterMap::QuarterMap()
+	: mMesh(NULL)
+	, mTextrue(NULL)
+	, mShader(NULL)
 {
 }
 
@@ -17,14 +20,14 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 {
 	
 	//todo 추후 파일 입출력으로 변경
-	int mapHeight = 400;
-	int mapWidth = 800;
+	int mapHeight = 500;
+	int mapWidth = 500;
 	
 	string sFolder(szFolder);
 	string sRaw = sFolder + string(szRaw);
 	string sTex = sFolder + string(szTex);
 
-	//m_pTextrue = g_pTextureManager->GetTexture(sTex);
+	mTextrue = gTextureManager->GetTexture(sTex);
 
 	FILE* fp = NULL;
 	fopen_s(&fp, sRaw.c_str(), "rb");
