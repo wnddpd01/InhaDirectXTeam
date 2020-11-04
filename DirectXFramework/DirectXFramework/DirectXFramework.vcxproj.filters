@@ -61,6 +61,7 @@
     <ClCompile Include="MouseInputManager.cpp">
       <Filter>DXUT</Filter>
     </ClCompile>
+    <ClCompile Include="QuarterMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -99,5 +100,6 @@
     <ClInclude Include="MouseInputManager.h">
       <Filter>DXUT</Filter>
     </ClInclude>
+    <ClInclude Include="QuarterMap.h" />
   </ItemGroup>
 </Project>
