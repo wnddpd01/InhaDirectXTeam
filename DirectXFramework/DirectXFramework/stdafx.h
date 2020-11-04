@@ -52,6 +52,7 @@ struct Vertex
 
 		return true;
 	}
+	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
 };
 
 struct CharacterVertex : Vertex
@@ -135,3 +136,5 @@ using namespace std;
 #include "TimeManager.h"
 #include "DeviceManager.h"
 #include "TextureManager.h"
+
+

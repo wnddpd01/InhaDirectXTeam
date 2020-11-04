@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "BaseObject.h"
 #include "UIImage.h"
+#include "QuarterMap.h"
 
 void Scene::LoadUI()
 {

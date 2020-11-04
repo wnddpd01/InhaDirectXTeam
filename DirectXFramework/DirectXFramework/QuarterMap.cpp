@@ -20,8 +20,9 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 {
 	
 	//todo 추후 파일 입출력으로 변경
-	int mapHeight = 500;
-	int mapWidth = 500;
+	int mapHeight = 50;
+	int mapWidth = 50;
+	float textureMultify = 5;
 	
 	string sFolder(szFolder);
 	string sRaw = sFolder + string(szRaw);
@@ -31,32 +32,35 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 
 	FILE* fp = NULL;
 	fopen_s(&fp, sRaw.c_str(), "rb");
+	/*
 	fseek(fp, 0, SEEK_END);
 	int nFileSize = ftell(fp);
 	int nNumVertex = nFileSize / dwBytesPerPixel;
+	*/
 
+	int nNumVertex = (mapHeight + 1) * (mapWidth + 1);
 	fseek(fp, 0, SEEK_SET);
-	vector<Vertex> vecVertex(mapHeight*mapWidth);
-	mVertexContainer.resize(mapHeight*mapWidth);
+	vector<Vertex> vecVertex(nNumVertex);
+	mVertexContainer.resize(nNumVertex);
 
 	vector<DWORD> vecIndex;
-	vecIndex.reserve(mapHeight*mapWidth * 2 * 3);
+	vecIndex.reserve(mapHeight * mapWidth * 2 * 3);
 
-	for (int i = 0; i < mapHeight; i++)
+	for (int i = 0; i < mapHeight + 1; i++)
 	{
-		for (int j = 0; j < mapWidth; j++)
+		for (int j = 0; j < mapWidth + 1; j++)
 		{
 			int tempY;
 			if ((tempY = fgetc(fp)) == EOF)
 				tempY = 255;
 
 			Vertex v;
-			v.Pos = D3DXVECTOR3(((i * mapHeight) + j) % mapWidth, tempY / 5.f - 15.f, ((i * mapHeight) + j) / mapWidth);
+			v.Pos = D3DXVECTOR3(j, 0.f, i);
 			v.Normal = D3DXVECTOR3(0, 1, 0);
-			v.TexUV = D3DXVECTOR2((((i * mapHeight) + j) % mapWidth) / (float)mapWidth, (((i * mapHeight) + j) / mapWidth) / (float)mapWidth);
+			v.TexUV = D3DXVECTOR2(j / (float)mapWidth * textureMultify, i / (float)mapHeight * textureMultify);
 
-			vecVertex[((i * mapHeight) + j)] = v;
-			mVertexContainer[((i * mapHeight) + j)] = v.Pos;
+			vecVertex[((i * (mapWidth + 1)) + j)] = v;
+			mVertexContainer[((i * (mapWidth + 1)) + j)] = v.Pos;
 
 			if (dwBytesPerPixel == 3)
 			{
@@ -70,10 +74,10 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	{
 		for (int z = 0; z < mapWidth; ++z)
 		{
-			int _0 = (z + 0)* mapHeight + x + 0;
-			int _1 = (z + 1)* mapHeight + x + 0;
-			int _2 = (z + 1)* mapHeight + x + 1;
-			int _3 = (z + 0)* mapHeight + x + 1;
+			int _0 = (x + 0)* (mapWidth + 1) + z + 0;
+			int _1 = (x + 1)* (mapWidth + 1) + z + 0;
+			int _2 = (x + 1)* (mapWidth + 1) + z + 1;
+			int _3 = (x + 0)* (mapWidth + 1) + z + 1;
 
 			vecIndex.push_back(_0);
 			vecIndex.push_back(_1);
