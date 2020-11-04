@@ -1,16 +1,17 @@
 #pragma once
 #include "EventManager.h"
+#include "Singleton.h"
 
-class MouseInputManager : public EventManager
+#define gMouseInputManager MouseInputManager::GetInstance()
+
+class MouseInputManager : public Singleton<MouseInputManager>
 {
 public:
-
+	BOOL DownLeftButton(POINT * const outPosition);
+	BOOL DownRightButton(POINT * const outPosition);
+	BOOL UpLeftButton(POINT * const outPosition);
 	
 private:
-
-	BOOL PushLeft( POINT* const outPosition);
-	BOOL PushRight( POINT* const outPosition);
-	BOOL MoveMouse( POINT* const outPosition);
+	bool bMouseLbuttonDown;
 
 };
-

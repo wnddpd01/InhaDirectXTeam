@@ -9,7 +9,7 @@ public:
 
 	virtual void Update();
 	virtual void Render();
-	
+
 	string GetObjectName()
 	{
 		return mObjectName;
@@ -19,5 +19,6 @@ public:
 	{
 		mObjectName = objName;
 	}
-};
 
+	
+};

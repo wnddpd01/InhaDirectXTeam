@@ -4,7 +4,6 @@
 
 BaseObserver::BaseObserver()
 {
-	
 }
 
 

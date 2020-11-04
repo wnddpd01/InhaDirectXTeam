@@ -55,13 +55,11 @@ void Scene::Update()
 void Scene::Render()
 {
 	gD3Device->Clear(0, nullptr,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(200, 200, 200),
-		1.0F, 0);
+	                 D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+	                 D3DCOLOR_XRGB(200, 255, 255),
+	                 1.0F, 0);
 	gD3Device->BeginScene();
 
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
-	
 	for (auto gameObject : mGameObjects)
 	{
 		gameObject.second->Render();

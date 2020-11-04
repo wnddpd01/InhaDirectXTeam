@@ -14,9 +14,10 @@ public :
 		assert(mInstance != NULL);
 		return mInstance;
 	}
+
 	static void DestroyInstance()
 	{
-		if(mInstance)
+		if (mInstance)
 		{
 			delete mInstance;
 			mInstance = NULL;
@@ -38,5 +39,7 @@ private:
 	Singleton& operator=(Singleton const&);
 };
 
-template <class T> T* Singleton<T>::mInstance = NULL;
-template <class T> bool Singleton<T>::mbInitialized = false;
+template <class T>
+T* Singleton<T>::mInstance = nullptr;
+template <class T>
+bool Singleton<T>::mbInitialized = false;

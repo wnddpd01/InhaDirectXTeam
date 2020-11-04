@@ -1,10 +1,8 @@
 #pragma once
 
-enum class eKeyButton { LEFT_KEY, RIGHT_KEY, DOWN_KEY, UP_KEY };
-        
 enum class eSceneName
 {
-	START_SCENE = 0, 
+	START_SCENE = 0,
 };
 
 class Scene;
@@ -22,21 +20,18 @@ public :
 	void Update();
 	void Render();
 
-	void MouseInput();
-	void KeyBoardInput();
-
 	Scene* GetScene(eSceneName sceneName)
 	{
 		return mSceneMap[sceneName];
 	}
+
 	Scene* GetCurScene()
 	{
 		return mCurScene;
 	}
-	
-	
+
+
 private:
 	Scene* mCurScene;
 	std::map<eSceneName, Scene*> mSceneMap;
 };
-

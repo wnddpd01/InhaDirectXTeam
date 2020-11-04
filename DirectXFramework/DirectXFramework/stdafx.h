@@ -33,7 +33,6 @@
 #define SafeDelete(p)	{ if( p) delete p ; p=NULL ; }
 
 
-
 struct Vertex
 {
 	D3DXVECTOR3 Pos;
@@ -54,6 +53,7 @@ struct Vertex
 		return true;
 	}
 };
+
 struct CharacterVertex : Vertex
 {
 	D3DXVECTOR3 BoneWeights;
@@ -85,7 +85,7 @@ namespace std
 				^ (hash<float>()(k.y) << 1)));
 		}
 	};
-	
+
 	template <>
 	struct hash<D3DXVECTOR3>
 	{
@@ -99,11 +99,11 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<float>()(k.x)
-				^ (hash<float>()(k.y) << 1)) >> 1)
+					^ (hash<float>()(k.y) << 1)) >> 1)
 				^ (hash<float>()(k.z) << 1);
 		}
 	};
-	
+
 	template <>
 	struct hash<Vertex>
 	{
@@ -117,7 +117,7 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<D3DXVECTOR3>()(k.Pos)
-				^ (hash<D3DXVECTOR3>()(k.Normal) << 1)) >> 1)
+					^ (hash<D3DXVECTOR3>()(k.Normal) << 1)) >> 1)
 				^ (hash<D3DXVECTOR2>()(k.TexUV) << 1);
 		}
 	};
