@@ -43,6 +43,12 @@
     <Filter Include="UI">
       <UniqueIdentifier>{ebdccfb3-b5ab-47bd-95a0-bf3f777101b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fmod">
+      <UniqueIdentifier>{720e9f04-8be5-4066-b047-0a11620ec2b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\sounds">
+      <UniqueIdentifier>{dfae1188-ffc0-49fe-adc8-52d5a08dfd07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -177,6 +183,27 @@
     <ClInclude Include="cUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fmod.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_memoryinfo.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>fmod</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -299,6 +326,12 @@
     <ClCompile Include="cUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>fmod</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
@@ -312,5 +345,19 @@
     <Image Include="DX3D.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\lose.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="sounds\start.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="sounds\win.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="sounds\Forest.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

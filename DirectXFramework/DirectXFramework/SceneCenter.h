@@ -1,18 +1,37 @@
 #pragma once
 
+enum class eSceneName
+{
+	START_SCENE = 0,
+};
+
 class Scene;
+
 class SceneCenter
 {
-private:
-	Scene* mCurScene;
-	std::map<std::wstring, Scene*> mSceneMap;
+	void SceneLoad();
 public :
 	SceneCenter();
 	~SceneCenter();
-	void SceneChange(std::wstring sceneName);
-	void RegisterScene(std::wstring sceneName);
+	void SceneChange(eSceneName sceneName);
+	void RegisterAndMakeScene(eSceneName sceneName);
+	void RegisterScene(Scene* scene);
 	void InputProcess();
-	void Update(float timeProgressRatio = 1.0f);
+	void Update();
 	void Render();
-};
 
+	Scene* GetScene(eSceneName sceneName)
+	{
+		return mSceneMap[sceneName];
+	}
+
+	Scene* GetCurScene()
+	{
+		return mCurScene;
+	}
+
+
+private:
+	Scene* mCurScene;
+	std::map<eSceneName, Scene*> mSceneMap;
+};

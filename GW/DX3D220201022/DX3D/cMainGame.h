@@ -16,6 +16,10 @@ class cZealot;
 
 class cUI;
 
+class SoundManager;
+
+class CSound;
+
 
 class cMainGame
 {
@@ -45,7 +49,19 @@ private :
 
 	cSkinnedMesh* m_pSkinnedMesh;
 
-	cUI* m_pUI;
+	//cUI* m_pUI;
+
+
+	LPD3DXEFFECT m_pShader;
+
+	bool LoadAssets();
+	LPD3DXEFFECT LoadShader(const char * filename);
+
+
+	//SoundManager* mSoundManager;
+
+	CSound* mSound;
+
 	
 	
 public :
@@ -93,10 +109,39 @@ private :
 	cZealot* m_pMoveZealot;
 
 
+	vector<ST_PC_VERTEX> m_vecVertexParticle;
 
+	int m_nType;
+	LPDIRECT3DTEXTURE9 m_pTex0;
+	LPDIRECT3DTEXTURE9 m_pTex1;
+	LPDIRECT3DTEXTURE9 m_pTex2;
+	LPDIRECT3DTEXTURE9 m_pTex3;
+	vector<ST_PT_VERTEX> m_vecVertex_Multi;
+	
 	
 	
 public :
+
+	void Setup_MultiTexture();
+	void update_MultiTexture();
+	void MultiTexture_Render();
+
+
+	void MultiTexture_Render1();
+	void MultiTexture_Render2();
+	void MultiTexture_Render3();
+	void MultiTexture_Render4();
+	void MultiTexture_Render5();
+	void MultiTexture_Render6();
+	void MultiTexture_Render7();
+	void MultiTexture_Render8();
+	void MultiTexture_Render9();
+	void MultiTexture_Render0();
+	void MultiTexture_Render_default();
+
+
+	
+	
 	void Setup_MeshObject(); 
 	void Mesh_Render(); 
 
@@ -119,8 +164,11 @@ public :
 	void OBB_Render();
 
 
+	void Setup_Particle();
+	void Update_Particle();
+	void Particle_Render();
 
-
+	void SetBillboard();
 	
 };
 

@@ -48,6 +48,7 @@ cMainGame::cMainGame()
 	,m_pSprite(NULL)
 	,m_pTextureUI(NULL)
 	, m_nType(-1)
+	, m_pShader(NULL)
 {
 	for (int i = 0; i < 4; ++i)
 	{
@@ -74,7 +75,7 @@ cMainGame::~cMainGame()
 	SafeRelease(m_pMeshSphere); 
 	SafeRelease(m_pMeshTeapot); 
 	SafeRelease(m_pObjMesh);
-
+	SafeRelease(m_pShader);
 	for each(auto p in m_vecObjMtlTex)
 		SafeRelease(p); 
 
@@ -120,7 +121,9 @@ void cMainGame::Setup()
 	Setup_MultiTexture();
 	//Setup_Texture(); 
 	//Setup_Obj(); 
-	Set_Light(); 
+	Set_Light();
+
+	LoadAssets();
 	//Setup_HeightMap();
 	//Setup_MeshObject(); 
 	////Setup_PickingObj();
@@ -138,8 +141,8 @@ void cMainGame::Setup()
 	//		}
 	//	}
 	//}
-	//m_pSkinnedMesh = new cSkinnedMesh;
-	//m_pSkinnedMesh->Setup("Zealot", "zealot.x");
+	m_pSkinnedMesh = new cSkinnedMesh;
+	m_pSkinnedMesh->Setup("Zealot", "zealot.x");
 }
 
 void cMainGame::Update()
@@ -158,10 +161,10 @@ void cMainGame::Update()
 	if (m_pHoldZealot)
 		m_pHoldZealot->Update(m_pMap);
 	if (m_pMoveZealot)
-		m_pMoveZealot->Update(m_pMap);
+		m_pMoveZealot->Update(m_pMap);*/
 	
 	if (m_pSkinnedMesh)
-		m_pSkinnedMesh->Update();*/
+		m_pSkinnedMesh->Update();
 	
 	//if (m_pRootFrame)
 	//	m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL); 
@@ -178,7 +181,7 @@ void cMainGame::Render()
 
 	if (m_pGrid)
 		m_pGrid->Render(); 
-	MultiTexture_Render();
+	//MultiTexture_Render();
 	//Render_Particle();
 	
 	//PickingObj_Render(); 
@@ -214,9 +217,9 @@ void cMainGame::Render()
 			m_pRootFrame->Render(); 
 	}
 */
-	/*if (m_pSkinnedMesh)
+	if (m_pSkinnedMesh)
 		SkinnedMesh_Render();
-	if (m_pMap)
+	/*if (m_pMap)
 		m_pMap->Render();
 	Text_Render();
 	if (m_pBigShip)
@@ -443,6 +446,69 @@ void cMainGame::Load_Surface()
 	//m_pMap = new cObjMap("obj", "map_surface.obj", &matWorld);
 }
 
+bool cMainGame::LoadAssets()
+{
+	/*m_pShaderTexture = LoadTexture(L"Zealot/Zealot_Diffuse.jpg");
+	if (!m_pShaderTexture)
+	{
+		return false;
+	}*/
+	
+	m_pShader = LoadShader("Shader/SpecularMapping.fx");
+	if (!m_pShader)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+LPD3DXEFFECT cMainGame::LoadShader(const char* filename)
+{
+	LPD3DXEFFECT ret = NULL;
+
+	LPD3DXBUFFER pError = NULL;
+	DWORD dwShaderFlags = 0;
+
+#if _DEBUG
+	dwShaderFlags |= D3DXSHADER_DEBUG;
+#endif
+
+	D3DXCreateEffectFromFileA(g_pD3DDevice, filename,
+		NULL, NULL, dwShaderFlags, NULL, &ret, &pError);
+
+	// 쉐이더 로딩에 실패한 경우 output창에 쉐이더
+	// 컴파일 에러를 출력한다.
+	if (!ret && pError)
+	{
+		/*int size = pError->GetBufferSize();
+		void *ack = pError->GetBufferPointer();
+
+		if (ack)
+		{
+			char* str = new char[size];
+			sprintf(str, (const char*)ack, size);
+			OutputDebugString(str);
+			delete[] str;
+		}*/
+	}
+
+	return ret;
+}
+
+LPDIRECT3DTEXTURE9 cMainGame::LoadTexture(const wchar_t* filename)
+{
+	LPDIRECT3DTEXTURE9 ret = NULL;
+	if (FAILED(D3DXCreateTextureFromFile(g_pD3DDevice, filename, &ret)))
+	{
+		OutputDebugString(L"텍스처 로딩 실패: ");
+		OutputDebugString(filename);
+		OutputDebugString(L"\n");
+	}
+
+	return ret;
+}
+
 void cMainGame::Setup_MeshObject()
 {
 	D3DXCreateTeapot(g_pD3DDevice, &m_pMeshTeapot, NULL); 
@@ -583,13 +649,46 @@ void cMainGame::SkinnedMesh_Render()
 {
 	D3DXMATRIXA16 matS,matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS, 100, 100, 100);
+	D3DXMatrixScaling(&matS, 1, 1, 1);
 	matWorld *= matS;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if(m_pSkinnedMesh)
+
+	if(m_pShader)
 	{
-		m_pSkinnedMesh->Render(NULL);
+		D3DXMATRIXA16 matView, matProjection;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+		
+		m_pShader->SetMatrix("gWorldMatrix", &matWorld);
+		m_pShader->SetMatrix("gViewMatrix", &matView);
+		m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
+		//m_pShader->SetTexture("DiffuseMap_Tex", m_pShaderTexture);
+		D3DXCOLOR color(1, 0, 1, 1);
+		//m_pShader->SetValue("gColor", &color, sizeof(D3DXCOLOR));
+		m_pShader->SetVector("gLightColor", &D3DXVECTOR4(0.7, 0.7, 1.0, 1.0));
+		m_pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("Zealot\\Zealot_Diffuse.bmp"));
+		m_pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("Zealot\\brick_01-2.png"));
+		
+		UINT numPasses = 0;
+		m_pShader->Begin(&numPasses, NULL);
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			m_pShader->BeginPass(i);
+			if (m_pSkinnedMesh)
+			{
+				m_pSkinnedMesh->Render(NULL);
+			}
+			m_pShader->EndPass();
+		}
+		m_pShader->End();
+	}
+	else
+	{
+		if (m_pSkinnedMesh)
+		{
+			m_pSkinnedMesh->Render(NULL);
+		}
 	}
 }
 
@@ -928,6 +1027,7 @@ void cMainGame::MultiTexture_Render()
 		break;
 	}
 
+	SetBillBoard();
 	
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertex_Multi.size() / 3, &m_vecVertex_Multi[0], sizeof(ST_PT_VERTEX));
@@ -1070,6 +1170,27 @@ void cMainGame::MultiTexture_Render_default()
 	g_pD3DDevice->SetTexture(0, m_tex[0]);
 	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 	g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+}
+
+void cMainGame::SetBillBoard()
+{
+	D3DXMATRIXA16 matBillBoard, matView;
+	D3DXMatrixIdentity(&matBillBoard);
+	D3DXMatrixIdentity(&matView);
+
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	matBillBoard._11 = matView._11;
+	matBillBoard._13 = matView._13;
+	matBillBoard._31 = matView._31;
+	matBillBoard._33 = matView._33;
+	D3DXMATRIXA16 matT;
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixTranslation(&matT, 1, 0, 0);
+	matBillBoard *= matT;
+	
+	D3DXMatrixInverse(&matBillBoard, NULL, &matBillBoard);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matBillBoard);
+	
 }
 
 
