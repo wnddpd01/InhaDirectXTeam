@@ -12,7 +12,12 @@ public:
 	
 	string GetObjectName()
 	{
-		return objectName;
+		return mObjectName;
+	}
+
+	void SetObjectName(string objName)
+	{
+		mObjectName = objName;
 	}
 };
 

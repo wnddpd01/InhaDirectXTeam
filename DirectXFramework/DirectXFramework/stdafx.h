@@ -14,6 +14,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <functional>
 
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
@@ -133,3 +134,4 @@ using namespace std;
 
 #include "TimeManager.h"
 #include "DeviceManager.h"
+#include "TextureManager.h"

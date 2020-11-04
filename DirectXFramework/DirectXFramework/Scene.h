@@ -8,9 +8,12 @@ class Scene
 {
 	eSceneName mSceneName;
 	Camera * mCamera;
+
+	void LoadUI();
+	void LoadObject();
 public:
 	Scene(eSceneName SceneName);
-	~Scene();
+	virtual ~Scene();
 
 	map<string, BaseObject*> mGameObjects;
 	map<string, BaseObject*> mGameUIs;
@@ -23,7 +26,7 @@ public:
 	{
 		mSceneName = m_scene_name;
 	}
-
+	
 	virtual void Update();
 	virtual void Render();
 
