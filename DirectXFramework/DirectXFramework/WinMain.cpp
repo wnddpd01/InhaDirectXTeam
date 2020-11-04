@@ -26,9 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 			}
 			else
 			{
-				sceneCenter.InputProcess(); // TODO Input처리 어떻게 할지 연구, 논의 필요
-				
-				//sceneCenter.Update(); // TODO timeProgressRatio 계산 필요
+				sceneCenter.InputProcess();
 				sceneCenter.Update();
 				sceneCenter.Render();
 			}

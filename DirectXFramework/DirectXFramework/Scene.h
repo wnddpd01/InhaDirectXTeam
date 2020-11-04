@@ -14,7 +14,7 @@ public:
 
 	map<string, BaseObject*> mGameObjects;
 	map<string, BaseObject*> mGameUIs;
-	
+
 	eSceneName GetSceneName() const
 	{
 		return mSceneName;
