@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "SceneCenter.h"
+#include "Scene.h"
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280, UINT windowHeight = 720);
-
 
 int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-	SceneCenter sceneCenter;
 	if(GenerateWindow(hIns, nCmdShow, L"Win32Window", L"DirectXFramework"))
 	{
 		MSG msg;
+		SceneCenter sceneCenter;
 		while(true)
 		{
 			while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -82,4 +82,5 @@ bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windo
 	ShowWindow(hWnd, nCmdShow);
 	return true;
 }
+
 

@@ -2,10 +2,13 @@
 
 #include "Singleton.h"
 
+#define gD3Device DeviceManager::GetInstance()->GetDevice()
+
 class DeviceManager : public Singleton<DeviceManager>
 {
 private :
-	DeviceManager(); friend Singleton;
+	friend Singleton;
+	DeviceManager(); 
 	LPDIRECT3D9			mD3D;
 	LPDIRECT3DDEVICE9	mD3DDevice;
 

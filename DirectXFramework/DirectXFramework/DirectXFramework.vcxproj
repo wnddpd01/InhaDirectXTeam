@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicObserver.cpp" />
+    <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="BaseObserver.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -38,10 +39,11 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicObserver.h" />
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BaseObserver.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="Scene.h" />
