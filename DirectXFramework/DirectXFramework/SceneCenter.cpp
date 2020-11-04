@@ -68,6 +68,7 @@ void SceneCenter::RegisterScene(Scene* scene)
 
 void SceneCenter::InputProcess()
 {
+	
 }
 
 void SceneCenter::Update()
@@ -86,4 +87,19 @@ void SceneCenter::Render()
 	{
 		mCurScene->Render();
 	}
+}
+
+void SceneCenter::MouseInput()
+{
+	POINT mousePrivPosition;
+	
+	
+}
+
+void SceneCenter::KeyBoardInput()
+{
+	if (mCurScene != NULL)
+	{
+	}
+
 }

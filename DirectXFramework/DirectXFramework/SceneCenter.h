@@ -1,5 +1,7 @@
 #pragma once
 
+enum class eKeyButton { LEFT_KEY, RIGHT_KEY, DOWN_KEY, UP_KEY };
+        
 enum class eSceneName
 {
 	START_SCENE = 0, 
@@ -19,6 +21,9 @@ public :
 	void InputProcess();
 	void Update();
 	void Render();
+
+	void MouseInput();
+	void KeyBoardInput();
 
 	Scene* GetScene(eSceneName sceneName)
 	{
