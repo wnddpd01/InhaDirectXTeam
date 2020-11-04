@@ -22,9 +22,9 @@
 #include "cZealot.h"
 #include "cOBB.h"
 #include "cUI.h"
-#include "SoundManager.h"
 
-#include "CSound.h"
+
+
 
 DWORD FtoDw(float f)
 {
@@ -56,8 +56,6 @@ cMainGame::cMainGame()
 	, m_pTex3(NULL)
 	, m_nType(-1)
 	, m_pShader(NULL)
-	//, mSoundManager(NULL)
-	, mSound(NULL)
 {
 }
 
@@ -90,9 +88,7 @@ cMainGame::~cMainGame()
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>
-	
-	SafeDelete(mSound);
-	mSound->Release();
+
 	//<<<<<<<<<<<<<<<<<<<<<<<
 
 	for each(auto p in m_vecObjMtlTex)
@@ -155,6 +151,10 @@ LPD3DXEFFECT cMainGame::LoadShader(const char* filename)
 
 void cMainGame::Setup()
 {
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	gSoundManager->init();
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
 	m_pCubePC = new cCubePC; 
 	m_pCubePC->Setup(); 
 
@@ -177,7 +177,7 @@ void cMainGame::Setup()
 	//	m_pRootFrame = l.Load("woman/woman_01_all.ASE"); 
 	//}
 
-	//Setup_OBB();
+	Setup_OBB();
 
 	//Setup_Texture(); 
 	//Setup_Obj(); 
@@ -196,17 +196,13 @@ void cMainGame::Setup()
 	/*m_pUI = new cUI;
 	m_pUI->Setup_UI();*/
 
-	LoadAssets();
+	//LoadAssets();
 
-	mSound->Init();
-	mSound = new CSound("sounds/Forest.mp3", false);
+
 
 	
-	//mSoundManager = new SoundManager;
-	//mSoundManager->init();
-	
-	m_pSkinnedMesh = new cSkinnedMesh;
-	m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
+	//m_pSkinnedMesh = new cSkinnedMesh;
+	//m_pSkinnedMesh->Setup("Zealot", "Zealot.x");
 
 	
 	
@@ -214,24 +210,27 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	/*if (m_pCubePC)
+
+
+	gSoundManager->Update();
+	
+	if (m_pCubePC)
 		m_pCubePC->Update(); 
 
 	if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap); */
+		m_pCubeMan->Update(m_pMap); 
 
 
 	g_pTimeManager->Update();
 	
-	if (m_pSkinnedMesh)
-		m_pSkinnedMesh->Update();
+	/*if (m_pSkinnedMesh)
+		m_pSkinnedMesh->Update();*/
 	
-
 
 	//if (m_pFrustum)
 	//	m_pFrustum->Update();
 
-	g_pTimeManager->Update();
+	//g_pTimeManager->Update();
 	
 	
 	if (m_pCamera)
@@ -239,7 +238,7 @@ void cMainGame::Update()
 
 	//Update_Particle();
 	
-	update_MultiTexture();
+	//update_MultiTexture();
 	
 	if (m_pHoldZealot)
 		m_pHoldZealot->Update(m_pMap);
@@ -248,11 +247,6 @@ void cMainGame::Update()
 		m_pMoveZealot->Update(m_pMap);
 	
 
-	if (mSound)
-	{
-
-		mSound->Update();
-	}
 	/*if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL); */
 }
@@ -272,12 +266,12 @@ void cMainGame::Render()
 		m_pGrid->Render();
 
 	//Particle_Render();
-	MultiTexture_Render();
+	//MultiTexture_Render();
 	//Frustum_Render();
 
-	//OBB_Render();
+	OBB_Render();
 	
-	SkinnedMesh_Render();
+	//SkinnedMesh_Render();
 	
 	//Text_Render();
 	
@@ -348,7 +342,7 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYDOWN:
 		{
-			mSound->SoundControl();
+			gSoundManager->SoundControl();
 		}
 		break;
 		
@@ -755,9 +749,22 @@ void cMainGame::Setup_OBB()
 
 void cMainGame::OBB_Render()
 {
-	D3DCOLOR c = cOBB::IsCollision(m_pHoldZealot->GetOBB(), m_pMoveZealot->GetOBB()) ?
-		D3DCOLOR_XRGB(255, 0, 0) : D3DCOLOR_XRGB(255, 255, 255);
+	D3DCOLOR c;/*= cOBB::IsCollision(m_pHoldZealot->GetOBB(), m_pMoveZealot->GetOBB()) ?
+		D3DCOLOR_XRGB(255, 0, 0) : D3DCOLOR_XRGB(255, 255, 255);*/
 
+
+	
+	if(cOBB::IsCollision(m_pHoldZealot->GetOBB(), m_pMoveZealot->GetOBB()))
+	{
+		c = D3DCOLOR_XRGB(255, 0, 0);
+		//gSoundManager->Play("DIE", 0.2f); //델타타임적용?
+	}
+	else
+	{
+		c = D3DCOLOR_XRGB(255, 255, 255);
+	}
+
+	
 	if (m_pHoldZealot)
 		m_pHoldZealot->Render(c);
 
@@ -954,7 +961,7 @@ void cMainGame::MultiTexture_Render()
 		default: MultiTexture_Render_default(); break;
 	}
 
-	SetBillboard();
+	//SetBillboard();
 
 	g_pD3DDevice->SetFVF(ST_PT_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertex_Multi.size() / 3, &m_vecVertex_Multi[0], sizeof(ST_PT_VERTEX));

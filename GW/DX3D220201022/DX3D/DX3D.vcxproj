@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DH);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(DL);C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DH)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(DL)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,7 +93,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fmod_vc.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -182,14 +182,8 @@
     <ClInclude Include="cZealot.h" />
     <ClInclude Include="DX3D.h" />
     <ClInclude Include="CFrustum.h" />
-    <ClInclude Include="fmod.h" />
-    <ClInclude Include="fmod.hpp" />
-    <ClInclude Include="fmod_codec.h" />
-    <ClInclude Include="fmod_dsp.h" />
-    <ClInclude Include="fmod_memoryinfo.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="CSound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -234,7 +228,6 @@
     <ClCompile Include="DX3D.cpp" />
     <ClCompile Include="CFrustum.cpp" />
     <ClCompile Include="iMap.cpp" />
-    <ClCompile Include="CSound.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -250,12 +243,6 @@
   <ItemGroup>
     <Image Include="DX3D.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="sounds\Forest.mp3" />
-    <Media Include="sounds\lose.wav" />
-    <Media Include="sounds\start.wav" />
-    <Media Include="sounds\win.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
