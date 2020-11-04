@@ -1,5 +1,7 @@
 #pragma once
 
+enum class eKeyButton { LEFT_KEY, RIGHT_KEY, DOWN_KEY, UP_KEY };
+        
 class Scene;
 class SceneCenter
 {
@@ -11,6 +13,10 @@ public :
 	void InputProcess();
 	void Update();
 	void Render();
+
+	void MouseInput();
+
+	void KeyBoardInput();
 	
 private:
 	Scene* mCurScene;
