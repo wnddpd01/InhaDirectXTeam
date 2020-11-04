@@ -15,9 +15,9 @@
 #include <vector>
 #include <string>
 
-
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
+
 
 #ifdef _WIN64
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3d9.lib")
@@ -123,6 +123,11 @@ namespace std
 }
 
 #include <unordered_map>
+
+#include <dinput.h>
+
+#pragma comment(lib, "dinput8")
+#pragma comment(lib, "dxguid")
 
 using namespace std;
 

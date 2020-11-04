@@ -14,6 +14,15 @@
     <Filter Include="Singleton">
       <UniqueIdentifier>{65c0f78f-cf66-48dc-84c2-951d577398d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{82aea320-4dc3-4027-9b4c-e54fe1b457e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{cd4da59c-6747-4c12-a602-84ad4021f9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader">
+      <UniqueIdentifier>{f1c005cc-6355-4d80-b1f4-d559a6ea102e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -34,11 +43,23 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="KeyboardInputManager.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
     <ClCompile Include="FBXLoader.cpp">
-      <Filter>Singleton</Filter>
+      <Filter>ModelLoader</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
-      <Filter>Singleton</Filter>
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicObserver.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInputManager.cpp">
+      <Filter>DXUT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,11 +81,23 @@
     <ClInclude Include="Singleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
+    <ClInclude Include="KeyboardInputManager.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Event</Filter>
+    </ClInclude>
     <ClInclude Include="FBXLoader.h">
-      <Filter>Singleton</Filter>
+      <Filter>ModelLoader</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
-      <Filter>Singleton</Filter>
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObserver.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInputManager.h">
+      <Filter>DXUT</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

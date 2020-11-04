@@ -3,9 +3,6 @@
 class Scene;
 class SceneCenter
 {
-private:
-	Scene* mCurScene;
-	std::map<std::wstring, Scene*> mSceneMap;
 public :
 	SceneCenter();
 	~SceneCenter();
@@ -14,5 +11,9 @@ public :
 	void InputProcess();
 	void Update();
 	void Render();
+	
+private:
+	Scene* mCurScene;
+	std::map<std::wstring, Scene*> mSceneMap;
 };
 
