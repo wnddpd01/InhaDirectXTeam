@@ -1,95 +1,45 @@
 #include "stdafx.h"
 #include "MouseInputManager.h"
 
-
-HRESULT MouseInputManager::CreateDevice(HWND hWnd)
+BOOL MouseInputManager::PushLeft(POINT* const outPosition)
 {
-	HRESULT hr;
-
-	mHWnd = hWnd;
-	if (FAILED(hr = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&mDI, NULL)))
+	if(GetKeyState(VK_LBUTTON) & 0x8000)
 	{
-		return hr;
+		GetCursorPos(outPosition);
+		return true;
 	}
 
-	if(FAILED(hr = mDI->CreateDevice(GUID_SysMouse,&mMouse,NULL)))
-	{
-		return hr;
-	}
-	if (FAILED(hr = mMouse->SetDataFormat(&c_dfDIMouse2)))
-	{
-		return hr;
-	}
-
-	hr = mMouse->SetCooperativeLevel(mHWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-
-	if(FAILED(hr))
-	{
-		return hr;
-	}
-
-	mMouse->Acquire();
-
-	return S_OK;
+	return false;
 }
 
-HRESULT MouseInputManager::ReadDate()
+BOOL MouseInputManager::PushRight(POINT* const outPosition)
 {
-	HRESULT hr;
-
-	if (NULL == mMouse)
+	if (GetKeyState(VK_RBUTTON) & 0x8000)
 	{
-		return S_OK;
+		GetCursorPos(outPosition);
+		return true;
 	}
-		
-	ZeroMemory(&mMouseState2, sizeof(mMouseState2));
+
+	return false;
+}
+
+BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
+{
+	static POINT privMousePosition;
+	POINT curMousePosition;
 	
-	hr = mMouse->GetDeviceState(sizeof(DIMOUSESTATE2), &mMouseState2);
-
-	if(FAILED(hr))
+	GetCursorPos(&curMousePosition);
+	
+	if(curMousePosition.x == privMousePosition.x && curMousePosition.y == privMousePosition.y)
 	{
-		hr = mMouse->Acquire();
-		while (hr == DIERR_INPUTLOST)
-		{
-			hr = mMouse->Acquire();
-		}
+		return false;
 	}
-
-	mMouseFrameDistance.x = mMouseState2.lX;
-	mMouseFrameDistance.y = mMouseState2.lY;
-
-	return S_OK;
-}
-
-void MouseInputManager::FreeDirectInput()
-{
-	if (mMouse)
-		mMouse->Unacquire();
-	SafeRelease(mMouse);
-	SafeRelease(mDI);
-}
-
-void MouseInputManager::OnActivate(WPARAM wParam)
-{
-	if(WA_INACTIVE != wParam && mMouse)
+	
+	else
 	{
-		mMouse->Acquire();
+		*outPosition = curMousePosition;
 	}
+	
+	return true;
 }
-
-BOOL MouseInputManager::PushLeft()
-{
-	return (mMouseState2.rgbButtons[0] & 0x80) ? TRUE : FALSE;
-}
-
-BOOL MouseInputManager::PushRight()
-{
-	return (mMouseState2.rgbButtons[1] & 0x80) ? TRUE : FALSE;
-}
-
-BOOL MouseInputManager::PushMiddle()
-{
-	return (mMouseState2.rgbButtons[2] & 0X80) ? TRUE : FALSE;
-}
-
 
