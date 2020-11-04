@@ -1,33 +1,32 @@
 #pragma once
 #include <map>
 #include <vector>
-#include "BasicObserver.h"
 
-using namespace std;
-
-class EventManager
+enum class eEventName
 {
-	EventManager();
-	map<string, vector<BasicObserver*>> m_mapSubscriber;
-public:
-	static EventManager* GetInstance()
-	{
-		static EventManager ins;
-		return &ins;
-	}
-	~EventManager();
+	Key_Down = 0, MOUSE_L_DOWN, MOUSE_L_UP, MOUSE_MOVE
+};
 
-	bool AddSubscriber(string eventName, BasicObserver* newSubscriber)
+class BaseObserver;
+
+#define gEventManager EventManager->GetInstance()
+
+class EventManager : Singleton<EventManager>
+{
+	map<eEventName, vector<BaseObserver*>> m_mapSubscriber;
+public:
+
+	bool AttachSubscriber(eEventName eventName, BaseObserver* newSubscriber)
 	{
 		m_mapSubscriber[eventName].push_back(newSubscriber);
 		return true;
 	}
 
-	bool SubtractSubscriber(string eventName, BasicObserver* newSubscriber)
+	bool DetachSubscriber(eEventName eventName, BaseObserver* detachedSubscriber)
 	{
 		for (auto it = m_mapSubscriber[eventName].begin(); it != m_mapSubscriber[eventName].end(); it++)
 		{
-			if (*it == newSubscriber)
+			if (*it == detachedSubscriber)
 			{
 				m_mapSubscriber[eventName].erase(it);
 				return true;
@@ -36,13 +35,13 @@ public:
 		return false;
 	}
 
-	bool SubtractSubscriber(BasicObserver* newSubscriber)
+	bool DetachSubscriber(BaseObserver* detachedSubscriber)
 	{
 		for (auto it_map = m_mapSubscriber.begin(); it_map != m_mapSubscriber.end(); it_map++)
 		{
 			for (auto it_mapVec = it_map->second.begin(); it_mapVec != it_map->second.end(); it_mapVec++)
 			{
-				if (*it_mapVec == newSubscriber)
+				if (*it_mapVec == detachedSubscriber)
 				{
 					it_map->second.erase(it_mapVec);
 					return true;
@@ -52,12 +51,6 @@ public:
 		return false;
 	}
 
-	void EventOccured(string eventName, void* parameter)
-	{
-		for (auto subscriber : m_mapSubscriber[eventName])
-		{
-			subscriber->Event(parameter);
-		}
-	}
+	void EventOccurred(eEventName eventName, void* parameter);
 };
 

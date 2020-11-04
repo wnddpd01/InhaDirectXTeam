@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "EventManager.h"
+#include "BaseObserver.h"
 
-
-EventManager::EventManager()
+void EventManager::EventOccurred(eEventName eventName, void* parameter)
 {
-	
-}
-
-
-EventManager::~EventManager()
-{
-	
+	for (auto subscriber : m_mapSubscriber[eventName])
+	{
+		subscriber->Update(eventName, parameter);
+	}
 }

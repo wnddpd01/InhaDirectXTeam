@@ -17,11 +17,14 @@
     <Filter Include="DXUT">
       <UniqueIdentifier>{82aea320-4dc3-4027-9b4c-e54fe1b457e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Event">
-      <UniqueIdentifier>{cd4da59c-6747-4c12-a602-84ad4021f9de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ModelLoader">
       <UniqueIdentifier>{f1c005cc-6355-4d80-b1f4-d559a6ea102e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseClass">
+      <UniqueIdentifier>{cd4da59c-6747-4c12-a602-84ad4021f9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{18d649cc-d236-4501-b8b4-754d34311ab2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,22 +49,22 @@
     <ClCompile Include="KeyboardInputManager.cpp">
       <Filter>DXUT</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>ModelLoader</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>DXUT</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicObserver.cpp">
-      <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="MouseInputManager.cpp">
       <Filter>DXUT</Filter>
     </ClCompile>
-    <ClCompile Include="QuarterMap.cpp" />
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObserver.cpp">
+      <Filter>BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -85,21 +88,21 @@
     <ClInclude Include="KeyboardInputManager.h">
       <Filter>DXUT</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXLoader.h">
-      <Filter>ModelLoader</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>DXUT</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicObserver.h">
-      <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="MouseInputManager.h">
       <Filter>DXUT</Filter>
     </ClInclude>
-    <ClInclude Include="QuarterMap.h" />
+    <ClInclude Include="EventManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserver.h">
+      <Filter>BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
 </Project>
