@@ -1,23 +1,32 @@
 #pragma once
+#include "Camera.h"
+#include "SceneCenter.h"
+
+class BaseObject;
 
 class Scene
 {
-	std::wstring mSceneName;
+	eSceneName mSceneName;
+	Camera * mCamera;
 public:
-	Scene();
-	Scene(std::wstring SceneName);
+	Scene(eSceneName SceneName);
 	~Scene();
-	std::wstring GetSceneName() const
+
+	map<string, BaseObject*> mGameObjects;
+	map<string, BaseObject*> mGameUIs;
+	
+	eSceneName GetSceneName() const
 	{
 		return mSceneName;
 	}
-	void SetSceneName(const std::wstring& m_scene_name)
+	void SetSceneName(const eSceneName& m_scene_name)
 	{
 		mSceneName = m_scene_name;
 	}
 
 	virtual void Update();
 	virtual void Render();
+
 private:
 
 };

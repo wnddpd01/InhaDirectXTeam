@@ -454,7 +454,7 @@ bool cMainGame::LoadAssets()
 		return false;
 	}*/
 	
-	m_pShader = LoadShader("Shader/TextureMapping.fx");
+	m_pShader = LoadShader("Shader/SpecularMapping.fx");
 	if (!m_pShader)
 	{
 		return false;
@@ -665,7 +665,11 @@ void cMainGame::SkinnedMesh_Render()
 		m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
 		//m_pShader->SetTexture("DiffuseMap_Tex", m_pShaderTexture);
 		D3DXCOLOR color(1, 0, 1, 1);
-		m_pShader->SetValue("gColor", &color, sizeof(D3DXCOLOR));
+		//m_pShader->SetValue("gColor", &color, sizeof(D3DXCOLOR));
+		m_pShader->SetVector("gLightColor", &D3DXVECTOR4(0.7, 0.7, 1.0, 1.0));
+		m_pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("Zealot\\Zealot_Diffuse.bmp"));
+		m_pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("Zealot\\brick_01-2.png"));
+		
 		UINT numPasses = 0;
 		m_pShader->Begin(&numPasses, NULL);
 		for (UINT i = 0; i < numPasses; ++i)

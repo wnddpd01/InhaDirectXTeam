@@ -2,24 +2,41 @@
 
 enum class eKeyButton { LEFT_KEY, RIGHT_KEY, DOWN_KEY, UP_KEY };
         
+enum class eSceneName
+{
+	START_SCENE = 0, 
+};
+
 class Scene;
+
 class SceneCenter
 {
+	void SceneLoad();
 public :
 	SceneCenter();
 	~SceneCenter();
-	void SceneChange(std::wstring sceneName);
-	void RegisterScene(std::wstring sceneName);
+	void SceneChange(eSceneName sceneName);
+	void RegisterAndMakeScene(eSceneName sceneName);
+	void RegisterScene(Scene* scene);
 	void InputProcess();
 	void Update();
 	void Render();
 
 	void MouseInput();
-
 	void KeyBoardInput();
+
+	Scene* GetScene(eSceneName sceneName)
+	{
+		return mSceneMap[sceneName];
+	}
+	Scene* GetCurrScene()
+	{
+		return mCurScene;
+	}
+	
 	
 private:
 	Scene* mCurScene;
-	std::map<std::wstring, Scene*> mSceneMap;
+	std::map<eSceneName, Scene*> mSceneMap;
 };
 

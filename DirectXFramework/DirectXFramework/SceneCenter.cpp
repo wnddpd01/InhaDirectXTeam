@@ -9,8 +9,16 @@
 
 using namespace std;
 
+void SceneCenter::SceneLoad()
+{
+	Scene* startScene = new Scene(eSceneName::START_SCENE);
+	RegisterScene(startScene);
+	SceneChange(eSceneName::START_SCENE);
+}
+
 SceneCenter::SceneCenter() : mCurScene(NULL)
 {
+	SceneLoad();
 }
 
 SceneCenter::~SceneCenter()
@@ -22,7 +30,7 @@ SceneCenter::~SceneCenter()
 	mSceneMap.clear();
 }
 
-void SceneCenter::SceneChange(std::wstring sceneName)
+void SceneCenter::SceneChange(eSceneName sceneName)
 {
 	if(mSceneMap.find(sceneName) != mSceneMap.end())
 	{
@@ -34,11 +42,23 @@ void SceneCenter::SceneChange(std::wstring sceneName)
 	}
 }
 
-void SceneCenter::RegisterScene(wstring sceneName)
+void SceneCenter::RegisterAndMakeScene(eSceneName sceneName)
 {
 	if (mSceneMap.find(sceneName) == mSceneMap.end())
 	{
 		mSceneMap.insert(make_pair(sceneName, new Scene(sceneName)));
+	}
+	else
+	{
+		//TODO Scene이 존재할때 예외처리
+	}
+}
+
+void SceneCenter::RegisterScene(Scene* scene)
+{
+	if (mSceneMap.find(scene->GetSceneName()) == mSceneMap.end())
+	{
+		mSceneMap.insert(make_pair(scene->GetSceneName(), scene));
 	}
 	else
 	{
@@ -57,6 +77,7 @@ void SceneCenter::Update()
 
 	if(mCurScene != NULL)
 	{
+		mCurScene->Update();
 	}
 }
 
@@ -64,6 +85,7 @@ void SceneCenter::Render()
 {
 	if(mCurScene != NULL)
 	{
+		mCurScene->Render();
 	}
 }
 
