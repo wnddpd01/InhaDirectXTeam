@@ -23,10 +23,10 @@ void Camera::Setup(D3DXVECTOR3* target)
 
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
-	
-	D3DXMATRIXA16   matProj;
+
+	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F,
-		viewPort.Width / (float)viewPort.Height, 1.0f, 1000.0f);
+	                           viewPort.Width / static_cast<float>(viewPort.Height), 1.0f, 1000.0f);
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
@@ -36,7 +36,7 @@ void Camera::Update()
 	D3DXMATRIXA16 matR, matRX, matRY;
 	D3DXMatrixRotationX(&matRX, mCamRotAngle.x);
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);
-	matR = matRX* matRY;
+	matR = matRX * matRY;
 
 	mEye = D3DXVECTOR3(0, 0, -mCameraDistance);
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);

@@ -7,12 +7,14 @@ class BaseObject;
 class Scene
 {
 	eSceneName mSceneName;
-	Camera * mCamera;
-	QuarterMap* mQuarterMap;
 	
+	Camera * mCamera;
+
+	void LoadUI();
+	void LoadObject();
 public:
 	Scene(eSceneName SceneName);
-	~Scene();
+	virtual ~Scene();
 
 	map<string, BaseObject*> mGameObjects;
 	map<string, BaseObject*> mGameUIs;
@@ -21,15 +23,14 @@ public:
 	{
 		return mSceneName;
 	}
+
 	void SetSceneName(const eSceneName& m_scene_name)
 	{
 		mSceneName = m_scene_name;
 	}
-
+	
 	virtual void Update();
 	virtual void Render();
 
 private:
-
 };
-

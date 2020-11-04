@@ -14,6 +14,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <functional>
 
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
@@ -30,7 +31,6 @@
 
 #define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
 #define SafeDelete(p)	{ if( p) delete p ; p=NULL ; }
-
 
 
 struct Vertex
@@ -52,7 +52,6 @@ struct Vertex
 
 		return true;
 	}
-	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
 };
 
 struct CharacterVertex : Vertex
@@ -83,10 +82,10 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<float>()(k.x)
-				^ (hash<float>()(k .y) << 1)));
+				^ (hash<float>()(k.y) << 1)));
 		}
 	};
-	
+
 	template <>
 	struct hash<D3DXVECTOR3>
 	{
@@ -100,11 +99,11 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<float>()(k.x)
-				^ (hash<float>()(k.y) << 1)) >> 1)
+					^ (hash<float>()(k.y) << 1)) >> 1)
 				^ (hash<float>()(k.z) << 1);
 		}
 	};
-	
+
 	template <>
 	struct hash<Vertex>
 	{
@@ -118,12 +117,11 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<D3DXVECTOR3>()(k.Pos)
-				^ (hash<D3DXVECTOR3>()(k.Normal) << 1)) >> 1)
+					^ (hash<D3DXVECTOR3>()(k.Normal) << 1)) >> 1)
 				^ (hash<D3DXVECTOR2>()(k.TexUV) << 1);
 		}
 	};
 }
-
 
 #include <unordered_map>
 
@@ -137,5 +135,3 @@ using namespace std;
 #include "TimeManager.h"
 #include "DeviceManager.h"
 #include "TextureManager.h"
-
-#include "QuarterMap.h"

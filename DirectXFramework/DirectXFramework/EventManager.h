@@ -1,17 +1,17 @@
 #pragma once
-#include <map>
-#include <vector>
+
+#include "Singleton.h"
+
+#define gEventManager EventManager::GetInstance()
 
 enum class eEventName
 {
-	Key_Down = 0, MOUSE_L_DOWN, MOUSE_L_UP, MOUSE_MOVE
+	Key_Down = 0, MOUSE_L_DOWN, MOUSE_R_DOWN, MOUSE_L_UP
 };
 
 class BaseObserver;
 
-#define gEventManager EventManager->GetInstance()
-
-class EventManager : Singleton<EventManager>
+class EventManager : public Singleton<EventManager>
 {
 	map<eEventName, vector<BaseObserver*>> m_mapSubscriber;
 public:

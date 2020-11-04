@@ -20,4 +20,3 @@ system_clock::time_point TimeManager::GetCurTime()
 {
 	return system_clock::now();
 }
-

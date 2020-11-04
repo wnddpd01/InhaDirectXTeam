@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 
 // µð¹ö±ë¿ë
@@ -6,6 +5,9 @@
 
 #include "SceneCenter.h"
 #include "Scene.h"
+#include "MouseInputManager.h"
+#include "KeyboardInputManager.h"
+#include "EventManager.h"
 
 using namespace std;
 
@@ -32,7 +34,7 @@ SceneCenter::~SceneCenter()
 
 void SceneCenter::SceneChange(eSceneName sceneName)
 {
-	if(mSceneMap.find(sceneName) != mSceneMap.end())
+	if (mSceneMap.find(sceneName) != mSceneMap.end())
 	{
 		mCurScene = mSceneMap.find(sceneName)->second;
 	}
@@ -68,14 +70,34 @@ void SceneCenter::RegisterScene(Scene* scene)
 
 void SceneCenter::InputProcess()
 {
+	/*if ( gKeyboardInputManager->ReadKey() != static_cast<int>(eKeyButton::NON_KEY))
+	{
+		
+	}*/
+
+	POINT mousePosition;
 	
+	if( gMouseInputManager->DownLeftButton(&mousePosition))
+	{
+		gEventManager->EventOccurred(eEventName::MOUSE_L_DOWN,&mousePosition);
+	}
+
+	if(gMouseInputManager->DownRightButton(&mousePosition))
+	{
+		gEventManager->EventOccurred(eEventName::MOUSE_R_DOWN, &mousePosition);
+	}
+
+	if (gMouseInputManager->UpLeftButton(&mousePosition))
+	{
+		gEventManager->EventOccurred(eEventName::MOUSE_L_UP, &mousePosition);
+	}
 }
 
 void SceneCenter::Update()
 {
 	gTimeManager->Update();
 
-	if(mCurScene != NULL)
+	if (mCurScene != nullptr)
 	{
 		mCurScene->Update();
 	}
@@ -83,23 +105,8 @@ void SceneCenter::Update()
 
 void SceneCenter::Render()
 {
-	if(mCurScene != NULL)
+	if (mCurScene != nullptr)
 	{
 		mCurScene->Render();
 	}
-}
-
-void SceneCenter::MouseInput()
-{
-	POINT mousePrivPosition;
-	
-	
-}
-
-void SceneCenter::KeyBoardInput()
-{
-	if (mCurScene != NULL)
-	{
-	}
-
 }

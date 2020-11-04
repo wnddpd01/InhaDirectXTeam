@@ -26,7 +26,6 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
-    <ClCompile Include="QuarterMap.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCenter.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -38,6 +37,8 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +49,6 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MouseInputManager.h" />
-    <ClInclude Include="QuarterMap.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCenter.h" />
     <ClInclude Include="Singleton.h" />
@@ -56,6 +56,9 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UIBase.h" />
+    <ClInclude Include="UIEventListener.h" />
+    <ClInclude Include="UIImage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
