@@ -6,6 +6,7 @@ enum class eSceneName
 };
 
 class Scene;
+
 class SceneCenter
 {
 	void SceneLoad();

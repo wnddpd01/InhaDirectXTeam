@@ -6,8 +6,8 @@ class BaseObserver
 {
 public:
 	BaseObserver();
-	~BaseObserver();
+	virtual ~BaseObserver();
 
-	void Update(eEventName eventName ,void* parameter);
+	virtual void Update(eEventName eventName ,void* parameter);
 };
 

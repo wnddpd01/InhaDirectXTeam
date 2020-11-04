@@ -4,10 +4,10 @@ class BaseObject
 	string objectName;
 public:
 	BaseObject();
-	~BaseObject();
+	virtual ~BaseObject();
 
-	void Update();
-	void Render();
+	virtual void Update();
+	virtual void Render();
 	
 	string GetObjectName()
 	{
