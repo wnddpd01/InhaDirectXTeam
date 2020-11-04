@@ -7,7 +7,11 @@
 class MouseInputManager : public Singleton<MouseInputManager>
 {
 public:
-	BOOL PushLeft(POINT* outPosition);
-	BOOL PushRight(POINT* outPosition);
-	BOOL MoveMouse(POINT* outPosition);
+	BOOL DownLeftButton(POINT * const outPosition);
+	BOOL DownRightButton(POINT * const outPosition);
+	BOOL UpLeftButton(POINT * const outPosition);
+	
+private:
+	bool bMouseLbuttonDown;
+
 };

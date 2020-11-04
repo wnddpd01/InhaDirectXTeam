@@ -10,8 +10,13 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-	string GetObjectName()
+
+	// >> :
+	
+	/*string GetObjectName()
 	{
 		return objectName;
-	}
+	}*/
+
+	
 };

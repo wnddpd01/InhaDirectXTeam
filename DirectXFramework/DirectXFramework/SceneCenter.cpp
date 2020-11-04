@@ -77,19 +77,19 @@ void SceneCenter::InputProcess()
 
 	POINT mousePosition;
 	
-	if( gMouseInputManager->PushLeft(&mousePosition))
+	if( gMouseInputManager->DownLeftButton(&mousePosition))
 	{
 		gEventManager->EventOccurred(eEventName::MOUSE_L_DOWN,&mousePosition);
 	}
 
-	if(gMouseInputManager->PushRight(&mousePosition))
+	if(gMouseInputManager->DownRightButton(&mousePosition))
 	{
 		gEventManager->EventOccurred(eEventName::MOUSE_R_DOWN, &mousePosition);
 	}
 
-	if (gMouseInputManager->MoveMouse(&mousePosition))
+	if (gMouseInputManager->UpLeftButton(&mousePosition))
 	{
-		gEventManager->EventOccurred(eEventName::MOUSE_MOVE, &mousePosition);
+		gEventManager->EventOccurred(eEventName::MOUSE_L_UP, &mousePosition);
 	}
 }
 
