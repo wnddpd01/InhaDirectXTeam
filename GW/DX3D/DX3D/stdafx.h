@@ -33,6 +33,11 @@
 #pragma comment(lib, "d3dx9.lib")
 
 
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#include "./fmod/fmod.hpp"
+#pragma comment(lib, "./fmod/fmodex_vc.lib")
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 extern HWND g_hWnd;
 
 #define SafeRelease(p)	{if(p) p->Release() ; p =NULL;}   //인터페이스 해제

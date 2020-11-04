@@ -250,18 +250,7 @@ void cMainGame::Update()
 
 	if (mSound)
 	{
-		if (::GetAsyncKeyState('Q') & 0x8000)
-			mSound->Play(); // pause->resume   stop->play 
-		if (::GetAsyncKeyState('P') & 0x8000)
-			mSound->Pause();
-		if (::GetAsyncKeyState('R') & 0x8000)
-			mSound->Resume();
-		if (::GetAsyncKeyState('S') & 0x8000)
-			mSound->Stop();
-		if (::GetAsyncKeyState('U') & 0x8000)
-			mSound->VolumeUp();
-		if (::GetAsyncKeyState('D') & 0x8000)
-			mSound->VolumeDown();
+
 		mSound->Update();
 	}
 	/*if (m_pRootFrame)
@@ -336,6 +325,9 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	
 	//if (m_pFrustum)
 	//	m_pFrustum->WndProc(hWnd, message, wParam, lParam);
+
+	
+
 	
 	switch (message)
 	{
@@ -353,7 +345,13 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			
 			
 		}
-
+		break;
+	case WM_KEYDOWN:
+		{
+			mSound->SoundControl();
+		}
+		break;
+		
 		/*for each(ST_SPHERE* sphere in m_vecCullingSphere)
 		{
 		if(m_pFrustum->IsIn(sphere))
@@ -388,7 +386,6 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}*/
-		break;
 	default:
 
 

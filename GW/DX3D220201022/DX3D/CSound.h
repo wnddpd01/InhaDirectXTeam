@@ -20,6 +20,10 @@ private:
 
 	float mVolume;
 	FMOD_BOOL mBool;
+
+
+
+	
 	
 public:
 	CSound(const char* path, bool loop);
@@ -36,6 +40,9 @@ public:
 	void VolumeDown();
 
 	void Update();
+
+	void SoundControl();
+	
 	
 };
 
