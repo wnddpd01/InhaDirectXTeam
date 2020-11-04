@@ -15,6 +15,8 @@
 #include "cFrame.h"
 #include "cAseLoader.h"
 
+#include "SoundManager.h"
+
 #include "cRay.h"
 
 #include <sysinfoapi.h>
@@ -101,6 +103,12 @@ void cMainGame::Setup()
 	m_pGrid->Setup();
 
 
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	gSoundManager->init();
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	
+	
 	//Setup_Obj();
 
 	/*{
@@ -140,6 +148,8 @@ void cMainGame::Update()
 	/*if (m_pRootFrame)
 		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);*/
 
+
+	gSoundManager->Update();
 	
 }
 
@@ -173,8 +183,6 @@ void cMainGame::Render()
 	//	m_pBPath->Render();
 
 	//Draw_Texture();
-
-	
 
 	
 
@@ -298,6 +306,13 @@ void cMainGame::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		break;
+
+
+		case WM_KEYDOWN:
+			{		
+				gSoundManager->SoundControl();	
+			}
+			break;
 	}
 	
 }

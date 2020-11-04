@@ -105,3 +105,44 @@ void CSound::Update()
 
 }
 
+void CSound::SoundControl()
+{
+
+	if (GetKeyState('Q') & 0x8000)
+	{
+		Play(); // pause->resume   stop->play
+	}
+
+
+	if (GetKeyState('P') & 0x8000)
+	{
+		Pause();
+	}
+
+
+	if (GetKeyState('R') & 0x8000)
+	{
+		Resume();
+	}
+
+
+	if (GetKeyState('S') & 0x8000)
+	{
+		Stop();
+	}
+
+
+	if (GetKeyState('U') & 0x8000)
+	{
+		VolumeUp();
+	}
+
+
+	if (GetKeyState('D') & 0x8000)
+	{
+		VolumeDown();
+	}
+
+	
+}
+
