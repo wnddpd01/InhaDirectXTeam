@@ -16,7 +16,7 @@ void SceneCenter::SceneLoad()
 	SceneChange(eSceneName::START_SCENE);
 }
 
-SceneCenter::SceneCenter() : mCurScene(NULL)
+SceneCenter::SceneCenter() : mCurScene(nullptr)
 {
 	SceneLoad();
 }
