@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "BaseObject.h"
 #include "UIImage.h"
-#include "QuarterMap.h"
+#include "UIEventListener.h"
 
 void Scene::LoadUI()
 {
@@ -15,6 +15,9 @@ void Scene::LoadUI()
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5,
 			uiImage->GetPos().y + viewPort.Height * 0.5f - uiImage->GetHeight() * 0.5
 			, 0));
+		uiImage->EventProcess = PanelEventListen;
+		gEventManager->AttachSubscriber(eEventName::MOUSE_L_DOWN, uiImage);
+		gEventManager->AttachSubscriber(eEventName::MOUSE_L_UP, uiImage);
 		mGameUIs.insert(make_pair("BasePanel", uiImage));
 	}
 }

@@ -54,6 +54,9 @@ public:
 		mbVisible = mb_visible;
 	}
 
+
+	RECT GetRectInViewPort();
+	
 	UIBase();
 	virtual ~UIBase();
 

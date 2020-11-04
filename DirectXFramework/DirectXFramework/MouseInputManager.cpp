@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "MouseInputManager.h"
 
+extern HWND hWnd;
+
 BOOL MouseInputManager::DownLeftButton(POINT* const outPosition)
 {
 	if (GetKeyState(VK_LBUTTON) & 0x8000)
 	{
 		GetCursorPos(outPosition);
+		ScreenToClient(hWnd, outPosition);
 		bMouseLbuttonDown = true;
 		return true;
 	}
@@ -23,6 +26,7 @@ BOOL MouseInputManager::DownRightButton(POINT* const outPosition)
 	if (GetKeyState(VK_RBUTTON) & 0x8000)
 	{
 		GetCursorPos(outPosition);
+		ScreenToClient(hWnd, outPosition);
 		return true;
 	}
 	
@@ -31,6 +35,7 @@ BOOL MouseInputManager::DownRightButton(POINT* const outPosition)
 
 BOOL MouseInputManager::UpLeftButton(POINT* const outPosition)
 {
+	
 	static bool bPrivMouseLButton;
 	bool bCurMouseLButton;
 
@@ -39,6 +44,7 @@ BOOL MouseInputManager::UpLeftButton(POINT* const outPosition)
 	if (bPrivMouseLButton == TRUE && bCurMouseLButton == FALSE)
 	{
 		GetCursorPos(outPosition);
+		ScreenToClient(hWnd, outPosition);
 		bPrivMouseLButton = bCurMouseLButton;
 		return true; 
 	}

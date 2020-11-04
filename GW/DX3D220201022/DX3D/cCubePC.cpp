@@ -143,7 +143,9 @@ void cCubePC::Update()
 
 	m_vDirection = D3DXVECTOR3(0, 0, 1); 
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR); 
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z); 
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	gSoundManager->Sound3D("DIE",m_vPosition.x, m_vPosition.z);
 
 	m_matWorld = matR * matT; 
 }
