@@ -32,7 +32,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 				sceneCenter.Update();
 				sceneCenter.Render();
 			}
-			
 		}
 		return msg.wParam;
 	}
