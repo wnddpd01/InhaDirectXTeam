@@ -2,7 +2,8 @@
 
 enum class eSceneName
 {
-	START_SCENE = 0, 
+	START_SCENE = 0,
+	GAME_SCENE,
 };
 
 class Scene;

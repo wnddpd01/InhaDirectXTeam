@@ -52,7 +52,9 @@ struct Vertex
 
 		return true;
 	}
+	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
 };
+
 struct CharacterVertex : Vertex
 {
 	D3DXVECTOR3 BoneWeights;
@@ -81,7 +83,7 @@ namespace std
 			// and bit shifting:
 
 			return ((hash<float>()(k.x)
-				^ (hash<float>()(k.y) << 1)));
+				^ (hash<float>()(k .y) << 1)));
 		}
 	};
 	
@@ -122,6 +124,7 @@ namespace std
 	};
 }
 
+
 #include <unordered_map>
 
 #include <dinput.h>
@@ -133,3 +136,6 @@ using namespace std;
 
 #include "TimeManager.h"
 #include "DeviceManager.h"
+
+
+#include "QuarterMap.h"

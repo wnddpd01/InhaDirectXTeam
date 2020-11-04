@@ -28,7 +28,6 @@ void Camera::Setup(D3DXVECTOR3* target)
 
 void Camera::Update()
 {
-	
 	D3DXMATRIXA16 matR, matRX, matRY;
 	D3DXMatrixRotationX(&matRX, mCamRotAngle.x);
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);

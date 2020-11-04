@@ -8,6 +8,8 @@ class Scene
 {
 	eSceneName mSceneName;
 	Camera * mCamera;
+	QuarterMap* mQuarterMap;
+	
 public:
 	Scene(eSceneName SceneName);
 	~Scene();
