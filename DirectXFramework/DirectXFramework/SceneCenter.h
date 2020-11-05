@@ -1,20 +1,21 @@
 #pragma once
+#include "SceneFactory.h"
 
 enum class eSceneName
 {
-	START_SCENE = 0,
+	START_SCENE = 0, INGAME_SCENE
 };
 
 class Scene;
 
 class SceneCenter
 {
-	void SceneLoad();
+	SceneFactory mSceneFactory;
+	void SceneLoad(eSceneName sceneName);
 public :
 	SceneCenter();
 	~SceneCenter();
 	void SceneChange(eSceneName sceneName);
-	void RegisterAndMakeScene(eSceneName sceneName);
 	void RegisterScene(Scene* scene);
 	void InputProcess();
 	void Update();

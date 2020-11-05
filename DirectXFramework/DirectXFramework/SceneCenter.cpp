@@ -11,16 +11,16 @@
 
 using namespace std;
 
-void SceneCenter::SceneLoad()
+void SceneCenter::SceneLoad(eSceneName sceneName)
 {
-	Scene* startScene = new Scene(eSceneName::START_SCENE);
-	RegisterScene(startScene);
-	SceneChange(eSceneName::START_SCENE);
+	Scene* newScene = mSceneFactory.CreateScene(sceneName);
+	RegisterScene(newScene);
 }
 
 SceneCenter::SceneCenter() : mCurScene(nullptr)
 {
-	SceneLoad();
+	SceneLoad(eSceneName::START_SCENE);
+	SceneChange(eSceneName::START_SCENE);
 }
 
 SceneCenter::~SceneCenter()
@@ -34,27 +34,13 @@ SceneCenter::~SceneCenter()
 
 void SceneCenter::SceneChange(eSceneName sceneName)
 {
-	if (mSceneMap.find(sceneName) != mSceneMap.end())
-	{
-		mCurScene = mSceneMap.find(sceneName)->second;
-	}
-	else
-	{
-		//TODO Scene이 존재하지않을때 예외처리
-	}
-}
-
-void SceneCenter::RegisterAndMakeScene(eSceneName sceneName)
-{
 	if (mSceneMap.find(sceneName) == mSceneMap.end())
 	{
-		mSceneMap.insert(make_pair(sceneName, new Scene(sceneName)));
+		SceneLoad(sceneName);
 	}
-	else
-	{
-		//TODO Scene이 존재할때 예외처리
-	}
+	mCurScene = mSceneMap.find(sceneName)->second;
 }
+
 
 void SceneCenter::RegisterScene(Scene* scene)
 {

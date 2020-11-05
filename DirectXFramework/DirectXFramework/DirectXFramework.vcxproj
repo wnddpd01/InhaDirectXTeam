@@ -29,6 +29,7 @@
     <ClCompile Include="QuarterMap.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCenter.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -53,6 +54,7 @@
     <ClInclude Include="QuarterMap.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCenter.h" />
+    <ClInclude Include="SceneFactory.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
