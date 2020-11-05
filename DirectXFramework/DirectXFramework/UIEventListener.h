@@ -40,7 +40,7 @@ inline void BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
 			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
-			gSoundManager->Play("BGM");
+			gSoundManager->Play("CLICK");
 		}
 	}
 	if (eventName == eEventName::MOUSE_L_UP)

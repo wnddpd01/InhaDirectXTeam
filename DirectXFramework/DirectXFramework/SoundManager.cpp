@@ -90,7 +90,7 @@ void SoundManager::SoundSet()
 
 	
 	AddSound("BGM", "./sounds/Sonata.mp3", true);
-	AddSound("DIE", "./sounds/start.wav", true);
+	AddSound("CLICK", "./sounds/get.wav", false);
 
 }
 
