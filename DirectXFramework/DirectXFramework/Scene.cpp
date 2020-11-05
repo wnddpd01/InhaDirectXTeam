@@ -36,7 +36,7 @@ Scene::Scene(eSceneName SceneName)
 	mCamera->Setup(&tempTarget);
 
 	mQuaterMap = new QuarterMap;
-	mQuaterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+	mQuaterMap->Setup("HeightMapData/", "testRaw.raw", "StoneTiles.jpg");
 	mGameObjects.insert({ "QuarterMap", mQuaterMap });
 	
 

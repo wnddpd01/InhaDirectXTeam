@@ -8,11 +8,10 @@ class QuarterMap;
 class Scene
 {
 	eSceneName mSceneName;
-	
+
 	Camera * mCamera;
 	QuarterMap* mQuaterMap;
 	
-
 	void LoadUI();
 	void LoadObject();
 public:
