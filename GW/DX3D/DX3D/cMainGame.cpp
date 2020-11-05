@@ -124,7 +124,7 @@ void cMainGame::Setup()
 	m_pBPath->Setup();*/
 
 	
-	Setup_PickingObj();
+	//Setup_PickingObj();
 
 
 	//<<<<<<<<<<<<<<<<<<<mesh
@@ -136,8 +136,8 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 
-	/*if (m_pCubeMan)
-		m_pCubeMan->Update(m_pMap);*/
+	if (m_pCubeMan)
+		m_pCubeMan->Update(m_pMap);
 	
 	if (m_pCamera)
 		m_pCamera->Update();
@@ -145,8 +145,8 @@ void cMainGame::Update()
 	if (m_pLight)
 		m_pLight->Update();
 
-	/*if (m_pRootFrame)
-		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);*/
+	if (m_pRootFrame)
+		m_pRootFrame->Update(m_pRootFrame->GetKeyFrame(), NULL);
 
 
 	gSoundManager->Update();
@@ -168,10 +168,10 @@ void cMainGame::Render()
 		m_pGrid->Render();
 
 
-	PickingObj_Render();
+	//PickingObj_Render();
 
-	/*if (m_pCubeMan)
-		m_pCubeMan->Render();*/
+	if (m_pCubeMan)
+		m_pCubeMan->Render();
 
 	//Obj_Render();
 
@@ -187,10 +187,10 @@ void cMainGame::Render()
 	
 
 
-	/*if (m_pRootFrame)
+	if (m_pRootFrame)
 	{
 		m_pRootFrame->Render();	
-	}*/
+	}
 	
 
 

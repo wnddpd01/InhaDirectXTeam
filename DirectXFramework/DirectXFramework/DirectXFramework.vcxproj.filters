@@ -26,6 +26,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{18d649cc-d236-4501-b8b4-754d34311ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{99a22a91-dea9-4c1f-bd6e-d15163831373}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -75,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="QuarterMap.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="QuarterMap.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

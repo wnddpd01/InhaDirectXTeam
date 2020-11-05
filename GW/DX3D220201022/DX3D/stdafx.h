@@ -31,9 +31,9 @@
 #pragma comment(lib, "d3dx9.lib")
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#pragma comment(lib, "ws2_32.lib")
-#pragma comment(lib, "msimg32.lib")
-#pragma comment(lib, "fmodex_vc.lib")
+#include "./fmod/fmod.hpp"
+#pragma comment(lib, "./fmod/fmodex_vc.lib")
+
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -153,6 +153,8 @@ public : virtual void Set##funName(varType var ) { \
 #include "cObject.h"
 #include "cObjectManager.h"
 #include "cTextureManager.h"
+
+#include "SoundManager.h"
 
 #include "cTimeManager.h"
 #include "cFontManager.h"

@@ -16,9 +16,9 @@ class cZealot;
 
 class cUI;
 
-class SoundManager;
 
-class CSound;
+
+
 
 
 class cMainGame
@@ -60,7 +60,6 @@ private :
 
 	//SoundManager* mSoundManager;
 
-	CSound* mSound;
 
 	
 	

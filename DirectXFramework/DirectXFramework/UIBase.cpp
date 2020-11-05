@@ -2,6 +2,12 @@
 #include "UIBase.h"
 
 
+RECT UIBase::GetRectInViewPort()
+{
+	RECT ret = { mPos.x, mPos.y, mWidth + mPos.x, mHeight + mPos.y };
+	return ret;
+}
+
 UIBase::UIBase()
 	:mPos(0,0,0)
 	,mWidth(0)
