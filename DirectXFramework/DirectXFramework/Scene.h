@@ -13,7 +13,7 @@ class Scene
 	void LoadUI();
 	void LoadObject();
 public:
-	Scene(eSceneName SceneName);
+	Scene();
 	virtual ~Scene();
 
 	map<string, BaseObject*> mGameObjects;

@@ -82,6 +82,9 @@
     <ClCompile Include="QuarterMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="SceneFactory.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="QuarterMap.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFactory.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
