@@ -68,7 +68,7 @@ void SoundManager::AddSound(string name, string soundFile, bool loop)
 		{
 			mSystem->createSound(
 				soundFile.c_str(),
-				FMOD_LOOP_NORMAL | FMOD_3D,
+				FMOD_3D,
 				nullptr,
 				&mSound[mSounds.size()]);
 		}
@@ -294,7 +294,9 @@ void SoundManager::SoundControl()
 void SoundManager::Sound3D(string name, float x, float z)
 {
 	FMOD_VECTOR listenervel = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR listenerpos = { x, 0.0f, z };
+	FMOD_VECTOR listenerpos = { x, 0.0f, z};
+
+
 	
 	mSystem->set3DListenerAttributes(0, &listenerpos, &listenerpos, 0, 0);
 
@@ -304,6 +306,9 @@ void SoundManager::Sound3D(string name, float x, float z)
 		(*mChannel)->set3DAttributes(&sourcePos, 0);
 	}
 
+
+
+	
 	//======REVERB
 	//FMOD_REVERB_PROPERTIES prop1 = FMOD_PRESET_MOUNTAINS;
 	//mSystem->setReverbAmbientProperties(&prop1);

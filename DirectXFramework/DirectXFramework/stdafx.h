@@ -133,9 +133,14 @@ namespace std
 
 using namespace std;
 
+#include "fmod/fmod.hpp"
+#pragma comment(lib, "fmod/fmodex_vc.lib")
+
+
+
 #include "UIEventListener.h"
 #include "TimeManager.h"
 #include "DeviceManager.h"
 #include "TextureManager.h"
-
+#include "SoundManager.h"
 
