@@ -2,6 +2,7 @@
 #include "SceneFactory.h"
 #include "SceneCenter.h"
 #include "Scene.h"
+#include "QuarterMap.h"
 
 
 SceneFactory::SceneFactory()
@@ -50,7 +51,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-		
+		QuarterMap * quarterMap = new QuarterMap;
+		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
 	}
 	return newScene;	
 }

@@ -5,29 +5,12 @@
 #include "UIEventListener.h"
 #include "QuarterMap.h"
 
-void Scene::LoadUI()
-{
-	
-}
-
-void Scene::LoadObject()
-{
-	
-}
 
 Scene::Scene()
 {
 	static D3DXVECTOR3 tempTarget = D3DXVECTOR3(0, 1, 0);
 	mCamera = new Camera;
 	mCamera->Setup(&tempTarget);
-
-	mQuaterMap = new QuarterMap;
-	mQuaterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
-	mGameObjects.insert({ "QuarterMap", mQuaterMap });
-	
-
-	LoadUI();
-	LoadObject();
 }
 
 Scene::~Scene()
