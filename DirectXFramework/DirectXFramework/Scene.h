@@ -3,12 +3,15 @@
 #include "SceneCenter.h"
 
 class BaseObject;
+class QuarterMap;
 
 class Scene
 {
 	eSceneName mSceneName;
 	
 	Camera * mCamera;
+	QuarterMap* mQuaterMap;
+	
 
 	void LoadUI();
 	void LoadObject();
