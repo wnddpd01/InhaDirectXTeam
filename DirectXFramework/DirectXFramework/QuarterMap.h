@@ -1,5 +1,5 @@
 #pragma once
-class QuarterMap
+class QuarterMap : public BaseObject
 {
 	// 기본개념 : Scene에서 생성 파괴하면서 사용
 	//			 데이터는 파일입출력
@@ -18,8 +18,8 @@ public:
 	QuarterMap();
 	virtual ~QuarterMap();
 	void Setup(char* szFolder, char* szRaw , char* szTex, DWORD dwBytesPerPixel = 1);
-	void Update();
-	void Render();
+	void Update() override; 
+	void Render() override;
 	void Destroy();
 
 	//todo 보간을 통한 높이 인식

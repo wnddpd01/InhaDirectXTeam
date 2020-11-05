@@ -133,10 +133,10 @@ void QuarterMap::Render()
 	D3DXMatrixIdentity(&matWorld);
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	gD3Device->SetMaterial(&mMaterial);
-	gD3Device->SetRenderState(D3DRS_LIGHTING, true);
+	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	gD3Device->SetTexture(0, mTextrue);
 	mMesh->DrawSubset(0);
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	//gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void QuarterMap::Destroy()
