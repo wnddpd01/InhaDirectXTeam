@@ -12,5 +12,12 @@ public:
 	virtual ~UIImage();
 
 	void Render() override;
+
+	void SetTexture(string newTexturePath)
+	{
+		D3DXIMAGE_INFO imageInfo;
+		ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
+		mTextureUI = gTextureManager->GetUITexture(newTexturePath, imageInfo);
+	}
 };
 

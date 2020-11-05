@@ -8,10 +8,10 @@ UIImage::UIImage(string texturePath)
 {
 	if (texturePath.size() == 0)
 		return;
-	D3DXIMAGE_INFO imageInfo;
 	D3DXCreateSprite(gD3Device, &mSprite);
+	D3DXIMAGE_INFO imageInfo;
 	ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
-	D3DXCreateTextureFromFileExA(gD3Device, texturePath.c_str(), D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_DEFAULT, 0, &imageInfo, nullptr, &mTextureUI);
+	mTextureUI = gTextureManager->GetUITexture(texturePath, imageInfo);
 	SetRect(&mDrawRect, 0, 0, imageInfo.Width, imageInfo.Height);
 	mWidth = imageInfo.Width;
 	mHeight = imageInfo.Height;
