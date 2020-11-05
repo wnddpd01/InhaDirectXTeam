@@ -4,17 +4,15 @@
 
 #define gKeyboardInputManager KeyboardInputManager::GetInstance()
 
-//struct KeyState
-//{
-//	bool bFrontKey;
-//	bool bBackKey;
-//	bool b
-//	bool
-//	bool
-//	bool
-//
-//	
-//};
+struct KeyState
+{
+	bool bFrontKey;
+	bool bBackKey;
+	bool bLeftKey;
+	bool bRightKey;
+	bool bSpaceKey;
+	bool bInteractionKey;
+};
 
 class KeyboardInputManager : public Singleton<KeyboardInputManager>
 {

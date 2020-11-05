@@ -17,7 +17,6 @@ BOOL MouseInputManager::DownLeftButton(POINT* const outPosition)
 		bMouseLbuttonDown = false;
 		return false;
 	}
-	
 }
 
 
