@@ -8,12 +8,8 @@ class QuarterMap;
 class Scene
 {
 	eSceneName mSceneName;
-	
 	Camera * mCamera;
-	QuarterMap* mQuaterMap;
-
-	map<eEventName, BaseObserver*> eventSubscriberList;
-	
+	map<eEventName, BaseObserver*> mEventSubscriberList;
 public:
 	Scene();
 	virtual ~Scene();

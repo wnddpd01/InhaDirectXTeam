@@ -3,6 +3,7 @@
 #include "DeviceManager.h"
 #include "EventManager.h"
 #include "TextureManager.h"
+#include "SoundManager.h"
 #include "UIBase.h"
 #include "UIImage.h"
 #include "SceneCenter.h"
@@ -40,6 +41,7 @@ inline void BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
 			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
+			gSoundManager->Play("CLICK");
 		}
 	}
 	if (eventName == eEventName::MOUSE_L_UP)

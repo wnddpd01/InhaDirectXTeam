@@ -83,6 +83,8 @@ void SceneCenter::InputProcess()
 	{
 		gEventManager->EventOccurred(eEventName::MOUSE_L_UP, &mousePosition);
 	}
+
+
 }
 
 void SceneCenter::Update()
@@ -93,6 +95,8 @@ void SceneCenter::Update()
 	{
 		mCurScene->Update();
 	}
+
+	gSoundManager->Update();
 }
 
 void SceneCenter::Update(eEventName eventName, void* parameter)

@@ -36,7 +36,7 @@ void Scene::AddEventSubscriberList(eEventName eventName, BaseObserver* baseObser
 
 void Scene::DetachAllSubscriberInEventManager()
 {
-	for (auto subscriberList : eventSubscriberList)
+	for (auto subscriberList : mEventSubscriberList)
 	{
 		gEventManager->DetachSubscriber(subscriberList.first, subscriberList.second);
 	}
@@ -55,7 +55,7 @@ void Scene::Update()
 		gameUI.second->Update();
 	}
 
-}
+	gSoundManager->Update();}
 
 void Scene::Render()
 {

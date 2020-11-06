@@ -48,6 +48,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, uiImage);
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("BtnExit", uiImage));
+
+		gSoundManager->SoundSet();
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
