@@ -26,7 +26,7 @@
     <Filter Include="Map">
       <UniqueIdentifier>{99a22a91-dea9-4c1f-bd6e-d15163831373}</UniqueIdentifier>
     </Filter>
-    <Filter Include="WinMain\UI">
+    <Filter Include="UI">
       <UniqueIdentifier>{18d649cc-d236-4501-b8b4-754d34311ab2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -68,13 +68,13 @@
       <Filter>BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="UIBase.cpp">
-      <Filter>WinMain\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>WinMain</Filter>
     </ClCompile>
     <ClCompile Include="UIImage.cpp">
-      <Filter>WinMain\UI</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Singleton</Filter>
@@ -127,16 +127,16 @@
       <Filter>BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="UIBase.h">
-      <Filter>WinMain\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>WinMain</Filter>
     </ClInclude>
     <ClInclude Include="UIImage.h">
-      <Filter>WinMain\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UIEventListener.h">
-      <Filter>WinMain\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Singleton</Filter>

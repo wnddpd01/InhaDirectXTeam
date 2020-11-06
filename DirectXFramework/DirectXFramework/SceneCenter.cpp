@@ -22,7 +22,7 @@ SceneCenter::SceneCenter() : mCurScene(nullptr)
 	SceneLoad(eSceneName::START_SCENE);
 	SceneChange(eSceneName::START_SCENE);
 
-	gEventManager->AttachSubscriber(eEventName::SCENE_CHANGE, this);
+	gEventManager->AttachSubscriber(eEventName::SCENE_CHANGE, 0, this);
 }
 
 SceneCenter::~SceneCenter()
@@ -42,9 +42,10 @@ void SceneCenter::SceneChange(eSceneName sceneName)
 	}
 	if (mCurScene != nullptr)
 	{
-		mCurScene->DetachAllSubscriberInEventManager();
+		mCurScene->DetachAllSubscriberInSubscriberList();
 	}
 	mCurScene = mSceneMap.find(sceneName)->second;
+	mCurScene->AttachAllSubscriberInSubscriberList();
 }
 
 
@@ -82,13 +83,14 @@ void SceneCenter::Update()
 	gSoundManager->Update();
 }
 
-void SceneCenter::Update(eEventName eventName, void* parameter)
+bool SceneCenter::Update(eEventName eventName, void* parameter)
 {
 	if(eventName == eEventName::SCENE_CHANGE)
 	{
 		eSceneName * sceneName = static_cast<eSceneName *>(parameter);
 		SceneChange(*sceneName);
 	}
+	return true;
 }
 
 void SceneCenter::Render()

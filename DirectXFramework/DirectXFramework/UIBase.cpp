@@ -21,9 +21,9 @@ UIBase::~UIBase()
 {
 }
 
-void UIBase::Update(eEventName eventName, void* parameter)
+bool UIBase::Update(eEventName eventName, void* parameter)
 {
-	EventProcess(eventName, parameter, this);
+	return EventProcess(eventName, parameter, this);
 }
 
 void UIBase::Render()

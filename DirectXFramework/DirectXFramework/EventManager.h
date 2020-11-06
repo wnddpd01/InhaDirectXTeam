@@ -13,14 +13,14 @@ class BaseObserver;
 
 class EventManager : public Singleton<EventManager>
 {
-	map<eEventName, vector<BaseObserver*>> mMapSubscriber;
+	map<eEventName, multimap<UINT, BaseObserver*>> mMapSubscriber;
 public:
 
 	void ClearSubscriber();
 	
-	bool AttachSubscriber(eEventName eventName, BaseObserver* newSubscriber)
+	bool AttachSubscriber(eEventName eventName, UINT priority, BaseObserver* newSubscriber)
 	{
-		mMapSubscriber[eventName].push_back(newSubscriber);
+		mMapSubscriber[eventName].insert(make_pair(priority, newSubscriber));
 		return true;
 	}
 
@@ -28,7 +28,7 @@ public:
 	{
 		for (auto it = mMapSubscriber[eventName].begin(); it != mMapSubscriber[eventName].end(); it++)
 		{
-			if (*it == detachedSubscriber)
+			if (it->second == detachedSubscriber)
 			{
 				mMapSubscriber[eventName].erase(it);
 				break;
@@ -42,7 +42,7 @@ public:
 		{
 			for (auto it_mapVec = it_map->second.begin(); it_mapVec != it_map->second.end(); it_mapVec++)
 			{
-				if (*it_mapVec == detachedSubscriber)
+				if (it_mapVec->second == detachedSubscriber)
 				{
 					it_map->second.erase(it_mapVec);
 					break;

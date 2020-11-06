@@ -9,7 +9,7 @@ class Scene
 {
 	eSceneName mSceneName;
 	Camera * mCamera;
-	map<eEventName, BaseObserver*> mEventSubscriberList;
+	map<eEventName, multimap<UINT, BaseObserver*>> mEventSubscriberList;
 public:
 	Scene();
 	virtual ~Scene();
@@ -27,8 +27,11 @@ public:
 		mSceneName = m_scene_name;
 	}
 
-	void AddEventSubscriberList(eEventName eventName, BaseObserver* baseObserver);
-	void DetachAllSubscriberInEventManager();
+	void AddEventSubscriberList(eEventName eventName, UINT priority, BaseObserver* baseObserver);
+
+	void AttachAllSubscriberInSubscriberList();
+	void DetachAllSubscriberInSubscriberList();
+
 	
 	virtual void Update();
 	virtual void Render();
