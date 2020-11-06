@@ -24,6 +24,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="QuarterMap.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="QuarterMap.h" />

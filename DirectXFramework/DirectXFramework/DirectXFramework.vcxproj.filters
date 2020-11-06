@@ -85,6 +85,9 @@
     <ClCompile Include="SceneFactory.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -143,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="SceneFactory.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "UIBase.h"
 #include "UIImage.h"
+#include "SceneCenter.h"
 
 
 //inline void PanelEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
@@ -46,6 +47,8 @@ inline void BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		POINT mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
+			eSceneName sceneName = eSceneName::INGAME_SCENE;
+			gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
 		}
 		uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
 	}
