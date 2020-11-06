@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-#define gSoundManager SoundManager::GetInstance()
+#define gSoundManager SoundManager::GetInstance() // ΩÃ±€≈Ê
 
 using namespace  FMOD;
 

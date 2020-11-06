@@ -65,27 +65,10 @@ void SceneCenter::InputProcess()
 {
 	/*if ( gKeyboardInputManager->ReadKey() != static_cast<int>(eKeyButton::NON_KEY))
 	{
-		
 	}*/
 
-	POINT mousePosition;
-	
-	if( gMouseInputManager->DownLeftButton(&mousePosition))
-	{
-		gEventManager->EventOccurred(eEventName::MOUSE_L_DOWN,&mousePosition);
-	}
-
-	if(gMouseInputManager->DownRightButton(&mousePosition))
-	{
-		gEventManager->EventOccurred(eEventName::MOUSE_R_DOWN, &mousePosition);
-	}
-
-	if (gMouseInputManager->UpLeftButton(&mousePosition))
-	{
-		gEventManager->EventOccurred(eEventName::MOUSE_L_UP, &mousePosition);
-	}
-
-
+	gMouseInputManager->Update();
+	gKeyboardInputManager->Update();
 }
 
 void SceneCenter::Update()
