@@ -32,7 +32,7 @@
 //	}
 //}
 
-inline void BtnStartEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
+inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
 {
 	UIImage* uiImageConvert = (UIImage*)uiImage;
 	if(eventName == eEventName::MOUSE_L_DOWN)
@@ -42,21 +42,24 @@ inline void BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		{
 			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
 			gSoundManager->Play("CLICK");
+			return true;
 		}
 	}
-	if (eventName == eEventName::MOUSE_L_UP)
+	else if (eventName == eEventName::MOUSE_L_UP)
 	{
 		POINT mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
 			eSceneName sceneName = eSceneName::INGAME_SCENE;
 			gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
+			return true;
 		}
 		uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
 	}
+	return false;
 }
 
-inline void BtnExitEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
+inline bool BtnExitEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
 {
 	UIImage* uiImageConvert = (UIImage*)uiImage;
 	if (eventName == eEventName::MOUSE_L_DOWN)
@@ -65,14 +68,17 @@ inline void BtnExitEventListen(eEventName eventName, void * parameter, UIBase * 
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
 			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
+			return true;
 		}
 	}
-	if (eventName == eEventName::MOUSE_L_UP)
+	else if (eventName == eEventName::MOUSE_L_UP)
 	{
 		POINT mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
+			return true;
 		}
 		uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
 	}
+	return false;
 }

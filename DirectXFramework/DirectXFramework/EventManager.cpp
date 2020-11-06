@@ -15,7 +15,10 @@ void EventManager::EventOccurred(eEventName eventName, void* parameter)
 {
 	for (auto subscriber : mMapSubscriber[eventName])
 	{
-		subscriber->Update(eventName, parameter);
+		if (subscriber.second->Update(eventName, parameter))
+		{
+			break;
+		}
 	}
 	
 }

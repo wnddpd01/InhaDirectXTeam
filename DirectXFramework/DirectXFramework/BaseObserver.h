@@ -8,5 +8,5 @@ public:
 	BaseObserver();
 	virtual ~BaseObserver();
 
-	virtual void Update(eEventName eventName, void* parameter);
+	virtual bool Update(eEventName eventName, void* parameter) = 0;
 };

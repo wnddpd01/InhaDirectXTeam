@@ -28,17 +28,30 @@ Scene::~Scene()
 	SafeDelete(mCamera);
 }
 
-void Scene::AddEventSubscriberList(eEventName eventName, BaseObserver* baseObserver)
+void Scene::AddEventSubscriberList(eEventName eventName, UINT priority, BaseObserver* baseObserver)
 {
-	gEventManager->AttachSubscriber(eventName, baseObserver);
-	gEventManager->AttachSubscriber(eventName, baseObserver);
+	mEventSubscriberList[eventName].insert(make_pair(priority, baseObserver));
 }
 
-void Scene::DetachAllSubscriberInEventManager()
+void Scene::AttachAllSubscriberInSubscriberList()
 {
 	for (auto subscriberList : mEventSubscriberList)
 	{
-		gEventManager->DetachSubscriber(subscriberList.first, subscriberList.second);
+		for each (auto subscriber in subscriberList.second)
+		{
+			gEventManager->AttachSubscriber(subscriberList.first, subscriber.first, subscriber.second);
+		}
+	}
+}
+
+void Scene::DetachAllSubscriberInSubscriberList()
+{
+	for (auto subscriberList : mEventSubscriberList)
+	{
+		for each (auto subscriber in subscriberList.second)
+		{
+			gEventManager->DetachSubscriber(subscriberList.first, subscriber.second);
+		}
 	}
 }
 

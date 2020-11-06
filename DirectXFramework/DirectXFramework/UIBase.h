@@ -60,8 +60,8 @@ public:
 	UIBase();
 	virtual ~UIBase();
 
-	function<void(eEventName, void*, UIBase *)> EventProcess;
+	function<bool(eEventName, void*, UIBase *)> EventProcess;
 	
-	void Update(eEventName eventName, void* parameter) override;
+	bool Update(eEventName eventName, void* parameter) override;
 	virtual void Render() override;
 };

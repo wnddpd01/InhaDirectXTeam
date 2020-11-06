@@ -11,6 +11,3 @@ BaseObserver::~BaseObserver()
 {
 }
 
-void BaseObserver::Update(eEventName eventName, void* parameter)
-{
-}

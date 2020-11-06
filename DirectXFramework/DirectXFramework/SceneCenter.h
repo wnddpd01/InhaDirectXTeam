@@ -19,7 +19,7 @@ public :
 	void RegisterScene(Scene* scene);
 	void InputProcess();
 	void Update();
-	void Update(eEventName eventName, void* parameter) override;
+	bool Update(eEventName eventName, void* parameter) override;
 	void Render();
 
 	Scene* GetScene(eSceneName sceneName)
