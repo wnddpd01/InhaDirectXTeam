@@ -20,8 +20,8 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 {
 	
 	//todo 추후 파일 입출력으로 변경
-	int mapHeight = 50;
-	int mapWidth = 50;
+	int mapHeight = 300;
+	int mapWidth = 300;
 	float textureMultify = 5;
 	
 	string sFolder(szFolder);
@@ -51,11 +51,14 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 		for (int j = 0; j < mapWidth + 1; j++)
 		{
 			int tempY;
+			
 			if ((tempY = fgetc(fp)) == EOF)
-				tempY = 255;
+				tempY = 255.f;
+			else
+				tempY = 0.f;
 
 			Vertex v;
-			v.Pos = D3DXVECTOR3(j, 0.f, i);
+			v.Pos = D3DXVECTOR3(j, tempY, i);
 			v.Normal = D3DXVECTOR3(0, 1, 0);
 			v.TexUV = D3DXVECTOR2(j / (float)mapWidth * textureMultify, i / (float)mapHeight * textureMultify);
 

@@ -18,9 +18,9 @@ struct KeyState
 	bool bEquipmentChangeRight;
 	bool bEquipmentChangeLeft;
 	
-	bool isBool()
+	bool isAllFalse()
 	{
-		return bFrontKey | bBackKey | bLeftKey | bRightKey | bInteractionKey | bRunKey | bEquipmentChangeRight | bEquipmentChangeLeft == 1;
+		return bFrontKey | bBackKey | bLeftKey | bRightKey | bInteractionKey | bRunKey | bEquipmentChangeRight | bEquipmentChangeLeft != 1;
 	}
 };
 
@@ -30,6 +30,6 @@ private:
 	KeyState mKeyState;
 public:
 	
-	int ChangeKeyState();
+	bool ChangeKeyState();
 	void Update();
 };

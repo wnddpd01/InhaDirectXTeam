@@ -5,7 +5,6 @@
 #define gTimeManager TimeManager::GetInstance()
 #define gDeltaTime TimeManager::GetInstance()->GetDeltaTime()
 
-using namespace std;
 using namespace chrono;
 
 class TimeManager : public Singleton<TimeManager>

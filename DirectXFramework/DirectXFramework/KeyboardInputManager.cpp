@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "KeyboardInputManager.h"
 
-int KeyboardInputManager::ChangeKeyState()
+bool KeyboardInputManager::ChangeKeyState()
 {
 	if (GetKeyState('W') & 0x8000)
 	{
@@ -85,12 +85,15 @@ int KeyboardInputManager::ChangeKeyState()
 		mKeyState.bInteractionKey = FALSE;
 	}
 
-	
+	return mKeyState.isAllFalse();
 }
 
 void KeyboardInputManager::Update()
 {
-	if(ChangeKeyState());
+	if(ChangeKeyState())
+	{
+		return;
+	}
 	
 	eKeyName keyName;
 	

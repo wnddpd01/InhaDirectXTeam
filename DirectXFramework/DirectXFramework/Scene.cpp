@@ -11,11 +11,35 @@ Scene::Scene()
 	static D3DXVECTOR3 tempTarget = D3DXVECTOR3(0, 1, 0);
 	mCamera = new Camera;
 	mCamera->Setup(&tempTarget);
+
 }
 
 Scene::~Scene()
 {
+	gEventManager->ClearSubscriber();
+	for (auto gameObject : mGameObjects)
+	{
+		SafeDelete(gameObject.second);
+	}
+	for (auto gameUI : mGameUIs)
+	{
+		SafeDelete(gameUI.second);
+	}
 	SafeDelete(mCamera);
+}
+
+void Scene::AddEventSubscriberList(eEventName eventName, BaseObserver* baseObserver)
+{
+	gEventManager->AttachSubscriber(eventName, baseObserver);
+	gEventManager->AttachSubscriber(eventName, baseObserver);
+}
+
+void Scene::DetachAllSubscriberInEventManager()
+{
+	for (auto subscriberList : mEventSubscriberList)
+	{
+		gEventManager->DetachSubscriber(subscriberList.first, subscriberList.second);
+	}
 }
 
 void Scene::Update()
@@ -30,7 +54,8 @@ void Scene::Update()
 	{
 		gameUI.second->Update();
 	}
-}
+
+	gSoundManager->Update();}
 
 void Scene::Render()
 {

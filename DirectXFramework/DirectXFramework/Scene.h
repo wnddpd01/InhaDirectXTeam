@@ -8,13 +8,8 @@ class QuarterMap;
 class Scene
 {
 	eSceneName mSceneName;
-	
 	Camera * mCamera;
-	QuarterMap* mQuaterMap;
-	
-
-	void LoadUI();
-	void LoadObject();
+	map<eEventName, BaseObserver*> mEventSubscriberList;
 public:
 	Scene();
 	virtual ~Scene();
@@ -31,6 +26,9 @@ public:
 	{
 		mSceneName = m_scene_name;
 	}
+
+	void AddEventSubscriberList(eEventName eventName, BaseObserver* baseObserver);
+	void DetachAllSubscriberInEventManager();
 	
 	virtual void Update();
 	virtual void Render();

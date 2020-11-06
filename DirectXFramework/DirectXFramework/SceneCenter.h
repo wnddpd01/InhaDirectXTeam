@@ -8,7 +8,7 @@ enum class eSceneName
 
 class Scene;
 
-class SceneCenter
+class SceneCenter : public BaseObserver
 {
 	SceneFactory mSceneFactory;
 	void SceneLoad(eSceneName sceneName);
@@ -19,6 +19,7 @@ public :
 	void RegisterScene(Scene* scene);
 	void InputProcess();
 	void Update();
+	void Update(eEventName eventName, void* parameter) override;
 	void Render();
 
 	Scene* GetScene(eSceneName sceneName)
@@ -31,7 +32,7 @@ public :
 		return mCurScene;
 	}
 
-
+	
 private:
 	Scene* mCurScene;
 	std::map<eSceneName, Scene*> mSceneMap;
