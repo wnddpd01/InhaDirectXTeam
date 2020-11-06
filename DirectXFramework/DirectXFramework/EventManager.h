@@ -6,7 +6,7 @@
 
 enum class eEventName
 {
-	Key_Down = 0, MOUSE_L_DOWN, MOUSE_R_DOWN, MOUSE_L_UP
+	MOUSE_STOP = 0, MOUSE_L_DOWN, MOUSE_R_DOWN, MOUSE_R_UP, MOUSE_L_UP, MOUSE_MOVE, KEY_DOWN
 };
 
 class BaseObserver;

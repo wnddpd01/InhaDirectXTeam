@@ -55,5 +55,5 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
 	}
-	return newScene;	
+	return newScene;
 }
