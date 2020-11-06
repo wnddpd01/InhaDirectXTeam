@@ -20,24 +20,24 @@ BOOL MouseInputManager::DownLeftButton(POINT* const outPosition)
 BOOL MouseInputManager::UpLeftButton(POINT* const outPosition)
 {
 	
-	static bool bPrivMouseLButton;
+	static bool bPrevMouseLButton = false;
 	bool bCurMouseLButton = GetKeyState(VK_LBUTTON) & 0x8000;
 
-	if (bPrivMouseLButton == TRUE && bCurMouseLButton == FALSE)
+	if (bPrevMouseLButton == TRUE && bCurMouseLButton == FALSE)
 	{
 		GetCursorPos(outPosition);
 		ScreenToClient(hWnd, outPosition);
-		bPrivMouseLButton = bCurMouseLButton;
+		bPrevMouseLButton = bCurMouseLButton;
 		return true; 
 	}
 
-	bPrivMouseLButton = bCurMouseLButton;
+	bPrevMouseLButton = bCurMouseLButton;
 	return false;
 }
 
 BOOL MouseInputManager::DownRightButton(POINT* const outPosition)
 {
-	static bool bPrivMouseRButton;
+	static bool bPrevMouseRButton = false;
 	bool bCurMouseRButton = GetKeyState(VK_RBUTTON) & 0x8000;
 	
 	if (bCurMouseRButton)
@@ -52,30 +52,30 @@ BOOL MouseInputManager::DownRightButton(POINT* const outPosition)
 
 BOOL MouseInputManager::UpRightButton(POINT* const outPosition)
 {
-	static bool bPrivMouseRButton;
-	bool bCurMouseRButton = GetKeyState(VK_LBUTTON) & 0x8000;
+	static bool bPrevMouseRButton = false;
+	bool bCurMouseRButton = GetKeyState(VK_RBUTTON) & 0x8000;
 
-	if (bPrivMouseRButton == TRUE && bCurMouseRButton == FALSE)
+	if (bPrevMouseRButton == TRUE && bCurMouseRButton == FALSE)
 	{
 		GetCursorPos(outPosition);
 		ScreenToClient(hWnd, outPosition);
-		bPrivMouseRButton = bCurMouseRButton;
+		bPrevMouseRButton = bCurMouseRButton;
 		return true;
 	}
 
-	bPrivMouseRButton = bCurMouseRButton;
+	bPrevMouseRButton = bCurMouseRButton;
 	return false;
 }
 
 BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
 {
-	static POINT privMousePosition;
+	static POINT prevMousePosition;
 	POINT curMousePosition;
 
 	GetCursorPos(&curMousePosition);
 	ScreenToClient(hWnd, &curMousePosition);
 	
-	if (privMousePosition.x != curMousePosition.x || privMousePosition.y != curMousePosition.y)
+	if (prevMousePosition.x != curMousePosition.x || prevMousePosition.y != curMousePosition.y)
 	{
 		*outPosition = curMousePosition;
 
@@ -87,22 +87,26 @@ BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
 
 void MouseInputManager::Update()
 {
-	static eEventName PrivMouseState = eEventName::MOUSE_STOP;
+	static eEventName prevMouseState = eEventName::MOUSE_STOP;
 	
 	POINT mousePosition = ChangeMouseState();
 
-	if(PrivMouseState != mMouseState)
+	if(prevMouseState != mMouseState)
 	{
 		gEventManager->EventOccurred(mMouseState, &mousePosition);
 	}
 	
-	PrivMouseState = mMouseState;
+	prevMouseState = mMouseState;
 }
 
 POINT MouseInputManager::ChangeMouseState()
 {
 	POINT mousePosition;
 	
+	if(gMouseInputManager->MoveMouse(&mousePosition))
+	{
+		mMouseState = eEventName::MOUSE_MOVE;
+	}
 	if (gMouseInputManager->DownLeftButton(&mousePosition))
 	{
 		mMouseState = eEventName::MOUSE_L_DOWN;
@@ -119,28 +123,6 @@ POINT MouseInputManager::ChangeMouseState()
 	{
 		mMouseState = eEventName::MOUSE_R_UP;
 	}
-	if(gMouseInputManager->MoveMouse(&mousePosition))
-	{
-		mMouseState = eEventName::MOUSE_MOVE;
-	}
 	
 	return mousePosition;
 }
-
-//BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
-//{
-//	static POINT privMousePosition;
-//	POINT curMousePosition;
-//
-//	GetCursorPos(&curMousePosition);
-//
-//	
-//	if (curMousePosition.x == privMousePosition.x && curMousePosition.y == privMousePosition.y)
-//	{
-//		return false;
-//	}
-//	
-//	
-//
-//	return true;
-//}
