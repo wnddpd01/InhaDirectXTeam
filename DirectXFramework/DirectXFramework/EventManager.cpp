@@ -4,7 +4,7 @@
 
 void EventManager::ClearSubscriber()
 {
-	for (auto subscriberMap : mMapSubscriber)
+	for (pair<const eEventName, multimap<UINT, BaseObserver*>>& subscriberMap : mMapSubscriber)
 	{
 		subscriberMap.second.clear();
 	}
@@ -13,12 +13,11 @@ void EventManager::ClearSubscriber()
 
 void EventManager::EventOccurred(eEventName eventName, void* parameter)
 {
-	for (auto subscriber : mMapSubscriber[eventName])
+	for (pair<const UINT, BaseObserver *>& subscriber : mMapSubscriber[eventName])
 	{
 		if (subscriber.second->Update(eventName, parameter))
 		{
 			break;
 		}
 	}
-	
 }
