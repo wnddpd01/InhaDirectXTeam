@@ -124,6 +124,33 @@ namespace std
 	};
 }
 
+
+#define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
+
+#define SafeAddRef(p)	{if(p) p->AddRef() ; }
+
+#define Synthesize(varType , varName , funName) \
+protected : varType varName ; \
+public : inline varType Get##funName(void) const { return varName ; } \
+public : inline void Set##funName(varType var) { varName = var ; }
+
+#define Synthesize_Add_Ref(varType , varName , funName) \
+protected : varType varName ; \
+public : virtual varType Get##funName(void) const { return varName ; } \
+public : virtual void Set##funName(varType var ) { \
+	if( varName != var ) \
+	{ \
+		SafeAddRef(var) ; \
+		SafeRelease(varName) ; \
+		varName = var ; \
+	} \
+}
+
+#define Synthesize_Pass_by_Ref(varType , varName , funName) \
+protected : varType varName ; \
+public : inline varType& Get##funName(void)  { return varName ; } \
+public : inline void Set##funName(varType& var) { varName = var ; }
+
 #include <unordered_map>
 
 #include <dinput.h>

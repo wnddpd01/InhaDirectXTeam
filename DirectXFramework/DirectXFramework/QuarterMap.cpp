@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "QuarterMap.h"
-
+#include "cObjLoader.h"
+#include "cMtlTex.h"
 
 QuarterMap::QuarterMap()
-	: mMesh(NULL)
+	: mMeshWall(NULL)
+	, mMeshFloor(NULL)
+	, mMeshDoor(NULL)
 	, mTextrue(NULL)
+	, mTextrueFloor(NULL)
 	, mShader(NULL)
 {
 }
@@ -12,16 +16,13 @@ QuarterMap::QuarterMap()
 
 QuarterMap::~QuarterMap()
 {
-
+	Destroy();
 	
 }
 
 void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel)
 {
-	
 	//todo 추후 파일 입출력으로 변경
-	int mapHeight = 300;
-	int mapWidth = 300;
 	float textureMultify = 5;
 	
 	string sFolder(szFolder);
@@ -29,41 +30,44 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	string sTex = sFolder + string(szTex);
 
 	mTextrue = gTextureManager->GetTexture(sTex);
+	mTextrueFloor = gTextureManager->GetTexture("Texture/stones.png");
 
 	FILE* fp = NULL;
 	fopen_s(&fp, sRaw.c_str(), "rb");
-	/*
+	
 	fseek(fp, 0, SEEK_END);
 	int nFileSize = ftell(fp);
 	int nNumVertex = nFileSize / dwBytesPerPixel;
-	*/
+	int nTile = pow(nNumVertex, 0.5);
+	float nWallMargin = 1.f;
+	//int nNumVertex = (mapHeight) * (mapWidth);
 
-	int nNumVertex = (mapHeight + 1) * (mapWidth + 1);
+	
 	fseek(fp, 0, SEEK_SET);
 	vector<Vertex> vecVertex(nNumVertex);
 	mVertexContainer.resize(nNumVertex);
 
 	vector<DWORD> vecIndex;
-	vecIndex.reserve(mapHeight * mapWidth * 2 * 3);
+	vecIndex.reserve((nTile - 1) * (nTile - 1) * 2 * 3);
 
-	for (int i = 0; i < mapHeight + 1; i++)
+	for (int i = 0; i < nTile; i++)
 	{
-		for (int j = 0; j < mapWidth + 1; j++)
+		for (int j = 0; j < nTile; j++)
 		{
 			int tempY;
-			
-			if ((tempY = fgetc(fp)) == EOF)
-				tempY = 255.f;
+			tempY = fgetc(fp);
+			if ((tempY > 250.f) || (tempY == EOF))
+				tempY = 252.f;
 			else
 				tempY = 0.f;
 
 			Vertex v;
-			v.Pos = D3DXVECTOR3(j, tempY, i);
+			v.Pos = D3DXVECTOR3(j - nWallMargin, tempY, i - nWallMargin);
 			v.Normal = D3DXVECTOR3(0, 1, 0);
-			v.TexUV = D3DXVECTOR2(j / (float)mapWidth * textureMultify, i / (float)mapHeight * textureMultify);
+			v.TexUV = D3DXVECTOR2(j / (float)nTile * textureMultify, i / (float)nTile * textureMultify);
 
-			vecVertex[((i * (mapWidth + 1)) + j)] = v;
-			mVertexContainer[((i * (mapWidth + 1)) + j)] = v.Pos;
+			vecVertex[((i * (nTile)) + j)] = v;
+			mVertexContainer[((i * (nTile)) + j)] = v.Pos;
 
 			if (dwBytesPerPixel == 3)
 			{
@@ -73,14 +77,14 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	}
 	fclose(fp);
 
-	for (int x = 0; x < mapHeight; ++x)
+	for (int x = 0; x < nTile - 1; ++x)
 	{
-		for (int z = 0; z < mapWidth; ++z)
+		for (int z = 0; z < nTile - 1; ++z)
 		{
-			int _0 = (x + 0)* (mapWidth + 1) + z + 0;
-			int _1 = (x + 1)* (mapWidth + 1) + z + 0;
-			int _2 = (x + 1)* (mapWidth + 1) + z + 1;
-			int _3 = (x + 0)* (mapWidth + 1) + z + 1;
+			int _0 = (x + 0)* (nTile)+z + 0;
+			int _1 = (x + 1)* (nTile)+z + 0;
+			int _2 = (x + 1)* (nTile)+z + 1;
+			int _3 = (x + 0)* (nTile)+z + 1;
 
 			vecIndex.push_back(_0);
 			vecIndex.push_back(_1);
@@ -91,29 +95,29 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 			vecIndex.push_back(_1);
 		}
 	}
-	
+
 	D3DXCreateMeshFVF(vecIndex.size() / 3, vecVertex.size(),
 		D3DXMESH_MANAGED | D3DXMESH_32BIT,
-		Vertex::FVF, gD3Device, &mMesh);
+		Vertex::FVF, gD3Device, &mMeshMap);
 
 	Vertex * pV = NULL;
-	mMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+	mMeshMap->LockVertexBuffer(0, (LPVOID*)&pV);
 	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(Vertex));
-	mMesh->UnlockVertexBuffer();
+	mMeshMap->UnlockVertexBuffer();
 
 	DWORD* pI = NULL;
-	mMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+	mMeshMap->LockIndexBuffer(0, (LPVOID*)&pI);
 	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
-	mMesh->UnlockIndexBuffer();
+	mMeshMap->UnlockIndexBuffer();
 
 	DWORD* pA = NULL;
-	mMesh->LockAttributeBuffer(0, &pA);
+	mMeshMap->LockAttributeBuffer(0, &pA);
 	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
-	mMesh->UnlockAttributeBuffer();
+	mMeshMap->UnlockAttributeBuffer();
 
 	vector<DWORD> vecAdj(vecIndex.size());
-	mMesh->GenerateAdjacency(0.0f, &vecAdj[0]);
-	mMesh->OptimizeInplace(
+	mMeshMap->GenerateAdjacency(0.0f, &vecAdj[0]);
+	mMeshMap->OptimizeInplace(
 		D3DXMESHOPT_ATTRSORT |
 		D3DXMESHOPT_COMPACT |
 		D3DXMESHOPT_VERTEXCACHE,
@@ -124,6 +128,15 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	mMaterial.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
 	mMaterial.Diffuse = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
 	mMaterial.Specular = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.f);
+
+	if (mMeshMap)
+	{
+		mMeshMap->Release();
+		mMeshMap = NULL;
+	}
+
+	cObjLoader loader;
+	mMeshWall = loader.LoadMesh(vecMtlTex, "obj", "tempRoom2.obj");
 }
 
 void QuarterMap::Update()
@@ -138,10 +151,71 @@ void QuarterMap::Render()
 	gD3Device->SetMaterial(&mMaterial);
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	gD3Device->SetTexture(0, mTextrue);
-	mMesh->DrawSubset(0);
+	mMeshWall->DrawSubset(0);
 	//gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void QuarterMap::Destroy()
 {
+	if (mMeshWall)
+	{
+		mMeshWall->Release();
+		mMeshWall = NULL;
+	}
+	
+
+	mVertexContainer.clear();
+
+	if (mTextrue)
+	{
+		mTextrue->Release();
+		mTextrue = NULL;
+	}
+
+	if (mShader)
+	{
+		mShader->Release();
+		mTextrue = NULL;
+	}
+}
+
+float QuarterMap::GetHeight(float posX, float posZ)
+{
+	int mapHeight = 19;
+	int mapWidth = 19;
+
+	int nX = posX;
+	int nZ = posZ;
+
+	float fDeltaX = posX - nX;
+	float fDeltaZ = posZ - nZ;
+
+	int _0 = (nZ + 0) * mapWidth + nX + 0;
+	int _1 = (nZ + 1) * mapWidth + nX + 0;
+	int _2 = (nZ + 1) * mapWidth + nX + 1;
+	int _3 = (nZ + 0) * mapWidth + nX + 1;
+
+
+	if (fDeltaX + fDeltaZ < 1.f)
+	{
+		D3DXVECTOR3 v01 = mVertexContainer[_1] - mVertexContainer[_0];
+		D3DXVECTOR3 v03 = mVertexContainer[_3] - mVertexContainer[_0];
+
+		if ((mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_0].y) *0.333333f > 20.f)
+			int temp = 1;
+
+		return (mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_0].y) *0.333333f;
+	}
+	else
+	{
+		fDeltaX = 1.f - fDeltaX;
+		fDeltaZ = 1.f - fDeltaZ;
+		D3DXVECTOR3 v21 = mVertexContainer[_1] - mVertexContainer[_2];
+		D3DXVECTOR3 v23 = mVertexContainer[_3] - mVertexContainer[_2];
+
+		if ((mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_2].y) *0.333333f > 20.f)
+			int temp = 1;
+
+		return (mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_2].y) *0.333333f;
+	}
 }

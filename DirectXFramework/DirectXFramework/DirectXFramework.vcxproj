@@ -22,6 +22,8 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseObserver.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="cMtlTex.cpp" />
+    <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
@@ -48,6 +50,8 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="cMtlTex.h" />
+    <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
