@@ -7,7 +7,7 @@ Camera::Camera() :
 	, mLookAt(0, 0, 0)
 	, mUp(0, 1, 0)
 	, mTarget(nullptr)
-	, mCameraDistance(5.0f)
+	, mCameraDistance(15.0f)
 	, mCamRotAngle(0, 0, 0)
 {
 }
@@ -38,7 +38,7 @@ void Camera::Update()
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);
 	matR = matRX * matRY;
 
-	mEye = D3DXVECTOR3(0, 0, -mCameraDistance);
+	mEye = D3DXVECTOR3(4, 5, -mCameraDistance);
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	if (mTarget)
 	{
