@@ -14,7 +14,7 @@ class SceneCenter : public BaseObserver
 	void SceneLoad(eSceneName sceneName);
 public :
 	SceneCenter();
-	~SceneCenter();
+	~SceneCenter() override;
 	void SceneChange(eSceneName sceneName);
 	void RegisterScene(Scene* scene);
 	void InputProcess();
