@@ -1,5 +1,5 @@
 #pragma once
-class Camera
+class Camera : public BaseObserver
 {
 public:
 	Camera();
@@ -13,7 +13,11 @@ private:
 	float mCameraDistance;
 	D3DXVECTOR3 mCamRotAngle;
 
+	bool mbLButtonDown;
+	POINT mPrevMousePos;
 public:
 	void Setup(D3DXVECTOR3* target);
 	void Update();
+
+	bool Update(eEventName eventName, void* parameter) override;
 };

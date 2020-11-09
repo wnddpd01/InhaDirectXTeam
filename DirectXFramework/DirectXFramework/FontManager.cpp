@@ -62,7 +62,7 @@ void FontManager::Destroy()
 {
 	for (auto font : m_mapFont)
 	{
-		SafeRelease(font.second);
+		SAFE_RELEASE(font.second);
 	}
 
 	m_mapFont.clear();

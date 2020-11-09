@@ -7,8 +7,9 @@ Camera::Camera() :
 	, mLookAt(0, 0, 0)
 	, mUp(0, 1, 0)
 	, mTarget(nullptr)
-	, mCameraDistance(5.0f)
+	, mCameraDistance(15.0f)
 	, mCamRotAngle(0, 0, 0)
+	, mbLButtonDown(false)
 {
 }
 
@@ -25,8 +26,8 @@ void Camera::Setup(D3DXVECTOR3* target)
 	gD3Device->GetViewport(&viewPort);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F,
-	                           viewPort.Width / static_cast<float>(viewPort.Height), 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
+	/*D3DXMatrixOrthoLH(&matProj, 10.f, 10.f, 0, 14);*/ // 직교 투영
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
@@ -38,7 +39,7 @@ void Camera::Update()
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);
 	matR = matRX * matRY;
 
-	mEye = D3DXVECTOR3(0, 0, -mCameraDistance);
+	mEye = D3DXVECTOR3(4, 5, -mCameraDistance);
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	if (mTarget)
 	{
@@ -50,4 +51,41 @@ void Camera::Update()
 	D3DXMatrixLookAtLH(&matView, &mEye, &mLookAt, &mUp);
 
 	gD3Device->SetTransform(D3DTS_VIEW, &matView);
+}
+
+bool Camera::Update(eEventName eventName, void* parameter)
+{
+	switch (eventName)
+	{
+		case eEventName::MOUSE_L_DOWN:
+			{
+				mbLButtonDown = true;
+			}
+			break;
+		case eEventName::MOUSE_L_UP:
+			{
+				mbLButtonDown = false;
+			}
+			break;
+		case eEventName::MOUSE_L_DRAG:
+			{
+				POINT ptCurMouse = *(POINT*)parameter;
+				float fDeltaX = (float)ptCurMouse.x - mPrevMousePos.x;
+				float fDeltaY = (float)ptCurMouse.y - mPrevMousePos.y;
+				mCamRotAngle.y += (fDeltaX / 100.0f);
+				mCamRotAngle.x += (fDeltaY / 100.0f);
+
+				if (mCamRotAngle.x < -D3DX_PI / 2.0f + 0.0001f)
+					mCamRotAngle.x = -D3DX_PI / 2.0f + 0.0001f;
+
+				if (mCamRotAngle.x > D3DX_PI / 2.0f - 0.0001f)
+					mCamRotAngle.x = D3DX_PI / 2.0f - 0.0001f;
+
+				mPrevMousePos = ptCurMouse;
+			}
+			break;
+		default:
+			break;
+	}
+	return true;
 }

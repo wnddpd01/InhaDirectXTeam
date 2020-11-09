@@ -30,8 +30,8 @@ SoundManager::~SoundManager()
 		}
 	}
 
-	SafeDelete(mChannel);
-	SafeDelete(mSound);
+	SAFE_DELETE(mChannel);
+	SAFE_DELETE(mSound);
 
 	if (mSystem != nullptr)
 	{

@@ -35,50 +35,95 @@
 inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
 {
 	UIImage* uiImageConvert = (UIImage*)uiImage;
-	if(eventName == eEventName::MOUSE_L_DOWN)
+
+	switch (eventName)
 	{
-		POINT mousePt = *(POINT*)(parameter);
-		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		case eEventName::MOUSE_L_DOWN:
 		{
-			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
-			gSoundManager->Play("CLICK");
-			return true;
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
+				gSoundManager->Play("CLICK");
+				return true;
+			}
 		}
-	}
-	else if (eventName == eEventName::MOUSE_L_UP)
-	{
-		POINT mousePt = *(POINT*)(parameter);
-		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		break;
+		case eEventName::MOUSE_L_UP:
 		{
-			eSceneName sceneName = eSceneName::INGAME_SCENE;
-			gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
-			return true;
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				eSceneName sceneName = eSceneName::INGAME_SCENE;
+				gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
+				return true;
+			}
+			uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
 		}
-		uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+		break;
+		case eEventName::MOUSE_MOVE:
+		{
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnHovered.png");
+			}
+			else
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+			}
+		}
+		break;
+		default:
+		break;
 	}
 	return false;
 }
 
-inline bool BtnExitEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
+inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
 {
 	UIImage* uiImageConvert = (UIImage*)uiImage;
-	if (eventName == eEventName::MOUSE_L_DOWN)
+
+	switch (eventName)
 	{
-		POINT mousePt = *(POINT*)(parameter);
-		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		case eEventName::MOUSE_L_DOWN:
 		{
-			uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
-			return true;
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
+				return true;
+			}
 		}
-	}
-	else if (eventName == eEventName::MOUSE_L_UP)
-	{
-		POINT mousePt = *(POINT*)(parameter);
-		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		break;
+		case eEventName::MOUSE_L_UP:
 		{
-			return true;
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				return true;
+			}
+			uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
 		}
-		uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+		break;
+		case eEventName::MOUSE_MOVE:
+		{
+			POINT mousePt = *(POINT*)(parameter);
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnHovered.png");
+				return true;
+			}
+			else
+			{
+				uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+			}
+		}
+		break;
+		default:
+		break;
 	}
+
+
 	return false;
 }

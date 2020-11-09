@@ -11,21 +11,20 @@ Scene::Scene()
 	static D3DXVECTOR3 tempTarget = D3DXVECTOR3(0, 1, 0);
 	mCamera = new Camera;
 	mCamera->Setup(&tempTarget);
-
+	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
 }
 
 Scene::~Scene()
 {
-	gEventManager->ClearSubscriber();
 	for (auto gameObject : mGameObjects)
 	{
-		SafeDelete(gameObject.second);
+		SAFE_DELETE(gameObject.second);
 	}
 	for (auto gameUI : mGameUIs)
 	{
-		SafeDelete(gameUI.second);
+		SAFE_DELETE(gameUI.second);
 	}
-	SafeDelete(mCamera);
+	SAFE_DELETE(mCamera);
 }
 
 void Scene::AddEventSubscriberList(eEventName eventName, UINT priority, BaseObserver* baseObserver)
@@ -37,7 +36,7 @@ void Scene::AttachAllSubscriberInSubscriberList()
 {
 	for (auto subscriberList : mEventSubscriberList)
 	{
-		for each (auto subscriber in subscriberList.second)
+		for(pair<const unsigned, BaseObserver*>& subscriber : subscriberList.second)
 		{
 			gEventManager->AttachSubscriber(subscriberList.first, subscriber.first, subscriber.second);
 		}
@@ -48,7 +47,7 @@ void Scene::DetachAllSubscriberInSubscriberList()
 {
 	for (auto subscriberList : mEventSubscriberList)
 	{
-		for each (auto subscriber in subscriberList.second)
+		for(pair<const unsigned, BaseObserver*>& subscriber : subscriberList.second)
 		{
 			gEventManager->DetachSubscriber(subscriberList.first, subscriber.second);
 		}
