@@ -46,14 +46,14 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 					case eKeyName::KEY_LEFT_DOWN:
 						{
 							D3DXMATRIXA16 matT;
-							D3DXMatrixTranslation(&matT, -1 * gTimeManager->GetDeltaTime(), 0, 0);
+							D3DXMatrixTranslation(&matT, 1 * gTimeManager->GetDeltaTime(), 0, 0);
 							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
 						}
 						break;
 					case eKeyName::KEY_RIGHT_DOWN:
 						{
 							D3DXMATRIXA16 matT;
-							D3DXMatrixTranslation(&matT, 1 * gTimeManager->GetDeltaTime(), 0, 0);
+							D3DXMatrixTranslation(&matT, -1 * gTimeManager->GetDeltaTime(), 0, 0);
 							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
 						}
 						break;
