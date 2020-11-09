@@ -123,6 +123,11 @@ POINT MouseInputManager::ChangeMouseState()
 	{
 		mMouseState = eEventName::MOUSE_R_UP;
 	}
+
+	if (gMouseInputManager->UpRightButton(&mousePosition))
+	{
+		mMouseState = eEventName::MOUSE_R_UP;
+	}
 	
 	return mousePosition;
 }
