@@ -20,7 +20,7 @@ struct KeyState
 	
 	bool isAllFalse()
 	{
-		return bFrontKey | bBackKey | bLeftKey | bRightKey | bInteractionKey | bRunKey | bEquipmentChangeRight | bEquipmentChangeLeft != 1;
+		return (bFrontKey | bBackKey | bLeftKey | bRightKey | bInteractionKey | bRunKey | bEquipmentChangeRight | bEquipmentChangeLeft) == 0;
 	}
 };
 

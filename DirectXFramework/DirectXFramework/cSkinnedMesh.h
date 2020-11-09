@@ -17,9 +17,9 @@ public:
 	D3DXMATRIXA16 m_matWorldTM;
 	Synthesize(D3DXVECTOR3, m_vMin, Min);
 	Synthesize(D3DXVECTOR3, m_vMax, Max);
+	LPD3DXFRAME m_pRoot;
 
 protected:
-	LPD3DXFRAME m_pRoot;
 	LPD3DXANIMATIONCONTROLLER m_pAnimController;
 	float		m_fBlendTime;
 	float		m_fPassedBlendTime;

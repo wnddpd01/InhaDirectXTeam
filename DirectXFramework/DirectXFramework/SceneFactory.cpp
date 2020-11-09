@@ -61,6 +61,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		cZealot* zealot = new cZealot;
 		zealot->Setup();
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, zealot);
 		newScene->mGameObjects.insert(make_pair("player", zealot));
 	}
 	return newScene;

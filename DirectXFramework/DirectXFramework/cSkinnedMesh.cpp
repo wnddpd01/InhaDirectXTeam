@@ -201,7 +201,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 		{
 			D3DXMATRIXA16  matWorld;
 			D3DXMatrixIdentity(&matWorld);
-			matWorld = pFrame->TransformationMatrix * pBone->CombinedTransformationMatrix;
+			matWorld = m_matWorldTM * pBone->CombinedTransformationMatrix;
 			gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); ++i)
 			{

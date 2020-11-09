@@ -92,8 +92,10 @@ void KeyboardInputManager::Update()
 {
 	if(ChangeKeyState())
 	{
+		cout << "false" << endl;
 		return;
 	}
+	cout << "true" << endl;
 	
 	eKeyName keyName;
 	
@@ -124,7 +126,7 @@ void KeyboardInputManager::Update()
 	}
 	else if (mKeyState.bBackKey == TRUE)
 	{
-		keyName = eKeyName::KEY_FRONT_DOWN;
+		keyName = eKeyName::KEY_BACK_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	else if (mKeyState.bRightKey == TRUE)

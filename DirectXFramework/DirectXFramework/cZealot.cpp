@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cZealot.h"
 #include "cSkinnedMesh.h"
+#include "KeyboardInputManager.h"
 
 void cZealot::Setup()
 {
@@ -22,10 +23,50 @@ void cZealot::Render()
 
 bool cZealot::Update(eEventName eventName, void* parameter)
 {
-	if(eventName == eEventName::MOUSE_R_UP)
+	switch (eventName)
 	{
-		m_pSkinnedMesh->SetAnimationIndexBlend(rand() % 3);
+		case eEventName::KEY_DOWN:
+			{
+				eKeyName key = *(eKeyName*)parameter;
+				switch (key)
+				{
+					case eKeyName::KEY_FRONT_DOWN :
+						{
+							D3DXMATRIXA16 matT;
+							D3DXMatrixTranslation(&matT, 0, 0, -1 * gTimeManager->GetDeltaTime());
+							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
+						}
+						break;
+					case eKeyName::KEY_BACK_DOWN :
+						{
+							D3DXMATRIXA16 matT;
+							D3DXMatrixTranslation(&matT, 0, 0, 1 * gTimeManager->GetDeltaTime());
+							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
+						}
+						break;
+					case eKeyName::KEY_LEFT_DOWN:
+						{
+							D3DXMATRIXA16 matT;
+							D3DXMatrixTranslation(&matT, -1 * gTimeManager->GetDeltaTime(), 0, 0);
+							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
+						}
+						break;
+					case eKeyName::KEY_RIGHT_DOWN:
+						{
+							D3DXMATRIXA16 matT;
+							D3DXMatrixTranslation(&matT, 1 * gTimeManager->GetDeltaTime(), 0, 0);
+							m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM * matT;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+			break;
+		default:
+			break;
 	}
+
 	return true;
 }
 
