@@ -91,7 +91,7 @@ void MouseInputManager::Update()
 	
 	POINT mousePosition = ChangeMouseState();
 
-	if(prevMouseState != mMouseState)
+	if(prevMouseState != mMouseState || mMouseState == eEventName::MOUSE_MOVE)
 	{
 		gEventManager->EventOccurred(mMouseState, &mousePosition);
 	}

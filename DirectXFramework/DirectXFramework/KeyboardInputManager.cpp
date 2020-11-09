@@ -92,10 +92,8 @@ void KeyboardInputManager::Update()
 {
 	if(ChangeKeyState())
 	{
-		cout << "false" << endl;
 		return;
 	}
-	cout << "true" << endl;
 	
 	eKeyName keyName;
 	

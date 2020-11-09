@@ -310,8 +310,6 @@ void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
 	m_pAnimController->SetTrackPosition(0, 0.0f);
 
-	if(pNextAnimSet)
-		cout << nIndex << " " << pNextAnimSet->GetName() << endl;
 
 	m_pAnimController->SetTrackWeight(0, 0.0f);
 	m_pAnimController->SetTrackWeight(1, 1.0f);
