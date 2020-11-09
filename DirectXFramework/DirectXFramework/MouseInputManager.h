@@ -13,6 +13,7 @@ public:
 	BOOL UpLeftButton(POINT * const outPosition);
 	POINT ChangeMouseState();
 	BOOL MoveMouse(POINT * const outPosition);
+	BOOL DragMouse(POINT * const outPosition);
 	void Update();
 private:
 	eEventName mMouseState;

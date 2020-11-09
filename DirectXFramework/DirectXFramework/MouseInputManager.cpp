@@ -85,6 +85,21 @@ BOOL MouseInputManager::MoveMouse(POINT* const outPosition)
 	return false;
 }
 
+BOOL MouseInputManager::DragMouse(POINT * const outPosition)
+{
+	GetCursorPos(outPosition);
+	ScreenToClient(hWnd, outPosition);
+	
+	static POINT pevMousePosition = *outPosition;
+	
+	if(mMouseState == eEventName::MOUSE_L_DOWN)
+	{
+		
+	}
+	
+	return 0;
+}
+
 void MouseInputManager::Update()
 {
 	static eEventName prevMouseState = eEventName::MOUSE_STOP;
