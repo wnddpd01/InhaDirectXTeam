@@ -12,9 +12,6 @@ private:
 
 	float mCameraDistance;
 	D3DXVECTOR3 mCamRotAngle;
-
-	bool mbLButtonDown;
-	POINT mPrevMousePos;
 public:
 	void Setup(D3DXVECTOR3* target);
 	void Update();

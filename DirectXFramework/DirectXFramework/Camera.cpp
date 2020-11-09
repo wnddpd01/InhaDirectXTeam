@@ -9,7 +9,6 @@ Camera::Camera() :
 	, mTarget(nullptr)
 	, mCameraDistance(15.0f)
 	, mCamRotAngle(0, 0, 0)
-	, mbLButtonDown(false)
 {
 }
 
@@ -41,6 +40,7 @@ void Camera::Update()
 
 	mEye = D3DXVECTOR3(4, 5, -mCameraDistance);
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
+	
 	if (mTarget)
 	{
 		mLookAt = *mTarget;
@@ -57,31 +57,31 @@ bool Camera::Update(eEventName eventName, void* parameter)
 {
 	switch (eventName)
 	{
-		case eEventName::MOUSE_L_DOWN:
-			{
-				mbLButtonDown = true;
-			}
-			break;
-		case eEventName::MOUSE_L_UP:
-			{
-				mbLButtonDown = false;
-			}
-			break;
 		case eEventName::MOUSE_L_DRAG:
 			{
-				POINT ptCurMouse = *(POINT*)parameter;
-				float fDeltaX = (float)ptCurMouse.x - mPrevMousePos.x;
-				float fDeltaY = (float)ptCurMouse.y - mPrevMousePos.y;
-				mCamRotAngle.y += (fDeltaX / 100.0f);
-				mCamRotAngle.x += (fDeltaY / 100.0f);
+				POINT mouseDeltaPosition = *(POINT*)parameter;
+
+				mCamRotAngle.y += (mouseDeltaPosition.x / 100.0f);
+				mCamRotAngle.x += (mouseDeltaPosition.y / 100.0f);
 
 				if (mCamRotAngle.x < -D3DX_PI / 2.0f + 0.0001f)
+				{
 					mCamRotAngle.x = -D3DX_PI / 2.0f + 0.0001f;
+				}
 
 				if (mCamRotAngle.x > D3DX_PI / 2.0f - 0.0001f)
+				{
 					mCamRotAngle.x = D3DX_PI / 2.0f - 0.0001f;
-
-				mPrevMousePos = ptCurMouse;
+				}
+			}
+			break;
+		case eEventName::MOUSE_WHEEL_SCROLL:
+			{
+				mCameraDistance -= *(float*)parameter;
+				if (mCameraDistance < 10.0f)
+				{
+					mCameraDistance = 10.0f;
+				}	
 			}
 			break;
 		default:

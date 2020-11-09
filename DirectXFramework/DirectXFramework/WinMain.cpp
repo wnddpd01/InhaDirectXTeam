@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneCenter.h"
 #include "Scene.h"
+#include "MouseInputManager.h"
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280,
                     UINT windowHeight = 720);
@@ -40,6 +41,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	gMouseInputManager->WndProc(hWnd, message, wParam, lParam);
+	
 	switch (message)
 	{
 	case WM_DESTROY:

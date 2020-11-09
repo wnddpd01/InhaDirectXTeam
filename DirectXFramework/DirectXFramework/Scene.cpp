@@ -12,6 +12,7 @@ Scene::Scene()
 	mCamera = new Camera;
 	mCamera->Setup(&tempTarget);
 	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
+	AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
 }
 
 Scene::~Scene()

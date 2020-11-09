@@ -7,7 +7,6 @@ void cZealot::Setup()
 {
 	m_pSkinnedMesh = new cSkinnedMesh("Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
-	
 }
 
 void cZealot::Update()

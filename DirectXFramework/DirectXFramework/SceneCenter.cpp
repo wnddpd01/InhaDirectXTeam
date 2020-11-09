@@ -65,8 +65,6 @@ void SceneCenter::InputProcess()
 	/*if ( gKeyboardInputManager->ReadKey() != static_cast<int>(eKeyButton::NON_KEY))
 	{
 	}*/
-
-	gMouseInputManager->Update();
 	gKeyboardInputManager->Update();
 }
 
