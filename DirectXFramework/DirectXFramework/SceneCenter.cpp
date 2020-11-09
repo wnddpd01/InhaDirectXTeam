@@ -19,7 +19,6 @@ void SceneCenter::SceneLoad(eSceneName sceneName)
 
 SceneCenter::SceneCenter() : mCurScene(nullptr)
 {
-	SceneLoad(eSceneName::START_SCENE);
 	SceneChange(eSceneName::START_SCENE);
 
 	gEventManager->AttachSubscriber(eEventName::SCENE_CHANGE, 0, this);
@@ -29,7 +28,7 @@ SceneCenter::~SceneCenter()
 {
 	for (auto scene : mSceneMap)
 	{
-		SafeDelete(scene.second);
+		SAFE_DELETE(scene.second);
 	}
 	mSceneMap.clear();
 }

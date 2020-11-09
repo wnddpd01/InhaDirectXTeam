@@ -29,8 +29,15 @@
 #endif
 
 
-#define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
-#define SafeDelete(p)	{ if( p) delete p ; p=NULL ; }
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=NULL; } }
+#endif    
+#ifndef SAFE_DELETE_ARRAY
+#define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);   (p)=NULL; } }
+#endif    
+#ifndef SAFE_RELEASE
+#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
+#endif
 
 
 struct Vertex
@@ -125,8 +132,6 @@ namespace std
 }
 
 
-#define SafeRelease(p)		{ if(p) p->Release() ; p = NULL ; }
-
 #define SafeAddRef(p)	{if(p) p->AddRef() ; }
 
 #define Synthesize(varType , varName , funName) \
@@ -141,7 +146,7 @@ public : virtual void Set##funName(varType var ) { \
 	if( varName != var ) \
 	{ \
 		SafeAddRef(var) ; \
-		SafeRelease(varName) ; \
+		SAFE_RELEASE(varName) ; \
 		varName = var ; \
 	} \
 }

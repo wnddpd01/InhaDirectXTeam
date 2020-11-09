@@ -3,7 +3,7 @@
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "QuarterMap.h"
-
+#include "cZealot.h"
 
 SceneFactory::SceneFactory()
 {
@@ -34,8 +34,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y + viewPort.Height * 0.55f + uiImage->GetHeight() * 0.5, 0.0f));
 		uiImage->EventProcess = BtnStartEventListen;
-		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 2, uiImage);
-		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 2, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 9, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 9, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, uiImage);
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("BtnStart", uiImage));
 
@@ -46,6 +47,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->EventProcess = BtnExitEventListen;
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 9, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 9, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, uiImage);
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("BtnExit", uiImage));
 
@@ -56,6 +58,10 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
+
+		cZealot* zealot = new cZealot;
+		zealot->Setup();
+		newScene->mGameObjects.insert(make_pair("player", zealot));
 	}
 	return newScene;
 }

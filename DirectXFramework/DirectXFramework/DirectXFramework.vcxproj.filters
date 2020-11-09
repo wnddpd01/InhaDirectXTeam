@@ -29,6 +29,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{18d649cc-d236-4501-b8b4-754d34311ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DObject">
+      <UniqueIdentifier>{22f6ef6b-b866-4e90-b0e8-1dedad5d7989}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -50,9 +53,6 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardInputManager.cpp">
-      <Filter>DXUT</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
       <Filter>DXUT</Filter>
     </ClCompile>
     <ClCompile Include="MouseInputManager.cpp">
@@ -94,6 +94,16 @@
     <ClCompile Include="cMtlTex.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatingObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp" />
+    <ClCompile Include="cSkinnedMesh.cpp" />
+    <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cZealot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -115,9 +125,6 @@
       <Filter>Singleton</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputManager.h">
-      <Filter>DXUT</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
       <Filter>DXUT</Filter>
     </ClInclude>
     <ClInclude Include="MouseInputManager.h">
@@ -162,5 +169,15 @@
     <ClInclude Include="cMtlTex.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatingObject.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h" />
+    <ClInclude Include="cSkinnedMesh.h" />
+    <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cZealot.h" />
   </ItemGroup>
 </Project>

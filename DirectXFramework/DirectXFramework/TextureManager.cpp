@@ -41,7 +41,7 @@ void TextureManager::Destroy()
 {
 	for each(auto it in mTextureContainer)
 	{
-		SafeRelease(it.second);
+		SAFE_RELEASE(it.second);
 	}
 	mTextureContainer.clear();
 }

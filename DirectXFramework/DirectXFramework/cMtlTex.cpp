@@ -12,5 +12,5 @@ cMtlTex::cMtlTex()
 
 cMtlTex::~cMtlTex()
 {
-	SafeRelease(m_pTexture); 
+	SAFE_RELEASE(m_pTexture); 
 }

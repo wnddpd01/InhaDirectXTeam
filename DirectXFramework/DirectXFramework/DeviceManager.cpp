@@ -42,6 +42,6 @@ LPDIRECT3DDEVICE9 DeviceManager::GetDevice()
 
 void DeviceManager::Destroy()
 {
-	SafeRelease(mD3D);
-	SafeRelease(mD3DDevice);
+	SAFE_RELEASE(mD3D);
+	SAFE_RELEASE(mD3DDevice);
 }
