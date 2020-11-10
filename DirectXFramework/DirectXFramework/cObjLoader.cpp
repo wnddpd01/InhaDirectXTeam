@@ -200,8 +200,6 @@ void cObjLoader::LoadSurface(OUT vector<D3DXVECTOR3>& vecSurface, IN char * szFo
 	string sFullPath(szFolder); 
 	sFullPath += (string("/") + string(szFile)); 
 
-	
-
 	FILE* fp;
 	fopen_s(&fp, sFullPath.c_str(), "r");
 

@@ -65,7 +65,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		box->Load(m_VecGroup, "obj", "box.obj");
 		newScene->mGameObjects.insert(make_pair("box", box));
 		box->Obj_Render(m_VecGroup);
-	
+
 		/*cObjLoader* door = new cObjLoader;
 		box->Load(m_VecGroup, "obj", "box.obj");
 		newScene->mGameObjects.insert(make_pair("door", door));
@@ -77,6 +77,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		PlayerCharacter* player = new PlayerCharacter;
 		player->Setup();
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		newScene->mGameObjects.insert(make_pair("player", player));
 		newScene->mCamera->Setup(&player->GetPosition());
 	}

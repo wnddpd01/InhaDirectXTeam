@@ -153,7 +153,7 @@ bool OBB::IsCollision(OBB* pOBB1, OBB* pOBB2)
 	}
 
 	if (existsParallelPair) return true;
-
+	
 	{
 		// : 0
 		r = abs(dist[0] * cos[2][0] - dist[2] * cos[0][0]);

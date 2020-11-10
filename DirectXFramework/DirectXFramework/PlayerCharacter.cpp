@@ -54,9 +54,36 @@ void PlayerCharacter::Render()
 bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 {	
 	D3DXMATRIXA16 matT;
+	D3DXMATRIXA16 matR;
 	
 	switch (eventName)
 	{
+		case eEventName::MOUSE_MOVE:
+			{
+				POINT mousePosition = *(POINT*)parameter;
+				D3DXVECTOR3 mousePositionVector(0,0,0);
+
+				mousePositionVector.x = mousePosition.x;
+				mousePositionVector.y = mousePosition.y;
+				
+				D3DVIEWPORT9 vp;
+				gD3Device->GetViewport(&vp);
+				D3DXMATRIXA16 matProj;
+				gD3Device->GetTransform(D3DTS_PROJECTION, &matProj);
+				D3DXMATRIXA16 matView;
+				gD3Device->GetTransform(D3DTS_VIEW, &matView);
+				
+				D3DXVec3Unproject(&mousePositionVector, &mousePositionVector, &vp, &matProj, &matView, nullptr);
+				
+				/*m_vDirection = m_vPosition - mousePositionVector;
+				m_vDirection.y = 0;
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);*/
+				
+				D3DXMatrixLookAtLH(&matR, &m_vPosition, &mousePositionVector, &D3DXVECTOR3(0, 1, 0));
+				matR._41 = matR._42 = matR._43 = 0.0f;
+				D3DXMatrixInverse(&matR, NULL, &matR);
+			}
+			break;
 		case eEventName::KEY_DOWN:
 			{
 				eKeyName key = *(eKeyName*)parameter;
@@ -162,7 +189,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 	}
 
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_matWorld = matT;
+	m_matWorld = matR * matT;
 	
 	return true;
 }
