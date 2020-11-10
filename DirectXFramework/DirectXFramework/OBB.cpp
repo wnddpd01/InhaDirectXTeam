@@ -84,6 +84,77 @@ void OBB::Setup(cSkinnedMesh* pSkinnedMesh)
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
+void OBB::Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax)
+{
+	m_vOriCenterPos = (vMin + vMax) / 2.0f;
+
+	m_vOriAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOriAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOriAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+
+	vector<D3DXVECTOR3> m_BoxVertex;
+
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
+
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
+
+	vector<DWORD> BoxIndex;
+
+	// ¾Õ¸é
+	BoxIndex.push_back(0);
+	BoxIndex.push_back(1);
+	BoxIndex.push_back(1);
+	BoxIndex.push_back(2);
+	BoxIndex.push_back(2);
+	BoxIndex.push_back(3);
+	BoxIndex.push_back(3);
+	BoxIndex.push_back(0);
+
+	// µÞ¸é
+	BoxIndex.push_back(4);
+	BoxIndex.push_back(5);
+	BoxIndex.push_back(5);
+	BoxIndex.push_back(6);
+	BoxIndex.push_back(6);
+	BoxIndex.push_back(7);
+	BoxIndex.push_back(7);
+	BoxIndex.push_back(4);
+
+	// À­¸é
+	BoxIndex.push_back(0);
+	BoxIndex.push_back(4);
+	BoxIndex.push_back(1);
+	BoxIndex.push_back(5);
+	// ¹Ø¸é
+	BoxIndex.push_back(2);
+	BoxIndex.push_back(6);
+	BoxIndex.push_back(3);
+	BoxIndex.push_back(7);
+
+	m_BoxDrawVertex.resize(BoxIndex.size());
+
+	for (unsigned int i = 0; i < BoxIndex.size(); ++i)
+	{
+		m_BoxDrawVertex[i].p = m_BoxVertex[BoxIndex[i]];
+	}
+
+	D3DXMatrixIdentity(&m_matWorldTM);
+}
+
 void OBB::Update(D3DXMATRIXA16* pmatWorld)
 {
 	if (pmatWorld)

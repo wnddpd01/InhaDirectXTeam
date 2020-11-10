@@ -7,7 +7,7 @@
 PlayerCharacter::PlayerCharacter()
 	: m_pSkinnedMesh(NULL)
 	, m_pOBB(NULL)
-	, m_vPosition(3, 0, 3)
+	, m_vPosition(3, 0, 0)
 	, m_vDirection(0, 0, -1)
 {
 	D3DXMatrixIdentity(&m_matWorld);

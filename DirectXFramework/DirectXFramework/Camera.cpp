@@ -78,9 +78,10 @@ bool Camera::Update(eEventName eventName, void* parameter)
 		case eEventName::MOUSE_WHEEL_SCROLL:
 			{
 				mCameraDistance -= *(float*)parameter;
-				if (mCameraDistance < 10.0f)
+				float minCameraDist = 1.f;
+				if (mCameraDistance < minCameraDist)
 				{
-					mCameraDistance = 10.0f;
+					mCameraDistance = minCameraDist;
 				}	
 			}
 			break;

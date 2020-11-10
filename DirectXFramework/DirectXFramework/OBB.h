@@ -20,6 +20,7 @@ private:
 
 public:
 	void Setup(cSkinnedMesh* pSkinnedMesh);
+	void Setup(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(OBB* pOBB1, OBB* pOBB2);
 

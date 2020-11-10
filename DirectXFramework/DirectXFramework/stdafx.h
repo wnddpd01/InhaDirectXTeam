@@ -142,13 +142,13 @@ namespace std
 
 
 #include <unordered_map>
-
 #include <dinput.h>
 
 #pragma comment(lib, "dinput8")
 #pragma comment(lib, "dxguid")
 
 using namespace std;
+
 
 #include "fmod/fmod.hpp"
 #pragma comment(lib, "fmod/fmodex_vc.lib")

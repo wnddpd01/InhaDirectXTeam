@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "BaseObject.h"
+#include "OBB.h"
+#include "PlayerCharacter.h"
 #include "UIImage.h"
 #include "UIEventListener.h"
 #include "QuarterMap.h"
+#include "StaticObject.h"
 
 
 Scene::Scene()
@@ -64,10 +67,36 @@ void Scene::Update()
 		gameObject.second->Update();
 	}
 
+	//임시 충돌체크
+	for (auto gameObject : mGameObjects)
+	{
+		if(gameObject.first == "player")
+		{
+			for (auto checkObject : mGameObjects)
+			{
+				if ((checkObject.first == "Desk") || (checkObject.first == "Door"))
+				{
+					if (OBB::IsCollision(
+						((PlayerCharacter*)gameObject.second)->GetOBB(),
+						((StaticObject*)checkObject.second)->GetOBB()))
+					{
+						cout << "충돌" << endl;
+					}
+					else
+					{
+						
+					}
+				}
+			}
+		}
+	}
+
+	
 	for (auto gameUI : mGameUIs)
 	{
 		gameUI.second->Update();
 	}
+	
 
 	gSoundManager->Update();}
 

@@ -108,6 +108,9 @@
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -187,5 +190,8 @@
     <ClInclude Include="Group.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="StaticObject.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "QuarterMap.h"
 #include "PlayerCharacter.h"
+#include "StaticObject.h"
 #include "cObjLoader.h"
 #include "Group.h"
 
@@ -60,6 +61,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
+
+		StaticObject* desk = new StaticObject;
+		desk->Setup("desk.obj", "Texture/DeskWood.png", { 4.5f, 0, 1.f });
+		newScene->mGameObjects.insert({ "Desk", desk });
+		
+		StaticObject* door = new StaticObject;
+		door->Setup("door.obj", "Texture/DoorWood.jpg", { 4.5f, 0, 7.f });
+		newScene->mGameObjects.insert({ "Door", door });
+		
 		/*
 		cObjLoader* box = new cObjLoader;
 		box->Load(m_VecGroup, "obj", "box.obj");
