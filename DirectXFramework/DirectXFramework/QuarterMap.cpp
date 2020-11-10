@@ -136,7 +136,7 @@ void QuarterMap::Setup(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPe
 	}
 
 	cObjLoader loader;
-	mMeshWall = loader.LoadMesh(vecMtlTex, "obj", "tempRoom2.obj");
+	mMeshWall = loader.LoadMesh(vecMtlTex, "obj", "SampleRoom.obj");
 }
 
 void QuarterMap::Update()
