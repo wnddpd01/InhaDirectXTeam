@@ -2,7 +2,6 @@
 #include "Singleton.h"
 #define gTextureManager TextureManager::GetInstance()
 
-
 class TextureManager : public Singleton<TextureManager>
 {
 private:
@@ -15,7 +14,5 @@ public:
 	LPDIRECT3DTEXTURE9 GetUITexture(char* szFullPath, OUT D3DXIMAGE_INFO& imageInfo);
 	LPDIRECT3DTEXTURE9 GetUITexture(std::string & sFullPath, OUT D3DXIMAGE_INFO& imageInfo);
 	void Destroy();
-	
-	
 };
 

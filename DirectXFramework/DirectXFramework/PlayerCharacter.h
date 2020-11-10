@@ -2,6 +2,7 @@
 
 class cSkinnedMesh;
 class OBB;
+class QuarterMap;
 
 class PlayerCharacter : public BaseObject, public BaseObserver
 {
@@ -15,13 +16,13 @@ public:
 	OBB* GetOBB();
 
 	D3DXVECTOR3 & GetPosition();
-	
+
 	PlayerCharacter();
 	virtual ~PlayerCharacter();
 private:
 	cSkinnedMesh* m_pSkinnedMesh;
 	OBB* m_pOBB;
-	
+	QuarterMap* mQuarterMap;
 	D3DXVECTOR3 m_vDirection;
 	D3DXVECTOR3 m_vPosition;
 	D3DXMATRIXA16 m_matWorld;
