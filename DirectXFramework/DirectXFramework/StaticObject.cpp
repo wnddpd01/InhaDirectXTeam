@@ -40,6 +40,8 @@ void StaticObject::Setup(char* szOBj, char* szTex, D3DXVECTOR3 pos)
 	mCollider = new OBB;
 	mCollider->Setup(pos + D3DXVECTOR3(0.5,0.5,0.5), pos + D3DXVECTOR3(-0.5, -0.5, -0.5));
 	
+	mCollider->Update(&mMatPos);
+	
 	if (mMesh)
 	{
 		mMesh->Release();
@@ -54,7 +56,7 @@ void StaticObject::Update()
 {
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	matWorld = matWorld * mMatScale *  mMatRot * mMatPos;
+	//matWorld = mMatScale *  mMatRot * mMatPos;
 	
 	if (mCollider)
 		mCollider->Update(&matWorld);

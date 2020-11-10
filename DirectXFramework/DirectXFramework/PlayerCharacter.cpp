@@ -71,7 +71,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 				//D3DXVECTOR3 lookAt = pickPosition - m_vPosition;
 				
 				D3DXMatrixLookAtRH(&matR, &m_vPosition, &pickPosition, &D3DXVECTOR3(0, 1, 0));
-				cout << pickPosition.x << " " << pickPosition.y << " " << pickPosition.z << endl;
+				//cout << pickPosition.x << " " << pickPosition.y << " " << pickPosition.z << endl;
 				matR._41 = matR._42 = matR._43 = 0.0f;
 				D3DXMatrixInverse(&matR, NULL, &matR);
 				m_vDirection =  pickPosition - m_vPosition;
