@@ -108,6 +108,7 @@
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -187,5 +188,6 @@
     <ClInclude Include="Group.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Ray.h" />
   </ItemGroup>
 </Project>

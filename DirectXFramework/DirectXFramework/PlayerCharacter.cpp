@@ -11,9 +11,8 @@ PlayerCharacter::PlayerCharacter()
 	, m_vDirection(0, 0, -1)
 {
 	D3DXMatrixIdentity(&m_matWorld);
-	
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
+	D3DXMatrixIdentity(&matR);
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -52,36 +51,31 @@ void PlayerCharacter::Render()
 }
 
 bool PlayerCharacter::Update(eEventName eventName, void* parameter)
-{	
+{
+
 	D3DXMATRIXA16 matT;
-	D3DXMATRIXA16 matR;
+	D3DXMatrixIdentity(&matT);
 	
 	switch (eventName)
 	{
 		case eEventName::MOUSE_MOVE:
 			{
-				POINT mousePosition = *(POINT*)parameter;
-				D3DXVECTOR3 mousePositionVector(0,0,0);
+				D3DXVECTOR3 pickPosition = *(D3DXVECTOR3*)parameter;
 
-				mousePositionVector.x = mousePosition.x;
-				mousePositionVector.y = mousePosition.y;
-				
-				D3DVIEWPORT9 vp;
-				gD3Device->GetViewport(&vp);
-				D3DXMATRIXA16 matProj;
-				gD3Device->GetTransform(D3DTS_PROJECTION, &matProj);
-				D3DXMATRIXA16 matView;
-				gD3Device->GetTransform(D3DTS_VIEW, &matView);
-				
-				D3DXVec3Unproject(&mousePositionVector, &mousePositionVector, &vp, &matProj, &matView, nullptr);
+				//mousePositionVector.y = 0;
 				
 				/*m_vDirection = m_vPosition - mousePositionVector;
 				m_vDirection.y = 0;
 				D3DXVec3Normalize(&m_vDirection, &m_vDirection);*/
+
+				//D3DXVECTOR3 lookAt = pickPosition - m_vPosition;
 				
-				D3DXMatrixLookAtLH(&matR, &m_vPosition, &mousePositionVector, &D3DXVECTOR3(0, 1, 0));
+				D3DXMatrixLookAtRH(&matR, &m_vPosition, &pickPosition, &D3DXVECTOR3(0, 1, 0));
+				cout << pickPosition.x << " " << pickPosition.y << " " << pickPosition.z << endl;
 				matR._41 = matR._42 = matR._43 = 0.0f;
 				D3DXMatrixInverse(&matR, NULL, &matR);
+				m_vDirection =  pickPosition - m_vPosition;
+				D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			}
 			break;
 		case eEventName::KEY_DOWN:
@@ -92,6 +86,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 					case eKeyName::KEY_FRONT_DOWN :
 						{
 							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							
 						}
 						break;
 					case eKeyName::KEY_BACK_DOWN :
