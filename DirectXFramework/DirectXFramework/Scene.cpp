@@ -75,7 +75,7 @@ void Scene::Render()
 {
 	gD3Device->Clear(0, nullptr,
 	                 D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-	                 D3DCOLOR_XRGB(255, 255, 255),
+	                 D3DCOLOR_XRGB(150, 150, 150),
 	                 1.0F, 0);
 	gD3Device->BeginScene();
 

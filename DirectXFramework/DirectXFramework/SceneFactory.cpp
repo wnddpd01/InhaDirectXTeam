@@ -60,13 +60,13 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
-		
+		/*
 		cObjLoader* box = new cObjLoader;
 		box->Load(m_VecGroup, "obj", "box.obj");
 		newScene->mGameObjects.insert(make_pair("box", box));
 		box->Obj_Render(m_VecGroup);
 	
-		/*cObjLoader* door = new cObjLoader;
+		cObjLoader* door = new cObjLoader;
 		box->Load(m_VecGroup, "obj", "box.obj");
 		newScene->mGameObjects.insert(make_pair("door", door));
 
