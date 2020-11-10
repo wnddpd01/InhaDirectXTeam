@@ -39,6 +39,7 @@
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="QuarterMap.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCenter.cpp" />
     <ClCompile Include="SceneFactory.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="QuarterMap.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCenter.h" />
     <ClInclude Include="SceneFactory.h" />

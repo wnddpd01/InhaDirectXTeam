@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MouseInputManager.h"
-
+#include "Ray.h"
 //extern HWND hWnd;
 //
 //BOOL MouseInputManager::DownLeftButton(POINT* const outPosition)
@@ -199,11 +199,24 @@ void MouseInputManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_MOUSEMOVE:
 			{
 				POINT mouseDeltaDistance;
+
+				Ray r = Ray::RayAtWorldSpace(LOWORD(lParam), HIWORD(lParam));
+				D3DXVECTOR3 vPicked(0, 0, 0);
+
+				D3DXVECTOR3 v = D3DXVECTOR3(-20.5, 0, -20.5);
+				D3DXVECTOR3 v2 = D3DXVECTOR3(-20.5, 0, 29.5);
+				D3DXVECTOR3 v3 = D3DXVECTOR3(29.5, 0, 29.5);
+				D3DXVECTOR3 v4 = D3DXVECTOR3(29.5, 0, -20.5);
+
+				if (r.IntersectTri(v, v2, v3, vPicked) == false)
+				{
+					r.IntersectTri(v, v3, v4, vPicked);
+				}
 				
 				mouseDeltaDistance.x = curMousePosition.x - prevMosuePosition.x;
 				mouseDeltaDistance.y = curMousePosition.y - prevMosuePosition.y;
 
-				gEventManager->EventOccurred(eEventName::MOUSE_MOVE, &curMousePosition);
+				gEventManager->EventOccurred(eEventName::MOUSE_MOVE, &vPicked);
 				
 				if(mbLButtonDown)
 				{

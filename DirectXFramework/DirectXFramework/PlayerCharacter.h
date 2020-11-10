@@ -25,6 +25,6 @@ private:
 	D3DXVECTOR3 m_vDirection;
 	D3DXVECTOR3 m_vPosition;
 	D3DXMATRIXA16 m_matWorld;
-	
+	D3DXMATRIXA16 matR;
 };
 
