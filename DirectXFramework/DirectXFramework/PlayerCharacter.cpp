@@ -3,12 +3,14 @@
 #include "cSkinnedMesh.h"
 #include "KeyboardInputManager.h"
 #include "OBB.h"
+#include "QuarterMap.h"
 
 PlayerCharacter::PlayerCharacter()
 	: m_pSkinnedMesh(NULL)
 	, m_pOBB(NULL)
 	, m_vPosition(3, 0, 3)
 	, m_vDirection(0, 0, -1)
+	, mQuarterMap(nullptr)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixTranslation(&m_matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
@@ -26,6 +28,9 @@ void PlayerCharacter::Setup()
 	m_pSkinnedMesh = new cSkinnedMesh("Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 
+	mQuarterMap = new QuarterMap;
+	mQuarterMap->Setup("HeightMapData/", "QuarterHeightMap.raw", "StoneTiles.jpg");
+	
 	m_pOBB = new OBB;
 	m_pOBB->Setup(m_pSkinnedMesh);
 }
@@ -52,9 +57,10 @@ void PlayerCharacter::Render()
 
 bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 {
-
 	D3DXMATRIXA16 matT;
+	static D3DXVECTOR3 prevPosition = m_vPosition;
 	D3DXMatrixIdentity(&matT);
+	
 	
 	switch (eventName)
 	{
@@ -62,16 +68,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 			{
 				D3DXVECTOR3 pickPosition = *(D3DXVECTOR3*)parameter;
 
-				//mousePositionVector.y = 0;
-				
-				/*m_vDirection = m_vPosition - mousePositionVector;
-				m_vDirection.y = 0;
-				D3DXVec3Normalize(&m_vDirection, &m_vDirection);*/
-
-				//D3DXVECTOR3 lookAt = pickPosition - m_vPosition;
-				
 				D3DXMatrixLookAtRH(&matR, &m_vPosition, &pickPosition, &D3DXVECTOR3(0, 1, 0));
-				cout << pickPosition.x << " " << pickPosition.y << " " << pickPosition.z << endl;
 				matR._41 = matR._42 = matR._43 = 0.0f;
 				D3DXMatrixInverse(&matR, NULL, &matR);
 				m_vDirection =  pickPosition - m_vPosition;
@@ -85,7 +82,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 				{
 					case eKeyName::KEY_FRONT_DOWN :
 						{
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							
 						}
 						break;
@@ -181,6 +178,17 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 			break;
 		default:
 			break;
+	}
+	cout << mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) << endl;
+	
+	if(mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) > 19.0f)
+	{
+		m_vPosition = prevPosition;
+		D3DXMatrixIdentity(&matT);
+	}
+	else
+	{
+		prevPosition = m_vPosition;
 	}
 
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);

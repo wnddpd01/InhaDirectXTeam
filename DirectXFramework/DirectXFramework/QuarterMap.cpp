@@ -145,8 +145,10 @@ void QuarterMap::Update()
 
 void QuarterMap::Render()
 {
-	D3DXMATRIXA16 matWorld;
+	D3DXMATRIXA16 matWorld, matScale;
 	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	matWorld *= matScale;
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	gD3Device->SetMaterial(&mMaterial);
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
@@ -204,7 +206,7 @@ float QuarterMap::GetHeight(float posX, float posZ)
 		if ((mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_0].y) *0.333333f > 20.f)
 			int temp = 1;
 
-		return (mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_0].y) *0.333333f;
+		return (float)(mVertexContainer[_1].y + mVertexContainer[_3].y + +mVertexContainer[_0].y) *0.333333f;
 	}
 	else
 	{

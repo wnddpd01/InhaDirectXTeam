@@ -58,8 +58,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
 		QuarterMap * quarterMap = new QuarterMap;
-		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		quarterMap->Setup("HeightMapData/", "QuarterHeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
+
 		/*
 		cObjLoader* box = new cObjLoader;
 		box->Load(m_VecGroup, "obj", "box.obj");
