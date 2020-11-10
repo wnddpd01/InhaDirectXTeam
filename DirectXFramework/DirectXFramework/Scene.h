@@ -8,7 +8,7 @@ class QuarterMap;
 class Scene
 {
 	eSceneName mSceneName;
-	Camera * mCamera;
+	
 	map<eEventName, multimap<UINT, BaseObserver*>> mEventSubscriberList;
 public:
 	Scene();
@@ -37,4 +37,7 @@ public:
 	virtual void Render();
 
 private:
+
+public:
+	Camera * mCamera;
 };

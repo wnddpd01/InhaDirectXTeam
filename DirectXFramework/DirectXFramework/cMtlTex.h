@@ -1,6 +1,7 @@
 #pragma once
+#include "Object.h"
 
-class cMtlTex
+class cMtlTex : public Object
 {
 public:
 	cMtlTex();

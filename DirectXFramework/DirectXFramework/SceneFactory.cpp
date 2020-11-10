@@ -3,7 +3,9 @@
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "QuarterMap.h"
-#include "cZealot.h"
+#include "PlayerCharacter.h"
+#include "cObjLoader.h"
+#include "Group.h"
 
 SceneFactory::SceneFactory()
 {
@@ -58,11 +60,25 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
+		
+		cObjLoader* box = new cObjLoader;
+		box->Load(m_VecGroup, "obj", "box.obj");
+		newScene->mGameObjects.insert(make_pair("box", box));
+		box->Obj_Render(m_VecGroup);
+	
+		/*cObjLoader* door = new cObjLoader;
+		box->Load(m_VecGroup, "obj", "box.obj");
+		newScene->mGameObjects.insert(make_pair("door", door));
 
-		cZealot* zealot = new cZealot;
-		zealot->Setup();
-		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, zealot);
-		newScene->mGameObjects.insert(make_pair("player", zealot));
+		cObjLoader* desk = new cObjLoader;
+		box->Load(m_VecGroup, "obj", "box.obj");
+		newScene->mGameObjects.insert(make_pair("desk", desk));*/
+		
+		PlayerCharacter* player = new PlayerCharacter;
+		player->Setup();
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
+		newScene->mGameObjects.insert(make_pair("player", player));
+		newScene->mCamera->Setup(&player->GetPosition());
 	}
 	return newScene;
 }

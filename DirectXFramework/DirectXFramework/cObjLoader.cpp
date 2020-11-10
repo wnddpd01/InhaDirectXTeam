@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cObjLoader.h"
-#include "cMtlTex.h" // << : 
+#include "cMtlTex.h"
+#include "Group.h"
 
 
 cObjLoader::cObjLoader()
@@ -11,8 +12,8 @@ cObjLoader::cObjLoader()
 cObjLoader::~cObjLoader()
 {
 }
-/*
-void cObjLoader::Load(OUT std::vector<cGroup*>& vecGroup, IN char * szFolder, IN char * szFile)
+
+void cObjLoader::Load(OUT std::vector<Group*>& vecGroup, IN char * szFolder, IN char * szFile)
 {
 	vector<D3DXVECTOR3> vecV; 
 	vector<D3DXVECTOR2> vecVT;
@@ -47,8 +48,8 @@ void cObjLoader::Load(OUT std::vector<cGroup*>& vecGroup, IN char * szFolder, IN
 		{
 			if (!vecVertex.empty())
 			{
-				cGroup* pGroup = new cGroup; 
-				pGroup->SetVertex(vecVertex); 
+				Group* pGroup = new Group; 
+				pGroup->Setvertex(vecVertex); 
 				pGroup->SetMtlTex(m_mapMtlTex[sMtlName]); 
 				vecGroup.push_back(pGroup); 
 				vecVertex.clear(); 
@@ -92,10 +93,10 @@ void cObjLoader::Load(OUT std::vector<cGroup*>& vecGroup, IN char * szFolder, IN
 
 			for (int i = 0; i < 3; ++i)
 			{
-				ST_PNT_VERTEX v; 
-				v.p = vecV[nIndex[i][0] - 1]; 
-				v.t = vecVT[nIndex[i][1] - 1];
-				v.n = vecVN[nIndex[i][2] - 1];
+				Vertex v;
+				v.Pos = vecV[nIndex[i][0] - 1]; 
+				v.TexUV = vecVT[nIndex[i][1] - 1];
+				v.Normal = vecVN[nIndex[i][2] - 1];
 				vecVertex.push_back(v); 
 			}	// << : for
 		} // : if
@@ -105,11 +106,11 @@ void cObjLoader::Load(OUT std::vector<cGroup*>& vecGroup, IN char * szFolder, IN
 
 	for each(auto it in m_mapMtlTex)
 	{
-		SafeRelease(it.second); 
+		SAFE_RELEASE(it.second); 
 	}
 	m_mapMtlTex.clear(); 
 } // << : Load()
-*/
+
 
 void cObjLoader::LoadMtlLib(char * szFolder, char * szFile)
 {
@@ -403,4 +404,19 @@ LPD3DXMESH cObjLoader::LoadMesh(OUT vector<cMtlTex*>& vecMtlTex, IN char * szFol
 	m_mapMtlTex.clear(); 
 	
 	return pMesh; 
+}
+
+void cObjLoader::Obj_Render(std::vector<Group*>& vecGroup)
+{
+	D3DXMATRIXA16 matWorld, matS, matR;
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0F);
+
+	matWorld = matS * matR;
+	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+	for each (auto p in vecGroup)
+	{
+		p->Render();
+	}
 }

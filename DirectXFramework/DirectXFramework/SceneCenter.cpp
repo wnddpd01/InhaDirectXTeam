@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-// µð¹ö±ë¿ë
-#include <iostream>
-
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "MouseInputManager.h"
@@ -62,9 +59,6 @@ void SceneCenter::RegisterScene(Scene* scene)
 
 void SceneCenter::InputProcess()
 {
-	/*if ( gKeyboardInputManager->ReadKey() != static_cast<int>(eKeyButton::NON_KEY))
-	{
-	}*/
 	gKeyboardInputManager->Update();
 }
 

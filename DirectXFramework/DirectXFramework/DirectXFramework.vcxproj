@@ -28,7 +28,11 @@
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
-    <ClCompile Include="cZealot.cpp" />
+    <ClCompile Include="Group.cpp" />
+    <ClCompile Include="OBB.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
@@ -61,7 +65,11 @@
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
-    <ClInclude Include="cZealot.h" />
+    <ClInclude Include="Group.h" />
+    <ClInclude Include="OBB.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />

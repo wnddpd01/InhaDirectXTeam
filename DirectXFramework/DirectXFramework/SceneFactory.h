@@ -2,6 +2,7 @@
 
 enum class eSceneName;
 class Scene;
+class Group;
 
 class SceneFactory
 {
@@ -10,5 +11,8 @@ public:
 	~SceneFactory();
 
 	Scene* CreateScene(eSceneName eSceneName);
+private:
+	vector<Group*> m_VecGroup;
+	
 };
 
