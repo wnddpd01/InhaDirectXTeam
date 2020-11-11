@@ -151,7 +151,7 @@ void QuarterMap::Render()
 	matWorld *= matScale;
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	gD3Device->SetMaterial(&mMaterial);
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	gD3Device->SetRenderState(D3DRS_LIGHTING, true);
 	gD3Device->SetTexture(0, mTextrue);
 	mMeshWall->DrawSubset(0);
 	//gD3Device->SetRenderState(D3DRS_LIGHTING, false);

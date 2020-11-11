@@ -58,6 +58,33 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
+
+
+
+		
+			D3DLIGHT9	stLight;
+			ZeroMemory(&stLight, sizeof(D3DLIGHT9));
+			stLight.Type = D3DLIGHT_DIRECTIONAL;
+			stLight.Ambient = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
+			stLight.Diffuse = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
+			stLight.Specular = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
+
+			D3DXVECTOR3  vDir(1.0f, -1.0f, 1.0f);
+			D3DXVec3Normalize(&vDir, &vDir);
+			stLight.Direction = vDir;
+			gD3Device->SetLight(0, &stLight);
+			gD3Device->LightEnable(0, true);
+	
+
+
+
+
+
+
+
+
+
+		
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "QuarterHeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
