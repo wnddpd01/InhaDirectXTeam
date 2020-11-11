@@ -60,6 +60,16 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 	D3DXMATRIXA16 matT;
 	D3DXMatrixIdentity(&matT);
 	static D3DXVECTOR3 prevPosition = m_vPosition;
+	static D3DXVECTOR3 prevPosition2 = m_vPosition;
+
+	if(isCollision)
+	{
+		m_vPosition = prevPosition2;
+	}
+	else
+	{
+		prevPosition2 = m_vPosition;
+	}
 	
 	switch (eventName)
 	{
@@ -182,7 +192,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 	
 	cout << mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) << endl;
 	
-	if(mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) > 19.0f || isCollision)
+	if(mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) > 19.0f)
 	{
 		m_vPosition = prevPosition;
 	}

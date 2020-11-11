@@ -156,9 +156,9 @@ void cSkinnedMesh::Update()
 	m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
 	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
 	
-	if(GetTickCount() - m_animationStartTime > curAnimSet->GetPeriod() * 1000 - 500)
+	if(GetTickCount() - m_animationStartTime > curAnimSet->GetPeriod() * 1000)
 	{
-		SetAnimationIndexBlend(4);
+		SetAnimationIndexBlend(3);
 	}
 	
 	Update(m_pRoot, NULL);

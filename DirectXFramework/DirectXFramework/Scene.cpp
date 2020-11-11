@@ -74,18 +74,17 @@ void Scene::Update()
 		{
 			for (auto checkObject : mGameObjects)
 			{
-				if ((checkObject.first == "Desk") || (checkObject.first == "Door"))
+				if (checkObject.first == "Desk" || checkObject.first == "Door")
 				{
-					if (OBB::IsCollision(
-						((PlayerCharacter*)gameObject.second)->GetOBB(),
-						((StaticObject*)checkObject.second)->GetOBB()))
+					if (OBB::IsCollision( ( (PlayerCharacter*)gameObject.second )->GetOBB(), ( (StaticObject*)checkObject.second )->GetOBB() )  )
 					{
-						cout << "충돌" << endl;
 						((PlayerCharacter*)gameObject.second)->SetCollsion(TRUE);
+						cout << "충돌" << endl;
+						break;
 					}
 					else
 					{
-						
+						( (PlayerCharacter*)gameObject.second)->SetCollsion(FALSE);
 					}
 				}
 			}
@@ -99,7 +98,8 @@ void Scene::Update()
 	}
 	
 
-	gSoundManager->Update();}
+	gSoundManager->Update();
+}
 
 void Scene::Render()
 {

@@ -62,7 +62,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		quarterMap->Setup("HeightMapData/", "QuarterHeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
 
-
 		StaticObject* desk = new StaticObject;
 		desk->Setup("desk.obj", "Texture/DeskWood.png", { 9.f, 0.5f, 2.f });
 		newScene->mGameObjects.insert({ "Desk", desk });
