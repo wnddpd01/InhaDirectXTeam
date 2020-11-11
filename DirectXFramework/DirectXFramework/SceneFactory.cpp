@@ -64,11 +64,11 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 
 		StaticObject* desk = new StaticObject;
-		desk->Setup("desk.obj", "Texture/DeskWood.png", { 4.5f, 0, 1.f });
+		desk->Setup("desk.obj", "Texture/DeskWood.png", { 9.f, 0.5f, 2.f });
 		newScene->mGameObjects.insert({ "Desk", desk });
 		
 		StaticObject* door = new StaticObject;
-		door->Setup("door.obj", "Texture/DoorWood.jpg", { 4.5f, 0, 7.f });
+		door->Setup("door.obj", "Texture/DoorWood.jpg", { 9.f, 1.5f, 14.f });
 		newScene->mGameObjects.insert({ "Door", door });
 		
 		PlayerCharacter* player = new PlayerCharacter;
