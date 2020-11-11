@@ -4,11 +4,6 @@
 
 #define gMouseInputManager MouseInputManager::GetInstance()
 
-struct isMouseState
-{
-	
-};
-
 class MouseInputManager : public Singleton<MouseInputManager>
 {
 public:

@@ -71,22 +71,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		door->Setup("door.obj", "Texture/DoorWood.jpg", { 4.5f, 0, 7.f });
 		newScene->mGameObjects.insert({ "Door", door });
 		
-		/*
-		cObjLoader* box = new cObjLoader;
-		box->Load(m_VecGroup, "obj", "box.obj");
-		newScene->mGameObjects.insert(make_pair("box", box));
-		box->Obj_Render(m_VecGroup);
-
-	
-		cObjLoader* door = new cObjLoader;
-
-		box->Load(m_VecGroup, "obj", "box.obj");
-		newScene->mGameObjects.insert(make_pair("door", door));
-
-		cObjLoader* desk = new cObjLoader;
-		box->Load(m_VecGroup, "obj", "box.obj");
-		newScene->mGameObjects.insert(make_pair("desk", desk));*/
-		
 		PlayerCharacter* player = new PlayerCharacter;
 		player->Setup();
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);

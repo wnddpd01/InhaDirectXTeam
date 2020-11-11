@@ -17,6 +17,8 @@ public:
 
 	D3DXVECTOR3 & GetPosition();
 
+	void SetCollsion(bool Collision);
+	
 	PlayerCharacter();
 	virtual ~PlayerCharacter();
 private:
@@ -27,5 +29,6 @@ private:
 	D3DXVECTOR3 m_vPosition;
 	D3DXMATRIXA16 m_matWorld;
 	D3DXMATRIXA16 matR;
+	bool isCollision;
 };
 

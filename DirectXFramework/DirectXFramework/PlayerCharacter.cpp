@@ -8,7 +8,7 @@
 PlayerCharacter::PlayerCharacter()
 	: m_pSkinnedMesh(NULL)
 	, m_pOBB(NULL)
-	, m_vPosition(3, 0, 0)
+	, m_vPosition(5, 0, 2)
 	, m_vDirection(0, 0, -1)
 	, mQuarterMap(nullptr)
 {
@@ -58,9 +58,8 @@ void PlayerCharacter::Render()
 bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 {
 	D3DXMATRIXA16 matT;
-	static D3DXVECTOR3 prevPosition = m_vPosition;
 	D3DXMatrixIdentity(&matT);
-	
+	static D3DXVECTOR3 prevPosition = m_vPosition;
 	
 	switch (eventName)
 	{
@@ -89,7 +88,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 						break;
 					case eKeyName::KEY_BACK_DOWN :
 						{
-							m_vPosition -= (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition -= (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 						}
 						break;
 					case eKeyName::KEY_LEFT_DOWN:
@@ -97,7 +96,7 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, -(90 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, +(90 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
@@ -107,47 +106,47 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, +(90*(D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, -(90 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
 						break;
-					case eKeyName::KEY_FRONTRIGHT_DOWN:
+					case eKeyName::KEY_FRONT_RIGHT_DOWN:
 						{
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, +(45 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, -(45 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
 						break;
-					case eKeyName::KEY_FRONTLEFT_DOWN:
+					case eKeyName::KEY_FRONT_LEFT_DOWN:
 						{
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, -(45 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, +(45 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
 						break;
-					case eKeyName::KEY_BACKRIGHT_DOWN:
+					case eKeyName::KEY_BACK_RIGHT_DOWN:
 						{
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, +(135 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, -(135 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
 						break;
-					case eKeyName::KEY_BACKLEFT_DOWN:
+					case eKeyName::KEY_BACK_LEFT_DOWN:
 						{
 							D3DXMATRIXA16 matR;
 							D3DXMatrixRotationY(&matR, -(135 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
-							m_vPosition += (m_vDirection * 1.5f) * gTimeManager->GetDeltaTime();
+							m_vPosition += (m_vDirection * 4.f) * gTimeManager->GetDeltaTime();
 							D3DXMatrixRotationY(&matR, +(135 * (D3DX_PI / 180)));
 							D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 						}
@@ -162,12 +161,12 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 
 						}
 						break;
-					case eKeyName::KEY_EQUIPCHAGELFFT_DOWN:
+					case eKeyName::KEY_EQUIP_CHAGE_LFFT_DOWN:
 						{
 
 						}
 						break;
-					case eKeyName::KEY_EQUIPCHAGERIGHT_DOWN:
+					case eKeyName::KEY_EQUIP_CHAGE_RIGHT_DOWN:
 						{
 
 						}
@@ -180,20 +179,21 @@ bool PlayerCharacter::Update(eEventName eventName, void* parameter)
 		default:
 			break;
 	}
+	
 	cout << mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) << endl;
 	
-	if(mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) > 19.0f)
+	if(mQuarterMap->GetHeight(m_vPosition.x, m_vPosition.z) > 19.0f || isCollision)
 	{
 		m_vPosition = prevPosition;
-		D3DXMatrixIdentity(&matT);
 	}
 	else
 	{
 		prevPosition = m_vPosition;
+		D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		m_matWorld = matR * matT;
 	}
 
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_matWorld = matR * matT;
+	
 	
 	return true;
 }
@@ -206,4 +206,9 @@ OBB * PlayerCharacter::GetOBB()
 D3DXVECTOR3& PlayerCharacter::GetPosition()
 {
 	return m_vPosition;
+}
+
+void PlayerCharacter::SetCollsion(bool Collision)
+{
+	isCollision = Collision;
 }

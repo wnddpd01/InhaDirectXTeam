@@ -81,6 +81,7 @@ void Scene::Update()
 						((StaticObject*)checkObject.second)->GetOBB()))
 					{
 						cout << "Ãæµ¹" << endl;
+						((PlayerCharacter*)gameObject.second)->SetCollsion(TRUE);
 					}
 					else
 					{

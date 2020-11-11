@@ -99,22 +99,22 @@ void KeyboardInputManager::Update()
 	
 	if(mKeyState.bFrontKey == TRUE && mKeyState.bLeftKey == TRUE)
 	{
-		keyName = eKeyName::KEY_FRONTLEFT_DOWN;
+		keyName = eKeyName::KEY_FRONT_LEFT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	else if (mKeyState.bFrontKey == TRUE && mKeyState.bRightKey == TRUE)
 	{
-		keyName = eKeyName::KEY_FRONTRIGHT_DOWN;
+		keyName = eKeyName::KEY_FRONT_RIGHT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	else if (mKeyState.bBackKey == TRUE && mKeyState.bLeftKey == TRUE)
 	{
-		keyName = eKeyName::KEY_BACKLEFT_DOWN;
+		keyName = eKeyName::KEY_BACK_LEFT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	else if (mKeyState.bBackKey == TRUE && mKeyState.bRightKey == TRUE)
 	{
-		keyName = eKeyName::KEY_BACKRIGHT_DOWN;
+		keyName = eKeyName::KEY_BACK_RIGHT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	else if (mKeyState.bFrontKey == TRUE)
@@ -140,12 +140,12 @@ void KeyboardInputManager::Update()
 
 	if(mKeyState.bEquipmentChangeLeft == TRUE)
 	{
-		keyName = eKeyName::KEY_EQUIPCHAGELFFT_DOWN;
+		keyName = eKeyName::KEY_EQUIP_CHAGE_LFFT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	if (mKeyState.bEquipmentChangeRight == TRUE)
 	{
-		keyName = eKeyName::KEY_EQUIPCHAGERIGHT_DOWN;
+		keyName = eKeyName::KEY_EQUIP_CHAGE_RIGHT_DOWN;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
 	if (mKeyState.bInteractionKey == TRUE)

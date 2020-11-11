@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KeyboardInputManager">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAACAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>KeyboardInputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseInputManager">
+    <Position X="10" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>MouseInputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="KeyState">
+    <Position X="4.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAACBAAAAQAABAAAAAgIABAABAA=</HashCode>
+      <FileName>KeyboardInputManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="eKeyName">
+    <Position X="6.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACABBEAAAAAQAEAAAAAAAABAAAAAkAAgAAEAAAAAEA=</HashCode>
+      <FileName>KeyboardInputManager.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>
