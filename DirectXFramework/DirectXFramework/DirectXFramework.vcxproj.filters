@@ -104,6 +104,9 @@
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cZealot.cpp" />
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -179,5 +182,8 @@
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cZealot.h" />
+    <ClInclude Include="MeshObject.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
