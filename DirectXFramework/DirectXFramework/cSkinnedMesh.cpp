@@ -156,15 +156,9 @@ void cSkinnedMesh::Update()
 	m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
 	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
 	
-	if(GetTickCount() - m_animationStartTime > curAnimSet->GetPeriod() * 1000)
-	{
-		SetAnimationIndexBlend(3);
-	}
-	
 	Update(m_pRoot, NULL);
 	UpdateSkinnedMesh(m_pRoot);
 	SAFE_RELEASE(curAnimSet);
-
 }
 
 void cSkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
@@ -193,9 +187,7 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 {
 	if (pFrame == NULL)
 		pFrame = m_pRoot;
-	
 	ST_BONE * pBone = (ST_BONE*)pFrame;
-	
 	if(pBone->pMeshContainer)
 	{
 		ST_BONE_MESH * pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
@@ -312,8 +304,6 @@ void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
 	m_pAnimController->SetTrackPosition(0, 0.0f);
 
-	if(pNextAnimSet)
-		cout << nIndex << " " << pNextAnimSet->GetName() << endl;
 
 	m_pAnimController->SetTrackWeight(0, 0.0f);
 	m_pAnimController->SetTrackWeight(1, 1.0f);

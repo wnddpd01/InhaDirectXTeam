@@ -26,6 +26,3 @@ bool UIBase::Update(eEventName eventName, void* parameter)
 	return EventProcess(eventName, parameter, this);
 }
 
-void UIBase::Render()
-{
-}

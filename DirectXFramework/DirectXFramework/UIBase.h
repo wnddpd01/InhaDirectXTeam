@@ -62,5 +62,4 @@ public:
 
 	function<bool(eEventName, void*, UIBase *)> EventProcess;
 	bool Update(eEventName eventName, void* parameter) override;
-	virtual void Render() override;
 };

@@ -3,10 +3,7 @@
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "QuarterMap.h"
-#include "PlayerCharacter.h"
-#include "StaticObject.h"
-#include "cObjLoader.h"
-#include "Group.h"
+#include "cZealot.h"
 
 SceneFactory::SceneFactory()
 {
@@ -58,51 +55,16 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-
-
-
-		
-			D3DLIGHT9	stLight;
-			ZeroMemory(&stLight, sizeof(D3DLIGHT9));
-			stLight.Type = D3DLIGHT_DIRECTIONAL;
-			stLight.Ambient = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
-			stLight.Diffuse = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
-			stLight.Specular = D3DXCOLOR(0.8F, 0.8F, 0.8F, 1.0F);
-
-			D3DXVECTOR3  vDir(1.0f, -1.0f, 1.0f);
-			D3DXVec3Normalize(&vDir, &vDir);
-			stLight.Direction = vDir;
-			gD3Device->SetLight(0, &stLight);
-			gD3Device->LightEnable(0, true);
-	
-
-
-
-
-
-
-
-
-
-		
 		QuarterMap * quarterMap = new QuarterMap;
-		quarterMap->Setup("HeightMapData/", "QuarterHeightMap.raw", "StoneTiles.jpg");
+		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
 
-		StaticObject* desk = new StaticObject;
-		desk->Setup("desk.obj", "Texture/DeskWood.png", { 9.f, 0.5f, 2.f });
-		newScene->mGameObjects.insert({ "Desk", desk });
-		
-		StaticObject* door = new StaticObject;
-		door->Setup("door.obj", "Texture/DoorWood.jpg", { 9.f, 1.5f, 14.f });
-		newScene->mGameObjects.insert({ "Door", door });
-		
-		PlayerCharacter* player = new PlayerCharacter;
-		player->Setup();
-		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
-		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		newScene->mGameObjects.insert(make_pair("player", player));
-		newScene->mCamera->Setup(&player->GetPosition());
+		cZealot* zealot = new cZealot;
+		zealot->Setup();
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, zealot);
+		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, zealot);
+		newScene->mGameObjects.insert(make_pair("player", zealot));
+
 	}
 	return newScene;
 }

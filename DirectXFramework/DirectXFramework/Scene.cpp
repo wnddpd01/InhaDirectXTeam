@@ -1,20 +1,15 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "BaseObject.h"
-#include "OBB.h"
-#include "PlayerCharacter.h"
 #include "UIImage.h"
 #include "UIEventListener.h"
 #include "QuarterMap.h"
-#include "StaticObject.h"
 
 
 Scene::Scene()
 {
-	static D3DXVECTOR3 tempTarget = D3DXVECTOR3(5, 1, -5);
 	mCamera = new Camera;
-	mCamera->Setup(&tempTarget);
-	
+	mCamera->Setup();
 	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
 	AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
 }
@@ -67,45 +62,18 @@ void Scene::Update()
 		gameObject.second->Update();
 	}
 
-	//임시 충돌체크
-	for (auto gameObject : mGameObjects)
-	{
-		if(gameObject.first == "player")
-		{
-			for (auto checkObject : mGameObjects)
-			{
-				if (checkObject.first == "Desk" || checkObject.first == "Door")
-				{
-					if (OBB::IsCollision( ( (PlayerCharacter*)gameObject.second )->GetOBB(), ( (StaticObject*)checkObject.second )->GetOBB() )  )
-					{
-						((PlayerCharacter*)gameObject.second)->SetCollsion(TRUE);
-						cout << "충돌" << endl;
-						break;
-					}
-					else
-					{
-						( (PlayerCharacter*)gameObject.second)->SetCollsion(FALSE);
-					}
-				}
-			}
-		}
-	}
-
-	
 	for (auto gameUI : mGameUIs)
 	{
 		gameUI.second->Update();
 	}
-	
 
-	gSoundManager->Update();
-}
+	gSoundManager->Update();}
 
 void Scene::Render()
 {
 	gD3Device->Clear(0, nullptr,
 	                 D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-	                 D3DCOLOR_XRGB(150, 150, 150),
+	                 D3DCOLOR_XRGB(255, 255, 255),
 	                 1.0F, 0);
 	gD3Device->BeginScene();
 

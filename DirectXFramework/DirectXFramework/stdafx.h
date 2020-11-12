@@ -19,6 +19,7 @@
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
 
+
 #ifdef _WIN64
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3dx9.lib")
@@ -27,9 +28,17 @@
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
 #endif
 
+
+#ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=NULL; } }
+#endif    
+#ifndef SAFE_DELETE_ARRAY
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);   (p)=NULL; } }
+#endif    
+#ifndef SAFE_RELEASE
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
+#endif
+
 
 struct Vertex
 {
@@ -50,23 +59,6 @@ struct Vertex
 
 		return true;
 	}
-	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
-};
-
-struct ST_PC_VERTEX
-{
-	D3DXVECTOR3 p;
-	D3DCOLOR c;
-
-	enum { FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE };
-};
-
-struct ST_PNT_VERTEX
-{
-	D3DXVECTOR3 p;
-	D3DXVECTOR3 n;
-	D3DXVECTOR2 t;
-
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
 };
 
@@ -140,18 +132,6 @@ namespace std
 }
 
 
-
-#include <unordered_map>
-#include <dinput.h>
-
-#pragma comment(lib, "dinput8")
-#pragma comment(lib, "dxguid")
-
-using namespace std;
-
-
-#include "fmod/fmod.hpp"
-#pragma comment(lib, "fmod/fmodex_vc.lib")
 #define SafeAddRef(p)	{if(p) p->AddRef() ; }
 
 #define Synthesize(varType , varName , funName) \
@@ -175,9 +155,31 @@ public : virtual void Set##funName(varType var ) { \
 protected : varType varName ; \
 public : inline varType& Get##funName(void)  { return varName ; } \
 public : inline void Set##funName(varType& var) { varName = var ; }
+
+#include <unordered_map>
+
+#include <dinput.h>
+
+#pragma comment(lib, "dinput8")
+#pragma comment(lib, "dxguid")
+
+using namespace std;
+
+#include "fmod/fmod.hpp"
+#pragma comment(lib, "fmod/fmodex_vc.lib")
+
+
+
 #include "UIEventListener.h"
 #include "TimeManager.h"
 #include "DeviceManager.h"
 #include "TextureManager.h"
 #include "SoundManager.h"
-#include "ObjectManager.h"
+
+inline string to_string(D3DXVECTOR3 & vec3)
+{
+	string ret = "x : " + to_string(vec3.x) +
+		",y : " + to_string(vec3.y) +
+		",z : " + to_string(vec3.z);
+	return ret;
+}

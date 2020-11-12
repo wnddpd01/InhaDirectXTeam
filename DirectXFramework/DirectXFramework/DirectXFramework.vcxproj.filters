@@ -104,9 +104,13 @@
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cZealot.cpp" />
+    <ClCompile Include="CharacterState.cpp" />
+    <ClCompile Include="IdleCharacterState.cpp" />
+    <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="MeshObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
+    <ClCompile Include="InteractCharacterState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -182,8 +186,12 @@
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cZealot.h" />
+    <ClInclude Include="CharacterState.h" />
+    <ClInclude Include="IdleCharacterState.h" />
+    <ClInclude Include="WalkCharacterState.h" />
     <ClInclude Include="MeshObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
+    <ClInclude Include="InteractCharacterState.h" />
   </ItemGroup>
 </Project>

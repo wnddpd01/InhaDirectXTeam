@@ -1,161 +1,110 @@
 #include "stdafx.h"
 #include "KeyboardInputManager.h"
 
-bool KeyboardInputManager::ChangeKeyState()
+KeyboardInputManager::KeyboardInputManager()
+	: mKeyState(0)
+	, mPrevKeyState(0)
 {
+}
+
+void KeyboardInputManager::ChangeKeyState()
+{
+	mKeyState = 0;
 	if (GetKeyState('W') & 0x8000)
 	{
-		mKeyState.bFrontKey = TRUE;
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_FRONT;
 	}
-	else
-	{
-		mKeyState.bFrontKey = FALSE;
-	}
-	
 	if (GetKeyState('S') & 0x8000)
 	{
-		mKeyState.bBackKey = TRUE;
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_BACK;
 	}
-	else
-	{
-		mKeyState.bBackKey = FALSE;
-	}
-	
 	if (GetKeyState('A') & 0x8000)
 	{
-		mKeyState.bLeftKey = TRUE;
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_LEFT;
 	}
-	else
-	{
-		mKeyState.bLeftKey = FALSE;
-	}
-	
 	if (GetKeyState('D') & 0x8000)
 	{
-		mKeyState.bRightKey = TRUE;
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_RIGHT;
 	}
-	else
-	{
-		mKeyState.bRightKey = FALSE;
-	}
-	
 	if (GetKeyState('Q') & 0x8000)
 	{
-		mKeyState.bEquipmentChangeLeft = TRUE;
 	}
-	else
-	{
-		mKeyState.bEquipmentChangeLeft = FALSE;
-	}
-
 	if (GetKeyState('E') & 0x8000)
 	{
-		mKeyState.bEquipmentChangeRight = TRUE;
 	}
-	else
-	{
-		mKeyState.bEquipmentChangeRight = FALSE;
-	}
-
 	if (GetKeyState(VK_ESCAPE) & 0x8000)
 	{
-		mKeyState.bInteractionKey = TRUE;
 	}
-	else
-	{
-		mKeyState.bInteractionKey = FALSE;
-	}
-
 	if (GetKeyState(VK_SHIFT) & 0x8000)
 	{
-		mKeyState.bRunKey = TRUE;
 	}
-	else
-	{
-		mKeyState.bRunKey = FALSE;
-	}
-
-
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
-		mKeyState.bInteractionKey = TRUE;
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_INTERACTION;
 	}
-	else
-	{
-		mKeyState.bInteractionKey = FALSE;
-	}
-
-	return mKeyState.isAllFalse();
 }
 
 void KeyboardInputManager::Update()
 {
-	if(ChangeKeyState())
-	{
-		return;
-	}
+	ChangeKeyState();
 	
-	eKeyName keyName;
-	
-	if(mKeyState.bFrontKey == TRUE && mKeyState.bLeftKey == TRUE)
+	bool prevKey = false;
+	bool curKey = false;
+	eKeyName keyName;;
+
+	if((curKey = (mKeyState & (UINT)eKeyName::KEY_FRONT)))
 	{
-		keyName = eKeyName::KEY_FRONT_LEFT_DOWN;
+		keyName = eKeyName::KEY_FRONT;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
-	else if (mKeyState.bFrontKey == TRUE && mKeyState.bRightKey == TRUE)
+	else if((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_FRONT)))
 	{
-		keyName = eKeyName::KEY_FRONT_RIGHT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bBackKey == TRUE && mKeyState.bLeftKey == TRUE)
-	{
-		keyName = eKeyName::KEY_BACK_LEFT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bBackKey == TRUE && mKeyState.bRightKey == TRUE)
-	{
-		keyName = eKeyName::KEY_BACK_RIGHT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bFrontKey == TRUE)
-	{
-		keyName = eKeyName::KEY_FRONT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bBackKey == TRUE)
-	{
-		keyName = eKeyName::KEY_BACK_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bRightKey == TRUE)
-	{
-		keyName = eKeyName::KEY_RIGHT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
-	}
-	else if (mKeyState.bLeftKey == TRUE)
-	{
-		keyName = eKeyName::KEY_LEFT_DOWN;
-		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
+		keyName = eKeyName::KEY_FRONT;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
 	}
 
-	if(mKeyState.bEquipmentChangeLeft == TRUE)
+	if ((curKey = (mKeyState & (UINT)eKeyName::KEY_BACK)))
 	{
-		keyName = eKeyName::KEY_EQUIP_CHAGE_LFFT_DOWN;
+		keyName = eKeyName::KEY_BACK;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
-	if (mKeyState.bEquipmentChangeRight == TRUE)
+	else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_BACK)))
 	{
-		keyName = eKeyName::KEY_EQUIP_CHAGE_RIGHT_DOWN;
+		keyName = eKeyName::KEY_BACK;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+	}
+
+	if ((curKey = (mKeyState & (UINT)eKeyName::KEY_LEFT)))
+	{
+		keyName = eKeyName::KEY_LEFT;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
-	if (mKeyState.bInteractionKey == TRUE)
+	else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_LEFT)))
 	{
-		keyName = eKeyName::KEY_INTERACTION_DOWN;
+		keyName = eKeyName::KEY_LEFT;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+	}
+
+	if ((curKey = (mKeyState & (UINT)eKeyName::KEY_RIGHT)))
+	{
+		keyName = eKeyName::KEY_RIGHT;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
-	if (mKeyState.bRunKey == TRUE)
+	else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_RIGHT)))
 	{
-		keyName = eKeyName::KEY_RUN_DOWN;
+		keyName = eKeyName::KEY_RIGHT;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+	}
+
+	if ((curKey = (mKeyState & (UINT)eKeyName::KEY_INTERACTION)))
+	{
+		keyName = eKeyName::KEY_INTERACTION;
 		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
 	}
+	else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_INTERACTION)))
+	{
+		keyName = eKeyName::KEY_INTERACTION;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+	}
+	mPrevKeyState = mKeyState;
 }

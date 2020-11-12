@@ -13,7 +13,8 @@ private:
 	float mCameraDistance;
 	D3DXVECTOR3 mCamRotAngle;
 public:
-	void Setup(D3DXVECTOR3* target);
+	void SetTarget(D3DXVECTOR3 * target);
+	void Setup();
 	void Update();
 
 	bool Update(eEventName eventName, void* parameter) override;
