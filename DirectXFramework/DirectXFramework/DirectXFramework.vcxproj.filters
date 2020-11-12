@@ -100,17 +100,36 @@
     <ClCompile Include="AnimatingObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp" />
-    <ClCompile Include="cSkinnedMesh.cpp" />
-    <ClCompile Include="cSkinnedMeshManager.cpp" />
-    <ClCompile Include="cZealot.cpp" />
-    <ClCompile Include="CharacterState.cpp" />
-    <ClCompile Include="IdleCharacterState.cpp" />
-    <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="MeshObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
-    <ClCompile Include="InteractCharacterState.cpp" />
+    <ClCompile Include="Base3DObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterState.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cZealot.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleCharacterState.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractCharacterState.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCharacterState.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -182,16 +201,35 @@
     <ClInclude Include="AnimatingObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h" />
-    <ClInclude Include="cSkinnedMesh.h" />
-    <ClInclude Include="cSkinnedMeshManager.h" />
-    <ClInclude Include="cZealot.h" />
-    <ClInclude Include="CharacterState.h" />
-    <ClInclude Include="IdleCharacterState.h" />
-    <ClInclude Include="WalkCharacterState.h" />
     <ClInclude Include="MeshObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
-    <ClInclude Include="InteractCharacterState.h" />
+    <ClInclude Include="Base3DObject.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCharacterState.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cZealot.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleCharacterState.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractCharacterState.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

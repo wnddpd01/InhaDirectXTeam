@@ -1,17 +1,15 @@
 #pragma once
+#include "Base3DObject.h"
 
 class cSkinnedMesh;
 class CharacterState;
 
-class cZealot : public BaseObject, public BaseObserver
+class cZealot : public Base3DObject, public BaseObserver
 {
 	CharacterState* mCurState;
 
 	D3DXVECTOR3 mMoveVelocity;
 
-	D3DXQUATERNION mRot;
-
-	D3DXVECTOR3 mPos;
 
 	void StateChange(CharacterState * nextState);
 public:

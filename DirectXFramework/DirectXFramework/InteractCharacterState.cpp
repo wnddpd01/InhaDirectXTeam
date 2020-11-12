@@ -27,7 +27,7 @@ void InteractCharacterState::Enter(cZealot& zealot)
 
 CharacterState* InteractCharacterState::Update(cZealot& zealot)
 {
-	if(GetTickCount() - interactStartTime > (AnimationPeriod -  zealot.GetSkinnedMesh()->GetBlendTime()) * 1000 )
+	if(GetTickCount() - interactStartTime > (AnimationPeriod -  zealot.GetSkinnedMesh()->GetBlendTime() - 0.1f) * 1000 )
 	{
 		return new IdleCharacterState;
 	}

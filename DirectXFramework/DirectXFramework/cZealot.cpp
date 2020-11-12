@@ -114,12 +114,11 @@ void cZealot::SetAnimationSpeed(FLOAT spd)
 
 cZealot::cZealot()
 	:m_pSkinnedMesh(nullptr)
-	,mPos(0,0,0)
 	,mCurState(nullptr)
 	,mMoveVelocity(0,0,0)
 {
 	D3DXVECTOR3 yAxis = { 0, 1, 0 };
-	float yAngle = D3DX_PI;
+	float yAngle = D3DX_PI * 1.75f;
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 }
 

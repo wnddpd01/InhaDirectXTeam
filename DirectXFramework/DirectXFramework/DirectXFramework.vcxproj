@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatingObject.cpp" />
+    <ClCompile Include="Base3DObject.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseObserver.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
@@ -58,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatingObject.h" />
+    <ClInclude Include="Base3DObject.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
