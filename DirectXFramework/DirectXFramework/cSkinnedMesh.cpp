@@ -156,12 +156,9 @@ void cSkinnedMesh::Update()
 	m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
 	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
 	
-
-	
 	Update(m_pRoot, NULL);
 	UpdateSkinnedMesh(m_pRoot);
 	SAFE_RELEASE(curAnimSet);
-
 }
 
 void cSkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)

@@ -5,6 +5,13 @@
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
 
+void cZealot::StateChange(CharacterState* nextState)
+{
+	SAFE_DELETE(mCurState);
+	mCurState = nextState;
+	mCurState->Enter(*this);
+}
+
 void cZealot::Setup()
 {
 	m_pSkinnedMesh = new cSkinnedMesh("Zealot", "zealot.X");
@@ -33,9 +40,7 @@ void cZealot::Update()
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
 	{
-		SAFE_DELETE(mCurState);
-		mCurState = retState;
-		mCurState->Enter(*this);
+		StateChange(retState);
 	}
 	m_pSkinnedMesh->Update();
 }
@@ -58,9 +63,7 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 				CharacterState * retState =  mCurState->HandleInput(*this, eventName,key);
 				if(retState != nullptr)
 				{
-					SAFE_DELETE(mCurState);
-					mCurState = retState;
-					mCurState->Enter(*this);
+					StateChange(retState);
 				}
 				/*switch (key)
 				{
@@ -102,6 +105,11 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 	}
 
 	return true;
+}
+
+void cZealot::SetAnimationSpeed(FLOAT spd)
+{
+	m_pSkinnedMesh->m_pAnimController->SetTrackSpeed(0, spd);
 }
 
 cZealot::cZealot()

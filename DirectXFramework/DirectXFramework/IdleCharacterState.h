@@ -4,6 +4,8 @@ class IdleCharacterState :
 	public CharacterState
 {
 	D3DXVECTOR3 mMoveVelocity;
+	DWORD idleStartTime;
+	bool mbAnimationChanged;
 public:
 	IdleCharacterState();
 	~IdleCharacterState();

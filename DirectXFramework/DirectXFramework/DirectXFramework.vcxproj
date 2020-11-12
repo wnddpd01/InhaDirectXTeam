@@ -34,6 +34,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="IdleCharacterState.cpp" />
+    <ClCompile Include="InteractCharacterState.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="IdleCharacterState.h" />
+    <ClInclude Include="InteractCharacterState.h" />
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="MouseInputManager.h" />

@@ -5,7 +5,6 @@ class CharacterState;
 
 class cZealot : public BaseObject, public BaseObserver
 {
-	cSkinnedMesh* m_pSkinnedMesh;
 	CharacterState* mCurState;
 
 	D3DXVECTOR3 mMoveVelocity;
@@ -13,7 +12,10 @@ class cZealot : public BaseObject, public BaseObserver
 	D3DXQUATERNION mRot;
 
 	D3DXVECTOR3 mPos;
+
+	void StateChange(CharacterState * nextState);
 public:
+	cSkinnedMesh* m_pSkinnedMesh;
 	D3DXQUATERNION& GetRotRef()
 	{
 		return mRot;
@@ -44,6 +46,7 @@ public:
 		return m_pSkinnedMesh;
 	}
 
+	void SetAnimationSpeed(FLOAT spd);
 	
 	cZealot();
 	virtual ~cZealot();

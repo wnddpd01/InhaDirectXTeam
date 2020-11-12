@@ -4,6 +4,7 @@
 #include "cSkinnedMesh.h"
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
+#include "InteractCharacterState.h"
 
 WalkCharacterState::WalkCharacterState()
 {
@@ -27,23 +28,33 @@ CharacterState* WalkCharacterState::HandleInput(cZealot& zealot, eEventName even
 	{
 		switch (key)
 		{
+			case eKeyName::KEY_INTERACTION :
+				{
+					zealot.SetMoveVelocity(D3DXVECTOR3(0,0,0));
+					return new InteractCharacterState;
+				}
+				break;
 			case eKeyName::KEY_FRONT:
 				{
 					mMoveVelocity.z += 1;
+					mMoveVelocity.x += 1;
 				}
 				break;
 			case eKeyName::KEY_BACK:
 				{
 					mMoveVelocity.z -= 1;
+					mMoveVelocity.x -= 1;
 				}
 				break;
 			case eKeyName::KEY_LEFT:
 				{
+					mMoveVelocity.z += 1;
 					mMoveVelocity.x -= 1;
 				}
 				break;
 			case eKeyName::KEY_RIGHT:
 				{
+					mMoveVelocity.z -= 1;
 					mMoveVelocity.x += 1;
 				}
 				break;
