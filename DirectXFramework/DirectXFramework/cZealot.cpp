@@ -2,15 +2,41 @@
 #include "cZealot.h"
 #include "cSkinnedMesh.h"
 #include "KeyboardInputManager.h"
+#include "IdleCharacterState.h"
+#include "WalkCharacterState.h"
 
 void cZealot::Setup()
 {
 	m_pSkinnedMesh = new cSkinnedMesh("Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
+	
+	m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM;
+	mCurState = new IdleCharacterState;
+	mCurState->Enter(*this);
 }
 
 void cZealot::Update()
 {
+	D3DXMATRIXA16 matWorld, matR, matT;
+
+
+	if (D3DXVec3Length(&mMoveVelocity) != 0)
+	{
+		mPos += mMoveVelocity;
+	}
+	D3DXMatrixRotationQuaternion(&matR, &mRot);
+	D3DXMatrixTranslation(&matT, mPos.x, mPos.y, mPos.z);
+	matWorld = matR * matT;
+	m_pSkinnedMesh->SetTransform(&matWorld);
+
+	
+	CharacterState * retState = mCurState->Update(*this);
+	if (retState != nullptr)
+	{
+		SAFE_DELETE(mCurState);
+		mCurState = retState;
+		mCurState->Enter(*this);
+	}
 	m_pSkinnedMesh->Update();
 }
 
@@ -25,9 +51,18 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 	switch (eventName)
 	{
 		case eEventName::KEY_DOWN:
+		case eEventName::KEY_UP:
 			{
 				eKeyName key = *(eKeyName*)parameter;
-				switch (key)
+				
+				CharacterState * retState =  mCurState->HandleInput(*this, eventName,key);
+				if(retState != nullptr)
+				{
+					SAFE_DELETE(mCurState);
+					mCurState = retState;
+					mCurState->Enter(*this);
+				}
+				/*switch (key)
 				{
 					case eKeyName::KEY_FRONT_DOWN :
 						{
@@ -59,7 +94,7 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 						break;
 					default:
 						break;
-				}
+				}*/
 			}
 			break;
 		default:
@@ -69,9 +104,15 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 	return true;
 }
 
-
-cZealot::cZealot() : m_pSkinnedMesh(NULL)
+cZealot::cZealot()
+	:m_pSkinnedMesh(nullptr)
+	,mPos(0,0,0)
+	,mCurState(nullptr)
+	,mMoveVelocity(0,0,0)
 {
+	D3DXVECTOR3 yAxis = { 0, 1, 0 };
+	float yAngle = D3DX_PI;
+	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 }
 
 

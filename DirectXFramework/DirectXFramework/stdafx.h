@@ -176,3 +176,10 @@ using namespace std;
 #include "TextureManager.h"
 #include "SoundManager.h"
 
+inline string to_string(D3DXVECTOR3 & vec3)
+{
+	string ret = "x : " + to_string(vec3.x) +
+		",y : " + to_string(vec3.y) +
+		",z : " + to_string(vec3.z);
+	return ret;
+}

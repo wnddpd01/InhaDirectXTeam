@@ -8,9 +8,8 @@
 
 Scene::Scene()
 {
-	static D3DXVECTOR3 tempTarget = D3DXVECTOR3(0, 1, 0);
 	mCamera = new Camera;
-	mCamera->Setup(&tempTarget);
+	mCamera->Setup();
 	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
 	AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
 }

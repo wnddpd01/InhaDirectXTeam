@@ -17,10 +17,8 @@ Camera::~Camera()
 {
 }
 
-void Camera::Setup(D3DXVECTOR3* target)
+void Camera::Setup()
 {
-	mTarget = target;
-
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
 
@@ -29,6 +27,11 @@ void Camera::Setup(D3DXVECTOR3* target)
 	//D3DXMatrixOrthoLH(&matProj, (float)(viewPort.Height) * (float)(viewPort.Height) / viewPort.Width, 1.f / tan(D3DX_PI / 8.0F ), 0, 10.f); // 직교 투영
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
+}
+
+void Camera::SetTarget(D3DXVECTOR3* target)
+{
+	mTarget = target;
 }
 
 void Camera::Update()

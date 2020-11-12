@@ -7,6 +7,7 @@ class QuarterMap;
 
 class Scene
 {
+	friend SceneFactory;
 	eSceneName mSceneName;
 	Camera * mCamera;
 	map<eEventName, multimap<UINT, BaseObserver*>> mEventSubscriberList;

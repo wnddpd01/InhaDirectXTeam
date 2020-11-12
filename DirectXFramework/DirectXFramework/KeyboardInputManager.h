@@ -4,32 +4,20 @@
 
 #define gKeyboardInputManager KeyboardInputManager::GetInstance()
 
-enum class eKeyName { KEY_LEFT_DOWN = 0, KEY_RIGHT_DOWN, KEY_FRONT_DOWN, KEY_BACK_DOWN, KEY_FRONTLEFT_DOWN, KEY_FRONTRIGHT_DOWN,KEY_BACKLEFT_DOWN, KEY_BACKRIGHT_DOWN,
-	KEY_INTERACTION_DOWN,KEY_EQUIPCHAGELFFT_DOWN, KEY_EQUIPCHAGERIGHT_DOWN , KEY_RUN_DOWN};
+enum class eKeyName { KEY_LEFT = 1, KEY_RIGHT = 2, KEY_FRONT = 4, KEY_BACK = 8, KEY_FRONTLEFT = 16, KEY_FRONTRIGHT = 32,KEY_BACKLEFT = 64, KEY_BACKRIGHT = 128,
+	KEY_INTERACTION = 256,KEY_EQUIPCHAGELFFT = 512, KEY_EQUIPCHAGERIGHT = 1024 , KEY_RUN = 2048};
 
-struct KeyState
-{
-	bool bFrontKey;
-	bool bBackKey;
-	bool bLeftKey;
-	bool bRightKey;
-	bool bInteractionKey;
-	bool bRunKey;
-	bool bEquipmentChangeRight;
-	bool bEquipmentChangeLeft;
-	
-	bool isAllFalse()
-	{
-		return (bFrontKey | bBackKey | bLeftKey | bRightKey | bInteractionKey | bRunKey | bEquipmentChangeRight | bEquipmentChangeLeft) == 0;
-	}
-};
+typedef UINT KeyState;
 
 class KeyboardInputManager : public Singleton<KeyboardInputManager>
 {
 private:
 	KeyState mKeyState;
+	KeyState mPrevKeyState;
+protected:
+	friend Singleton<KeyboardInputManager>;
+	KeyboardInputManager();
 public:
-	
-	bool ChangeKeyState();
+	void ChangeKeyState();
 	void Update();
 };

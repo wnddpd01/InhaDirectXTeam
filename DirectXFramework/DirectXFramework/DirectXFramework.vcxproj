@@ -24,6 +24,7 @@
     <ClCompile Include="BaseObserver.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="IdleCharacterState.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="QuarterMap.cpp" />
@@ -49,6 +51,7 @@
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +60,7 @@
     <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
@@ -65,6 +69,7 @@
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="IdleCharacterState.h" />
     <ClInclude Include="KeyboardInputManager.h" />
     <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="QuarterMap.h" />
@@ -79,6 +84,7 @@
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
+    <ClInclude Include="WalkCharacterState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
