@@ -107,6 +107,9 @@
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="IdleCharacterState.cpp" />
     <ClCompile Include="WalkCharacterState.cpp" />
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -185,5 +188,8 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="IdleCharacterState.h" />
     <ClInclude Include="WalkCharacterState.h" />
+    <ClInclude Include="MeshObject.h">
+      <Filter>3DObject</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
