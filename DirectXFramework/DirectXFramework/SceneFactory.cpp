@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "QuarterMap.h"
 #include "cZealot.h"
+#include "Static3DObject.h"
 
 SceneFactory::SceneFactory()
 {
@@ -65,6 +66,10 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, zealot);
 		newScene->mGameObjects.insert(make_pair("player", zealot));
 
+
+		Static3DObject* tempStaticObject = new Static3DObject;
+		tempStaticObject->Setup("Zealot", "zealot.X");
+		newScene->mGameObjects.insert(make_pair("staticObject", tempStaticObject));
 	}
 	return newScene;
 }
