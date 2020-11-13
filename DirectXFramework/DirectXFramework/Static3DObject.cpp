@@ -30,9 +30,10 @@ void Static3DObject::Render()
 
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, Base3DObject::mScale.x, Base3DObject::mScale.y, Base3DObject::mScale.z);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matT);
-
+	D3DXMatrixTranslation(&matT, Base3DObject::mPos.x, Base3DObject::mPos.y, Base3DObject::mPos.z);
 	matWorld = matS * matR * matT;
 
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
