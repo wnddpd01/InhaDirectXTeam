@@ -24,6 +24,11 @@ public:
 		return mPos;
 	}
 
+	D3DXVECTOR3 * GetPosRef()
+	{
+		return &mPos;
+	}
+	
 	void SetPos(const D3DXVECTOR3& pos)
 	{
 		mPos = pos;

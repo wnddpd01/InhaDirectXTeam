@@ -49,7 +49,6 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 		pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
 		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
 		&m_pAnimController);
-
 }
 
 void cSkinnedMesh::Load(char* szFolder, char* szFilename)
