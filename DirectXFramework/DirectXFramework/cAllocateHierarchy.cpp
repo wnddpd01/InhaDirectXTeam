@@ -75,9 +75,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		pMeshData->pMesh->UnlockVertexBuffer();
 	}
 	
-
-
-	
 	pMeshData->pMesh->CloneMeshFVF(
 		pMeshData->pMesh->GetOptions(),
 		pMeshData->pMesh->GetFVF(),
@@ -120,5 +117,3 @@ STDMETHODIMP cAllocateHierarchy::DestroyMeshContainer(THIS_ LPD3DXMESHCONTAINER 
 	SAFE_DELETE(pBoneMesh);
 	return S_OK;
 }
-
-

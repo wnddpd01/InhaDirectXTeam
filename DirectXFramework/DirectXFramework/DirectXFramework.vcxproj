@@ -28,6 +28,8 @@
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="ColliderBox.cpp" />
+    <ClCompile Include="ColliderCheck.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cZealot.cpp" />
@@ -67,6 +69,8 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="ColliderBox.h" />
+    <ClInclude Include="ColliderCheck.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cZealot.h" />
