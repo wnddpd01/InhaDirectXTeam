@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "cZealot.h"
-#include "cSkinnedMesh.h"
+#include "Player.h"
+#include "SkinnedMesh.h"
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
 
-void cZealot::StateChange(CharacterState* nextState)
+void Player::StateChange(CharacterState* nextState)
 {
 	SAFE_DELETE(mCurState);
 	mCurState = nextState;
 	mCurState->Enter(*this);
 }
 
-void cZealot::Setup()
+void Player::Setup()
 {
-	m_pSkinnedMesh = new cSkinnedMesh("Zealot", "zealot.X");
+	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	
 	m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM;
@@ -22,7 +22,7 @@ void cZealot::Setup()
 	mCurState->Enter(*this);
 }
 
-void cZealot::Update()
+void Player::Update()
 {
 	D3DXMATRIXA16 matWorld, matR, matT;
 
@@ -45,13 +45,13 @@ void cZealot::Update()
 	m_pSkinnedMesh->Update();
 }
 
-void cZealot::Render()
+void Player::Render()
 {
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedMesh->Render(nullptr);
 }
 
-bool cZealot::Update(eEventName eventName, void* parameter)
+bool Player::Update(eEventName eventName, void* parameter)
 {
 	switch (eventName)
 	{
@@ -74,12 +74,12 @@ bool cZealot::Update(eEventName eventName, void* parameter)
 	return true;
 }
 
-void cZealot::SetAnimationSpeed(FLOAT spd)
+void Player::SetAnimationSpeed(FLOAT spd)
 {
 	m_pSkinnedMesh->m_pAnimController->SetTrackSpeed(0, spd);
 }
 
-cZealot::cZealot()
+Player::Player()
 	:m_pSkinnedMesh(nullptr)
 	,mCurState(nullptr)
 	,mMoveVelocity(0,0,0)
@@ -90,7 +90,7 @@ cZealot::cZealot()
 }
 
 
-cZealot::~cZealot()
+Player::~Player()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
 }

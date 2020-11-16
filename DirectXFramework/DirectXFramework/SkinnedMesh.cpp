@@ -1,366 +1,314 @@
 #include "stdafx.h"
 #include "SkinnedMesh.h"
 
-void SkinnedMesh::Render(D3DXFRAME* node, D3DXMATRIX& parentWorldMat)
+#include <iostream>
+
+#include "cAllocateHierarchy.h"
+#include "SkinnedMeshManager.h"
+
+SkinnedMesh::SkinnedMesh()
+	: m_pRoot(NULL)
+	, m_pAnimController(NULL)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
+	, m_vMin(0, 0, 0)
+	, m_vMax(0, 0, 0)
 {
-	D3DXMATRIX combinedMat = node->TransformationMatrix * parentWorldMat;
-	gD3Device->SetTransform(D3DTS_WORLD, &combinedMat);
-	for (UINT i = 0; i < node->pMeshContainer->NumMaterials; ++i)
+	D3DXMatrixIdentity(&m_matWorldTM);
+}
+
+
+SkinnedMesh::~SkinnedMesh()
+{
+	cAllocateHierarchy ah;
+	D3DXFrameDestroy(m_pRoot, &ah);
+	SAFE_RELEASE(m_pAnimController);
+}
+
+SkinnedMesh::SkinnedMesh(char* szFolder, char* szFilename)
+	: m_pRoot(NULL)
+	, m_pAnimController(NULL)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+	, m_isAnimBlend(false)
+	, m_vMin(0, 0, 0)
+	, m_vMax(0, 0, 0)
+{
+	D3DXMatrixIdentity(&m_matWorldTM);
+	SkinnedMesh* pSkinnedMesh = gSkinnedMeshManger->GetSkinnedMesh(szFolder, szFilename);
+
+	m_pRoot = pSkinnedMesh->m_pRoot;
+	
+	m_vMin = pSkinnedMesh->m_vMin;
+	m_vMax = pSkinnedMesh->m_vMax;
+
+	pSkinnedMesh->m_pAnimController->CloneAnimationController(
+		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
+		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
+		&m_pAnimController);
+}
+
+void SkinnedMesh::Load(char* szFolder, char* szFilename)
+{
+	cAllocateHierarchy ah;
+	ah.SetFolder(szFolder);
+
+	string sFullPath(szFolder);
+	sFullPath += (string("/")) + string(szFilename);
+	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, gD3Device, &ah, NULL, (LPD3DXFRAME*)&m_pRoot, &m_pAnimController);
+
+	m_vMax = ah.GetMax();
+	m_vMin = ah.GetMin();
+
+	if (m_pRoot)
+		SetupBoneMatrixPtrs(m_pRoot);
+	
+}
+
+void SkinnedMesh::Destroy()
+{
+	cAllocateHierarchy ah;
+	D3DXFrameDestroy((LPD3DXFRAME)m_pRoot, &ah);
+}
+
+void SkinnedMesh::UpdateAndRender()
+{
+	if(m_pAnimController)
 	{
-		D3DXMESHCONTAINER* mc = node->pMeshContainer;
-		D3DMATERIAL9& mtrl = mc->pMaterials[i].MatD3D;
-		gD3Device->SetMaterial(&mtrl);
-		node->pMeshContainer->MeshData.pMesh->DrawSubset(i);
+		cout << gTimeManager->GetDeltaTime() << endl;
+		m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
 	}
-	if(node->pFrameFirstChild)
+	if(m_pRoot)
 	{
-		Render(node->pFrameSibling, parentWorldMat);
-	}
-	if(node->pFrameFirstChild)
-	{
-		Render(node->pFrameFirstChild, combinedMat);
+		Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+		Render(m_pRoot);
 	}
 }
 
-void SkinnedMesh::Render()
+void SkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pMatWorld)
 {
-	D3DXMATRIXA16 identityMat;
-	D3DXMatrixIdentity(&identityMat);
-	Render(rootFrame, identityMat);
-}
-
-HRESULT AllocateHierarchyEx::AllocateName(LPCSTR Name, LPSTR* pNewName)
-{
-	UINT cbLength;
-
-	if (Name != NULL)
+	if(pCurrent == NULL)
 	{
-		cbLength = (UINT)strlen(Name) + 1;
-		*pNewName = new CHAR[cbLength];
-		if (*pNewName == NULL)
-			return E_OUTOFMEMORY;
-		memcpy(*pNewName, Name, cbLength * sizeof(CHAR));
+		pCurrent = (ST_BONE*)m_pRoot;
 	}
-	else
+	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
+
+	if(pMatWorld)
 	{
-		*pNewName = NULL;
+		pCurrent->CombinedTransformationMatrix = pCurrent->CombinedTransformationMatrix *(*pMatWorld);
 	}
 
-	return S_OK;
+	if (pCurrent->pFrameSibling)
+		Update((ST_BONE*)pCurrent->pFrameSibling, pMatWorld);
+	if (pCurrent->pFrameFirstChild)
+		Update((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->CombinedTransformationMatrix));
 }
 
-HRESULT AllocateHierarchyEx::CreateFrame(LPCSTR Name, LPD3DXFRAME* ppNewFrame)
+void SkinnedMesh::SetRandomTrackPosition()
 {
-	HRESULT hr = S_OK;
-	FrameEx* pFrame;
+	m_pAnimController->SetTrackPosition(0, (rand() % 100 / 10.f));
+}
 
-	*ppNewFrame = NULL;
+void SkinnedMesh::SetTransform(D3DXMATRIXA16* pMat)
+{
+	m_matWorldTM = *pMat;
+}
 
-	pFrame = new FrameEx;
+
+void SkinnedMesh::Setup(char* szFolder, char* szFile)
+{
+	string sFullPath(szFolder);
+	sFullPath = sFullPath + string("/") + string(szFile);
+
+
+	cAllocateHierarchy ah;
+
+	ah.SetFolder(szFolder);
+
+	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, gD3Device, &ah, NULL, &m_pRoot, &m_pAnimController);
+
+	SetupBoneMatrixPtrs(m_pRoot);
+}
+
+void SkinnedMesh::Update()
+{
+	if(m_isAnimBlend)
+	{
+		m_fPassedBlendTime += gTimeManager->GetDeltaTime();
+		if(m_fPassedBlendTime >= m_fBlendTime)
+		{
+			m_isAnimBlend = false;
+			m_pAnimController->SetTrackWeight(0, 1.0f);
+			m_pAnimController->SetTrackEnable(1, false);
+		}
+		else
+		{
+			float fWeight = m_fPassedBlendTime / m_fBlendTime;
+			m_pAnimController->SetTrackWeight(0, fWeight);
+			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
+		}
+	}
+	LPD3DXANIMATIONSET curAnimSet;
+	m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
+	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
+	
+	Update(m_pRoot, NULL);
+	UpdateSkinnedMesh(m_pRoot);
+	SAFE_RELEASE(curAnimSet);
+}
+
+void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+{
 	if (pFrame == NULL)
+		pFrame = m_pRoot;
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+	pBone->CombinedTransformationMatrix = pBone->TransformationMatrix;
+
+	if(pParent)
 	{
-		hr = E_OUTOFMEMORY;
-		return hr;
+		pBone->CombinedTransformationMatrix *= ((ST_BONE*)pParent)->CombinedTransformationMatrix;
 	}
 
-	hr = AllocateName(Name, &pFrame->Name);
-	if (FAILED(hr))
+	if(pFrame->pFrameFirstChild)
 	{
-		return hr;
+		Update(pFrame->pFrameFirstChild, pFrame);
+	}
+	if(pFrame->pFrameSibling)
+	{
+		Update(pFrame->pFrameSibling, pParent);
+	}
+}
+
+void SkinnedMesh::Render(LPD3DXFRAME pFrame)
+{
+	if (pFrame == NULL)
+		pFrame = m_pRoot;
+	ST_BONE * pBone = (ST_BONE*)pFrame;
+	if(pBone->pMeshContainer)
+	{
+		ST_BONE_MESH * pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+		if(pBoneMesh->MeshData.pMesh)
+		{
+			D3DXMATRIXA16  matWorld;
+			D3DXMatrixIdentity(&matWorld);
+			matWorld = m_matWorldTM * pBone->CombinedTransformationMatrix;
+			gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); ++i)
+			{
+				gD3Device->SetTexture(0, pBoneMesh->vecTex[i]);
+				gD3Device->SetMaterial(&pBoneMesh->vecMtl[i]);
+				pBoneMesh->MeshData.pMesh->DrawSubset(i);
+			}
+		}
 	}
 
-	// initialize other data members of the frame
-	D3DXMatrixIdentity(&pFrame->TransformationMatrix);
-	D3DXMatrixIdentity(&pFrame->CombinedTransform);
-
-	pFrame->pMeshContainer = NULL;
-	pFrame->pFrameSibling = NULL;
-	pFrame->pFrameFirstChild = NULL;
-
-	*ppNewFrame = pFrame;
-	pFrame = NULL;
-
-	delete pFrame;
-	return hr;
+	if (pFrame->pFrameFirstChild)
+		Render(pFrame->pFrameFirstChild);
+	if (pFrame->pFrameSibling)
+		Render(pFrame->pFrameSibling);                
 }
 
-HRESULT AllocateHierarchyEx::CreateMeshContainer(LPCSTR Name, const D3DXMESHDATA* pMeshData,
-	const D3DXMATERIAL* pMaterials, const D3DXEFFECTINSTANCE* pEffectInstances, DWORD NumMaterials,
-	const DWORD* pAdjacency, LPD3DXSKININFO pSkinInfo, LPD3DXMESHCONTAINER* ppNewMeshContainer)
+void SkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 {
-    HRESULT hr;
-    MeshContainerEx* pMeshContainer = NULL;
-    UINT NumFaces;
-    UINT iMaterial;
-    UINT iBone, cBones;
-    LPDIRECT3DDEVICE9 pd3dDevice = NULL;
+	if(pFrame && pFrame->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pFrame->pMeshContainer;
 
-    LPD3DXMESH pMesh = NULL;
+		if(pBoneMesh->pSkinInfo)
+		{
+			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
+			DWORD dwNumBones = pSkinInfo->GetNumBones();
+			for (DWORD i = 0; i < dwNumBones; ++i)
+			{
+				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pSkinInfo->GetBoneName(i));
+				pBoneMesh->ppBoneMatrixPtrs[i] = &(pBone->CombinedTransformationMatrix);
+			}
+		}
+	}
 
-    *ppNewMeshContainer = NULL;
-
-    // this sample does not handle patch meshes, so fail when one is found
-    if (pMeshData->Type != D3DXMESHTYPE_MESH)
-    {
-        hr = E_FAIL;
-        goto e_Exit;
-    }
-
-    // get the pMesh interface pointer out of the mesh data structure
-    pMesh = pMeshData->pMesh;
-
-    // this sample does not FVF compatible meshes, so fail when one is found
-    if (pMesh->GetFVF() == 0)
-    {
-        hr = E_FAIL;
-        goto e_Exit;
-    }
-
-    // allocate the overloaded structure to return as a D3DXMESHCONTAINER
-    pMeshContainer = new MeshContainerEx;
-    if (pMeshContainer == NULL)
-    {
-        hr = E_OUTOFMEMORY;
-        goto e_Exit;
-    }
-    memset(pMeshContainer, 0, sizeof(MeshContainerEx));
-
-    // make sure and copy the name.  All memory as input belongs to caller, interfaces can be addref'd though
-    hr = AllocateName(Name, &pMeshContainer->Name);
-    if (FAILED(hr))
-        goto e_Exit;
-
-    pMesh->GetDevice(&pd3dDevice);
-    NumFaces = pMesh->GetNumFaces();
-
-    // if no normals are in the mesh, add them
-    if (!(pMesh->GetFVF() & D3DFVF_NORMAL))
-    {
-        pMeshContainer->MeshData.Type = D3DXMESHTYPE_MESH;
-
-        // clone the mesh to make room for the normals
-        hr = pMesh->CloneMeshFVF(pMesh->GetOptions(),
-            pMesh->GetFVF() | D3DFVF_NORMAL,
-            pd3dDevice, &pMeshContainer->MeshData.pMesh);
-        if (FAILED(hr))
-            goto e_Exit;
-
-        // get the new pMesh pointer back out of the mesh container to use
-        // NOTE: we do not release pMesh because we do not have a reference to it yet
-        pMesh = pMeshContainer->MeshData.pMesh;
-
-        // now generate the normals for the pmesh
-        D3DXComputeNormals(pMesh, NULL);
-    }
-    else  // if no normals, just add a reference to the mesh for the mesh container
-    {
-        pMeshContainer->MeshData.pMesh = pMesh;
-        pMeshContainer->MeshData.Type = D3DXMESHTYPE_MESH;
-
-        pMesh->AddRef();
-    }
-
-    // allocate memory to contain the material information.  This sample uses
-    //   the D3D9 materials and texture names instead of the EffectInstance style materials
-    pMeshContainer->NumMaterials = max(1, NumMaterials);
-    pMeshContainer->pMaterials = new D3DXMATERIAL[pMeshContainer->NumMaterials];
-    pMeshContainer->ppTextures = new LPDIRECT3DTEXTURE9[pMeshContainer->NumMaterials];
-    pMeshContainer->pAdjacency = new DWORD[NumFaces * 3];
-    if ((pMeshContainer->pAdjacency == NULL) || (pMeshContainer->pMaterials == NULL))
-    {
-        hr = E_OUTOFMEMORY;
-        goto e_Exit;
-    }
-
-    memcpy(pMeshContainer->pAdjacency, pAdjacency, sizeof(DWORD) * NumFaces * 3);
-    memset(pMeshContainer->ppTextures, 0, sizeof(LPDIRECT3DTEXTURE9) * pMeshContainer->NumMaterials);
-
-    // if materials provided, copy them
-    if (NumMaterials > 0)
-    {
-        memcpy(pMeshContainer->pMaterials, pMaterials, sizeof(D3DXMATERIAL) * NumMaterials);
-
-        for (iMaterial = 0; iMaterial < NumMaterials; iMaterial++)
-        {
-            if (pMeshContainer->pMaterials[iMaterial].pTextureFilename != NULL)
-            {
-                WCHAR strTexturePath[MAX_PATH];
-                WCHAR wszBuf[MAX_PATH];
-                MultiByteToWideChar(CP_ACP, 0, pMeshContainer->pMaterials[iMaterial].pTextureFilename, -1, wszBuf, MAX_PATH);
-                wszBuf[MAX_PATH - 1] = L'\0';
-                wsprintfW(strTexturePath, L"%s/%s", folderPath, wszBuf);
-                if (FAILED(D3DXCreateTextureFromFile(pd3dDevice, strTexturePath,
-                    &pMeshContainer->ppTextures[iMaterial])))
-                    pMeshContainer->ppTextures[iMaterial] = NULL;
-
-                // don't remember a pointer into the dynamic memory, just forget the name after loading
-                pMeshContainer->pMaterials[iMaterial].pTextureFilename = NULL;
-            }
-        }
-    }
-    else // if no materials provided, use a default one
-    {
-        pMeshContainer->pMaterials[0].pTextureFilename = NULL;
-        memset(&pMeshContainer->pMaterials[0].MatD3D, 0, sizeof(D3DMATERIAL9));
-        pMeshContainer->pMaterials[0].MatD3D.Diffuse.r = 0.5f;
-        pMeshContainer->pMaterials[0].MatD3D.Diffuse.g = 0.5f;
-        pMeshContainer->pMaterials[0].MatD3D.Diffuse.b = 0.5f;
-        pMeshContainer->pMaterials[0].MatD3D.Specular = pMeshContainer->pMaterials[0].MatD3D.Diffuse;
-    }
-
-    // if there is skinning information, save off the required data and then setup for HW skinning
-    if (pSkinInfo != NULL)
-    {
-        // first save off the SkinInfo and original mesh data
-        pMeshContainer->pSkinInfo = pSkinInfo;
-        pSkinInfo->AddRef();
-
-        pMeshContainer->pOrigMesh = pMesh;
-        pMesh->AddRef();
-
-        // Will need an array of offset matrices to move the vertices from the figure space to the bone's space
-        cBones = pSkinInfo->GetNumBones();
-        pMeshContainer->pBoneOffsetMatrices = new D3DXMATRIX[cBones];
-        if (pMeshContainer->pBoneOffsetMatrices == NULL)
-        {
-            hr = E_OUTOFMEMORY;
-            goto e_Exit;
-        }
-
-        // get each of the bone offset matrices so that we don't need to get them later
-        for (iBone = 0; iBone < cBones; iBone++)
-        {
-            pMeshContainer->pBoneOffsetMatrices[iBone] = *(pMeshContainer->pSkinInfo->GetBoneOffsetMatrix(iBone));
-        }
-
-        // GenerateSkinnedMesh will take the general skinning information and transform it to a HW friendly version
-        hr = GenerateSkinnedMesh(pd3dDevice, pMeshContainer);
-        if (FAILED(hr))
-            goto e_Exit;
-    }
-
-    *ppNewMeshContainer = pMeshContainer;
-    pMeshContainer = NULL;
-
-e_Exit:
-    SAFE_RELEASE(pd3dDevice);
-
-    // call Destroy function to properly clean up the memory allocated 
-    if (pMeshContainer != NULL)
-    {
-        DestroyMeshContainer(pMeshContainer);
-    }
-
-    return hr;
+	if(pFrame->pFrameFirstChild)
+	{
+		SetupBoneMatrixPtrs(pFrame->pFrameFirstChild);
+	}
+	if(pFrame->pFrameSibling)
+	{
+		SetupBoneMatrixPtrs(pFrame->pFrameSibling);
+	}
 }
 
-HRESULT AllocateHierarchyEx::DestroyFrame(LPD3DXFRAME pFrameToFree)
+void SkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 {
+	if(pFrame && pFrame->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pFrame->pMeshContainer;
+		if(pBoneMesh->pSkinInfo)
+		{
+			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
+			DWORD dwNumBones = pSkinInfo->GetNumBones();
+			for (DWORD i = 0; i < dwNumBones; ++i)
+			{
+				pBoneMesh->pCurrentBoneMatrices[i] = pBoneMesh->pBoneOffsetMatrices[i] * *(pBoneMesh->ppBoneMatrixPtrs[i]);
+			}
+		}
+
+		BYTE * src = NULL;
+		BYTE * dest = NULL;
+
+		pBoneMesh->pOrigMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&src);
+		pBoneMesh->MeshData.pMesh->LockVertexBuffer(0, (void**)&dest);
+
+		pBoneMesh->pSkinInfo->UpdateSkinnedMesh(pBoneMesh->pCurrentBoneMatrices, NULL, src, dest);
+		
+		pBoneMesh->MeshData.pMesh->UnlockVertexBuffer();
+		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
+	}
+	if (pFrame->pFrameFirstChild)
+		UpdateSkinnedMesh(pFrame->pFrameFirstChild);
+	if (pFrame->pFrameSibling)
+		UpdateSkinnedMesh(pFrame->pFrameSibling);
 }
 
-HRESULT AllocateHierarchyEx::DestroyMeshContainer(LPD3DXMESHCONTAINER pMeshContainerToFree)
+void SkinnedMesh::SetAnimationIndex(int index)
 {
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (index > num) index = index % num;
+
+	LPD3DXANIMATIONSET pAnimSet = NULL;
+	//m_pAnimController->ResetTime();
+	m_pAnimController->GetAnimationSet(index, &pAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	m_pAnimController->GetPriorityBlend();
 }
 
-HRESULT GenerateSkinnedMesh(IDirect3DDevice9* pd3dDevice, MeshContainerEx* pMeshContainer)
+void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 {
-    HRESULT hr = S_OK;
-    D3DCAPS9 d3dCaps;
-    pd3dDevice->GetDeviceCaps(&d3dCaps);
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
+	int num = m_pAnimController->GetNumAnimationSets();
+	if (nIndex > num) nIndex = nIndex % num;
 
-    if (pMeshContainer->pSkinInfo == NULL)
-        return hr;
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
 
-    SAFE_RELEASE(pMeshContainer->MeshData.pMesh);
-    SAFE_RELEASE(pMeshContainer->pBoneCombinationBuf);
-    // Get palette size
-    // First 9 constants are used for other data.  Each 4x3 matrix takes up 3 constants.
-    // (96 - 9) /3 i.e. Maximum constant count - used constants 
-    UINT MaxMatrices = 26;
-    pMeshContainer->NumPaletteEntries = min(MaxMatrices, pMeshContainer->pSkinInfo->GetNumBones());
-
-    DWORD Flags = D3DXMESHOPT_VERTEXCACHE;
-    if (d3dCaps.VertexShaderVersion >= D3DVS_VERSION(1, 1))
-    {
-        pMeshContainer->UseSoftwareVP = false;
-        Flags |= D3DXMESH_MANAGED;
-    }
-    else
-    {
-        pMeshContainer->UseSoftwareVP = true;
-        Flags |= D3DXMESH_SYSTEMMEM;
-    }
-
-    SAFE_RELEASE(pMeshContainer->MeshData.pMesh);
-
-    hr = pMeshContainer->pSkinInfo->ConvertToIndexedBlendedMesh
-    (
-        pMeshContainer->pOrigMesh,
-        Flags,
-        pMeshContainer->NumPaletteEntries,
-        pMeshContainer->pAdjacency,
-        NULL, NULL, NULL,
-        &pMeshContainer->NumInfl,
-        &pMeshContainer->NumAttributeGroups,
-        &pMeshContainer->pBoneCombinationBuf,
-        &pMeshContainer->MeshData.pMesh);
-    if (FAILED(hr))
-        goto e_Exit;
+	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
 
 
-    // FVF has to match our declarator. Vertex shaders are not as forgiving as FF pipeline
-    DWORD NewFVF = (pMeshContainer->MeshData.pMesh->GetFVF() & D3DFVF_POSITION_MASK) | D3DFVF_NORMAL |
-        D3DFVF_TEX1 | D3DFVF_LASTBETA_UBYTE4;
-    if (NewFVF != pMeshContainer->MeshData.pMesh->GetFVF())
-    {
-        LPD3DXMESH pMesh;
-        hr = pMeshContainer->MeshData.pMesh->CloneMeshFVF(pMeshContainer->MeshData.pMesh->GetOptions(), NewFVF,
-            pd3dDevice, &pMesh);
-        if (!FAILED(hr))
-        {
-            pMeshContainer->MeshData.pMesh->Release();
-            pMeshContainer->MeshData.pMesh = pMesh;
-            pMesh = NULL;
-        }
-    }
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
 
-    D3DVERTEXELEMENT9 pDecl[MAX_FVF_DECL_SIZE];
-    LPD3DVERTEXELEMENT9 pDeclCur;
-    hr = pMeshContainer->MeshData.pMesh->GetDeclaration(pDecl);
-    if (FAILED(hr))
-        goto e_Exit;
+	SAFE_RELEASE(pPrevAnimSet);
+	SAFE_RELEASE(pNextAnimSet);
 
-    // the vertex shader is expecting to interpret the UBYTE4 as a D3DCOLOR, so update the type 
-    //   NOTE: this cannot be done with CloneMesh, that would convert the UBYTE4 data to float and then to D3DCOLOR
-    //          this is more of a "cast" operation
-    pDeclCur = pDecl;
-    while (pDeclCur->Stream != 0xff)
-    {
-        if ((pDeclCur->Usage == D3DDECLUSAGE_BLENDINDICES) && (pDeclCur->UsageIndex == 0))
-            pDeclCur->Type = D3DDECLTYPE_D3DCOLOR;
-        pDeclCur++;
-    }
-
-    hr = pMeshContainer->MeshData.pMesh->UpdateSemantics(pDecl);
-    if (FAILED(hr))
-        goto e_Exit;
-
-    // allocate a buffer for bone matrices, but only if another mesh has not allocated one of the same size or larger
-    if (g_NumBoneMatricesMax < pMeshContainer->pSkinInfo->GetNumBones())
-    {
-        g_NumBoneMatricesMax = pMeshContainer->pSkinInfo->GetNumBones();
-
-        // Allocate space for blend matrices
-        delete[] g_pBoneMatrices;
-        g_pBoneMatrices = new D3DXMATRIXA16[g_NumBoneMatricesMax];
-        if (g_pBoneMatrices == NULL)
-        {
-            hr = E_OUTOFMEMORY;
-            goto e_Exit;
-        }
-    }
-
-e_Exit:
-    return hr;
+	m_animationStartTime = GetTickCount();
 }

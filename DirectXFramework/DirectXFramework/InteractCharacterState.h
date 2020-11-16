@@ -9,7 +9,7 @@ public:
 	InteractCharacterState();
 	~InteractCharacterState();
 
-	void Enter(cZealot& zealot) override;
-	CharacterState* Update(cZealot& zealot) override;
+	void Enter(Player& player) override;
+	CharacterState* Update(Player& player) override;
 };
 

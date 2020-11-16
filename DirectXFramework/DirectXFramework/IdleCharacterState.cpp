@@ -2,8 +2,8 @@
 #include "IdleCharacterState.h"
 #include "KeyboardInputManager.h"
 #include "WalkCharacterState.h"
-#include "cZealot.h"
-#include "cSkinnedMesh.h"
+#include "Player.h"
+#include "SkinnedMesh.h"
 #include "InteractCharacterState.h"
 
 
@@ -19,14 +19,14 @@ IdleCharacterState::~IdleCharacterState()
 {
 }
 
-void IdleCharacterState::Enter(cZealot& zealot)
+void IdleCharacterState::Enter(Player& player)
 {
 	idleStartTime = GetTickCount();
 	mbAnimationChanged = false;
 	mMoveVelocity = D3DXVECTOR3(0, 0, 0);
 }
 
-CharacterState* IdleCharacterState::HandleInput(cZealot& zealot, eEventName eventName, eKeyName &key)
+CharacterState* IdleCharacterState::HandleInput(Player& player, eEventName eventName, eKeyName &key)
 {
 	if(key == eKeyName::KEY_INTERACTION)
 	{
@@ -61,7 +61,7 @@ CharacterState* IdleCharacterState::HandleInput(cZealot& zealot, eEventName even
 	return nullptr;
 }
 
-CharacterState* IdleCharacterState::Update(cZealot& zealot)
+CharacterState* IdleCharacterState::Update(Player& player)
 {
 	if (D3DXVec3Length(&mMoveVelocity) != 0.f)
 	{
@@ -70,7 +70,7 @@ CharacterState* IdleCharacterState::Update(cZealot& zealot)
 	if(mbAnimationChanged == false && GetTickCount() - idleStartTime > 50)
 	{
 		mbAnimationChanged = true;
-		zealot.GetSkinnedMesh()->SetAnimationIndexBlend(4);
+		player.GetSkinnedMesh()->SetAnimationIndexBlend(4);
 	}
 	return nullptr;
 }

@@ -103,9 +103,6 @@
     <ClCompile Include="Static3DObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
-    <ClCompile Include="cZealot.cpp">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterState.cpp">
       <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClCompile>
@@ -121,9 +118,6 @@
     <ClCompile Include="AnimatingObject.cpp">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>3DObject\AnimatingObject</Filter>
-    </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClCompile>
@@ -133,11 +127,17 @@
     <ClCompile Include="MouseInputManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>Singleton</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMeshManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMesh.cpp">
+      <Filter>3DObject\AnimatingObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +210,6 @@
     <ClInclude Include="Static3DObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
-    <ClInclude Include="cZealot.h">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterState.h">
       <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClInclude>
@@ -228,9 +225,6 @@
     <ClInclude Include="AnimatingObject.h">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>3DObject\AnimatingObject</Filter>
-    </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClInclude>
@@ -240,11 +234,17 @@
     <ClInclude Include="MouseInputManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>Singleton</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMeshManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMesh.h">
+      <Filter>3DObject\AnimatingObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

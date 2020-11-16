@@ -1,10 +1,10 @@
 #pragma once
 #include "Base3DObject.h"
 
-class cSkinnedMesh;
+class SkinnedMesh;
 class CharacterState;
 
-class cZealot : public Base3DObject, public BaseObserver
+class Player : public Base3DObject, public BaseObserver
 {
 	CharacterState* mCurState;
 
@@ -13,7 +13,7 @@ class cZealot : public Base3DObject, public BaseObserver
 
 	void StateChange(CharacterState * nextState);
 public:
-	cSkinnedMesh* m_pSkinnedMesh;
+	SkinnedMesh* m_pSkinnedMesh;
 	D3DXQUATERNION& GetRotRef()
 	{
 		return mRot;
@@ -44,14 +44,14 @@ public:
 
 	bool Update(eEventName eventName, void* parameter) override;
 
-	cSkinnedMesh * GetSkinnedMesh()
+	SkinnedMesh * GetSkinnedMesh()
 	{
 		return m_pSkinnedMesh;
 	}
 
 	void SetAnimationSpeed(FLOAT spd);
 	
-	cZealot();
-	virtual ~cZealot();
+	Player();
+	virtual ~Player();
 };
 
