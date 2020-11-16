@@ -28,11 +28,11 @@ void Base3DObject::SetObjectTag()
 {
 	string objectName = this->GetObjectName();
 
-	if(objectName == "player")
+	if (objectName == "player")
 	{
 		mObjectTag = eObjTag::PLAYER_CHARACTER;
 	}
-	else if(objectName == "key")
+	else if (objectName == "key")
 	{
 		mObjectTag = eObjTag::STATIC_OBJECT;
 	}
@@ -44,6 +44,7 @@ void Base3DObject::SetObjectTag()
 	{
 		mObjectTag = eObjTag::STATIC_OBJECT;
 	}
+}
 
 void Base3DObject::SetPos(const D3DXVECTOR3& pos)
 {
