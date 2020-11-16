@@ -11,7 +11,7 @@ public:
 	void CheckCollider(map<string, Base3DObject*>& objects);
 	
 private:
-	bool CheckCubeByOBB(Base3DObject * object1, Base3DObject * object2);
+	bool CheckCubeByOBB(Base3DObject * object1, Base3DObject * object2, string & obj1Tag, string & obj2Tag);
 	bool CheckSphere(Base3DObject * object1, Base3DObject * object2);
 	
 public:

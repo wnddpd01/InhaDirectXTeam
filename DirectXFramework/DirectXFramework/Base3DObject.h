@@ -15,15 +15,25 @@ protected:
 	D3DXVECTOR3 mPos;
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
-	vector<ColliderCube*> mColliderSphereVec;
-	vector<ColliderSphere*> mColliderCubeVec;
+	
+	map<string,ColliderSphere*> mColliderSphereMap;
+	map<string,ColliderCube*> mColliderCubeMap;
 
 public:
 	Base3DObject();
-	~Base3DObject();
+	virtual ~Base3DObject();
 
 
 	void SetObjectTag();
+	
+	void AddColliderCube();
+	void AddColliderSphere();
+
+	void DeleteColliderCube(string key);
+	void DeleteColliderSphere(string key);
+
+
+	
 	virtual void Setup();
 	
 	void SetPos(const D3DXVECTOR3& pos);

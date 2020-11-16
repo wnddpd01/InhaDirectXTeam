@@ -7,10 +7,10 @@ class ColliderPolygon
 {
 public:
 	ColliderPolygon();
-	~ColliderPolygon();
+	virtual ~ColliderPolygon();
 
 	virtual void Setup() = 0;
-	virtual void Update() = 0;
+	void Update();
 	
 protected:
 	LPD3DXMESH mMesh;

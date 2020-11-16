@@ -8,27 +8,28 @@ ColliderChecker::ColliderChecker()
 
 
 ColliderChecker::~ColliderChecker()
-{
+{ 
 }
 
-bool ColliderChecker::CheckCubeByOBB(Base3DObject * object1, Base3DObject * object2)
+bool ColliderChecker::CheckCubeByOBB(IN Base3DObject * object1,IN Base3DObject * object2, OUT string& obj1Tag, OUT string& obj2Tag)
 {
-	//if(object1)
-	return true;
+	// Todo:: 모든 박스 비교
+	//if()
+	return TRUE;
 }
 
 bool ColliderChecker::CheckSphere(Base3DObject* object1, Base3DObject* object2)
 {
-	//float distance;
-	//D3DXVECTOR3 diff;
+	/*float distance;
+	D3DXVECTOR3 diff;
 
-	//diff = Center2 - Center1;
-	//distance = D3DXVec3Length(&diff);
+	diff = Center2 - Center1;
+	distance = D3DXVec3Length(&diff);
 
-	//if (distance <= (radius1 + radius2))
-	//{
-	//	return TRUE;
-	//}
+	if (distance <= (radius1 + radius2))
+	{
+		return TRUE;
+	}*/
 	return FALSE;
 }
 
@@ -40,7 +41,10 @@ void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 		{
 			if(CheckSphere((*iter).second, (*iter2).second))
 			{
-				if(CheckCubeByOBB((*iter).second, (*iter2).second))
+				string obj1Tag;
+				string obj2Tag;
+				
+				if(CheckCubeByOBB((*iter).second,(*iter2).second, obj1Tag, obj2Tag))
 				{
 					
 				}

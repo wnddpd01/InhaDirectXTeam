@@ -19,14 +19,13 @@ void ColliderCube::Setup()
 	D3DXCreateBox(gD3Device, mCubeWidth, mCubeHeight, mCubeDepth, &mMesh, NULL);
 }
 
-void ColliderCube::Update()
-{
-	D3DXCreateBox(gD3Device, mCubeWidth, mCubeHeight, mCubeDepth, &mMesh, NULL);
-}
 
 void ColliderCube::SetCubeCollider(float height, float width, float depth)
 {
 	mCubeWidth = width;
 	mCubeHeight = height;
 	mCubeDepth = depth;
+
+	SAFE_RELEASE(mMesh);
+	D3DXCreateBox(gD3Device, mCubeWidth, mCubeHeight, mCubeDepth, &mMesh, NULL);
 }

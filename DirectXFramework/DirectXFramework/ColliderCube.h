@@ -7,7 +7,6 @@ public:
 	ColliderCube();
 	~ColliderCube();
 	void Setup() override;
-	void Update() override;
 	void SetCubeCollider(float height, float width, float depth);
 
 private:

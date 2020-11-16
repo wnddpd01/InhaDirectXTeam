@@ -8,7 +8,6 @@
 #include "UIImage.h"
 #include "SceneCenter.h"
 
-
 //inline void PanelEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
 //{
 //	static bool isClicked = false;

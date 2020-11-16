@@ -7,7 +7,6 @@ public:
 	ColliderSphere();
 	~ColliderSphere();
 	void Setup() override;
-	void Update() override;
 	void SetSphereCollider(float radius);
 
 private:

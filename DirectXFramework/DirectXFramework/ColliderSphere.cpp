@@ -17,12 +17,9 @@ void ColliderSphere::Setup()
 	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
 }
 
-void ColliderSphere::Update()
-{
-	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
-}
-
 void ColliderSphere::SetSphereCollider(float radius)
 {
-	mRadius = mRadius;
+	mRadius = radius;
+	SAFE_RELEASE(mMesh);
+	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
 }
