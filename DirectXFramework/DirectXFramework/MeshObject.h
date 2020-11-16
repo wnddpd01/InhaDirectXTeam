@@ -13,7 +13,7 @@ class MeshObject :
 	vector<cMtlTex*> mMtlTex;
 public:
 	MeshObject();
-	~MeshObject();
+	virtual ~MeshObject() = default;
 
 	void Setup(string filename);
 	void Update() override;

@@ -5,7 +5,7 @@ class ColliderCube : public ColliderPolygon
 {
 public:
 	ColliderCube();
-	~ColliderCube();
+	virtual ~ColliderCube();
 	void Setup() override;
 	void SetCubeCollider(float height, float width, float depth);
 
