@@ -14,9 +14,6 @@
     <Filter Include="Singleton">
       <UniqueIdentifier>{65c0f78f-cf66-48dc-84c2-951d577398d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DXUT">
-      <UniqueIdentifier>{82aea320-4dc3-4027-9b4c-e54fe1b457e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ModelLoader">
       <UniqueIdentifier>{f1c005cc-6355-4d80-b1f4-d559a6ea102e}</UniqueIdentifier>
     </Filter>
@@ -31,6 +28,12 @@
     </Filter>
     <Filter Include="3DObject">
       <UniqueIdentifier>{22f6ef6b-b866-4e90-b0e8-1dedad5d7989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DObject\AnimatingObject">
+      <UniqueIdentifier>{7b5b3df2-36cf-4b5d-b804-6c22ad088fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DObject\AnimatingObject\Player">
+      <UniqueIdentifier>{e7058392-7d8b-485a-a38f-1fb7fb530736}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,12 +55,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardInputManager.cpp">
-      <Filter>DXUT</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInputManager.cpp">
-      <Filter>DXUT</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
     </ClCompile>
     <ClCompile Include="UIBase.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>WinMain</Filter>
     </ClCompile>
     <ClCompile Include="UIImage.cpp">
       <Filter>UI</Filter>
@@ -97,37 +91,10 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatingObject.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
     <ClCompile Include="MeshObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
     <ClCompile Include="Base3DObject.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterState.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="cZealot.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="IdleCharacterState.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="InteractCharacterState.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkCharacterState.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
     <ClCompile Include="ModelLoader.cpp">
@@ -135,6 +102,42 @@
     </ClCompile>
     <ClCompile Include="Static3DObject.cpp">
       <Filter>3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cZealot.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatingObject.cpp">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardInputManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInputManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,12 +159,6 @@
     <ClInclude Include="Singleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardInputManager.h">
-      <Filter>DXUT</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInputManager.h">
-      <Filter>DXUT</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
@@ -173,9 +170,6 @@
     </ClInclude>
     <ClInclude Include="UIBase.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>WinMain</Filter>
     </ClInclude>
     <ClInclude Include="UIImage.h">
       <Filter>UI</Filter>
@@ -204,37 +198,10 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatingObject.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
     <ClInclude Include="MeshObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
     <ClInclude Include="Base3DObject.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkCharacterState.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterState.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="cZealot.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="IdleCharacterState.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="InteractCharacterState.h">
       <Filter>3DObject</Filter>
     </ClInclude>
     <ClInclude Include="ModelLoader.h">
@@ -242,6 +209,42 @@
     </ClInclude>
     <ClInclude Include="Static3DObject.h">
       <Filter>3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cZealot.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatingObject.h">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>3DObject\AnimatingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInputManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
