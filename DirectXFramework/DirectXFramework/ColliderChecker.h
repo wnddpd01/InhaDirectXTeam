@@ -11,8 +11,8 @@ public:
 	void CheckCollider(map<string, Base3DObject*>& objects);
 	
 private:
-	void CheckBoxByOBB(Base3DObject * object1, Base3DObject * object2);
-	void CheckSphere(Base3DObject * object1, Base3DObject * object2);
+	bool CheckCubeByOBB(Base3DObject * object1, Base3DObject * object2);
+	bool CheckSphere(Base3DObject * object1, Base3DObject * object2);
 	
 public:
 	map<string, BaseObject*> mColliderMap;

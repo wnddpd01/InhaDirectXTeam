@@ -148,6 +148,12 @@
     <ClCompile Include="ColliderChecker.cpp">
       <Filter>3DObject\Colider</Filter>
     </ClCompile>
+    <ClCompile Include="ColliderCube.cpp">
+      <Filter>3DObject\Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderSphere.cpp">
+      <Filter>3DObject\Colider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -259,6 +265,12 @@
       <Filter>3DObject\Colider</Filter>
     </ClInclude>
     <ClInclude Include="ColliderChecker.h">
+      <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderCube.h">
+      <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderSphere.h">
       <Filter>3DObject\Colider</Filter>
     </ClInclude>
   </ItemGroup>

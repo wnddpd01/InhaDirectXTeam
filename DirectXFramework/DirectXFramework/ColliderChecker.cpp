@@ -11,37 +11,44 @@ ColliderChecker::~ColliderChecker()
 {
 }
 
-void ColliderChecker::CheckBoxByOBB(Base3DObject * object1, Base3DObject * object2)
+bool ColliderChecker::CheckCubeByOBB(Base3DObject * object1, Base3DObject * object2)
 {
+	//if(object1)
+	return true;
 }
 
-//void ColliderChecker::CheckSphere(Base3DObject* object1, Base3DObject* object2)
-//{
-//	float distance;
-//	D3DXVECTOR3 diff;
-//
-//	diff = Center2 - Center1;
-//	distance = D3DXVec3Length(&diff);
-//
-//	if (distance <= (radius1 + radius2))
-//	{
-//		return TRUE;
-//	}
-//	return FALSE;
-//}
+bool ColliderChecker::CheckSphere(Base3DObject* object1, Base3DObject* object2)
+{
+	//float distance;
+	//D3DXVECTOR3 diff;
+
+	//diff = Center2 - Center1;
+	//distance = D3DXVec3Length(&diff);
+
+	//if (distance <= (radius1 + radius2))
+	//{
+	//	return TRUE;
+	//}
+	return FALSE;
+}
 
 void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 {
-	/*for (int i = 0; i < objects.size() - 1; ++i)
+	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(),1) ; ++iter)
 	{
-		for (int j = i + 1; j < objects.size(); j++)
+		for (map<string, Base3DObject*>::iterator iter2 = next(iter,1); iter2 != objects.end(); ++iter2)
 		{
-			CheckSphere(objects[i])
+			if(CheckSphere((*iter).second, (*iter2).second))
+			{
+				if(CheckCubeByOBB((*iter).second, (*iter2).second))
+				{
+					
+				}
+				else
+				{
+					
+				}
+			}
 		}
-	}*/
+	}
 }
-
-//void ColliderCheck::CheckSphereIntersect()
-//{
-//	
-//}

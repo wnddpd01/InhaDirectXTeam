@@ -5,12 +5,10 @@
 Base3DObject::Base3DObject()
 	: mScale(0,0,0)
 	, mPos(0,0,0)
-	, mColliderPolygon(nullptr)
 	, mObjectTag(eObjTag::NON_OBJECT_TAG)
 {
 	D3DXQuaternionIdentity(&mRot);
 }
-
 
 Base3DObject::~Base3DObject()
 {
@@ -19,9 +17,6 @@ Base3DObject::~Base3DObject()
 void Base3DObject::Setup()
 {
 	SetObjectTag();
-
-	mColliderPolygon = new ColliderPolygon;
-	mColliderPolygon->Setup(mObjectTag);
 }
 
 void Base3DObject::SetObjectTag()
