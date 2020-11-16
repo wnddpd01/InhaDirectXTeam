@@ -11,7 +11,7 @@ ColliderChecker::~ColliderChecker()
 {
 }
 
-void ColliderChecker::CheckBoxByOBB(Base3DObject * object1, Base3DObject * object2)
+bool ColliderChecker::CheckBoxByOBB(Base3DObject * object1, Base3DObject * object2)
 {
 }
 
@@ -32,13 +32,6 @@ void ColliderChecker::CheckBoxByOBB(Base3DObject * object1, Base3DObject * objec
 
 void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 {
-	/*for (int i = 0; i < objects.size() - 1; ++i)
-	{
-		for (int j = i + 1; j < objects.size(); j++)
-		{
-			CheckSphere(objects[i])
-		}
-	}*/
 }
 
 //void ColliderCheck::CheckSphereIntersect()

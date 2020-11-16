@@ -15,7 +15,8 @@ protected:
 	D3DXVECTOR3 mPos;
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
-	ColliderPolygon* mColliderPolygon;
+	ColliderPolygon* mColliderSphere;
+	ColliderPolygon* mColliderBox;
 
 public:
 	Base3DObject();

@@ -5,6 +5,7 @@
 #include "QuarterMap.h"
 #include "Player.h"
 #include "Static3DObject.h"
+#include "Room.h"
 
 SceneFactory::SceneFactory()
 {
@@ -28,7 +29,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y + viewPort.Height * 0.5f - uiImage->GetHeight() * 0.5f, 0.0f));
 		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("BasePanel", uiImage));
+		newScene->mGameUIs.insert(make_pair("basePanel", uiImage));
 
 		uiImage = new UIImage("Resources/UI/BtnIdle.png");
 		uiImage->SetObjectName("BtnStart");
@@ -39,7 +40,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 9, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, uiImage);
 		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("BtnStart", uiImage));
+		newScene->mGameUIs.insert(make_pair("btnStart", uiImage));
 
 		uiImage = new UIImage("Resources/UI/BtnIdle.png");
 		uiImage->SetObjectName("BtnExit");
@@ -50,29 +51,29 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 9, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, uiImage);
 		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("BtnExit", uiImage));
+		newScene->mGameUIs.insert(make_pair("btnExit", uiImage));
 
 		gSoundManager->SoundSet();
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
 
-		QuarterMap * quarterMap = new QuarterMap;
-		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
-		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
+		Room * room = new Room;
+		room->SetupQuaterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		newScene->mGameObjects.insert({ "room", room });
 
 		Player* player = new Player;
 		player->Setup();
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->mCamera->SetTarget(player->GetPosRef());
-		newScene->mGameObjects.insert(make_pair("player", player));
+		room->InsertObject("player", player);
 
 		Static3DObject* tempStaticObject = new Static3DObject;
 		tempStaticObject->Setup("Resources/XFile/", "Key.X");
 		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
 		tempStaticObject->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-		newScene->mGameObjects.insert(make_pair("staticObject", tempStaticObject));
+		room->InsertObject("key", tempStaticObject);
 	}
 	return newScene;
 }
