@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WalkCharacterState.h"
-#include "cZealot.h"
-#include "cSkinnedMesh.h"
+#include "Player.h"
+#include "SkinnedMesh.h"
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "InteractCharacterState.h"
@@ -15,14 +15,14 @@ WalkCharacterState::~WalkCharacterState()
 {
 }
 
-void WalkCharacterState::Enter(cZealot& zealot)
+void WalkCharacterState::Enter(Player& player)
 {
-	zealot.GetSkinnedMesh()->SetAnimationIndexBlend(3);
+	player.GetSkinnedMesh()->SetAnimationIndexBlend(3);
 	mPrevMoveVelocity = D3DXVECTOR3(0, 0, 0);
 	mMoveVelocity = D3DXVECTOR3(0, 0, 0);
 }
 
-CharacterState* WalkCharacterState::HandleInput(cZealot& zealot, eEventName eventName, eKeyName &key)
+CharacterState* WalkCharacterState::HandleInput(Player& player, eEventName eventName, eKeyName &key)
 {
 	if(eventName == eEventName::KEY_DOWN)
 	{
@@ -30,7 +30,7 @@ CharacterState* WalkCharacterState::HandleInput(cZealot& zealot, eEventName even
 		{
 			case eKeyName::KEY_INTERACTION :
 				{
-					zealot.SetMoveVelocity(D3DXVECTOR3(0,0,0));
+					player.SetMoveVelocity(D3DXVECTOR3(0,0,0));
 					return new InteractCharacterState;
 				}
 				break;
@@ -75,16 +75,16 @@ CharacterState* WalkCharacterState::HandleInput(cZealot& zealot, eEventName even
 	return nullptr;
 }
 
-CharacterState* WalkCharacterState::Update(cZealot& zealot)
+CharacterState* WalkCharacterState::Update(Player& player)
 {
 	if (D3DXVec3Length(&mMoveVelocity) == 0.f)
 	{
-		zealot.SetMoveVelocity(mMoveVelocity);
+		player.SetMoveVelocity(mMoveVelocity);
 		return new IdleCharacterState;
 	}
 	if(mMoveVelocity != mPrevMoveVelocity)
 	{
-		D3DXQUATERNION & zealotRot = zealot.GetRotRef();
+		D3DXQUATERNION & playerRot = player.GetRotRef();
 		
 		D3DXMATRIXA16 matLook;
 		D3DXMatrixLookAtLH(&matLook, &D3DXVECTOR3(0, 0, 0), &mMoveVelocity, &D3DXVECTOR3(0, 1, 0));
@@ -97,12 +97,12 @@ CharacterState* WalkCharacterState::Update(cZealot& zealot)
 
 		D3DXVECTOR3 yAxis = { 0, 1, 0 };
 		float yAngle = D3DX_PI;
-		D3DXQuaternionRotationAxis(&zealotRot, &yAxis, yAngle);
-		zealotRot *= moveRot;
+		D3DXQuaternionRotationAxis(&playerRot, &yAxis, yAngle);
+		playerRot *= moveRot;
 		mPrevMoveVelocity = mMoveVelocity;
 	}
 	D3DXVec3Normalize(&mMoveVelocity, &mMoveVelocity);
-	zealot.SetMoveVelocity(mMoveVelocity * gTimeManager->GetDeltaTime() * walkSpeed);
+	player.SetMoveVelocity(mMoveVelocity * gTimeManager->GetDeltaTime() * walkSpeed);
 	mMoveVelocity = D3DXVECTOR3(0,0,0);
 	return nullptr;
 }

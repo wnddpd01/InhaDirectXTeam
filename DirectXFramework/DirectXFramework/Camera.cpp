@@ -8,8 +8,9 @@ Camera::Camera() :
 	, mUp(0, 1, 0)
 	, mTarget(nullptr)
 	, mCameraDistance(15.0f)
-	, mCamRotAngle(0, 0, 0)
+	, mCamRotAngle(0, D3DX_PI * 0.25f, 0)
 {
+	
 }
 
 
@@ -23,8 +24,8 @@ void Camera::Setup()
 	gD3Device->GetViewport(&viewPort);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
-	//D3DXMatrixOrthoLH(&matProj, (float)(viewPort.Height) * (float)(viewPort.Height) / viewPort.Width, 1.f / tan(D3DX_PI / 8.0F ), 0, 10.f); // 직교 투영
+	//D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
+	D3DXMatrixOrthoLH(&matProj, 24, 24 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
@@ -41,7 +42,7 @@ void Camera::Update()
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);
 	matR = matRX * matRY;
 
-	mEye = D3DXVECTOR3(4, 5, -mCameraDistance);
+	mEye = D3DXVECTOR3(0, 10, -mCameraDistance);
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	
 	if (mTarget)

@@ -3,7 +3,8 @@
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "QuarterMap.h"
-#include "cZealot.h"
+#include "Player.h"
+#include "Static3DObject.h"
 
 SceneFactory::SceneFactory()
 {
@@ -55,16 +56,23 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
+
 		QuarterMap * quarterMap = new QuarterMap;
 		quarterMap->Setup("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "QuarterMap", quarterMap });
 
-		cZealot* zealot = new cZealot;
-		zealot->Setup();
-		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, zealot);
-		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, zealot);
-		newScene->mGameObjects.insert(make_pair("player", zealot));
+		Player* player = new Player;
+		player->Setup();
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
+		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
+		newScene->mCamera->SetTarget(player->GetPosRef());
+		newScene->mGameObjects.insert(make_pair("player", player));
 
+		Static3DObject* tempStaticObject = new Static3DObject;
+		tempStaticObject->Setup("Resources/XFile/", "Key.X");
+		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
+		tempStaticObject->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		newScene->mGameObjects.insert(make_pair("staticObject", tempStaticObject));
 	}
 	return newScene;
 }

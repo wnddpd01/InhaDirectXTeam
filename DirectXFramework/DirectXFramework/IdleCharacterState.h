@@ -10,8 +10,8 @@ public:
 	IdleCharacterState();
 	~IdleCharacterState();
 
-	void Enter(cZealot& zealot) override;
-	CharacterState* HandleInput(cZealot& zealot, eEventName eventName, eKeyName &key) override;
-	CharacterState* Update(cZealot& zealot) override;
+	void Enter(Player& player) override;
+	CharacterState* HandleInput(Player& player, eEventName eventName, eKeyName &key) override;
+	CharacterState* Update(Player& player) override;
 };
 
