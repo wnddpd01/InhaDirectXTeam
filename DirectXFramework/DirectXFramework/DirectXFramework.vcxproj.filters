@@ -154,6 +154,9 @@
     <ClCompile Include="ColliderSphere.cpp">
       <Filter>3DObject\Colider</Filter>
     </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -272,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="ColliderSphere.h">
       <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

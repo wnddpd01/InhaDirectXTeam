@@ -10,11 +10,6 @@ MeshObject::MeshObject()
 }
 
 
-MeshObject::~MeshObject()
-{
-	
-}
-
 void MeshObject::Setup(string filename)
 {
 

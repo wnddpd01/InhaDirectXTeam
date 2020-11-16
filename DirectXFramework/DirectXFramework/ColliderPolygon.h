@@ -7,7 +7,7 @@ class ColliderPolygon
 {
 public:
 	ColliderPolygon();
-	~ColliderPolygon();
+	virtual ~ColliderPolygon();
 
 	virtual void Setup() = 0;
 	virtual void Update() = 0;

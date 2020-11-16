@@ -13,7 +13,7 @@ public :
 	~Room();
 	void Update() override;
 	void Render() override;
-	void SetupQuaterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel = 1);
+	void SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel = 1);
 	void InsertObject(string name, Base3DObject * object);
 protected:
 private:

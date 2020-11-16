@@ -5,7 +5,7 @@ class ColliderSphere : public ColliderPolygon
 {
 public:
 	ColliderSphere();
-	~ColliderSphere();
+	virtual ~ColliderSphere();
 	void Setup() override;
 	void Update() override;
 	void SetSphereCollider(float radius);

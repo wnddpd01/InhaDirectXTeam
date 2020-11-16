@@ -59,7 +59,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	{
 
 		Room * room = new Room;
-		room->SetupQuaterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		room->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "room", room });
 
 		Player* player = new Player;

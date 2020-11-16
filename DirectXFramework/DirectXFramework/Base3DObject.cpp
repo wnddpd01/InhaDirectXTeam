@@ -10,10 +10,6 @@ Base3DObject::Base3DObject()
 	D3DXQuaternionIdentity(&mRot);
 }
 
-Base3DObject::~Base3DObject()
-{
-}
-
 void Base3DObject::Setup()
 {
 	SetObjectTag();

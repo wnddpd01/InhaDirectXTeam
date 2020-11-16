@@ -20,7 +20,7 @@ protected:
 
 public:
 	Base3DObject();
-	~Base3DObject();
+	virtual ~Base3DObject() = default;
 
 
 	void SetObjectTag();

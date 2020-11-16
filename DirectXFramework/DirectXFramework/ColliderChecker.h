@@ -1,5 +1,6 @@
 #pragma once
 class Base3DObject;
+class BaseObject;
 
 class ColliderChecker
 {

@@ -3,6 +3,8 @@
 #include "QuarterMap.h"
 #include "Base3DObject.h"
 
+ColliderChecker Room::mColliderChecker;
+
 Room::Room()
 	: mQuarterMap(nullptr)
 {
@@ -29,14 +31,16 @@ void Room::Update()
 
 void Room::Render()
 {
+	mQuarterMap->Render();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Render();
 	}
 }
 
-void Room::SetupQuaterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel)
+void Room::SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel)
 {
+	mQuarterMap = new QuarterMap;
 	mQuarterMap->Setup(szFolder, szRaw, szTex, dwBytesPerPixel);
 }
 
