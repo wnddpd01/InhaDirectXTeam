@@ -7,10 +7,7 @@ class CharacterState;
 class Player : public Base3DObject, public BaseObserver
 {
 	CharacterState* mCurState;
-
 	D3DXVECTOR3 mMoveVelocity;
-
-
 	void StateChange(CharacterState * nextState);
 public:
 	SkinnedMesh* m_pSkinnedMesh;
