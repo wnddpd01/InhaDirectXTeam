@@ -148,8 +148,11 @@
     <ClCompile Include="ColliderChecker.cpp">
       <Filter>3DObject\Colider</Filter>
     </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>Map</Filter>
+    <ClCompile Include="ColliderCube.cpp">
+      <Filter>3DObject\Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderSphere.cpp">
+      <Filter>3DObject\Colider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,8 +267,11 @@
     <ClInclude Include="ColliderChecker.h">
       <Filter>3DObject\Colider</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Map</Filter>
+    <ClInclude Include="ColliderCube.h">
+      <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderSphere.h">
+      <Filter>3DObject\Colider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

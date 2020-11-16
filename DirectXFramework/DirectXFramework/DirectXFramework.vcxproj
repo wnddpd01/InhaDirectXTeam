@@ -28,9 +28,10 @@
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="ColliderCube.cpp" />
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
-    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="ColliderSphere.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -72,9 +73,10 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="ColliderCube.h" />
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
-    <ClInclude Include="Room.h" />
+    <ClInclude Include="ColliderSphere.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="Player.h" />

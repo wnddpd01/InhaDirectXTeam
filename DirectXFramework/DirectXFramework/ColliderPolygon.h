@@ -3,27 +3,16 @@
 
 class Base3DObject;
 
-enum class eColliderTag { NON_COLLIDER = 0, CUBE, SPHERE };
-
 class ColliderPolygon
 {
 public:
 	ColliderPolygon();
 	~ColliderPolygon();
 
-	void Setup(eObjTag objTag);
-	void Update();
+	virtual void Setup() = 0;
+	virtual void Update() = 0;
 	
-	void SetSphereCollider(float radius);
-
-	void SetCubeCollider(float height, float width, float depth);
-
-private:
-	eColliderTag mColliderTag;
+protected:
 	LPD3DXMESH mMesh;
 	
-	float mCubeHeight;
-	float mCubeWidth;
-	float mCubeDepth;
-	float mRadius;
 };

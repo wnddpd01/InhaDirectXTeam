@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
-class ColliderPolygon;
+class ColliderCube;
+class ColliderSphere;
 
 enum class eObjTag { NON_OBJECT_TAG = 0, PLAYER_CHARACTER, STATIC_OBJECT, MOVE_OBJECT };
 
@@ -9,14 +10,13 @@ class Base3DObject :
 {
 public:
 
-	
 protected:
 	D3DXVECTOR3 mScale;
 	D3DXVECTOR3 mPos;
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
-	ColliderPolygon* mColliderSphere;
-	ColliderPolygon* mColliderBox;
+	vector<ColliderCube*> mColliderSphereVec;
+	vector<ColliderSphere*> mColliderCubeVec;
 
 public:
 	Base3DObject();
