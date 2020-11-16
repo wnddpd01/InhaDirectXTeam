@@ -5,11 +5,11 @@ class Base3DObject;
 
 enum class eColliderTag { NON_COLLIDER = 0, CUBE, SPHERE };
 
-class ColliderBox
+class ColliderPolygon
 {
 public:
-	ColliderBox();	
-	~ColliderBox();
+	ColliderPolygon();
+	~ColliderPolygon();
 
 	void Setup(eObjTag objTag);
 	void Update();

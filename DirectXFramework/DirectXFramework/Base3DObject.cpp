@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Base3DObject.h"
-#include "ColliderBox.h"
+#include "ColliderPolygon.h"
 
 Base3DObject::Base3DObject()
 	: mScale(0,0,0)
 	, mPos(0,0,0)
-	, mColliderBox(nullptr)
+	, mColliderPolygon(nullptr)
 	, mObjectTag(eObjTag::NON_OBJECT_TAG)
 {
 	D3DXQuaternionIdentity(&mRot);
@@ -20,19 +20,19 @@ void Base3DObject::Setup()
 {
 	SetObjectTag();
 
-	mColliderBox = new ColliderBox;
-	mColliderBox->Setup(mObjectTag);
+	mColliderPolygon = new ColliderPolygon;
+	mColliderPolygon->Setup(mObjectTag);
 }
 
 void Base3DObject::SetObjectTag()
 {
 	string objectName = this->GetObjectName();
 
-	if(objectName == "player")
+	if (objectName == "player")
 	{
 		mObjectTag = eObjTag::PLAYER_CHARACTER;
 	}
-	else if(objectName == "key")
+	else if (objectName == "key")
 	{
 		mObjectTag = eObjTag::STATIC_OBJECT;
 	}
@@ -44,10 +44,11 @@ void Base3DObject::SetObjectTag()
 	{
 		mObjectTag = eObjTag::STATIC_OBJECT;
 	}
+}
 
 void Base3DObject::SetPos(const D3DXVECTOR3& pos)
 {
-	mPos = pos;	
+	mPos = pos;
 }
 
 D3DXVECTOR3 Base3DObject::GetPos()

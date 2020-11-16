@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "ColliderBox.h"
+#include "ColliderPolygon.h"
 
-ColliderBox::ColliderBox()
+ColliderPolygon::ColliderPolygon()
 	: mMesh(nullptr)
 	, mCubeWidth(1.0f)
 	, mCubeHeight(1.0f)
@@ -12,12 +12,12 @@ ColliderBox::ColliderBox()
 
 }
 
-ColliderBox::~ColliderBox()
+ColliderPolygon::~ColliderPolygon()
 {
 	SAFE_DELETE(mMesh);
 }
 
-void ColliderBox::Setup(eObjTag objTag)
+void ColliderPolygon::Setup(eObjTag objTag)
 {
 	if(objTag == eObjTag::PLAYER_CHARACTER || objTag == eObjTag::STATIC_OBJECT || objTag == eObjTag::MOVE_OBJECT)
 	{
@@ -34,21 +34,21 @@ void ColliderBox::Setup(eObjTag objTag)
 		D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
 	}
 }
+//
+//void ColliderBox::Update()
+//{
+//	D3DXCreateSphere(gD3Device, radius, 10, 10, &mMesh, NULL);
+//
+//	D3DXCreateBox(gD3Device, width, height, depth, &mMesh, NULL);
+//}
 
-void ColliderBox::Update()
-{
-	D3DXCreateSphere(gD3Device, radius, 10, 10, &mMesh, NULL);
-
-	D3DXCreateBox(gD3Device, width, height, depth, &mMesh, NULL);
-}
-
-void ColliderBox::SetSphereCollider(float radius)
+void ColliderPolygon::SetSphereCollider(float radius)
 {
 	mRadius = mRadius;
 	
 }
 
-void ColliderBox::SetCubeCollider(float width, float height, float depth)
+void ColliderPolygon::SetCubeCollider(float width, float height, float depth)
 {
 	mCubeWidth = width;
 	mCubeHeight = height;

@@ -28,8 +28,8 @@
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
-    <ClCompile Include="ColliderBox.cpp" />
-    <ClCompile Include="ColliderCheck.cpp" />
+    <ClCompile Include="ColliderPolygon.cpp" />
+    <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -71,8 +71,8 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
-    <ClInclude Include="ColliderBox.h" />
-    <ClInclude Include="ColliderCheck.h" />
+    <ClInclude Include="ColliderPolygon.h" />
+    <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="Player.h" />

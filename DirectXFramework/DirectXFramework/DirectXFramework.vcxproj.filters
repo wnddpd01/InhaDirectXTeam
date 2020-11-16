@@ -142,10 +142,10 @@
     <ClCompile Include="SkinnedMesh.cpp">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderBox.cpp">
+    <ClCompile Include="ColliderPolygon.cpp">
       <Filter>3DObject\Colider</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderCheck.cpp">
+    <ClCompile Include="ColliderChecker.cpp">
       <Filter>3DObject\Colider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -255,10 +255,10 @@
     <ClInclude Include="SkinnedMesh.h">
       <Filter>3DObject\AnimatingObject</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderBox.h">
+    <ClInclude Include="ColliderPolygon.h">
       <Filter>3DObject\Colider</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderCheck.h">
+    <ClInclude Include="ColliderChecker.h">
       <Filter>3DObject\Colider</Filter>
     </ClInclude>
   </ItemGroup>
