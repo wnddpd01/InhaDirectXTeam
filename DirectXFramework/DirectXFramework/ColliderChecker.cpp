@@ -8,7 +8,7 @@ ColliderChecker::ColliderChecker()
 
 
 ColliderChecker::~ColliderChecker()
-{ 
+{
 }
 
 bool ColliderChecker::CheckCubeByOBB(IN Base3DObject * object1,IN Base3DObject * object2, OUT string& obj1Tag, OUT string& obj2Tag)
