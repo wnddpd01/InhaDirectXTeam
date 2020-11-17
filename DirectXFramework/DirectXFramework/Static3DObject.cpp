@@ -79,5 +79,4 @@ LPD3DXEFFECT Static3DObject::LoadShader(const char* filename)
 	}
 
 	return ret;
->>>>>>> c92b3ba015b0986d849c95aa0faec4092e13f63d
 }
