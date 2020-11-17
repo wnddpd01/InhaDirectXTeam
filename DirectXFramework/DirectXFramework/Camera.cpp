@@ -25,7 +25,7 @@ void Camera::Setup()
 
 	D3DXMATRIXA16 matProj;
 	//D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
-	D3DXMatrixOrthoLH(&matProj, 24, 24 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
+	D3DXMatrixOrthoLH(&matProj, 12, 12 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }

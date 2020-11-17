@@ -186,6 +186,7 @@ using namespace std;
 #include "DeviceManager.h"
 #include "TextureManager.h"
 #include "SoundManager.h"
+#include "ShaderManager.h"
 
 inline string to_string(D3DXVECTOR3 & vec3)
 {

@@ -71,8 +71,10 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		Static3DObject* tempStaticObject = new Static3DObject;
 		tempStaticObject->Setup("Resources/XFile/", "Key.X");
 		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
-		tempStaticObject->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		tempStaticObject->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
 		room->InsertObject("key", tempStaticObject);
+
+		gShader->LoadAllShader();
 	}
 	return newScene;
 }
