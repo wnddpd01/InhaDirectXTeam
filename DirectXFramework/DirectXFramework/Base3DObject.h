@@ -22,6 +22,8 @@ protected:
 public:
 	Base3DObject();
 	virtual ~Base3DObject();
+	virtual void Setup();
+	void Render() override;
 
 	void SetObjectTag();
 	
@@ -29,12 +31,12 @@ public:
 	void AddColliderSphere();
 	void DeleteColliderCube(string key);
 	void DeleteColliderSphere(string key);
-
-	virtual void Setup();
 	
 	void SetPos(const D3DXVECTOR3& pos);
 	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
+
+	function<void(Base3DObject *, string&, string&)> CollideHandle;
 };
 

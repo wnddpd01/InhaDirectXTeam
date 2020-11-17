@@ -13,7 +13,7 @@ Room::Room()
 Room::~Room()
 {
 	SAFE_DELETE(mQuarterMap);
-	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
+	for (map<string, Base3DObject*>::value_type& objectInRoom : mObjectsInRoom)
 	{
 		SAFE_DELETE(objectInRoom.second);
 	}
@@ -22,7 +22,7 @@ Room::~Room()
 
 void Room::Update()
 {
-	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
+	for (map<string, Base3DObject*>::value_type& objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Update();
 	}
@@ -32,7 +32,7 @@ void Room::Update()
 void Room::Render()
 {
 	mQuarterMap->Render();
-	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
+	for (map<string, Base3DObject*>::value_type& objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Render();
 	}

@@ -18,18 +18,7 @@ void MeshObject::Setup(string filename)
 
 void MeshObject::Render()
 {
-	D3DXMATRIXA16 matWorld, matS, matR, matT;
-	
-	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixIdentity(&matT);
-
-	D3DXMatrixScaling(&matS, 1, 1, 1);
-	
-	matWorld = matS * matR * matT;
-	
-	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+	Base3DObject::Render();
 
 	for (size_t i = 0; i < mMtlTex.size(); ++i)
 	{

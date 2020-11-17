@@ -6,14 +6,15 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
 
+#include <Windows.h>
 #include <algorithm>
 #include <map>
-#include <Windows.h>
 #include <iostream>
 #include <chrono>
 #include <cassert>
 #include <vector>
 #include <string>
+#include <queue>
 #include <functional>
 
 #include "DirectX9SDK/Include/d3d9.h"
@@ -167,7 +168,6 @@ protected : varType varName ; \
 public : inline varType& Get##funName(void)  { return varName ; } \
 public : inline void Set##funName(varType& var) { varName = var ; }
 
-#include <unordered_map>
 
 #include <dinput.h>
 

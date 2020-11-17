@@ -279,5 +279,8 @@
     <ClInclude Include="Room.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="CollideHandle.h">
+      <Filter>3DObject\Colider</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
