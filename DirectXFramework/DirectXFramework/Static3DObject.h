@@ -1,5 +1,6 @@
 #pragma once
 #include "Base3DObject.h"
+
 class Static3DObject :
 	public Base3DObject
 {
@@ -8,6 +9,7 @@ private:
 	D3DMATERIAL9*			mpMaterials;
 	LPDIRECT3DTEXTURE9*		mpTextures;
 	DWORD					mNumMaterials;
+	
 	
 public:
 	Static3DObject();
@@ -20,6 +22,9 @@ public:
 
 	void Update() override;
 	void Render() override;
-	
+
+	void RenderMesh();
+
+	LPD3DXEFFECT LoadShader(const char* filename);
 };
 
