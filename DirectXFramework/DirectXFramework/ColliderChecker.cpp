@@ -44,19 +44,20 @@ bool ColliderChecker::CheckCube(IN Base3DObject * object1, IN Base3DObject * obj
 	{
 		for (map<string, ColliderCube*>::iterator iter2 = object2->GetColliderCube().begin(); iter2 != object2->GetColliderCube().end(); ++iter2)
 		{
-			CheckCubeByOBB((*iter).second,(*iter2).second);
+			if(CheckCubeByOBB((*iter).second,(*iter2).second))
+			{
+				return true;
+			}
 		}
 	}
-
-	return true;
+	return false;
 }
 
 bool ColliderChecker::CheckSphere(Base3DObject* object1, Base3DObject* object2)
 {
 	float distance;
 	D3DXVECTOR3 diff;
-
-	object1->GetColliderSphere()->GetPosition() - object2->GetColliderSphere()->GetPosition();
+	
 	distance = D3DXVec3Length(&diff);
 
 	if (distance <= object1->GetColliderSphere()->GetRadius() + object2->GetColliderSphere()->GetRadius())
@@ -165,7 +166,7 @@ bool ColliderChecker::CheckCubeByOBB(ColliderCube* obj1Cube, ColliderCube* obj2C
 	const float cutOff = 0.999999f;
 	bool existsParallelPair = false;
 
-	D3DXVECTOR3 D = obj1Cube->GetPosition() - obj2Cube->GetPosition();
+	D3DXVECTOR3 D = *obj1Cube->GetPosition() - *obj2Cube->GetPosition();
 
 	//for (int a = 0; a < 3; a++)
 	//{

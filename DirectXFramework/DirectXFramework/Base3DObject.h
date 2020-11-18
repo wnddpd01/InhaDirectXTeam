@@ -27,8 +27,8 @@ public:
 
 	void SetObjectTag();
 	
-	void AddColliderCube();
-	void DeleteColliderCube(string key);
+	void AddColliderCube(string colliderName);
+	void DeleteColliderCube(string colliderName);
 
 	virtual void Update();
 	virtual void Setup();

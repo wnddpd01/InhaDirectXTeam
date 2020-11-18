@@ -10,11 +10,10 @@ public:
 	virtual ~ColliderPolygon();
 
 	virtual void Setup() = 0;
-
-	virtual void Update(D3DXVECTOR3 pos);
-	D3DXVECTOR3& GetPosition() { return mPosition; }
+	D3DXVECTOR3 * GetPosition() { return mPosition; }
+	void SetPosition(D3DXVECTOR3 * pos) { mPosition = pos; }
 
 protected:
 	LPD3DXMESH mMesh;
-	D3DXVECTOR3 mPosition;
+	D3DXVECTOR3 * mPosition;
 };

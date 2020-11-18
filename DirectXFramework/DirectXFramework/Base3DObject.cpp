@@ -8,10 +8,11 @@ Base3DObject::Base3DObject()
 	: mScale(0,0,0)
 	, mPos(0,0,0)
 	, mObjectTag(eObjTag::NON_OBJECT_TAG)
-	, mColliderSphere(nullptr)
 {
 	D3DXQuaternionIdentity(&mRot);
 	CollideHandle = DefaultColliderHandler;
+	mColliderSphere = new ColliderSphere;
+	mColliderSphere->SetPosition(&mPos);
 }
 
 Base3DObject::~Base3DObject()
@@ -28,20 +29,11 @@ Base3DObject::~Base3DObject()
 
 void Base3DObject::Update()
 {
-	for (auto element : mColliderCubeMap)
-	{
-		element.second->Update(mPos);
-	}
 }
 
 void Base3DObject::Setup()
 {
 	SetObjectTag();
-
-	ColliderCube* colliderCube = new ColliderCube;
-	ColliderSphere* colliderSphere = new ColliderSphere;
-	
-	mColliderCubeMap.insert(make_pair("BasicCube", colliderCube));
 }
 
 void Base3DObject::Render()
@@ -78,15 +70,16 @@ void Base3DObject::SetObjectTag()
 	}
 }
 
-void Base3DObject::AddColliderCube()
+void Base3DObject::AddColliderCube(string colliderName)
 {
 	ColliderCube* colliderCube = new ColliderCube;
-	mColliderCubeMap.insert(make_pair("BasicCube" + to_string(mColliderCubeMap.size()), colliderCube));
+	colliderCube->SetPosition(&mPos);
+	mColliderCubeMap.insert(make_pair(colliderName, colliderCube));
 }
 
-void Base3DObject::DeleteColliderCube(string key)
+void Base3DObject::DeleteColliderCube(string colliderName)
 {
-	mColliderCubeMap.erase(mColliderCubeMap.find(key));
+	mColliderCubeMap.erase(mColliderCubeMap.find(colliderName));
 }
 
 void Base3DObject::SetPos(const D3DXVECTOR3& pos)

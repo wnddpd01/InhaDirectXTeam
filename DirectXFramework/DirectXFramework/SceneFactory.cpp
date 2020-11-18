@@ -64,6 +64,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		Player* player = new Player;
 		player->Setup();
+		player->AddColliderCube("playerCubeCollider");
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->mCamera->SetTarget(player->GetPosRef());
@@ -73,6 +74,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		tempStaticObject->Setup("Resources/XFile/", "Key.X");
 		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
 		tempStaticObject->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
+		tempStaticObject->AddColliderCube("keyCubeCollider");
 		tempStaticObject->CollideHandle = KeyColliderHandler;
 		room->InsertObject("key", tempStaticObject);
 
