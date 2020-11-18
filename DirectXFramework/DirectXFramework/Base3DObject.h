@@ -16,27 +16,31 @@ protected:
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
 	
-	map<string,ColliderSphere*> mColliderSphereMap;
+	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
-
+	
 public:
 	Base3DObject();
 	virtual ~Base3DObject();
-	virtual void Setup();
+
 	void Render() override;
 
 	void SetObjectTag();
 	
 	void AddColliderCube();
-	void AddColliderSphere();
 	void DeleteColliderCube(string key);
-	void DeleteColliderSphere(string key);
-	
+
+	virtual void Update();
+	virtual void Setup();
+
 	void SetPos(const D3DXVECTOR3& pos);
 	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
+	ColliderSphere* GetColliderSphere() { return mColliderSphere; }
+	map<string, ColliderCube*>& GetColliderCube() { return mColliderCubeMap; }
+
 };
 
