@@ -25,6 +25,7 @@ void InteractCharacterState::Enter(Player& player)
 	AnimationPeriod = curAnimSet->GetPeriod();
 }
 
+
 CharacterState* InteractCharacterState::Update(Player& player)
 {
 	if(GetTickCount() - interactStartTime > (AnimationPeriod -  player.GetSkinnedMesh()->GetBlendTime() - 0.1f) * 1000 )

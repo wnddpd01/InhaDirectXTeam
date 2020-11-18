@@ -4,6 +4,7 @@
 #include "ColliderSphere.h"
 
 
+
 ColliderChecker::ColliderChecker()
 {
 }
@@ -21,8 +22,8 @@ void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 		{
 			if(CheckSphere((*iter).second, (*iter2).second))
 			{
-				string obj1Tag;
-				string obj2Tag;
+				string obj1Tag = "";
+				string obj2Tag = "";
 				
 				if(CheckCube((*iter).second,(*iter2).second, obj1Tag, obj2Tag))
 				{

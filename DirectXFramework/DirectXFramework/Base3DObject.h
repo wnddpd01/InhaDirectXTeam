@@ -23,6 +23,8 @@ public:
 	Base3DObject();
 	virtual ~Base3DObject();
 
+	void Render() override;
+
 	void SetObjectTag();
 	
 	void AddColliderCube();
@@ -30,7 +32,7 @@ public:
 
 	virtual void Update();
 	virtual void Setup();
-	
+
 	void SetPos(const D3DXVECTOR3& pos);
 	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
@@ -38,5 +40,8 @@ public:
 
 	ColliderSphere* GetColliderSphere() { return mColliderSphere; }
 	map<string, ColliderCube*>& GetColliderCube() { return mColliderCubeMap; }
+
+	function<void(Base3DObject *, string&, string&)> CollideHandle;
+
 };
 

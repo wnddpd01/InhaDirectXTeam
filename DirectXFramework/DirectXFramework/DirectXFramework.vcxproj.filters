@@ -157,6 +157,9 @@
     <ClCompile Include="Room.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -278,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="Room.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
