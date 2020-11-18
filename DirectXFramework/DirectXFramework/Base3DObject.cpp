@@ -5,7 +5,7 @@
 #include "CollideHandle.h"
 
 Base3DObject::Base3DObject()
-	: mScale(0,0,0)
+	: mScale(1,1,1)
 	, mPos(0,0,0)
 	, mObjectTag(eObjTag::NON_OBJECT_TAG)
 {
@@ -13,6 +13,8 @@ Base3DObject::Base3DObject()
 	CollideHandle = DefaultColliderHandler;
 	mColliderSphere = new ColliderSphere;
 	mColliderSphere->SetPosition(&mPos);
+	mColliderSphere->SetRotation(&mRot);
+	mColliderSphere->SetScale(&mScale);
 }
 
 Base3DObject::~Base3DObject()
@@ -29,11 +31,22 @@ Base3DObject::~Base3DObject()
 
 void Base3DObject::Update()
 {
+	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
+	{
+		it->second->Update();
+	}
+
+	mColliderSphere->Update();
 }
 
 void Base3DObject::Setup()
 {
 	SetObjectTag();
+
+	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
+	{
+		it->second->Setup();
+	}
 }
 
 void Base3DObject::Render()
@@ -46,6 +59,11 @@ void Base3DObject::Render()
 	matWorld = matS * matR * matT;
 
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
+	{
+		it->second->Render();
+	}
 }
 
 void Base3DObject::SetObjectTag()
@@ -74,6 +92,8 @@ void Base3DObject::AddColliderCube(string colliderName)
 {
 	ColliderCube* colliderCube = new ColliderCube;
 	colliderCube->SetPosition(&mPos);
+	colliderCube->SetRotation(&mRot);
+	colliderCube->SetScale(&mScale);
 	mColliderCubeMap.insert(make_pair(colliderName, colliderCube));
 }
 

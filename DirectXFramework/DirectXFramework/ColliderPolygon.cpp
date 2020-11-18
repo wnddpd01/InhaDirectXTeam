@@ -5,7 +5,6 @@ ColliderPolygon::ColliderPolygon()
 	: mMesh(nullptr)
 	, mPosition(nullptr)
 {
-
 }
 
 ColliderPolygon::~ColliderPolygon()

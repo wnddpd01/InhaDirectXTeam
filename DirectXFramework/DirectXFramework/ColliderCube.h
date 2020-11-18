@@ -7,15 +7,30 @@ public:
 	ColliderCube();
 	virtual ~ColliderCube();
 	void Setup() override;
+	void Update() override;
+	void Render() override;
+	
 	void SetCubeCollider(float height, float width, float depth);
-
-	D3DXVECTOR3 GetMax() { return D3DXVECTOR3(mCubeWidth, mCubeHeight, mCubeDepth); }
-	D3DXVECTOR3 GetMin() { return D3DXVECTOR3(0, 0, 0); }
+	
+	static bool IsCollision(ColliderCube* obj1Cube, ColliderCube* obj2Cube);
+	void OBBBOX_Render(D3DCOLOR c);
 	
 private:
 	float mCubeHeight;
 	float mCubeWidth;
 	float mCubeDepth;
 
+	D3DXVECTOR3 m_vOriCenterPos;
+	D3DXVECTOR3 m_vOriAxisDir[3];
+	
+	vector<D3DXVECTOR3> m_BoxDrawVertex;
+	
+	D3DXVECTOR3 m_vCenterPos;
+	D3DXVECTOR3 m_vAxisDir[3];
+	
+	float m_fAxisLen[3];
+	float m_fAxisHalfLen[3];
+
+	
 };
 

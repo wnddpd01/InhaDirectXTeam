@@ -17,4 +17,5 @@ void BaseObject::Update()
 
 void BaseObject::Render()
 {
+	
 }

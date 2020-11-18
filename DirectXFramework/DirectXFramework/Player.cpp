@@ -14,6 +14,7 @@ void Player::StateChange(CharacterState* nextState)
 
 void Player::Setup()
 {
+	Base3DObject::Setup();
 	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	
@@ -28,6 +29,7 @@ void Player::Update()
 {
 	D3DXMATRIXA16 matWorld, matR, matT;
 
+	Base3DObject::Update();
 
 	if (D3DXVec3Length(&mMoveVelocity) != 0)
 	{
@@ -49,6 +51,7 @@ void Player::Update()
 
 void Player::Render()
 {
+	Base3DObject::Render();
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedMesh->Render(nullptr);
 }
