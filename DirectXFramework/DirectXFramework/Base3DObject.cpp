@@ -44,11 +44,8 @@ void Base3DObject::Render()
 {
 	D3DXMATRIXA16 matWorld, matS, matR, matT;
 
-	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixIdentity(&matS);
 	D3DXMatrixScaling(&matS, Base3DObject::mScale.x, Base3DObject::mScale.y, Base3DObject::mScale.z);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixIdentity(&matT);
+	D3DXMatrixRotationQuaternion(&matR, &mRot);
 	D3DXMatrixTranslation(&matT, Base3DObject::mPos.x, Base3DObject::mPos.y, Base3DObject::mPos.z);
 	matWorld = matS * matR * matT;
 

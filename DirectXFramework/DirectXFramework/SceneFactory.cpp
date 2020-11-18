@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Static3DObject.h"
 #include "Room.h"
+#include "CollideHandle.h"
 
 SceneFactory::SceneFactory()
 {
@@ -72,6 +73,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		tempStaticObject->Setup("Resources/XFile/", "Key.X");
 		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
 		tempStaticObject->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
+		tempStaticObject->CollideHandle = KeyColliderHandler;
 		room->InsertObject("key", tempStaticObject);
 
 		gShader->LoadAllShader();

@@ -51,6 +51,6 @@ public:
 	Player();
 	virtual ~Player();
 
-	void PlayerCollideHandle(Base3DObject * player, string& myTag, string& collideeTag);
+	void PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
 };
 

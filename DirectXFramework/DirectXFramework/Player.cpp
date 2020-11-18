@@ -21,7 +21,7 @@ void Player::Setup()
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
 
-	CollideHandle = bind(&Player::PlayerCollideHandle, this, placeholders::_1, placeholders::_2, placeholders::_3);
+	CollideHandle = bind(&Player::PlayerCollideHandle, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 }
 
 void Player::Update()
@@ -97,10 +97,10 @@ Player::~Player()
 	SAFE_DELETE(m_pSkinnedMesh);
 }
 
-void Player::PlayerCollideHandle(Base3DObject* player, string& myTag, string& collideeTag)
+void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
 {
-	if(collideeTag == "KeyCube")
+	if(myColliderTag == "KeyCube")
 	{
-		
+		cout << "플레이어가 열쇠와 충돌" << endl;
 	}
 }

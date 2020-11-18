@@ -37,6 +37,6 @@ public:
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
 
-	function<void(Base3DObject *, string&, string&)> CollideHandle;
+	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 };
 
