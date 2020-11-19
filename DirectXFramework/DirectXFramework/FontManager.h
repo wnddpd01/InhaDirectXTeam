@@ -2,7 +2,7 @@
 
 #include "Singleton.h"
 
-#define g_pFontManager cFontManager::GetInstance()
+#define gFontManager FontManager::GetInstance()
 
 #define FONT_LEFTTOP	(DT_LEFT | DT_TOP | DT_NOCLIP)
 #define FONT_CENTER		(DT_CENTER | DT_VCENTER | DT_NOCLIP)

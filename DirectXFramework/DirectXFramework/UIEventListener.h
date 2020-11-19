@@ -39,7 +39,7 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 	{
 		case eEventName::MOUSE_L_DOWN:
 			{
-				POINT mousePt = *(POINT*)(parameter);
+				POINT& mousePt = *(POINT*)(parameter);
 				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 				{
 					uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
@@ -50,7 +50,7 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 			break;
 		case eEventName::MOUSE_L_UP:
 			{
-				POINT mousePt = *(POINT*)(parameter);
+				POINT& mousePt = *(POINT*)(parameter);
 				isClicked = false;
 				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 				{
@@ -65,7 +65,7 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 			break;
 		case eEventName::MOUSE_MOVE:
 			{
-				POINT mousePt = *(POINT*)(parameter);
+				POINT& mousePt = *(POINT*)(parameter);
 				if (isClicked == false)
 				{
 					if(PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))

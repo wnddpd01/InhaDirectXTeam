@@ -44,7 +44,13 @@ void Room::SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwByt
 	mQuarterMap->Setup(szFolder, szRaw, szTex, dwBytesPerPixel);
 }
 
-void Room::InsertObject(string name, Base3DObject* object)
+void Room::InsertObject(Base3DObject* object)
 {
-	mObjectsInRoom.insert(make_pair(name, object));
+	mObjectsInRoom.insert(make_pair(object->GetObjectName(), object));
+	object->DeleteInRoom = bind(&Room::DeleteObject, this, placeholders::_1);
+}
+
+void Room::DeleteObject(string& name)
+{
+	mObjectsInRoom.erase(mObjectsInRoom.find(name));
 }

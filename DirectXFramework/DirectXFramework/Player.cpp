@@ -4,6 +4,33 @@
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
+#include "FontManager.h";
+
+Player::Player()
+	: m_pSkinnedMesh(nullptr)
+	, mCurState(nullptr)
+	, mMoveVelocity(0, 0, 0)
+	, interactingObject(nullptr)
+{
+	D3DXVECTOR3 yAxis = { 0, 1, 0 };
+	float yAngle = D3DX_PI * 1.75f;
+	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
+
+	D3DVIEWPORT9 viewPort;
+	gD3Device->GetViewport(&viewPort);
+
+	mDrawFontArea.left = viewPort.Width / 2;
+	mDrawFontArea.top = viewPort.Height / 2;
+	mDrawFontArea.right = mDrawFontArea.left + viewPort.Width * 0.3f;
+	mDrawFontArea.right = mDrawFontArea.left + viewPort.Height * 0.1f;
+
+}
+
+
+Player::~Player()
+{
+		SAFE_DELETE(m_pSkinnedMesh);
+}
 
 void Player::StateChange(CharacterState* nextState)
 {
@@ -47,6 +74,11 @@ void Player::Update()
 		StateChange(retState);
 	}
 	m_pSkinnedMesh->Update();
+
+	if (interactingObject != nullptr)
+	{
+		interactingObject = nullptr;
+	}
 }
 
 void Player::Render()
@@ -54,6 +86,7 @@ void Player::Render()
 	Base3DObject::Render();
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedMesh->Render(nullptr);
+
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
@@ -72,6 +105,22 @@ bool Player::Update(eEventName eventName, void* parameter)
 				}
 			}
 			break;
+		case eEventName::MOUSE_MOVE :
+			{
+				POINT& mousePt = *(POINT*)parameter;
+				D3DXVECTOR3 mouseVec = D3DXVECTOR3(mousePt.x, mousePt.y, 0);
+				D3DXMATRIXA16 matProj;
+				D3DXMATRIXA16 matView;
+				D3DXMATRIXA16 matWorld;
+				gD3Device->GetTransform(D3DTS_PROJECTION, &matProj);
+				gD3Device->GetTransform(D3DTS_VIEW, &matView);
+				gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+				
+				D3DXVec3Unproject(&mouseVec, &mouseVec, nullptr, &matProj, &matView, &matWorld);
+				cout << to_string(mouseVec) << endl;
+
+			}
+			break;
 		default:
 			break;
 	}
@@ -84,26 +133,11 @@ void Player::SetAnimationSpeed(FLOAT spd)
 	m_pSkinnedMesh->m_pAnimController->SetTrackSpeed(0, spd);
 }
 
-Player::Player()
-	:m_pSkinnedMesh(nullptr)
-	,mCurState(nullptr)
-	,mMoveVelocity(0,0,0)
-{
-	D3DXVECTOR3 yAxis = { 0, 1, 0 };
-	float yAngle = D3DX_PI * 1.75f;
-	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
-}
-
-
-Player::~Player()
-{
-	SAFE_DELETE(m_pSkinnedMesh);
-}
 
 void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
 {
 	if(otherColliderTag == "keyCubeCollider")
 	{
-		cout << "플레이어가 열쇠와 충돌" << endl;
+		interactingObject = otherCollider;
 	}
 }
