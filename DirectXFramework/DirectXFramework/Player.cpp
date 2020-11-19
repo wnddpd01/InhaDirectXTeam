@@ -20,8 +20,6 @@ void Player::Setup()
 	m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM;
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
-
-	CollideHandle = bind(&Player::PlayerCollideHandle, this, placeholders::_1, placeholders::_2, placeholders::_3);
 }
 
 void Player::Update()
@@ -50,6 +48,7 @@ void Player::Update()
 void Player::Render()
 {
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	
 	m_pSkinnedMesh->Render(nullptr);
 }
 
@@ -95,12 +94,4 @@ Player::Player()
 Player::~Player()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
-}
-
-void Player::PlayerCollideHandle(Base3DObject* player, string& myTag, string& collideeTag)
-{
-	if(collideeTag == "KeyCube")
-	{
-		
-	}
 }

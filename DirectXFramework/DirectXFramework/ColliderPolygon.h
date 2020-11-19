@@ -10,7 +10,7 @@ public:
 	virtual ~ColliderPolygon();
 
 	virtual void Setup() = 0;
-	virtual void Update() {}
+	void Update();
 	
 protected:
 	LPD3DXMESH mMesh;

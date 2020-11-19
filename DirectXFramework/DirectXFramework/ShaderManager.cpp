@@ -11,6 +11,9 @@ void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 	gD3Device->GetTransform(D3DTS_VIEW, &matView);
 	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
 	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	//D3DLIGHT9 temp;
+	//gD3Device->GetLight(0, &temp);
+	//temp.Position
 	D3DXMatrixInverse(&matInvWorld, nullptr, &matWorld);
 	matWVP = matWorld * matView * matProjection;
 
@@ -74,6 +77,136 @@ void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 	mShaders["OutLine"]->End();
 }
 
+void ShaderManager::RenderWithPointLightShader(function<void()> FunctionPtr)
+{
+	struct PointLight
+	{
+		D3DXVECTOR3	color;
+		D3DXVECTOR3	position;
+		float	range;
+	};
+	
+	PointLight PointLight = {
+		{ 1.f, 1.f, 1.f},
+		{ 5.f, 5.f, 5.f },
+		1000.f };
+	
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP, matWorldInvTrans;
+	D3DXVECTOR4 vec4CameraPos = { 0.f, 10.f, -15.f, 0.f };
+	D3DXVECTOR4 vec4ObejctColor = { 0.f, 0.8f, 0.f, 1.f };
+	D3DXVECTOR4 vec4AmbientLightColor = { 0.8f, 0.f, 0.f, 0.3f };
+	
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	matWVP = matWorld * matView * matProjection;
+	D3DXMatrixInverse(&matWorldInvTrans, NULL, &matWorld);
+	D3DXMatrixTranspose(&matWorldInvTrans, &matWorldInvTrans);
+
+	mShaders["PointLight"]->SetMatrix("worldViewProj", &matWVP);
+	mShaders["PointLight"]->SetMatrix("world", &matWorld);
+	mShaders["PointLight"]->SetMatrix("view", &matView);
+	mShaders["PointLight"]->SetMatrix("worldInverseTranspose", &matWorldInvTrans);
+	
+	mShaders["PointLight"]->SetVector("cameraPosition", &vec4CameraPos);
+	mShaders["PointLight"]->SetVector("objectColor", &vec4ObejctColor);
+	mShaders["PointLight"]->SetVector("ambientLightColor", &vec4AmbientLightColor);
+	mShaders["PointLight"]->SetValue("myPointLight", &PointLight, sizeof(PointLight));
+
+	UINT numPasses = 0;
+	mShaders["PointLight"]->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			mShaders["PointLight"]->BeginPass(i);
+			{
+				FunctionPtr();
+			}
+			mShaders["PointLight"]->EndPass();
+		}
+	}
+	mShaders["PointLight"]->End();
+	
+}
+
+void ShaderManager::RenderWithSpotLightShader(function<void()> FunctionPtr)
+{
+	float multiflier = 5.f;
+	
+	struct SpotLight
+	{
+		D3DXVECTOR3	color = { 1.f,1.f,1.f };
+		D3DXVECTOR3	position;
+		float		range = 5.f;
+		D3DXVECTOR3	direction = {0,-1.f,0};
+		float		innerConeAngle = D3DX_PI / 32.f;
+		float		outerConeAngle = D3DX_PI / 32.f;
+	};
+
+	SpotLight mySpotLight;
+	mySpotLight.color = { multiflier, multiflier,multiflier };
+	mySpotLight.position = { 5.f, 5.f, 1.4f };
+
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP, matWorldInvTrans;
+	D3DXVECTOR4 vec4ObejctColor = { 0.f, 0.8f, 0.f, 1.f };
+	D3DXVECTOR4 vec4AmbientLightColor = { 0.8f, 0.f, 0.f, 0.3f };
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	matWVP = matWorld * matView * matProjection;
+	D3DXMatrixInverse(&matWorldInvTrans, NULL, &matWorld);
+	D3DXMatrixTranspose(&matWorldInvTrans, &matWorldInvTrans);
+
+	mShaders["SpotLight"]->SetMatrix("WorldViewProj", &matWVP);
+	mShaders["SpotLight"]->SetMatrix("World", &matWorld);
+	mShaders["SpotLight"]->SetMatrix("View", &matView);
+	mShaders["SpotLight"]->SetMatrix("WorldInverseTranspose", &matWorldInvTrans);
+
+	mShaders["SpotLight"]->SetVector("ObjectColor", &vec4ObejctColor);
+	mShaders["SpotLight"]->SetVector("AmbientLightColor", &vec4AmbientLightColor);
+	mShaders["SpotLight"]->SetValue("mySpotLight", &mySpotLight, sizeof(SpotLight));
+	
+	
+	UINT numPasses = 0;
+	mShaders["SpotLight"]->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			mShaders["SpotLight"]->BeginPass(i);
+			{
+				FunctionPtr();
+			}
+			mShaders["SpotLight"]->EndPass();
+		}
+	}
+	mShaders["SpotLight"]->End();
+	
+}
+
+void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
+{
+	LPDIRECT3DTEXTURE9 clr;
+	D3DXVECTOR4 wndSize = { 1280.f , 720.f , 0,0};
+	mShaders["Item"]->SetVector("wndSize;", &wndSize);
+
+	UINT numPasses = 0;
+	mShaders["Item"]->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			mShaders["Item"]->BeginPass(i);
+			{
+				FunctionPtr();
+			}
+			mShaders["Item"]->EndPass();
+		}
+	}
+	mShaders["Item"]->End();
+
+	
+}
+
 
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 {
@@ -84,7 +217,7 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 #if _DEBUG
 	dwShaderFlags |= D3DXSHADER_DEBUG;
 #endif
-
+	dwShaderFlags |= D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY;
 	D3DXCreateEffectFromFileA(gD3Device, filename,
 		NULL, NULL, dwShaderFlags, NULL, &ret, &pError);
 
@@ -95,23 +228,39 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 		int size = pError->GetBufferSize();
 		void *ack = pError->GetBufferPointer();
 
-		/*
 		if (ack)
 		{
 		char* str = new char[size];
-		sprintf(str, (const char*)ack, size);
+		sprintf_s(str, size, "%s", (const char*)ack);
 		OutputDebugStringA(str);
+		cout << str;
+		system("pause");
 		delete[] str;
 		}
-		*/
+		
 	}
 
 	return ret;
 }
 
+LPDIRECT3DTEXTURE9 ShaderManager::LoadTexture(const char* filename)
+{
+	LPDIRECT3DTEXTURE9 ret = NULL;
+	if (FAILED(D3DXCreateTextureFromFileA(gD3Device, filename, &ret)))
+	{
+		OutputDebugStringA("텍스처 로딩 실패: ");
+		OutputDebugStringA(filename);
+		OutputDebugStringA("\n");
+	}
+	return ret;
+}
+
 void ShaderManager::LoadAllShader()
 {
-	mShaders["Toon"] = LoadShader("Resources/Shader/ToonShader.fx");
-	mShaders["OutLine"] = LoadShader("Resources/Shader/outLine.fx");
+	mShaders["Toon"]		= LoadShader("Resources/Shader/ToonShader.fx");
+	mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
+	mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");
+	mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
+	mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
 }
 

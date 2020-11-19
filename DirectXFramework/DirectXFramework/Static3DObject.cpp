@@ -21,7 +21,8 @@ void Static3DObject::Setup(
 {
 	ModelLoader loader;
 	loader.LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
-
+	
+	mShaderTag = eShaderTag::ITEM;
 }
 
 void Static3DObject::Update()
@@ -31,8 +32,31 @@ void Static3DObject::Update()
 
 void Static3DObject::Render()
 {
-	Base3DObject::Render();
-	gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
+	D3DXMATRIXA16 matWorld, matS, matR, matT;
+
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, Base3DObject::mScale.x, Base3DObject::mScale.y, Base3DObject::mScale.z);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixTranslation(&matT, Base3DObject::mPos.x, Base3DObject::mPos.y, Base3DObject::mPos.z);
+	matWorld = matS * matR * matT;
+	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+
+	switch (mShaderTag)
+	{
+		case eShaderTag::ITEM :
+		{
+			gShader->GetInstance()->RenderWithSpotLightShader(bind(&Static3DObject::RenderMesh, this));
+		}
+		break;
+		
+
+	}
+	
+	
+
+	//gShader->GetInstance()->RenderWithToonShader(bind(&Static3DObject::RenderMesh, this));
 	
 }
 

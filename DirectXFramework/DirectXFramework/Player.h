@@ -35,9 +35,9 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
-	void Setup() override;
-	void Update() override;
-	void Render() override;
+	void Setup();
+	void Update();
+	void Render();
 
 	bool Update(eEventName eventName, void* parameter) override;
 
@@ -50,7 +50,5 @@ public:
 	
 	Player();
 	virtual ~Player();
-
-	void PlayerCollideHandle(Base3DObject * player, string& myTag, string& collideeTag);
 };
 
