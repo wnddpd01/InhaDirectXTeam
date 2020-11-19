@@ -35,6 +35,7 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
+	
 	void Setup() override;
 	void Update() override;
 	void Render() override;

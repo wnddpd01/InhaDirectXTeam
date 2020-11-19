@@ -3,12 +3,9 @@
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
 
-
-
 ColliderChecker::ColliderChecker()
 {
 }
-
 
 ColliderChecker::~ColliderChecker()
 {

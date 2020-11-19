@@ -160,6 +160,9 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -287,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="CollideHandle.h">
       <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

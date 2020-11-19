@@ -20,7 +20,6 @@
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
 
-
 #ifdef _WIN64
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3dx9.lib")
@@ -28,7 +27,6 @@
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
 #endif
-
 
 #ifndef SAFE_DELETE
 namespace  std
@@ -50,7 +48,6 @@ namespace  std
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
-
 
 struct Vertex
 {

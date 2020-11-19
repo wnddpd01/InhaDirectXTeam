@@ -10,7 +10,6 @@ WalkCharacterState::WalkCharacterState()
 {
 }
 
-
 WalkCharacterState::~WalkCharacterState()
 {
 }

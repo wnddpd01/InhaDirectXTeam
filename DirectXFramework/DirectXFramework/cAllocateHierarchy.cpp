@@ -10,7 +10,6 @@ cAllocateHierarchy::cAllocateHierarchy()
 {
 }
 
-
 cAllocateHierarchy::~cAllocateHierarchy()
 {
 }
@@ -31,6 +30,7 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME* ppN
 	*ppNewFrame = pBone;
 	return S_OK;
 }
+
 STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 	LPCSTR Name,
 	CONST D3DXMESHDATA *pMeshData,
