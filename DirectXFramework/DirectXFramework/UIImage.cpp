@@ -26,7 +26,6 @@ void UIImage::Render()
 {
 	if (mbVisible == false)
 		return;
-	D3DXVECTOR3 a;
 	
 	D3DXMATRIXA16 matWorld = mMatWorld;
 	D3DXMATRIXA16 matT;

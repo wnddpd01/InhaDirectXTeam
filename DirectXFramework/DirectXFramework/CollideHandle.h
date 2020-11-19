@@ -11,7 +11,6 @@ inline void KeyColliderHandler(Base3DObject * myObject, string& myColliderTag, B
 {
 	if(otherColliderTag == "playerCubeCollider")
 	{
-		cout << "key¿Í player Ãæµ¹" << endl;
 	}
 	return;
 }

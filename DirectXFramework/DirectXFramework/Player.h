@@ -3,15 +3,17 @@
 
 class SkinnedMesh;
 class CharacterState;
-class UIFloatingText;
+class UIImage;
 
 class Player : public Base3DObject, public BaseObserver
 {
 	RECT mDrawFontArea;
 	CharacterState* mCurState;
 	D3DXVECTOR3 mMoveVelocity;
-	Base3DObject * interactingObject;
+	Base3DObject * mInteractingObject;
+	UIImage * mInteractingObjectMark;
 	void StateChange(CharacterState * nextState);
+	void DrawMark();
 public:
 	SkinnedMesh* m_pSkinnedMesh;
 #pragma region GetterAndSetter
@@ -40,7 +42,7 @@ public:
 		mMoveVelocity = moveVelocity;
 	}
 
-	Base3DObject * GetInteractingObject() { return interactingObject; }
+	Base3DObject * GetInteractingObject() { return mInteractingObject; }
 #pragma endregion
 
 	void Setup() override;

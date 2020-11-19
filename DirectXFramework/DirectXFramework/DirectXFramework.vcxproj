@@ -72,6 +72,7 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="CollideHandle.h" />
     <ClInclude Include="ColliderCube.h" />
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />

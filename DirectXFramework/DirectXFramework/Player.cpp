@@ -4,13 +4,14 @@
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
-#include "FontManager.h";
+#include "FontManager.h"
+#include "UIImage.h"
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
 	, mCurState(nullptr)
 	, mMoveVelocity(0, 0, 0)
-	, interactingObject(nullptr)
+	, mInteractingObject(nullptr)
 {
 	D3DXVECTOR3 yAxis = { 0, 1, 0 };
 	float yAngle = D3DX_PI * 1.75f;
@@ -24,12 +25,16 @@ Player::Player()
 	mDrawFontArea.right = mDrawFontArea.left + viewPort.Width * 0.3f;
 	mDrawFontArea.right = mDrawFontArea.left + viewPort.Height * 0.1f;
 
+	mInteractingObjectMark = new UIImage(string("Resources/UI/InteractMark.png"));
+	mInteractingObjectMark->SetPos(D3DXVECTOR3(0, 10, 0));
+	mInteractingObjectMark->SetVisible(true);
 }
 
 
 Player::~Player()
 {
-		SAFE_DELETE(m_pSkinnedMesh);
+	SAFE_DELETE(m_pSkinnedMesh);
+	SAFE_DELETE(mInteractingObjectMark);
 }
 
 void Player::StateChange(CharacterState* nextState)
@@ -37,6 +42,25 @@ void Player::StateChange(CharacterState* nextState)
 	SAFE_DELETE(mCurState);
 	mCurState = nextState;
 	mCurState->Enter(*this);
+}
+
+void Player::DrawMark()
+{
+	D3DXMATRIXA16 matProj;
+	D3DXMATRIXA16 matView;
+	D3DXMATRIXA16 matWorld;
+	D3DVIEWPORT9 viewPort;
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProj);
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matWorld);
+	gD3Device->GetViewport(&viewPort);
+	D3DXVECTOR3 markPos = mInteractingObject->GetPos();
+	D3DXVec3Project(&markPos, &markPos, &viewPort, &matProj, &matView, &matWorld);
+	markPos.z = 0;
+	markPos.y -= mInteractingObjectMark->GetWidth() * 0.5f + viewPort.Height * 0.2f;
+	markPos.x -= mInteractingObjectMark->GetWidth() * 0.5f;
+	mInteractingObjectMark->SetPos(markPos);
+	mInteractingObjectMark->Render();
 }
 
 void Player::Setup()
@@ -75,9 +99,9 @@ void Player::Update()
 	}
 	m_pSkinnedMesh->Update();
 
-	if (interactingObject != nullptr)
+	if (mInteractingObject != nullptr)
 	{
-		interactingObject = nullptr;
+		mInteractingObject = nullptr;
 	}
 }
 
@@ -86,6 +110,10 @@ void Player::Render()
 	Base3DObject::Render();
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedMesh->Render(nullptr);
+	if(mInteractingObject != nullptr)
+	{
+		DrawMark();
+	}
 
 }
 
@@ -107,18 +135,6 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				POINT& mousePt = *(POINT*)parameter;
-				D3DXVECTOR3 mouseVec = D3DXVECTOR3(mousePt.x, mousePt.y, 0);
-				D3DXMATRIXA16 matProj;
-				D3DXMATRIXA16 matView;
-				D3DXMATRIXA16 matWorld;
-				gD3Device->GetTransform(D3DTS_PROJECTION, &matProj);
-				gD3Device->GetTransform(D3DTS_VIEW, &matView);
-				gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
-				
-				D3DXVec3Unproject(&mouseVec, &mouseVec, nullptr, &matProj, &matView, &matWorld);
-				cout << to_string(mouseVec) << endl;
-
 			}
 			break;
 		default:
@@ -138,6 +154,6 @@ void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Ba
 {
 	if(otherColliderTag == "keyCubeCollider")
 	{
-		interactingObject = otherCollider;
+		mInteractingObject = otherCollider;
 	}
 }
