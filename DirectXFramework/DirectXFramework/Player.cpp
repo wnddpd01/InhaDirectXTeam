@@ -102,7 +102,7 @@ Player::~Player()
 
 void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
 {
-	if(myColliderTag == "keyCubeCollider")
+	if(otherColliderTag == "keyCubeCollider")
 	{
 		cout << "플레이어가 열쇠와 충돌" << endl;
 	}

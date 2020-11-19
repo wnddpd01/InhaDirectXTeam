@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatingObject.cpp" />
     <ClCompile Include="Base3DObject.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseObserver.cpp" />
@@ -43,7 +42,6 @@
     <ClCompile Include="IdleCharacterState.cpp" />
     <ClCompile Include="InteractCharacterState.cpp" />
     <ClCompile Include="KeyboardInputManager.cpp" />
-    <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="QuarterMap.cpp" />
@@ -66,7 +64,6 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatingObject.h" />
     <ClInclude Include="Base3DObject.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseObserver.h" />
@@ -91,7 +88,6 @@
     <ClInclude Include="IdleCharacterState.h" />
     <ClInclude Include="InteractCharacterState.h" />
     <ClInclude Include="KeyboardInputManager.h" />
-    <ClInclude Include="MeshObject.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="MouseInputManager.h" />
     <ClInclude Include="QuarterMap.h" />

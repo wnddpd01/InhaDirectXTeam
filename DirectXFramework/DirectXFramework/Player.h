@@ -3,6 +3,7 @@
 
 class SkinnedMesh;
 class CharacterState;
+class UIFloatingText;
 
 class Player : public Base3DObject, public BaseObserver
 {

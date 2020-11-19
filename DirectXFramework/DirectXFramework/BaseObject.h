@@ -19,6 +19,4 @@ public:
 	{
 		mObjectName = objName;
 	}
-
-	
 };

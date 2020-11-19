@@ -9,7 +9,7 @@ inline void DefaultColliderHandler(Base3DObject * myObject, string& myColliderTa
 
 inline void KeyColliderHandler(Base3DObject * myObject, string& myColliderTag, Base3DObject * otherObject, string& otherColliderTag)
 {
-	if(otherColliderTag == "playerCube")
+	if(otherColliderTag == "playerCubeCollider")
 	{
 		cout << "key¿Í player Ãæµ¹" << endl;
 	}

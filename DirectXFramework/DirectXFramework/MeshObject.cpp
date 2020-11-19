@@ -30,6 +30,7 @@ void MeshObject::Render()
 
 void MeshObject::Update()
 {
+	Base3DOb
 }
 
 

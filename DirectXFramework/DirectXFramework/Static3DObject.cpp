@@ -34,7 +34,6 @@ void Static3DObject::Render()
 {
 	Base3DObject::Render();
 	gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
-	
 }
 
 void Static3DObject::RenderMesh()
