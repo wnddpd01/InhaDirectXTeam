@@ -24,6 +24,7 @@
     <ClCompile Include="BaseObserver.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />

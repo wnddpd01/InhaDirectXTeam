@@ -72,14 +72,23 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		player->Setup();
 		room->InsertObject(player);
 
-		Static3DObject* tempStaticObject = new Static3DObject;
-		tempStaticObject->SetObjectName("key");
-		tempStaticObject->SetPos(D3DXVECTOR3(5,0,1.4));
-		tempStaticObject->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
-		tempStaticObject->AddColliderCube("keyCubeCollider");
-		tempStaticObject->CollideHandle = KeyColliderHandler;
-		tempStaticObject->Setup("Resources/XFile/", "Key.X");
-		room->InsertObject(tempStaticObject);
+
+		Static3DObject* key = new Static3DObject;
+		key->SetPos(D3DXVECTOR3(5,0,1.4));
+		key->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
+		key->AddColliderCube("keyCubeCollider");
+		key->CollideHandle = KeyColliderHandler;
+		key->Setup("Resources/XFile/", "Key.X");
+		room->InsertObject(key);
+
+		
+		Static3DObject* wallPart = new Static3DObject;
+		wallPart->SetPos(D3DXVECTOR3(4.5f, 2.f, 8.5f));
+		wallPart->SetScale(D3DXVECTOR3(1.f, 4.f, 17.f));
+		wallPart->AddColliderCube("wallCollider");
+		wallPart->CollideHandle = KeyColliderHandler;
+		wallPart->Setup("Resources/XFile/", "Cube.X");
+		room->InsertObject(wallPart);
 
 		gShader->LoadAllShader();
 	}

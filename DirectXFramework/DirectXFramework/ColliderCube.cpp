@@ -34,15 +34,15 @@ void ColliderCube::Setup()
 
 	vector<D3DXVECTOR3> m_BoxVertex;
 
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisLen[1], -m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisLen[1], -m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], -m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], -m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
 
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisLen[1], m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisLen[1], m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], -m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], -m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
 
 	vector<DWORD> BoxIndex;
 

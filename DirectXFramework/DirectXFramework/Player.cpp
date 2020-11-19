@@ -4,8 +4,13 @@
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
+<<<<<<< HEAD
 #include "FontManager.h"
 #include "UIImage.h"
+=======
+#include "FontManager.h";
+#include "Camera.h"
+>>>>>>> b9f4f1f30d58c3678d40081b016c789eda7fb5a9
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
@@ -17,6 +22,8 @@ Player::Player()
 	float yAngle = D3DX_PI * 1.75f;
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 
+	mPos = { 8.f, 0.f, 8.f };
+	
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
 
@@ -135,6 +142,8 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
+				POINT& mousePt = *(POINT*)parameter;
+				D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt);
 			}
 			break;
 		default:

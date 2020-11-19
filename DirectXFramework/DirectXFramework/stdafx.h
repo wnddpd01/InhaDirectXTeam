@@ -29,7 +29,6 @@
 #pragma comment(lib, "DirectX9SDK/Lib/x86/d3dx9.lib")
 #endif
 
-
 #ifndef SAFE_DELETE
 namespace  std
 {
@@ -50,6 +49,8 @@ namespace  std
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
+
+#define ORTHO_WIDTH 12.f
 
 
 struct Vertex
@@ -188,6 +189,7 @@ using namespace std;
 #include "TextureManager.h"
 #include "SoundManager.h"
 #include "ShaderManager.h"
+#include "CameraManager.h"
 
 inline string to_string(D3DXVECTOR3 & vec3)
 {
