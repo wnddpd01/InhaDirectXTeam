@@ -186,24 +186,6 @@ void ShaderManager::RenderWithSpotLightShader(function<void()> FunctionPtr)
 
 void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
 {
-	LPDIRECT3DTEXTURE9 clr;
-	D3DXVECTOR4 wndSize = { 1280.f , 720.f , 0,0};
-	mShaders["Item"]->SetVector("wndSize;", &wndSize);
-
-	UINT numPasses = 0;
-	mShaders["Item"]->Begin(&numPasses, NULL);
-	{
-		for (UINT i = 0; i < numPasses; ++i)
-		{
-			mShaders["Item"]->BeginPass(i);
-			{
-				FunctionPtr();
-			}
-			mShaders["Item"]->EndPass();
-		}
-	}
-	mShaders["Item"]->End();
-
 	
 }
 
@@ -234,7 +216,6 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 		sprintf_s(str, size, "%s", (const char*)ack);
 		OutputDebugStringA(str);
 		cout << str;
-		system("pause");
 		delete[] str;
 		}
 		
