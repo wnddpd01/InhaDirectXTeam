@@ -4,6 +4,7 @@ class ColliderCube;
 class ColliderSphere;
 
 enum class eObjTag { NON_OBJECT_TAG = 0, PLAYER_CHARACTER, STATIC_OBJECT, MOVE_OBJECT };
+enum class eShaderTag { NON_SHADER = 0, PLAYER_CHARACTER, WALL, ITEM };
 
 class Base3DObject :
 	public BaseObject
