@@ -145,13 +145,15 @@ void QuarterMap::Update()
 
 void QuarterMap::Render()
 {
+	gD3Device->SetRenderState(D3DRS_LIGHTING, true);
+	gD3Device->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	gD3Device->SetMaterial(&mMaterial);
-	gD3Device->SetTexture(0, mTextrue);
+	gD3Device->SetTexture(0, mTextrueFloor);
 	mMeshWall->DrawSubset(0);
-	//gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	
 }
 
 void QuarterMap::Destroy()

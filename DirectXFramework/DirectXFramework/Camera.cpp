@@ -46,7 +46,7 @@ void Camera::Update()
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	
 	if (mTarget)
-	{
+	{ 
 		mLookAt = *mTarget;
 		mEye += *mTarget;
 	}

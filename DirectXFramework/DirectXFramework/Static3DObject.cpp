@@ -34,7 +34,8 @@ void Static3DObject::Update()
 void Static3DObject::Render()
 {
 	Base3DObject::Render();
-	gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
+	
+	
 	switch (mShaderTag)
 	{
 		case eShaderTag::ITEM :
