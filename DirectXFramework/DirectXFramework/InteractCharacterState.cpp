@@ -29,6 +29,7 @@ CharacterState* InteractCharacterState::Update(Player& player)
 {
 	if(GetTickCount() - interactStartTime > (AnimationPeriod -  player.GetSkinnedMesh()->GetBlendTime() - 0.1f) * 1000 )
 	{
+		player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
 		return new IdleCharacterState;
 	}
 	return nullptr;

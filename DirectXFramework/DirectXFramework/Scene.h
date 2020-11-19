@@ -37,5 +37,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 
+	Camera* GetCamera();
+
 private:
 };

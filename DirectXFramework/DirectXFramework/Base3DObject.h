@@ -40,6 +40,7 @@ public:
 	D3DXVECTOR3 GetScale();
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
+	function<void(string&)> DeleteInRoom;
 	ColliderSphere* GetColliderSphere() { return mColliderSphere; }
 	map<string, ColliderCube*>& GetColliderCube() { return mColliderCubeMap; }
 

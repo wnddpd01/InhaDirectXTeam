@@ -63,12 +63,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->mGameObjects.insert({ "room", room });
 
 		Player* player = new Player;
+		player->SetObjectName("player");
 		player->AddColliderCube("playerCubeCollider");
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		newScene->mCamera->SetTarget(player->GetPosRef());
 		player->Setup();
-		room->InsertObject("player", player);
+		room->InsertObject(player);
+
 
 		Static3DObject* key = new Static3DObject;
 		key->SetPos(D3DXVECTOR3(5,0,1.4));
@@ -76,16 +79,16 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		key->AddColliderCube("keyCubeCollider");
 		key->CollideHandle = KeyColliderHandler;
 		key->Setup("Resources/XFile/", "Key.X");
-		room->InsertObject("key", key);
+		room->InsertObject(key);
 
 		
 		Static3DObject* wallPart = new Static3DObject;
-		wallPart->SetPos(D3DXVECTOR3(0.5f, 2.f, 8.5f));
+		wallPart->SetPos(D3DXVECTOR3(4.5f, 2.f, 8.5f));
 		wallPart->SetScale(D3DXVECTOR3(1.f, 4.f, 17.f));
 		wallPart->AddColliderCube("wallCollider");
 		wallPart->CollideHandle = KeyColliderHandler;
 		wallPart->Setup("Resources/XFile/", "Cube.X");
-		room->InsertObject("wall", wallPart);
+		room->InsertObject(wallPart);
 
 		gShader->LoadAllShader();
 	}

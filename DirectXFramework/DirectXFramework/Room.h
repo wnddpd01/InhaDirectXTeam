@@ -14,7 +14,8 @@ public :
 	void Update() override;
 	void Render() override;
 	void SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel = 1);
-	void InsertObject(string name, Base3DObject * object);
+	void InsertObject(Base3DObject * object);
+	void DeleteObject(string& name);
 protected:
 private:
 protected:

@@ -7,16 +7,19 @@ class UIFloatingText;
 
 class Player : public Base3DObject, public BaseObserver
 {
+	RECT mDrawFontArea;
 	CharacterState* mCurState;
 	D3DXVECTOR3 mMoveVelocity;
+	Base3DObject * interactingObject;
 	void StateChange(CharacterState * nextState);
 public:
 	SkinnedMesh* m_pSkinnedMesh;
+#pragma region GetterAndSetter
 	D3DXQUATERNION& GetRotRef()
 	{
 		return mRot;
 	}
-	
+
 	D3DXVECTOR3 GetPos() const
 	{
 		return mPos;
@@ -26,7 +29,7 @@ public:
 	{
 		return &mPos;
 	}
-	
+
 	void SetPos(const D3DXVECTOR3& pos)
 	{
 		mPos = pos;
@@ -36,6 +39,10 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
+
+	Base3DObject * GetInteractingObject() { return interactingObject; }
+#pragma endregion
+
 	void Setup() override;
 	void Update() override;
 	void Render() override;
