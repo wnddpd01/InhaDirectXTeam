@@ -17,6 +17,24 @@ void ColliderSphere::Setup()
 	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
 }
 
+void ColliderSphere::Update()
+{
+	D3DXMATRIXA16 matS;
+	D3DXMATRIXA16 matR;
+	D3DXMATRIXA16 matT;
+
+	D3DXMatrixScaling(&matS, (*mScale).x, (*mScale).y, (*mScale).z);
+	D3DXMatrixTranslation(&matT, (*mPosition).x, (*mPosition).y, (*mPosition).z);
+	D3DXMatrixRotationQuaternion(&matR, mRot);
+
+	m_matWorldTM = matS * matR * matT;
+	
+}
+
+void ColliderSphere::Render()
+{
+}
+
 void ColliderSphere::SetSphereCollider(float radius)
 {
 	mRadius = radius;

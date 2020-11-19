@@ -14,18 +14,22 @@ void Player::StateChange(CharacterState* nextState)
 
 void Player::Setup()
 {
+	Base3DObject::Setup();
 	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	
 	m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM;
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
+
+	CollideHandle = bind(&Player::PlayerCollideHandle, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 }
 
 void Player::Update()
 {
 	D3DXMATRIXA16 matWorld, matR, matT;
 
+	Base3DObject::Update();
 
 	if (D3DXVec3Length(&mMoveVelocity) != 0)
 	{
@@ -47,8 +51,8 @@ void Player::Update()
 
 void Player::Render()
 {
+	Base3DObject::Render();
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
-	
 	m_pSkinnedMesh->Render(nullptr);
 }
 
@@ -94,4 +98,12 @@ Player::Player()
 Player::~Player()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
+}
+
+void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
+{
+	if(myColliderTag == "keyCubeCollider")
+	{
+		cout << "플레이어가 열쇠와 충돌" << endl;
+	}
 }

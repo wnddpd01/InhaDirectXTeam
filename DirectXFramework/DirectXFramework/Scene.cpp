@@ -57,6 +57,7 @@ void Scene::DetachAllSubscriberInSubscriberList()
 void Scene::Update()
 {
 	mCamera->Update();
+	
 	for (auto gameObject : mGameObjects)
 	{
 		gameObject.second->Update();

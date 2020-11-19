@@ -19,6 +19,7 @@ Static3DObject::~Static3DObject()
 void Static3DObject::Setup(
 	string folder, string fileName)
 {
+	Base3DObject::Setup();
 	ModelLoader loader;
 	loader.LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
 	
@@ -27,7 +28,7 @@ void Static3DObject::Setup(
 
 void Static3DObject::Update()
 {
-	
+	Base3DObject::Update();
 }
 
 void Static3DObject::Render()

@@ -12,7 +12,6 @@ MeshObject::MeshObject()
 
 void MeshObject::Setup(string filename)
 {
-
 }
 
 
@@ -37,8 +36,6 @@ void MeshObject::Render()
 		gD3Device->SetTexture(0, mMtlTex[i]->GetTexture());
 		mMesh->DrawSubset(i);
 	}
-
-	
 }
 
 

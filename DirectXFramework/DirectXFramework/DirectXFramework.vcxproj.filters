@@ -285,5 +285,8 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
+    <ClInclude Include="CollideHandle.h">
+      <Filter>3DObject\Colider</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
