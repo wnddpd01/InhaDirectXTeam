@@ -3,6 +3,10 @@
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 ColliderChecker::ColliderChecker()
 {
 }
@@ -13,18 +17,24 @@ ColliderChecker::~ColliderChecker()
 
 void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 {
+	queue<CollisionEvent> collisionEventQueue;
 	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(),1) ; ++iter)
 	{
 		for (map<string, Base3DObject*>::iterator iter2 = next(iter,1); iter2 != objects.end(); ++iter2)
 		{
 			if(CheckSphere((*iter).second, (*iter2).second))
 			{
-				string obj1Tag = "";
-				string obj2Tag = "";
+				string obj1Tag;
+				string obj2Tag;
 				
 				if(CheckCube((*iter).second,(*iter2).second, obj1Tag, obj2Tag))
 				{
-					cout << "asasd";
+					CollisionEvent collisionEvent;
+					collisionEvent.obj1 = iter->second;
+					collisionEvent.obj1ColliderTag = obj1Tag;
+					collisionEvent.obj2 = iter2->second;
+					collisionEvent.obj2ColliderTag = obj2Tag;
+					collisionEventQueue.push(collisionEvent);
 				}
 				else
 				{
@@ -32,6 +42,14 @@ void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
 				}
 			}
 		}
+	}
+
+	while(collisionEventQueue.empty() == false)
+	{
+		CollisionEvent collisionEvent = collisionEventQueue.front();
+		collisionEventQueue.pop();
+		collisionEvent.obj1->CollideHandle(collisionEvent.obj1, collisionEvent.obj1ColliderTag, collisionEvent.obj2, collisionEvent.obj2ColliderTag);
+		collisionEvent.obj2->CollideHandle(collisionEvent.obj2, collisionEvent.obj2ColliderTag, collisionEvent.obj1, collisionEvent.obj1ColliderTag);
 	}
 }
 
@@ -43,6 +61,8 @@ bool ColliderChecker::CheckCube(IN Base3DObject * object1, IN Base3DObject * obj
 		{
 			if(ColliderCube::IsCollision((*iter).second,(*iter2).second))
 			{
+				obj1Tag = iter->first;
+				obj2Tag = iter2->first;
 				return true;
 			}
 		}

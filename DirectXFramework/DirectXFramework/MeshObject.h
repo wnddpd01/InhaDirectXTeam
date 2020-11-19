@@ -1,10 +1,10 @@
 #pragma once
-#include "Base3DObject.h"
+#include "BaseObject.h"
 
 class cMtlTex;
 
 class MeshObject :
-	public Base3DObject
+	public BaseObject
 {
 	LPD3DXMESH mMesh;
 

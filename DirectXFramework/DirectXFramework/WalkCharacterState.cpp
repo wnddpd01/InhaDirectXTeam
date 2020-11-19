@@ -7,7 +7,10 @@
 #include "InteractCharacterState.h"
 
 WalkCharacterState::WalkCharacterState()
+	: mPrevMoveVelocity(0,0,0)
+	, mMoveVelocity(0,0,0)
 {
+	mStateName = eCharacterStateName::WALK_STATE;
 }
 
 WalkCharacterState::~WalkCharacterState()
@@ -29,8 +32,11 @@ CharacterState* WalkCharacterState::HandleInput(Player& player, eEventName event
 		{
 			case eKeyName::KEY_INTERACTION :
 				{
-					player.SetMoveVelocity(D3DXVECTOR3(0,0,0));
-					return new InteractCharacterState;
+					if (player.GetInteractingObject() != nullptr)
+					{
+						player.SetMoveVelocity(D3DXVECTOR3(0, 0, 0));
+						return new InteractCharacterState;
+					}
 				}
 				break;
 			case eKeyName::KEY_FRONT:

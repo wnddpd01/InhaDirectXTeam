@@ -10,6 +10,7 @@ Scene::Scene()
 {
 	mCamera = new Camera;
 	mCamera->Setup();
+
 	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
 	AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
 }
@@ -90,4 +91,9 @@ void Scene::Render()
 
 	gD3Device->EndScene();
 	gD3Device->Present(nullptr, nullptr, nullptr, nullptr);
+}
+
+Camera* Scene::GetCamera()
+{
+	return mCamera;
 }

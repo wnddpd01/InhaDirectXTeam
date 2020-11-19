@@ -8,6 +8,8 @@ private:
 	D3DXVECTOR3 mEye;
 	D3DXVECTOR3 mLookAt;
 	D3DXVECTOR3 mUp;
+	D3DXVECTOR3 mRight;
+	D3DXVECTOR3 mCameraUp;
 	D3DXVECTOR3* mTarget;
 
 	float mCameraDistance;
@@ -18,4 +20,6 @@ public:
 	void Update();
 
 	bool Update(eEventName eventName, void* parameter) override;
+
+	D3DXVECTOR3 GetPickingPosition(POINT& mousePos);
 };

@@ -6,6 +6,7 @@ Camera::Camera() :
 	mEye(0, 0, -5)
 	, mLookAt(0, 0, 0)
 	, mUp(0, 1, 0)
+	, mRight(0, 0 ,0)
 	, mTarget(nullptr)
 	, mCameraDistance(15.0f)
 	, mCamRotAngle(0, D3DX_PI * 0.25f, 0)
@@ -25,7 +26,7 @@ void Camera::Setup()
 
 	D3DXMATRIXA16 matProj;
 	//D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
-	D3DXMatrixOrthoLH(&matProj, 12, 12 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
+	D3DXMatrixOrthoLH(&matProj, ORTHO_WIDTH, ORTHO_WIDTH * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
 
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
@@ -46,7 +47,7 @@ void Camera::Update()
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	
 	if (mTarget)
-	{
+	{ 
 		mLookAt = *mTarget;
 		mEye += *mTarget;
 	}
@@ -54,6 +55,7 @@ void Camera::Update()
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &mEye, &mLookAt, &mUp);
 
+	
 	gD3Device->SetTransform(D3DTS_VIEW, &matView);
 }
 
@@ -92,4 +94,26 @@ bool Camera::Update(eEventName eventName, void* parameter)
 			break;
 	}
 	return true;
+}
+
+D3DXVECTOR3 Camera::GetPickingPosition(POINT& mousePos)
+{
+	D3DXVECTOR3 ray = mLookAt - mEye;
+	D3DXVec3Cross(&mRight, &mUp, &ray);
+	D3DXVec3Normalize(&mRight, &mRight);
+	D3DXVec3Cross(&mCameraUp,  &ray, &mRight );
+	D3DXVec3Normalize(&mCameraUp, &mCameraUp);
+	
+	D3DVIEWPORT9 viewPort;
+	gD3Device->GetViewport(&viewPort);
+
+	D3DXVECTOR3 mouseWorldPosition = mEye;
+	
+	mouseWorldPosition += ((viewPort.Height * 0.5 - (float)mousePos.y) * (ORTHO_WIDTH / (float)viewPort.Width)) * mRight;
+	mouseWorldPosition += (((float)mousePos.x - viewPort.Width * 0.5) * (ORTHO_WIDTH / (float)viewPort.Width)) * mCameraUp;
+
+	D3DXVec3Normalize(&ray, &ray);
+	mouseWorldPosition += abs(mouseWorldPosition.y / ray.y) * ray;
+	
+	return mouseWorldPosition;
 }

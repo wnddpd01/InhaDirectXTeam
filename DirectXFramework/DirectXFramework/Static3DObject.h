@@ -1,6 +1,8 @@
 #pragma once
 #include "Base3DObject.h"
 
+
+
 class Static3DObject :
 	public Base3DObject
 {
@@ -9,7 +11,7 @@ private:
 	D3DMATERIAL9*			mpMaterials;
 	LPDIRECT3DTEXTURE9*		mpTextures;
 	DWORD					mNumMaterials;
-	
+	eShaderTag				mShaderTag;
 	
 public:
 	Static3DObject();

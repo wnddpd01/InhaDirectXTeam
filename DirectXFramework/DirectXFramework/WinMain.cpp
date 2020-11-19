@@ -48,17 +48,17 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	
 	switch (message)
 	{
-	case WM_DESTROY:
-		{
-			PostQuitMessage(0);
-			return 0;
-		}
-		break;
-	default:
-		{
-			DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		break;
+		case WM_DESTROY:
+			{
+				PostQuitMessage(0);
+				return 0;
+			}
+			break;
+		default:
+			{
+				DefWindowProc(hWnd, message, wParam, lParam);
+			}
+			break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }

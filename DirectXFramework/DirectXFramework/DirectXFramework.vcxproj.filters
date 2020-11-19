@@ -94,9 +94,6 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
-    <ClCompile Include="MeshObject.cpp">
-      <Filter>3DObject</Filter>
-    </ClCompile>
     <ClCompile Include="Base3DObject.cpp">
       <Filter>3DObject</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
     </ClCompile>
     <ClCompile Include="WalkCharacterState.cpp">
       <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatingObject.cpp">
-      <Filter>3DObject\AnimatingObject</Filter>
     </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>3DObject\AnimatingObject</Filter>
@@ -160,7 +154,7 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
-    <ClCompile Include="JSON.cpp">
+    <ClCompile Include="CameraManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
   </ItemGroup>
@@ -222,9 +216,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="MeshObject.h">
-      <Filter>3DObject</Filter>
-    </ClInclude>
     <ClInclude Include="Base3DObject.h">
       <Filter>3DObject</Filter>
     </ClInclude>
@@ -245,9 +236,6 @@
     </ClInclude>
     <ClInclude Include="WalkCharacterState.h">
       <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatingObject.h">
-      <Filter>3DObject\AnimatingObject</Filter>
     </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>3DObject\AnimatingObject</Filter>
@@ -288,10 +276,8 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="CollideHandle.h">
-      <Filter>3DObject\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="JSON.h">
+    <ClInclude Include="CollideHandle.h" />
+    <ClInclude Include="CameraManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>

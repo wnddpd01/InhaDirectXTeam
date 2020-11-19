@@ -4,6 +4,7 @@ class ColliderCube;
 class ColliderSphere;
 
 enum class eObjTag { NON_OBJECT_TAG = 0, PLAYER_CHARACTER, STATIC_OBJECT, MOVE_OBJECT };
+enum class eShaderTag { NON_SHADER = 0, PLAYER_CHARACTER, WALL, ITEM };
 
 class Base3DObject :
 	public BaseObject
@@ -38,6 +39,7 @@ public:
 	D3DXVECTOR3 GetScale();
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
+	function<void(string&)> DeleteInRoom;
 	ColliderSphere* GetColliderSphere() { return mColliderSphere; }
 	map<string, ColliderCube*>& GetColliderCube() { return mColliderCubeMap; }
 

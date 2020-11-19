@@ -3,19 +3,25 @@
 
 class SkinnedMesh;
 class CharacterState;
+class UIImage;
 
 class Player : public Base3DObject, public BaseObserver
 {
+	RECT mDrawFontArea;
 	CharacterState* mCurState;
 	D3DXVECTOR3 mMoveVelocity;
+	Base3DObject * mInteractingObject;
+	UIImage * mInteractingObjectMark;
 	void StateChange(CharacterState * nextState);
+	void DrawMark();
 public:
 	SkinnedMesh* m_pSkinnedMesh;
+#pragma region GetterAndSetter
 	D3DXQUATERNION& GetRotRef()
 	{
 		return mRot;
 	}
-	
+
 	D3DXVECTOR3 GetPos() const
 	{
 		return mPos;
@@ -25,7 +31,7 @@ public:
 	{
 		return &mPos;
 	}
-	
+
 	void SetPos(const D3DXVECTOR3& pos)
 	{
 		mPos = pos;
@@ -35,7 +41,14 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
+<<<<<<< HEAD
 	
+=======
+
+	Base3DObject * GetInteractingObject() { return mInteractingObject; }
+#pragma endregion
+
+>>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 	void Setup() override;
 	void Update() override;
 	void Render() override;

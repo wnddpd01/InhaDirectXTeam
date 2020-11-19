@@ -6,9 +6,9 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
 
-#include <Windows.h>
 #include <algorithm>
 #include <map>
+#include <Windows.h>
 #include <iostream>
 #include <chrono>
 #include <cassert>
@@ -49,6 +49,12 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
+<<<<<<< HEAD
+=======
+#define ORTHO_WIDTH 12.f
+
+
+>>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 struct Vertex
 {
 	D3DXVECTOR3 Pos;
@@ -165,6 +171,7 @@ protected : varType varName ; \
 public : inline varType& Get##funName(void)  { return varName ; } \
 public : inline void Set##funName(varType& var) { varName = var ; }
 
+#include <unordered_map>
 
 #include <dinput.h>
 
@@ -184,6 +191,7 @@ using namespace std;
 #include "TextureManager.h"
 #include "SoundManager.h"
 #include "ShaderManager.h"
+#include "CameraManager.h"
 
 inline string to_string(D3DXVECTOR3 & vec3)
 {
