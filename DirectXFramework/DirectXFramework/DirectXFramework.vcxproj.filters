@@ -157,6 +157,9 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -278,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="CollideHandle.h" />
     <ClInclude Include="CameraManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON.h">
       <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>

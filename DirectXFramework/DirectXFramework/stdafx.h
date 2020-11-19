@@ -49,12 +49,8 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-<<<<<<< HEAD
-=======
 #define ORTHO_WIDTH 12.f
 
-
->>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 struct Vertex
 {
 	D3DXVECTOR3 Pos;

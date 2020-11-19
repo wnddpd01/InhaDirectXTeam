@@ -41,14 +41,10 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
-<<<<<<< HEAD
-	
-=======
-
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
+	
 #pragma endregion
 
->>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 	void Setup() override;
 	void Update() override;
 	void Render() override;

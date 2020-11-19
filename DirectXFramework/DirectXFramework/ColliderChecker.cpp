@@ -3,10 +3,6 @@
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f73eb4ccf2d57339bdcc90b896f59973155f4179
 ColliderChecker::ColliderChecker()
 {
 }
