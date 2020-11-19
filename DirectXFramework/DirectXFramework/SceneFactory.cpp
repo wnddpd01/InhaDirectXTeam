@@ -82,13 +82,13 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		room->InsertObject(key);
 
 		
-		Static3DObject* wallPart = new Static3DObject;
+		/*Static3DObject* wallPart = new Static3DObject;
 		wallPart->SetPos(D3DXVECTOR3(4.5f, 2.f, 8.5f));
 		wallPart->SetScale(D3DXVECTOR3(1.f, 4.f, 17.f));
 		wallPart->AddColliderCube("wallCollider");
 		wallPart->CollideHandle = KeyColliderHandler;
 		wallPart->Setup("Resources/XFile/", "Cube.X");
-		room->InsertObject(wallPart);
+		room->InsertObject(wallPart);*/
 
 		gShader->LoadAllShader();
 	}

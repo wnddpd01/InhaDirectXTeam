@@ -154,7 +154,9 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
-    <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -274,6 +276,9 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="CollideHandle.h" />
+    <ClInclude Include="CameraManager.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ InteractCharacterState::InteractCharacterState()
 	: interactStartTime(0)
 	, AnimationPeriod(0)
 {
+	mStateName = eCharacterStateName::INTERACTION_STATE;
 }
 
 

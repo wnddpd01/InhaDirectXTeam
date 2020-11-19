@@ -7,7 +7,10 @@
 #include "InteractCharacterState.h"
 
 WalkCharacterState::WalkCharacterState()
+	: mPrevMoveVelocity(0,0,0)
+	, mMoveVelocity(0,0,0)
 {
+	mStateName = eCharacterStateName::WALK_STATE;
 }
 
 

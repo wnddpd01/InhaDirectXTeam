@@ -1,16 +1,13 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "CameraManager.h"
 #include "SkinnedMesh.h"
 #include "KeyboardInputManager.h"
 #include "IdleCharacterState.h"
 #include "WalkCharacterState.h"
-<<<<<<< HEAD
 #include "FontManager.h"
 #include "UIImage.h"
-=======
-#include "FontManager.h";
 #include "Camera.h"
->>>>>>> b9f4f1f30d58c3678d40081b016c789eda7fb5a9
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
@@ -142,8 +139,19 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				POINT& mousePt = *(POINT*)parameter;
-				D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt);
+				if (mCurState->GetStateName() == eCharacterStateName::IDLE_STATE)
+				{
+					POINT& mousePt = *(POINT*)parameter;
+					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
+
+					D3DXMATRIXA16 matRot;
+					D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &mouseWorldPos, &D3DXVECTOR3(0, 1, 0));
+
+					D3DXQUATERNION quatRot;
+					D3DXQuaternionRotationMatrix(&quatRot, &matRot);
+
+					mRot = quatRot;
+				}
 			}
 			break;
 		default:

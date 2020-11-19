@@ -12,6 +12,7 @@ IdleCharacterState::IdleCharacterState()
 	, idleStartTime(0)
 	, mbAnimationChanged(false)
 {
+	mStateName = eCharacterStateName::IDLE_STATE;
 }
 
 
