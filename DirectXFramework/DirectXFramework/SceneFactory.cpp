@@ -7,6 +7,7 @@
 #include "Static3DObject.h"
 #include "Room.h"
 #include "CollideHandle.h"
+#include "Portal.h"
 
 SceneFactory::SceneFactory()
 {
@@ -74,6 +75,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 
 		Static3DObject* key = new Static3DObject;
+		key->SetObjectName("key");
 		key->AddColliderCube("keyCubeCollider");
 		key->Setup("Resources/XFile/", "Key.X");
 		key->SetPos(D3DXVECTOR3(5,0,1.4));
@@ -81,14 +83,32 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 
+		Portal * portal1 = new Portal;
+		portal1->SetObjectName("portal1");
+		portal1->AddColliderCube("portal1CubeCollider");
+		portal1->CollideHandle = PortalColliderHandler;
+		portal1->SetPos(D3DXVECTOR3(19, 0 ,4));
+		portal1->SetExitPos(D3DXVECTOR3(17, 0,14));
+		portal1->Setup();
+		room->InsertObject(portal1);
+
+		Portal * portal2 = new Portal;
+		portal2->SetObjectName("portal2");
+		portal2->AddColliderCube("portal2CubeCollider");
+		portal2->CollideHandle = PortalColliderHandler;
+		portal2->SetPos(D3DXVECTOR3(19, 0, 14));
+		portal2->SetExitPos(D3DXVECTOR3(17, 0, 4));
+		portal2->Setup();
+		room->InsertObject(portal2);
+
 		
-		Static3DObject* wallPart = new Static3DObject;
+		/*Static3DObject* wallPart = new Static3DObject;
 		wallPart->AddColliderCube("wallCollider");
 		wallPart->Setup("Resources/XFile/", "Cube.X");
 		wallPart->SetPos(D3DXVECTOR3(4.5f, 2.f, 8.5f));
 		wallPart->SetScale(D3DXVECTOR3(1.f, 4.f, 17.f));
 		wallPart->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallPart);
+		room->InsertObject(wallPart);*/
 
 		gShader->LoadAllShader();
 	}

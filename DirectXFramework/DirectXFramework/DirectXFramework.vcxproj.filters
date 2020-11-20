@@ -157,6 +157,10 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
+    <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="Portal.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -281,6 +285,10 @@
     </ClInclude>
     <ClInclude Include="CollideHandle.h">
       <Filter>3DObject\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON.h" />
+    <ClInclude Include="Portal.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
