@@ -19,6 +19,7 @@ void Portal::Render()
 	{
 		D3DXVECTOR3 prevPos = objectInPortal.second.first->GetPos();
 		objectInPortal.second.first->SetPos(objectInPortal.second.second);
+	
 		objectInPortal.second.first->Render();
 		objectInPortal.second.first->SetPos(prevPos);
 	}

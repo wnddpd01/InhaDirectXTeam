@@ -189,6 +189,42 @@ void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
 	
 }
 
+void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
+{
+	/*
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP;
+	D3DVIEWPORT9 matViewPort;
+	
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	gD3Device->GetViewport(&matViewPort);
+	matWVP = matWorld * matView * matProjection;
+
+	D3DXVECTOR4 resolution = { (float)matViewPort.Width, (float)matViewPort.Height, 0.f, 0.f };
+	
+	mShaders["Fire"]->SetMatrix("WorldViewProj", &matWVP);
+	mShaders["Fire"]->SetVector("Res", &resolution);
+	static float time = 0.f;
+	mShaders["Fire"]->SetFloat("time", time);
+	time += gDeltaTime*0.1;
+
+	UINT numPasses = 0;
+	mShaders["Fire"]->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			mShaders["Fire"]->BeginPass(i);
+			{
+				FunctionPtr();
+			}
+			mShaders["Fire"]->EndPass();
+		}
+	}
+	mShaders["Fire"]->End();
+	*/
+}
+
 
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 {
@@ -243,5 +279,6 @@ void ShaderManager::LoadAllShader()
 	mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");
 	mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
 	mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
+	mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
 }
 
