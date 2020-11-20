@@ -37,6 +37,8 @@ public:
 	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
+	void LoadColliderCube();
+	void LoadColliderSphere();
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;

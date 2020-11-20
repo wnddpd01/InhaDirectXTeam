@@ -7,6 +7,7 @@ ColliderCube::ColliderCube()
 	, mCubeHeight(1.0f)
 	, mCubeDepth(1.0f)
 {
+	
 }
 
 ColliderCube::~ColliderCube()
@@ -89,15 +90,13 @@ void ColliderCube::Setup()
 
 void ColliderCube::Update()
 {
-	D3DXMATRIXA16 matS;
 	D3DXMATRIXA16 matR;
 	D3DXMATRIXA16 matT;
 	
-	D3DXMatrixScaling(&matS, (*mScale).x, (*mScale).y, (*mScale).z);
 	D3DXMatrixTranslation(&matT, (*mPosition).x, (*mPosition).y, (*mPosition).z);
 	D3DXMatrixRotationQuaternion(&matR, mRot);
 
-	m_matWorldTM = matS * matR * matT;
+	m_matWorldTM = matR * matT;
 
 	for (int i = 0; i < 3; ++i)
 	{
