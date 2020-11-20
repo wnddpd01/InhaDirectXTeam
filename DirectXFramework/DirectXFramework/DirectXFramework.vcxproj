@@ -32,6 +32,7 @@
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
+    <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="JSON.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SkinnedMesh.h" />
@@ -160,8 +162,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
+    <IncludePath>D:\새 폴더 %283%29\InhaDirectXTeam\DirectXFramework\DirectXFramework\JSON\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include;</IncludePath>
+    <LibraryPath>JSON\Lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -170,8 +172,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include;FBX_SDK\include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\release</LibraryPath>
+    <IncludePath>D:\새 폴더 %283%29\InhaDirectXTeam\DirectXFramework\DirectXFramework\JSON\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);DirectX9SDK\Include;FBX_SDK\include</IncludePath>
+    <LibraryPath>JSON\Lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;DirectX9SDK\Lib\x86;FBX_SDK\lib\vs2015\x86\release</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

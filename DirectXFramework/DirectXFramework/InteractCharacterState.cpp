@@ -4,14 +4,12 @@
 #include "SkinnedMesh.h"
 #include "IdleCharacterState.h"
 
-
 InteractCharacterState::InteractCharacterState()
 	: interactStartTime(0)
 	, AnimationPeriod(0)
 {
 	mStateName = eCharacterStateName::INTERACTION_STATE;
 }
-
 
 InteractCharacterState::~InteractCharacterState()
 {

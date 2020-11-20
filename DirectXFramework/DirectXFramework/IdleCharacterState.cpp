@@ -6,7 +6,6 @@
 #include "SkinnedMesh.h"
 #include "InteractCharacterState.h"
 
-
 IdleCharacterState::IdleCharacterState()
 	: mMoveVelocity(0,0,0)
 	, idleStartTime(0)
@@ -14,7 +13,6 @@ IdleCharacterState::IdleCharacterState()
 {
 	mStateName = eCharacterStateName::IDLE_STATE;
 }
-
 
 IdleCharacterState::~IdleCharacterState()
 {

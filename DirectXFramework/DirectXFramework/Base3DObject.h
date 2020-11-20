@@ -19,7 +19,6 @@ protected:
 	
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
-	
 public:
 	Base3DObject();
 	virtual ~Base3DObject();

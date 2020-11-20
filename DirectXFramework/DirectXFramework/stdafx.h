@@ -20,7 +20,6 @@
 #include "DirectX9SDK/Include/d3d9.h"
 #include "DirectX9SDK/Include/d3dx9.h"
 
-
 #ifdef _WIN64
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3d9.lib")
 #pragma comment(lib, "DirectX9SDK/Lib/x64/d3dx9.lib")
@@ -51,7 +50,6 @@ namespace  std
 #endif
 
 #define ORTHO_WIDTH 12.f
-
 
 struct Vertex
 {

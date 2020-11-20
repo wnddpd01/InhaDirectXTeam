@@ -13,7 +13,6 @@ WalkCharacterState::WalkCharacterState()
 	mStateName = eCharacterStateName::WALK_STATE;
 }
 
-
 WalkCharacterState::~WalkCharacterState()
 {
 }

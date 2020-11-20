@@ -69,7 +69,8 @@ void Scene::Update()
 		gameUI.second->Update();
 	}
 
-	gSoundManager->Update();}
+	gSoundManager->Update();
+}
 
 void Scene::Render()
 {

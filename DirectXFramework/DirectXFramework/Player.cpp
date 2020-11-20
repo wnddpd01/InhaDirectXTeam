@@ -95,7 +95,6 @@ void Player::Update()
 	matWorld = matR * matT;
 	m_pSkinnedMesh->SetTransform(&matWorld);
 
-	
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
 	{

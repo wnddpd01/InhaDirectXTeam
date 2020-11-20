@@ -3,6 +3,7 @@
 #include "QuarterMap.h"
 #include "Base3DObject.h"
 
+
 ColliderChecker Room::mColliderChecker;
 
 Room::Room()

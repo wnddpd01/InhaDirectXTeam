@@ -41,8 +41,8 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
-
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
+	
 #pragma endregion
 
 	void Setup() override;
