@@ -39,7 +39,8 @@ void Static3DObject::Render()
 	{
 		case eShaderTag::ITEM :
 		{
-			gShader->GetInstance()->RenderWithFireShader(bind(&Static3DObject::RenderMesh, this));
+			gShader->GetInstance()->RenderWithToonShader(bind(&Static3DObject::RenderMesh, this));
+		
 		}
 		break;
 	}

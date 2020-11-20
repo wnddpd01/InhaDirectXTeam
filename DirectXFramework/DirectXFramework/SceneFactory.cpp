@@ -26,17 +26,17 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	{
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
-		UIImage * uiImage = new UIImage("Resources/UI/BasePanel.png");
-		uiImage->SetObjectName("BasePanel");
+		UIImage * uiImage = new UIImage("Resources/UI/Title.png");
+		uiImage->SetObjectName("Title");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
-			uiImage->GetPos().y + viewPort.Height * 0.5f - uiImage->GetHeight() * 0.5f, 0.0f));
+			uiImage->GetPos().y, 0.0f));
 		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("basePanel", uiImage));
+		newScene->mGameUIs.insert(make_pair("Title", uiImage));
 
-		uiImage = new UIImage("Resources/UI/BtnIdle.png");
+		uiImage = new UIImage("Resources/UI/NewGame.png");
 		uiImage->SetObjectName("BtnStart");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
-			uiImage->GetPos().y + viewPort.Height * 0.55f + uiImage->GetHeight() * 0.5, 0.0f));
+			uiImage->GetPos().y + viewPort.Height * 0.4f + uiImage->GetHeight() * 0.5, 0.0f));
 		uiImage->EventProcess = BtnStartEventListen;
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 9, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 9, uiImage);
@@ -44,7 +44,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("btnStart", uiImage));
 
-		uiImage = new UIImage("Resources/UI/BtnIdle.png");
+		uiImage = new UIImage("Resources/UI/Quit.png");
 		uiImage->SetObjectName("BtnExit");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y + viewPort.Height * 0.65f + uiImage->GetHeight() * 0.5f, 0.0f));
@@ -63,6 +63,29 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		room->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
 		newScene->mGameObjects.insert({ "room", room });
 
+		D3DVIEWPORT9 viewPort;
+		gD3Device->GetViewport(&viewPort);
+		UIImage * uiImage = new UIImage("Resources/UI/Inventory.png");
+		uiImage->SetObjectName("inventory");
+		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x ,
+			uiImage->GetPos().y, 0.0f));
+		uiImage->SetVisible(true);
+		newScene->mGameUIs.insert(make_pair("inventory", uiImage));
+
+		uiImage = new UIImage("Resources/UI/Inventory.png");
+		uiImage->SetObjectName("inventory2");
+		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x+ uiImage->GetWidth(),
+			uiImage->GetPos().y, 0.0f));
+		uiImage->SetVisible(true);
+		newScene->mGameUIs.insert(make_pair("inventory2", uiImage));
+
+		uiImage = new UIImage("Resources/UI/Inventory.png");
+		uiImage->SetObjectName("inventory3");
+		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + uiImage->GetWidth()*2.f,
+			uiImage->GetPos().y, 0.0f));
+		uiImage->SetVisible(true);
+		newScene->mGameUIs.insert(make_pair("inventory3", uiImage));
+
 		Player* player = new Player;
 		player->AddColliderCube("playerCubeCollider");
 		player->Setup();
@@ -77,8 +100,10 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key");
 		key->AddColliderCube("keyCubeCollider");
-		key->Setup("Resources/XFile/", "Key.X");
-		key->SetPos(D3DXVECTOR3(5,0,1.4));
+		key->Setup("Resources/XFile/", "DeathDropBox.X");
+		key->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
+		key->SetPos(D3DXVECTOR3(16,0,10));
+		key->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 

@@ -191,7 +191,7 @@ void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
 
 void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
 {
-	/*
+	
 	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP;
 	D3DVIEWPORT9 matViewPort;
 	
@@ -222,7 +222,7 @@ void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
 		}
 	}
 	mShaders["Fire"]->End();
-	*/
+	
 }
 
 
