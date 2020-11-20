@@ -2,13 +2,13 @@
 #include "Camera.h"
 
 
-Camera::Camera() :
-	mEye(0, 0, -5)
+Camera::Camera()
+	: mCameraDistance(15.0f)
 	, mLookAt(0, 0, 0)
 	, mUp(0, 1, 0)
 	, mRight(0, 0 ,0)
 	, mTarget(nullptr)
-	, mCameraDistance(15.0f)
+	, mEye(0, 10, mCameraDistance)
 	, mCamRotAngle(0, D3DX_PI * 0.25f, 0)
 {
 	
@@ -23,11 +23,9 @@ void Camera::Setup()
 {
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
-
 	D3DXMATRIXA16 matProj;
 	//D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
 	D3DXMatrixOrthoLH(&matProj, ORTHO_WIDTH, ORTHO_WIDTH * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
-
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 

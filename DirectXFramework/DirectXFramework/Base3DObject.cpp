@@ -137,3 +137,13 @@ void Base3DObject::LoadColliderSphere()
 {
 	
 }
+
+void Base3DObject::SetRotation(const D3DXQUATERNION& rotation)
+{
+	mRot = rotation;
+}
+
+D3DXQUATERNION Base3DObject::GetRotation()
+{
+	return mRot;
+}

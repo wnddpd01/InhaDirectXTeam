@@ -33,6 +33,7 @@
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
     <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
     <ClInclude Include="JSON.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SkinnedMesh.h" />
