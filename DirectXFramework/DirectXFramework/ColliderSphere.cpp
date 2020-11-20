@@ -26,8 +26,6 @@ void ColliderSphere::Update()
 	D3DXMatrixScaling(&matS, (*mScale).x, (*mScale).y, (*mScale).z);
 	D3DXMatrixTranslation(&matT, (*mPosition).x, (*mPosition).y, (*mPosition).z);
 	D3DXMatrixRotationQuaternion(&matR, mRot);
-
-	m_matWorldTM = matS * matR * matT;
 	
 }
 

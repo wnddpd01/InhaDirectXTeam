@@ -84,7 +84,6 @@ void ColliderCube::Setup()
 		m_BoxDrawVertex[i] = m_BoxVertex[BoxIndex[i]];
 	}
 
-	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 void ColliderCube::Update()
@@ -97,21 +96,21 @@ void ColliderCube::Update()
 	D3DXMatrixTranslation(&matT, (*mPosition).x, (*mPosition).y, (*mPosition).z);
 	D3DXMatrixRotationQuaternion(&matR, mRot);
 
-	m_matWorldTM = matS * matR * matT;
+	D3DXMATRIXA16 matWorld = matS * matR * matT;
 
 	for (int i = 0; i < 3; ++i)
 	{
 		D3DXVec3TransformNormal(
 			&m_vAxisDir[i],
 			&m_vOriAxisDir[i],
-			&m_matWorldTM
+			&matWorld
 		);
 	}
 
 	D3DXVec3TransformCoord(
 		&m_vCenterPos,
 		&m_vOriCenterPos,
-		&m_matWorldTM);
+		&matWorld);
 	
 }
 
@@ -230,7 +229,6 @@ void ColliderCube::Render()
 {	
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	gD3Device->SetTexture(0, nullptr);
-	gD3Device->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	gD3Device->SetFVF(D3DFVF_XYZ);
 	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, m_BoxDrawVertex.size() / 2, &m_BoxDrawVertex[0], sizeof(D3DXVECTOR3));
 

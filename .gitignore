@@ -419,3 +419,4 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,c++,windows
 DirectXFramework/DirectXFramework/Resources/XFile/Key.x
 *.jpg
+DirectXFramework/DirectXFramework/Resources/
