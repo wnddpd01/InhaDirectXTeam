@@ -89,8 +89,8 @@ void SoundManager::SoundSet()
 	memset(mChannel, 0, sizeof(Channel*)*(mBuffer));
 
 	
-	AddSound("BGM", "./sounds/Sonata.mp3", true);
-	AddSound("CLICK", "./sounds/get.wav", false);
+	AddSound("BGM", "Resources/Sound/Sonata.mp3", true);
+	AddSound("CLICK", "Resources/Sound/get.wav", false);
 
 }
 

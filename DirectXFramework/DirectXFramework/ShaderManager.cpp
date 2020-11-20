@@ -278,7 +278,7 @@ void ShaderManager::LoadAllShader()
 	mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
 	mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");
 	mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
-	mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
-	mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
+	//mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
+	//mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
 }
 

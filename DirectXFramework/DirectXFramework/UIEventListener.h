@@ -37,50 +37,50 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 	static bool isClicked = false;
 	switch (eventName)
 	{
-		case eEventName::MOUSE_L_DOWN:
+	case eEventName::MOUSE_L_DOWN:
+	{
+		POINT& mousePt = *(POINT*)(parameter);
+		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->SetTexture("Resources/UI/NewGame_Click.png");
+			isClicked = true;
+			return true;
+		}
+	}
+	break;
+	case eEventName::MOUSE_L_UP:
+	{
+		POINT& mousePt = *(POINT*)(parameter);
+		isClicked = false;
+		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		{
+			eSceneName sceneName = eSceneName::INGAME_SCENE;
+			gSoundManager->Play("CLICK");
+			gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
+			uiImageConvert->SetTexture("Resources/UI/NewGame.png");
+			return true;
+		}
+		uiImageConvert->SetTexture("Resources/UI/NewGame.png");
+	}
+	break;
+	case eEventName::MOUSE_MOVE:
+	{
+		POINT& mousePt = *(POINT*)(parameter);
+		if (isClicked == false)
+		{
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 			{
-				POINT& mousePt = *(POINT*)(parameter);
-				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-				{
-					uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
-					isClicked = true;
-					return true;
-				}
+				uiImageConvert->SetTexture("Resources/UI/NewGame_Click.png");
 			}
-			break;
-		case eEventName::MOUSE_L_UP:
+			else
 			{
-				POINT& mousePt = *(POINT*)(parameter);
-				isClicked = false;
-				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-				{
-					eSceneName sceneName = eSceneName::INGAME_SCENE;
-					gSoundManager->Play("CLICK");
-					gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
-					uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
-					return true;
-				}
-				uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+				uiImageConvert->SetTexture("Resources/UI/NewGame.png");
 			}
-			break;
-		case eEventName::MOUSE_MOVE:
-			{
-				POINT& mousePt = *(POINT*)(parameter);
-				if (isClicked == false)
-				{
-					if(PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-					{
-						uiImageConvert->SetTexture("Resources/UI/BtnHovered.png");
-					}
-					else
-					{
-						uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
-					}
-				}
-			}
-			break;
-		default:
-			break;
+		}
+	}
+	break;
+	default:
+		break;
 	}
 	return false;
 }
@@ -91,48 +91,48 @@ inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* ui
 	static bool isClicked = false;
 	switch (eventName)
 	{
-		case eEventName::MOUSE_L_DOWN:
+	case eEventName::MOUSE_L_DOWN:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->SetTexture("Resources/UI/Quit_Click.png");
+			isClicked = true;
+			return true;
+		}
+	}
+	break;
+	case eEventName::MOUSE_L_UP:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		isClicked = false;
+		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
+		{
+			gSoundManager->Play("CLICK");
+			uiImageConvert->SetTexture("Resources/UI/Quit.png");
+			return true;
+		}
+		uiImageConvert->SetTexture("Resources/UI/Quit.png");
+	}
+	break;
+	case eEventName::MOUSE_MOVE:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		if (isClicked == false)
+		{
+			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 			{
-				POINT mousePt = *(POINT*)(parameter);
-				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-				{
-					uiImageConvert->SetTexture("Resources/UI/BtnSelected.png");
-					isClicked = true;
-					return true;
-				}
+				uiImageConvert->SetTexture("Resources/UI/Quit_Click.png");
 			}
-			break;
-		case eEventName::MOUSE_L_UP:
+			else
 			{
-				POINT mousePt = *(POINT*)(parameter);
-				isClicked = false;
-				if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-				{
-					gSoundManager->Play("CLICK");
-					uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
-					return true;
-				}
-				uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
+				uiImageConvert->SetTexture("Resources/UI/Quit.png");
 			}
-			break;
-		case eEventName::MOUSE_MOVE:
-			{
-				POINT mousePt = *(POINT*)(parameter);
-				if (isClicked == false)
-				{
-					if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
-					{
-						uiImageConvert->SetTexture("Resources/UI/BtnHovered.png");
-					}
-					else
-					{
-						uiImageConvert->SetTexture("Resources/UI/BtnIdle.png");
-					}
-				}
-			}
-			break;
-		default:
-			break;
+		}
+	}
+	break;
+	default:
+		break;
 	}
 
 

@@ -25,6 +25,5 @@ protected:
 	D3DXVECTOR3 * mPosition;
 	D3DXVECTOR3 * mScale;
 	D3DXQUATERNION * mRot;
-	D3DXMATRIXA16 m_matWorldTM;
 	
 };

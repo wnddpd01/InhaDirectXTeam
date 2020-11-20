@@ -124,6 +124,7 @@ D3DXVECTOR3 Base3DObject::GetScale()
 	return mScale;
 }
 
+
 void Base3DObject::LoadColliderCube()
 {
 	gJSON->WriteJSON("./Save/ColliderCube.json");
@@ -138,12 +139,11 @@ void Base3DObject::LoadColliderSphere()
 	
 }
 
-void Base3DObject::SetRotation(const D3DXQUATERNION& rotation)
+void Base3DObject::SetRot(const D3DXQUATERNION& rot)
 {
-	mRot = rotation;
+	mRot = rot;
 }
-
-D3DXQUATERNION Base3DObject::GetRotation()
+D3DXQUATERNION Base3DObject::GetRot()
 {
 	return mRot;
 }

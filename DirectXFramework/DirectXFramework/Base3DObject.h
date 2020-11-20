@@ -37,12 +37,13 @@ public:
 	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
-	
+
 	void LoadColliderCube();
 	void LoadColliderSphere();
 
-	void SetRotation(const D3DXQUATERNION& rotation);
-	D3DXQUATERNION GetRotation();
+	void SetRot(const D3DXQUATERNION& rotation);
+	D3DXQUATERNION GetRot();
+
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;

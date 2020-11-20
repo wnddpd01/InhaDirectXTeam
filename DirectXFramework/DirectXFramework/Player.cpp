@@ -73,7 +73,6 @@ void Player::Setup()
 	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	
-	m_pSkinnedMesh->m_matWorldTM = m_pSkinnedMesh->m_matWorldTM;
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
 
@@ -90,10 +89,6 @@ void Player::Update()
 	{
 		mPos += mMoveVelocity;
 	}
-	D3DXMatrixRotationQuaternion(&matR, &mRot);
-	D3DXMatrixTranslation(&matT, mPos.x, mPos.y, mPos.z);
-	matWorld = matR * matT;
-	m_pSkinnedMesh->SetTransform(&matWorld);
 
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
@@ -109,15 +104,25 @@ void Player::Update()
 }
 
 void Player::Render()
-{
+ {
 	Base3DObject::Render();
+	D3DXMATRIXA16 matWorld, matS, matR, matT;
+
+	D3DXMatrixScaling(&matS, Base3DObject::mScale.x, Base3DObject::mScale.y, Base3DObject::mScale.z);
+	D3DXMatrixRotationQuaternion(&matR, &mRot);
+	D3DXMatrixTranslation(&matT, Base3DObject::mPos.x, Base3DObject::mPos.y, Base3DObject::mPos.z);
+	matWorld = matS * matR * matT;
+
+	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pSkinnedMesh->SetTransform(&matWorld);
 	m_pSkinnedMesh->Render(nullptr);
 	if(mInteractingObject != nullptr)
 	{
 		DrawMark();
 	}
-
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
@@ -139,7 +144,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				if (mCurState->GetStateName() == eCharacterStateName::IDLE_STATE)
+				if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
 				{
 					POINT& mousePt = *(POINT*)parameter;
 					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
