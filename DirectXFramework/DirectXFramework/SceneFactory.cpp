@@ -92,7 +92,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		room->InsertObject(portal1);
 
 
-		/*Static3DObject* wallPart = new Static3DObject;
+		Static3DObject* wallPart = new Static3DObject;
 		wallPart->SetObjectName("wallPart1");
 		wallPart->AddColliderCube("wallPart1");
 		wallPart->Setup("Resources/XFile/", "Wall_x4.X");
@@ -154,8 +154,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		wallDoor2->SetPos(D3DXVECTOR3(17.5f, 2.f, 15.f));
 		wallDoor2->CollideHandle = KeyColliderHandler;
 		room->InsertObject(wallDoor2);
-*/
-		
+
 		gShader->LoadAllShader();
 	}
 	return newScene;
