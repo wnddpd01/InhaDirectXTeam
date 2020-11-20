@@ -7,6 +7,7 @@
 #include "Static3DObject.h"
 #include "Room.h"
 #include "CollideHandle.h"
+#include "Portal.h"
 
 SceneFactory::SceneFactory()
 {
@@ -81,7 +82,24 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 
-		
+		Portal * portal1 = new Portal;
+		portal1->SetObjectName("portal1");
+		portal1->AddColliderCube("portal1CubeCollider");
+		portal1->CollideHandle = PortalColliderHandler;
+		portal1->SetPos(D3DXVECTOR3(19, 0 ,4));
+		portal1->SetExitPos(D3DXVECTOR3(17, 0,14));
+		portal1->Setup();
+		room->InsertObject(portal1);
+
+		Portal * portal2 = new Portal;
+		portal2->SetObjectName("portal2");
+		portal2->AddColliderCube("portal2CubeCollider");
+		portal2->CollideHandle = PortalColliderHandler;
+		portal2->SetPos(D3DXVECTOR3(19, 0, 14));
+		portal2->SetExitPos(D3DXVECTOR3(17, 0, 4));
+		portal2->Setup();
+		room->InsertObject(portal2);
+
 		Static3DObject* wallPart = new Static3DObject;
 		wallPart->SetObjectName("wallPart1");
 		wallPart->AddColliderCube("wallPart1");

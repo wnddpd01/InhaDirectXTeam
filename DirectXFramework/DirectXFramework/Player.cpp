@@ -134,6 +134,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 				{
 					StateChange(retState);
 				}
+				cout << to_string(mPos) << endl;
 			}
 			break;
 		case eEventName::MOUSE_MOVE :
