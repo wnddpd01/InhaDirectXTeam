@@ -19,5 +19,6 @@ public:
 	void RenderWithPointLightShader(function<void()> FunctionPtr);
 	void RenderWithSpotLightShader(function<void()> FunctionPtr);
 	void RenderWithItemShader(function<void()> FunctionPtr);
+	void RenderWithFireShader(function<void()> FunctionPtr);
 };
 

@@ -121,3 +121,13 @@ D3DXVECTOR3 Base3DObject::GetScale()
 {
 	return mScale;
 }
+
+void Base3DObject::SetRotation(const D3DXQUATERNION& rotation)
+{
+	mRot = rotation;
+}
+
+D3DXQUATERNION Base3DObject::GetRotation()
+{
+	return mRot;
+}
