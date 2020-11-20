@@ -143,7 +143,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 				{
 					POINT& mousePt = *(POINT*)parameter;
 					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
-
+					
 					D3DXMATRIXA16 matRot;
 					D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &mouseWorldPos, &D3DXVECTOR3(0, 1, 0));
 

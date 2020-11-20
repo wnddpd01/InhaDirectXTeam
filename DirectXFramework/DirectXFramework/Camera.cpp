@@ -99,6 +99,7 @@ bool Camera::Update(eEventName eventName, void* parameter)
 D3DXVECTOR3 Camera::GetPickingPosition(POINT& mousePos)
 {
 	D3DXVECTOR3 ray = mLookAt - mEye;
+	cout << to_string(ray) << endl;
 	D3DXVec3Cross(&mRight, &mUp, &ray);
 	D3DXVec3Normalize(&mRight, &mRight);
 	D3DXVec3Cross(&mCameraUp,  &ray, &mRight );

@@ -63,22 +63,22 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->mGameObjects.insert({ "room", room });
 
 		Player* player = new Player;
-		player->SetObjectName("player");
 		player->AddColliderCube("playerCubeCollider");
+		player->Setup();
+		player->SetObjectName("player");
+		newScene->mCamera->SetTarget(player->GetPosRef());
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		newScene->mCamera->SetTarget(player->GetPosRef());
-		player->Setup();
 		room->InsertObject(player);
 
 
 		Static3DObject* key = new Static3DObject;
+		key->AddColliderCube("keyCubeCollider");
+		key->Setup("Resources/XFile/", "Key.X");
 		key->SetPos(D3DXVECTOR3(5,0,1.4));
 		key->SetScale(D3DXVECTOR3(1.f, 1.f, 1.f));
-		key->AddColliderCube("keyCubeCollider");
 		key->CollideHandle = KeyColliderHandler;
-		key->Setup("Resources/XFile/", "Key.X");
 		room->InsertObject(key);
 
 		

@@ -44,7 +44,6 @@ void SceneCenter::SceneChange(eSceneName sceneName)
 		mCurScene->DetachAllSubscriberInSubscriberList();
 	}
 	mCurScene = mSceneMap.find(sceneName)->second;
-	
 	gCameraManager->SetCamera(mSceneMap.find(sceneName)->second->GetCamera());
 	mCurScene->AttachAllSubscriberInSubscriberList();
 }
