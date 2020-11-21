@@ -6,10 +6,11 @@ class Portal :
 	public Base3DObject
 {
 	D3DXVECTOR3 mExitPos;
+	D3DXVECTOR3 mPortalLine[2];
 	map<string, pair<Base3DObject *, D3DXVECTOR3>> mObjectsInPortal;
 public:
-	Portal();
-	~Portal();
+	Portal(D3DXVECTOR3 portalDir);
+	virtual ~Portal();
 
 	void Render() override;
 	void Update() override;

@@ -107,14 +107,23 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 
-		Portal * portal1 = new Portal;
+		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
 		portal1->SetObjectName("portal1");
 		portal1->AddColliderCube("portal1CubeCollider");
 		portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-		portal1->SetPos(D3DXVECTOR3(19, 0 ,4));
-		portal1->SetExitPos(D3DXVECTOR3(19, 0,14));
+		portal1->SetPos(D3DXVECTOR3(18, 0 ,4));
+		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
 		portal1->Setup();
 		room->InsertObject(portal1);
+
+		Portal * portal2 = new Portal(D3DXVECTOR3(1,0,0));
+		portal2->SetObjectName("portal2");
+		portal2->AddColliderCube("portal2CubeCollider");
+		portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+		portal2->SetPos(D3DXVECTOR3(18, 0, 14));
+		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
+		portal2->Setup();
+		room->InsertObject(portal2);
 
 
 		Static3DObject* wallPart = new Static3DObject;
