@@ -8,6 +8,7 @@ Base3DObject::Base3DObject()
 	: mScale(1,1,1)
 	, mPos(0,0,0)
 	, mObjectTag(eObjTag::NON_OBJECT_TAG)
+	, mbIsInteractable(false)
 {
 	D3DXQuaternionIdentity(&mRot);
 	CollideHandle = DefaultColliderHandler;

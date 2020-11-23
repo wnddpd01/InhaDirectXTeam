@@ -2,6 +2,7 @@
 class Base3DObject;
 class BaseObject;
 class ColliderCube;
+class Player;
 
 struct CollisionEvent
 {
@@ -19,7 +20,7 @@ public:
 	ColliderChecker();
 	~ColliderChecker();
 
-	void CheckCollider(map<string, Base3DObject*>& objects);
+	void CheckCollider(Player * player, map<string, Base3DObject*>& objects);
 
 private:
 	bool CheckCubeByOBB(ColliderCube * obj1Cube, ColliderCube * obj2Cube);

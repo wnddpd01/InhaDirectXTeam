@@ -16,6 +16,7 @@ protected:
 	D3DXVECTOR3 mPos;
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
+	BOOL mbIsInteractable;
 	
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
@@ -39,6 +40,8 @@ public:
 	D3DXVECTOR3 GetScale();
 	void SetRot(const D3DXQUATERNION& rotation);
 	D3DXQUATERNION GetRot();
+	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
+	BOOL isInteractable() const { return mbIsInteractable; }
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;

@@ -94,22 +94,23 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		room->InsertObject(player);
+		room->SetPlayer(player);
 
 
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key");
-		key->AddColliderCube("keyCubeCollider");
+		key->AddColliderCube("basicColliderCube");
 		key->Setup("Resources/XFile/", "DeathDropBox.X");
 		key->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
 		key->SetPos(D3DXVECTOR3(16,0,10));
 		key->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
+		key->SetIsInteractable(true);
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 
 		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
 		portal1->SetObjectName("portal1");
-		portal1->AddColliderCube("portal1CubeCollider");
+		portal1->AddColliderCube("portal1ColliderCube");
 		portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 		portal1->SetPos(D3DXVECTOR3(18.5f, 0 ,4));
 		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
@@ -118,7 +119,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		Portal * portal2 = new Portal(D3DXVECTOR3(1,0,0));
 		portal2->SetObjectName("portal2");
-		portal2->AddColliderCube("portal2CubeCollider");
+		portal2->AddColliderCube("portal2ColliderCube");
 		portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 		portal2->SetPos(D3DXVECTOR3(18.5f, 0, 14));
 		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
