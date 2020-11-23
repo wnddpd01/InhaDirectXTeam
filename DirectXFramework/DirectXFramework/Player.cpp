@@ -74,7 +74,7 @@ void Player::DrawMark()
 
 void Player::MoveBack()
 {
-	mPos -= mMoveVelocity;
+	//mPos -= mMoveVelocity;
 }
 
 void Player::Setup()
