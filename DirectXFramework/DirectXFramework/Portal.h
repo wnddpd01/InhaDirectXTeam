@@ -5,15 +5,16 @@
 class Portal :
 	public Base3DObject
 {
+	static const D3DXVECTOR3 NOT_COLLIDED_POS;
 	D3DXVECTOR3 mExitPos;
-	D3DXVECTOR3 mPortalLine[2];
+	D3DXVECTOR3 mPortalDir;
+	D3DXVECTOR3 mPortalLineDir;
 	map<string, pair<Base3DObject *, D3DXVECTOR3>> mObjectsInPortal;
 public:
 	Portal(D3DXVECTOR3 portalDir);
 	virtual ~Portal();
 
 	void Render() override;
-	void Update() override;
 	
 	void SetExitPos(D3DXVECTOR3 exitPos) { mExitPos = exitPos; }
 	D3DXVECTOR3 GetExitPos() const { return mExitPos; }
