@@ -48,6 +48,8 @@ void Base3DObject::Setup()
 	{
 		it->second->Setup();
 	}
+	
+	LoadColliderCube();
 }
 
 void Base3DObject::Render()
@@ -121,6 +123,21 @@ void Base3DObject::SetScale(const D3DXVECTOR3& scale)
 D3DXVECTOR3 Base3DObject::GetScale()
 {
 	return mScale;
+}
+
+
+void Base3DObject::LoadColliderCube()
+{
+	gJSON->WriteJSON("./Load/ColliderCube.json");
+	if( "player" == this->GetObjectName())
+	{
+		
+	}
+}
+
+void Base3DObject::LoadColliderSphere()
+{
+	
 }
 
 void Base3DObject::SetRot(const D3DXQUATERNION& rot)

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SceneCenter.h"
 #include "Scene.h"
-#include "JSON.h"
 #include "MouseInputManager.h"
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1280,
@@ -14,7 +13,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
                       _In_ int nCmdShow)
 {
 	gJSON->LoadJSON("jsonTest.json");
-	gJSON->PrintJSON();
+	gJSON->WriteJSON("jsonTest2.json");
 	if (GenerateWindow(hIns, nCmdShow, L"Win32Window", L"DirectXFramework"))
 	{
 		MSG msg;

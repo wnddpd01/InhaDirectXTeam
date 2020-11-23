@@ -3,6 +3,7 @@
 #include "JSON/rapidjson/document.h"
 #include "JSON/rapidjson/filereadstream.h"
 #include "JSON/rapidjson/filewritestream.h"
+#include "JSON/rapidjson/prettywriter.h"
 
 using namespace rapidjson;
 
@@ -11,13 +12,13 @@ using namespace rapidjson;
 class JSON : public Singleton<JSON>
 {
 public:
-	void LoadJSON(string FileName);
-	void WriteJSON(string FileName);
+	void LoadJSON(string FullPath);
+	void WriteJSON(string FullPath);
 	void PrintJSON()
 	{
 		
 	}
 private:
-	Document doc;
+	Document mDocument;
 };
 
