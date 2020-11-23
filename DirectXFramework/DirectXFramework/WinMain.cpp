@@ -12,8 +12,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
                       _In_ LPWSTR lpCmdLine,
                       _In_ int nCmdShow)
 {
-	gJSON->LoadJSON("jsonTest.json");
-	gJSON->WriteJSON("jsonTest2.json");
+	//gJSON->LoadJSON("jsonTest.json");
+	//gJSON->WriteJSON("jsonTest2.json");
 	if (GenerateWindow(hIns, nCmdShow, L"Win32Window", L"DirectXFramework"))
 	{
 		MSG msg;
