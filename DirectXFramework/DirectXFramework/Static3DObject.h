@@ -11,7 +11,7 @@ private:
 	D3DMATERIAL9*			mpMaterials;
 	LPDIRECT3DTEXTURE9*		mpTextures;
 	DWORD					mNumMaterials;
-	eShaderTag				mShaderTag;
+	eTypeTag				mTypeTag;
 	
 public:
 	Static3DObject();
@@ -19,7 +19,8 @@ public:
 
 	void Setup(
 		IN string	folder,
-		IN string	fileName
+		IN string	fileName,
+		eTypeTag	typeTag = eTypeTag::ITEM
 	);
 
 	void Update() override;

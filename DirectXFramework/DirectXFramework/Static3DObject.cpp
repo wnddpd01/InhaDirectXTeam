@@ -17,29 +17,62 @@ Static3DObject::~Static3DObject()
 }
 
 void Static3DObject::Setup(
-	string folder, string fileName)
+	string folder, string fileName, eTypeTag typeTag)
 {
 	Base3DObject::Setup();
 	gModelLoader->LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
-	mShaderTag = eShaderTag::ITEM;
+	
+	mTypeTag = typeTag;
+
+	if (mTypeTag == eTypeTag::DOOR)
+	{
+		mStateTag = eStateTag::DOOR_CLOSE;
+	}
 }
 
 void Static3DObject::Update()
 {
+	if (mTypeTag == eTypeTag::DOOR)
+	{
+		static float angle = 0.f;
+		if (mStateTag == eStateTag::DOOR_CLOSE)
+		{
+			if (angle > 0)
+			{
+				angle -= 0.05;
+				if (angle < 0)
+					angle = 0.f;
+			}
+			D3DXQUATERNION rotation;
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0,1,0), angle * D3DX_PI);
+			mRot = rotation;
+		}
+		else if (mStateTag == eStateTag::DOOR_OPEN)
+		{
+			if (angle < 0.5)
+				angle += 0.05;
+			D3DXQUATERNION rotation;
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), angle * D3DX_PI);
+			mRot = rotation;
+		}
+	}
 	Base3DObject::Update();
+
 }
 
 void Static3DObject::Render()
 {
 	Base3DObject::Render();
 	
-	switch (mShaderTag)
+	switch (mTypeTag)
 	{
-		case eShaderTag::ITEM :
+		case eTypeTag::DOOR :
+		case eTypeTag::ITEM :
 		{
 			gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
 		}
 		break;
+
 	}
 }
 
