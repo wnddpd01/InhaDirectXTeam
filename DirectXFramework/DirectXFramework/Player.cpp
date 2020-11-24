@@ -115,14 +115,8 @@ void Player::Update()
 void Player::Render()
  {
 	Base3DObject::Render();
-	D3DXMATRIXA16 matWorld, matS, matR, matT;
-
-	D3DXMatrixScaling(&matS, Base3DObject::mScale.x, Base3DObject::mScale.y, Base3DObject::mScale.z);
-	D3DXMatrixRotationQuaternion(&matR, &mRot);
-	D3DXMatrixTranslation(&matT, Base3DObject::mPos.x, Base3DObject::mPos.y, Base3DObject::mPos.z);
-	matWorld = matS * matR * matT;
-
-	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+	D3DXMATRIXA16 matWorld;
+	
 	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
 	
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
