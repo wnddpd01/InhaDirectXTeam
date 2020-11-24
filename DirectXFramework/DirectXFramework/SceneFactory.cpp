@@ -125,7 +125,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room->InsertObject(portal2);
 
-
+		/*
 		Static3DObject* wallPart = new Static3DObject;
 		wallPart->SetObjectName("wallPart1");
 		wallPart->AddColliderCube("wallPart");
@@ -187,8 +187,60 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		wallDoor2->SetPos(D3DXVECTOR3(17.5f, 2.f, 15.f));
 		wallDoor2->CollideHandle = KeyColliderHandler;
 		room->InsertObject(wallDoor2);
+		*/
+	
+		gJSON->LoadJSON("Resources/Json/wallTest.json");
+		Value& walls = gJSON->mDocument["wall"];
+		for (SizeType i = 0; i < walls.Size(); ++i)
+		{
+			Value::ConstMemberIterator itr = walls[i].FindMember("rotation");
+			if (itr != walls[i].MemberEnd())
+			{
+				D3DXQUATERNION rotation;
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
+					walls[i]["rotation"]["x"].GetFloat(),
+					walls[i]["rotation"]["y"].GetFloat(),
+					walls[i]["rotation"]["z"].GetFloat()
+				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
 
+				Static3DObject* wall = CreateStatic3DObject(
+					string("wall") + to_string(i),
+					walls[i]["sourceFileName"].GetString(),
+					{
+						walls[i]["position"]["x"].GetFloat(),
+						walls[i]["position"]["y"].GetFloat(),
+						walls[i]["position"]["z"].GetFloat()
+					},
+					rotation
+				);
+				wall->CollideHandle = KeyColliderHandler;
+				room->InsertObject(wall);
+			}
+			else
+			{
+				Static3DObject* wall = CreateStatic3DObject(
+					string("wall") + to_string(i),
+					walls[i]["sourceFileName"].GetString(),
+					{ walls[i]["position"]["x"].GetFloat(),
+					walls[i]["position"]["y"].GetFloat(),
+					walls[i]["position"]["z"].GetFloat() }
+				);
+				wall->CollideHandle = KeyColliderHandler;
+				room->InsertObject(wall);
+			}
+		}
 		gShader->LoadAllShader();
 	}
 	return newScene;
+}
+
+Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position, D3DXQUATERNION rotation, string colliderName)
+{
+	Static3DObject* newStaticObject = new Static3DObject;
+	newStaticObject->SetObjectName(objectName);
+	newStaticObject->AddColliderCube(colliderName);
+	newStaticObject->Setup("Resources/XFile/", sourceFileName);
+	newStaticObject->SetRot(rotation);
+	newStaticObject->SetPos(position);
+	return newStaticObject;
 }

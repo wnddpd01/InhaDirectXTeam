@@ -1,146 +1,75 @@
-float4x4 matViewProjection : ViewProjection;
-float4x4 matViewInverseTranspose : ViewInverseTranspose;
-float4x4 matProjection : Projection;
-float4 OutlineColor
-<
-   string UIName = "OutlineColor";
-   string UIWidget = "Direction";
-   bool UIVisible =  false;
-   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
-   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
-   bool Normalize =  false;
-> = float4( 1.00, 1.00, 1.00, 1.00 );
+/*
 
-float OutlineWidth
-<
-   string UIName = "OutlineWidth";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float( 0.005 );
+% Description of my shader.
+% Second line of description for my shader.
 
-struct VS_INPUT
+keywords: material classic
+
+date: YYMMDD
+
+*/
+
+float4x4 gWorldViewProj : WorldViewProjection;
+float gOutlineWidth = 0.3f;
+
+struct VS_INPUT 
 {
-   float3 Normal : NORMAL;
-   float4 Position : POSITION;
+   float4 mPosition : POSITION;
+   float3 mNormal: NORMAL;   
 };
 
-struct VS_OUTPUT
+struct VS_OUTPUT 
 {
-   float4 Position : POSITION;
-   float4 Color : COLOR;
+   float4 mPosition : POSITION;
+   float4 mColor : COLOR;
 };
 
-VS_OUTPUT VS( VS_INPUT Input )
+VS_OUTPUT mainVS1(VS_INPUT input)
 {
-   VS_OUTPUT Output;
-   Output.Position = mul(Input.Position, matViewProjection); 
-
-   float3 normal = mul(Input.Normal, matViewInverseTranspose);
-   normal = mul( normal, matProjection );
-
-   Output.Position.xy += OutlineWidth * Output.Position.z * normal.xy;  
-   Output.Color = OutlineColor;
-  
-   return Output;
+	VS_OUTPUT Output;
+	Output.mColor = float4(0.5,0.5,0.5,0.3) * float4(input.mNormal,1.f);
+	Output.mPosition = mul(input.mPosition , gWorldViewProj);
+	return Output;
 }
 
-struct PS_INPUT
+float4 mainPS1(VS_OUTPUT input) : COLOR 
 {
-   float4 Color : COLOR0;
-};
-
-float4 PS(PS_INPUT Input) : COLOR0
-{  
-   return Input.Color;
-  
-}
-//--------------------------------------------------------------//
-// Pass 1
-//--------------------------------------------------------------//
-
-//float4x4 matViewProjection : ViewProjection;
-float4x4 matWorldInverse : WorldInverse;
-float4x4 matWorldViewInverse
-<
-   string UIName = "matWorldViewInverse";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-> = float4x4( 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00 );
-
-float4 lightPositionView
-<
-   string UIName = "lightPositionView";
-   string UIWidget = "Direction";
-   bool UIVisible =  false;
-   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
-   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
-   bool Normalize =  false;
-> = float4( 1.00, 1.00, 0.00, 1.00 );
-
-struct VS_INPUT2
-{
-   float4 Position : POSITION;
-   float3 Normal : NORMAL;
-};
-
-struct VS_OUTPUT2
-{
-   float4 Position : POSITION;
-   float3 Diffuse : TEXCOORD1;
-};
-
-VS_OUTPUT2 VS2( VS_INPUT2 Input )
-{
-   VS_OUTPUT2 Output;
-
-   Output.Position = mul( Input.Position, matViewProjection );
-  
-   float3 objectLightPosition = mul( lightPositionView, matWorldViewInverse);
-   float3 lightDir = normalize( Input.Position.xyz - objectLightPosition );
-  
-   Output.Diffuse = dot( -lightDir, normalize(Input.Normal));
-  
-   return Output;
-} 
-
-float3 SurfaceColor
-<
-   string UIName = "SurfaceColor";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( 1.00, 1.00, 0.00 );
-
-struct PS_INPUT2
-{
-       float3 Diffuse : TEXCOORD1;
-};
-
-float4 PS2(PS_INPUT2 Input) : COLOR
-{  
-   float3 diffuse = saturate(Input.Diffuse);
-   diffuse = ceil(diffuse * 5) / 5.0f;
-   return float4(SurfaceColor*diffuse.xyz, 1);
-}
-//--------------------------------------------------------------//
-// Technique Section for Default_DirectX_Effect
-//--------------------------------------------------------------//
-technique Default_DirectX_Effect
-{
-   pass Pass_0
-   {
-	   VertexShader = compile vs_2_0 VS();
-	   PixelShader = compile ps_2_0 PS();
-   }
-
-   pass Pass_1
-   {
-      VertexShader = compile vs_2_0 VS2();
-      PixelShader = compile ps_2_0 PS2();
-   }
-
+	return input.mColor;
 }
 
+VS_OUTPUT OutlineVertexShader(VS_INPUT input)
+{
+	VS_OUTPUT Output;
+	Output.mColor = float4(1.0,1.0,1.0,0.3);
+	Output.mPosition = mul(float4(input.mPosition.xyz + input.mNormal.xyz * 0.03f , 1.0), gWorldViewProj);
+	return Output;
+}
+
+float4 OutlinePixelShader(VS_OUTPUT input) : COLOR 
+{
+	return input.mColor;
+}
+
+technique technique0 {
+	/*
+	pass p0 {
+		ZWriteEnable = false;
+		VertexShader = compile vs_3_0 OutlineVertexShader();
+		PixelShader = compile ps_3_0 OutlinePixelShader();
+	}
+	*/
+	pass p1 {
+		//ZWriteEnable = true;
+		ColorWritEenable = 0;
+		VertexShader = compile vs_3_0 mainVS1();
+		PixelShader = compile ps_3_0 mainPS1();
+	}
+	pass p2{
+		ColorWritEenable = 7;
+		alphablendenable = true;
+		srcBlend = srcAlpha;
+		destBlend = invSrcAlpha;
+	}
+	
+	
+}

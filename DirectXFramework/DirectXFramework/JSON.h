@@ -18,7 +18,9 @@ public:
 	{
 		
 	}
-private:
+
 	Document mDocument;
+private:
+
 };
 
