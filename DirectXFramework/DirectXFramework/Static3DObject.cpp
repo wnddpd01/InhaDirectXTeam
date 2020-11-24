@@ -20,9 +20,7 @@ void Static3DObject::Setup(
 	string folder, string fileName)
 {
 	Base3DObject::Setup();
-	ModelLoader loader;
-	loader.LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
-	
+	gModelLoader->LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
 	mShaderTag = eShaderTag::ITEM;
 }
 
@@ -39,8 +37,7 @@ void Static3DObject::Render()
 	{
 		case eShaderTag::ITEM :
 		{
-			gShader->GetInstance()->RenderWithToonShader(bind(&Static3DObject::RenderMesh, this));
-		
+			gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
 		}
 		break;
 	}

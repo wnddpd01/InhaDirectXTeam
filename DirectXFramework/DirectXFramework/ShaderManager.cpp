@@ -39,8 +39,9 @@ void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 
 void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 {
-	D3DXVECTOR4	gWorldLightPosition = D3DXVECTOR4(500.0f, 500.0f, -500.0f, 1.0f);
-	D3DXVECTOR4	gSurfaceColor = D3DXVECTOR4(0, 1, 0, 1);
+
+	//D3DXVECTOR4	gWorldLightPosition = D3DXVECTOR4(500.0f, 500.0f, -500.0f, 1.0f);
+	//D3DXVECTOR4	gSurfaceColor = D3DXVECTOR4(0, 1, 0, 1);
 	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matWVP, matViewInvTrans, matWorldViewInverse;
 
 	gD3Device->GetTransform(D3DTS_VIEW, &matView);
@@ -49,19 +50,20 @@ void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 	D3DXMatrixInverse(&matInvWorld, nullptr, &matWorld);
 	matWVP = matWorld * matView * matProjection;
 
-	D3DXMatrixInverse(&matViewInvTrans, NULL, &matView);
-	D3DXMatrixTranspose(&matViewInvTrans, &matViewInvTrans);
+	//D3DXMatrixInverse(&matViewInvTrans, NULL, &matView);
+	//D3DXMatrixTranspose(&matViewInvTrans, &matViewInvTrans);
+	//D3DXMatrixInverse(&matWorldViewInverse, NULL, &(matWorld * matView));
 
-	D3DXMatrixInverse(&matWorldViewInverse, NULL, &(matWorld * matView));
-
-	mShaders["OutLine"]->SetMatrix("matViewProjection", &matWVP);
+	mShaders["OutLine"]->SetMatrix("gWorldViewProj", &matWVP);
+	mShaders["OutLine"]->SetFloat("gOutlineWidth", 0.1f);
+	/*
 	mShaders["OutLine"]->SetMatrix("matViewInverseTranspose", &matViewInvTrans);
 	mShaders["OutLine"]->SetMatrix("matProjection", &matProjection);
 	mShaders["OutLine"]->SetMatrix("matWorldInverse", &matInvWorld);
 	mShaders["OutLine"]->SetMatrix("matWorldViewInverse", &matWorldViewInverse);
 	mShaders["OutLine"]->SetVector("OutlineColor", &D3DXVECTOR4(1.f,0.f, 0.f, 0.f));
 	mShaders["OutLine"]->SetFloat("OutlineWidth", 1.f);
-	
+	*/
 	UINT numPasses = 0;
 	mShaders["OutLine"]->Begin(&numPasses, NULL);
 	{
@@ -254,9 +256,7 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 		cout << str;
 		delete[] str;
 		}
-		
 	}
-
 	return ret;
 }
 

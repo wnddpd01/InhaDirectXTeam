@@ -128,6 +128,9 @@ D3DXVECTOR3 Base3DObject::GetScale()
 
 void Base3DObject::LoadColliderCube()
 {
+
+	//gJSON->WriteJSON("./Load/ColliderCube.json");
+
 	if( "player" == this->GetObjectName())
 	{
 		

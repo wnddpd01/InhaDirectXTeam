@@ -189,6 +189,8 @@ using namespace std;
 #include "ShaderManager.h"
 #include "CameraManager.h"
 #include "JSON.h"
+#include "ModelLoader.h"
+
 inline string to_string(D3DXVECTOR3 & vec3)
 {
 	string ret = "x : " + to_string(vec3.x) +
