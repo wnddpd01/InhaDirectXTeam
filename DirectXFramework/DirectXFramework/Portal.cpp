@@ -56,6 +56,7 @@ void Portal::Render()
 		if(crossVec.y < 0)
 		{
 			notCollidedObjects.push_back(objectInPortal.first);
+			objectInPortal.second.first->SetRot(prevRot);
 			continue;
 		}
 		
