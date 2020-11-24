@@ -32,22 +32,31 @@ void Static3DObject::Setup(
 
 void Static3DObject::Update()
 {
-	Base3DObject::Update();
 	if (mTypeTag == eTypeTag::DOOR)
 	{
+		static float angle = 0.f;
 		if (mStateTag == eStateTag::DOOR_CLOSE)
 		{
-			/*
+			if (angle > 0)
+			{
+				angle -= 0.05;
+				if (angle < 0)
+					angle = 0.f;
+			}
 			D3DXQUATERNION rotation;
-			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0,1,0), 0.5 * D3DX_PI);
-			mRot = 
-			*/
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0,1,0), angle * D3DX_PI);
+			mRot = rotation;
 		}
 		else if (mStateTag == eStateTag::DOOR_OPEN)
 		{
-			
+			if (angle < 0.5)
+				angle += 0.05;
+			D3DXQUATERNION rotation;
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), angle * D3DX_PI);
+			mRot = rotation;
 		}
 	}
+	Base3DObject::Update();
 
 }
 

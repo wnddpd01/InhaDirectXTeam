@@ -111,8 +111,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		Static3DObject* door = new Static3DObject;
 		door->SetObjectName("door");
 		door->AddColliderCube("basicColliderCube");
-		door->Setup("Resources/XFile/", "sWall_x1.x", eTypeTag::DOOR);
-		door->SetPos(D3DXVECTOR3(4, 0, 9));
+		door->Setup("Resources/XFile/", "Door.x", eTypeTag::DOOR);
+		door->SetPos(D3DXVECTOR3(3, 1.5, 9));
 		door->SetIsInteractable(true);
 		door->CollideHandle = KeyColliderHandler;
 		room->InsertObject(door);
@@ -136,7 +136,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room->InsertObject(portal2);
 
-		
 
 		gJSON->LoadJSON("Resources/Json/wallTest.json");
 		Value& walls = gJSON->mDocument["wall"];
