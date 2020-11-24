@@ -12,8 +12,9 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXVECTOR3 mMoveVelocity;
 	Base3DObject * mInteractingObject;
 	UIImage * mInteractingObjectMark;
-	void StateChange(CharacterState * nextState);
+	void ChangeState(CharacterState * nextState);
 	void DrawMark();
+	void MoveBack();
 public:
 	SkinnedMesh* m_pSkinnedMesh;
 #pragma region GetterAndSetter
@@ -61,6 +62,7 @@ public:
 	Player();
 	virtual ~Player();
 
-	void PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
+	void HandleInteractableObjectSphereCollideEvent(Base3DObject* interactableObject);
+	void HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
 };
 

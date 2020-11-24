@@ -95,14 +95,10 @@ CharacterState* WalkCharacterState::Update(Player& player)
 		D3DXMatrixLookAtLH(&matLook, &D3DXVECTOR3(0, 0, 0), &mMoveVelocity, &D3DXVECTOR3(0, 1, 0));
 		D3DXMatrixInverse(&matLook, nullptr, &matLook);
 
-		
 		D3DXQUATERNION moveRot;
 		D3DXQuaternionRotationMatrix(&moveRot, &matLook);
 
-
-		D3DXVECTOR3 yAxis = { 0, 1, 0 };
-		float yAngle = D3DX_PI;
-		D3DXQuaternionRotationAxis(&playerRot, &yAxis, yAngle);
+		D3DXQuaternionRotationYawPitchRoll(&playerRot, D3DX_PI, 0, 0);
 		playerRot *= moveRot;
 		mPrevMoveVelocity = mMoveVelocity;
 	}

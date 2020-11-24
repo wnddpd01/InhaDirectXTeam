@@ -2,6 +2,7 @@
 #include "Room.h"
 #include "QuarterMap.h"
 #include "Base3DObject.h"
+#include "Player.h"
 
 
 ColliderChecker Room::mColliderChecker;
@@ -23,16 +24,18 @@ Room::~Room()
 
 void Room::Update()
 {
+	mPlayer->Update();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Update();
 	}
-	mColliderChecker.CheckCollider(mObjectsInRoom);
+	mColliderChecker.CheckCollider(mPlayer, mObjectsInRoom);
 }
 
 void Room::Render()
 {
 	mQuarterMap->Render();
+	mPlayer->Render();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Render();

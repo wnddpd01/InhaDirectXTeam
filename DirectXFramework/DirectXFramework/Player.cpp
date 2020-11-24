@@ -41,7 +41,12 @@ Player::~Player()
 	SAFE_DELETE(mInteractingObjectMark);
 }
 
-void Player::StateChange(CharacterState* nextState)
+void Player::HandleInteractableObjectSphereCollideEvent(Base3DObject* interactableObject)
+{
+	mInteractingObject = interactableObject;
+}
+
+void Player::ChangeState(CharacterState* nextState)
 {
 	SAFE_DELETE(mCurState);
 	mCurState = nextState;
@@ -67,6 +72,11 @@ void Player::DrawMark()
 	mInteractingObjectMark->Render();
 }
 
+void Player::MoveBack()
+{
+	//mPos -= mMoveVelocity;
+}
+
 void Player::Setup()
 {
 	Base3DObject::Setup();
@@ -76,7 +86,7 @@ void Player::Setup()
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
 
-	CollideHandle = bind(&Player::PlayerCollideHandle, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	CollideHandle = bind(&Player::HandlePlayerCubeCollideEvent, this, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 }
 
 void Player::Update()
@@ -93,7 +103,7 @@ void Player::Update()
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
 	{
-		StateChange(retState);
+		ChangeState(retState);
 	}
 	m_pSkinnedMesh->Update();
 
@@ -119,6 +129,7 @@ void Player::Render()
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedMesh->SetTransform(&matWorld);
 	m_pSkinnedMesh->Render(nullptr);
+	
 	if(mInteractingObject != nullptr)
 	{
 		DrawMark();
@@ -137,7 +148,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 				CharacterState * retState =  mCurState->HandleInput(*this, eventName,key);
 				if(retState != nullptr)
 				{
-					StateChange(retState);
+					ChangeState(retState);
 				}
 			}
 			break;
@@ -171,10 +182,10 @@ void Player::SetAnimationSpeed(FLOAT spd)
 }
 
 
-void Player::PlayerCollideHandle(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
+void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
 {
-	if(otherColliderTag == "keyCubeCollider")
+	if(otherColliderTag == "basicColliderCube")
 	{
-		mInteractingObject = otherCollider;
+		MoveBack();
 	}
 }

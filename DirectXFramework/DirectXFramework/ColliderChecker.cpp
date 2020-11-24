@@ -2,6 +2,7 @@
 #include "ColliderChecker.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "Player.h"
 
 ColliderChecker::ColliderChecker()
 {
@@ -11,11 +12,36 @@ ColliderChecker::~ColliderChecker()
 {
 }
 
-void ColliderChecker::CheckCollider(map<string, Base3DObject*>& objects)
+void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>& objects)
 {
 	queue<CollisionEvent> collisionEventQueue;
 	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(),1) ; ++iter)
 	{
+		if (CheckSphere((*iter).second, (Base3DObject*)player))
+		{
+			string obj1Tag;
+			string obj2Tag;
+
+			if(iter->second->isInteractable())
+			{
+				player->HandleInteractableObjectSphereCollideEvent(iter->second);
+			}
+
+			if (CheckCube((*iter).second, (Base3DObject*)player, obj1Tag, obj2Tag))
+			{
+				CollisionEvent collisionEvent;
+				collisionEvent.obj1 = iter->second;
+				collisionEvent.obj1ColliderTag = obj1Tag;
+				collisionEvent.obj2 = (Base3DObject*)player;
+				collisionEvent.obj2ColliderTag = obj2Tag;
+				collisionEventQueue.push(collisionEvent);
+			}
+			else
+			{
+
+			}
+		}
+		
 		for (map<string, Base3DObject*>::iterator iter2 = next(iter,1); iter2 != objects.end(); ++iter2)
 		{
 			if(CheckSphere((*iter).second, (*iter2).second))

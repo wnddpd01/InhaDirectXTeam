@@ -53,7 +53,6 @@ void Portal::Render()
 		D3DXVECTOR3 objectToLine = prevPos - (mPos + mPortalLineDir);
 		D3DXVECTOR3 crossVec;
 		D3DXVec3Cross(&crossVec, &portalLine, &objectToLine);
-		cout << to_string(crossVec) << endl;
 		if(crossVec.y < 0)
 		{
 			notCollidedObjects.push_back(objectInPortal.first);
