@@ -108,6 +108,16 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		key->CollideHandle = KeyColliderHandler;
 		room->InsertObject(key);
 
+		Static3DObject* door = new Static3DObject;
+		door->SetObjectName("door");
+		door->AddColliderCube("basicColliderCube");
+		door->Setup("Resources/XFile/", "sWall_x1.x", eTypeTag::DOOR);
+		door->SetPos(D3DXVECTOR3(4, 0, 9));
+		door->SetIsInteractable(true);
+		door->CollideHandle = KeyColliderHandler;
+		room->InsertObject(door);
+
+
 		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
 		portal1->SetObjectName("portal1");
 		portal1->AddColliderCube("portal1ColliderCube");
@@ -126,70 +136,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room->InsertObject(portal2);
 
-		/*
-		Static3DObject* wallPart = new Static3DObject;
-		wallPart->SetObjectName("wallPart1");
-		wallPart->AddColliderCube("wallPart");
-		wallPart->Setup("Resources/XFile/", "Wall_x4.X");
-		wallPart->SetPos(D3DXVECTOR3(9.f, 2.f, 0.5f));
-		wallPart->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallPart);
-
-		Static3DObject* wallPart2 = new Static3DObject;
-		wallPart2->SetObjectName("wallPart2");
-		wallPart2->AddColliderCube("wallPart");
-		wallPart2->Setup("Resources/XFile/", "Wall_x4.X");
-		wallPart2->SetPos(D3DXVECTOR3(9.f, 2.f, 17.5f));
-		wallPart2->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallPart2);
-
-		Static3DObject* wallJoint = new Static3DObject;
-		wallJoint->SetObjectName("wallJoint");
-		wallJoint->Setup("Resources/XFile/", "Wall_x05.X");
-		wallJoint->SetPos(D3DXVECTOR3(0.5f, 2.f, 0.5f));
-		room->InsertObject(wallJoint);
-
-		D3DXQUATERNION rotation;
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5);
 		
-		Static3DObject* wallPart3 = new Static3DObject;
-		wallPart3->SetObjectName("wallPart3");
-		wallPart3->AddColliderCube("wallPart");
-		wallPart3->Setup("Resources/XFile/", "Wall_x2.X");
-		wallPart3->SetRot(rotation);
-		wallPart3->SetPos(D3DXVECTOR3(17.5f, 2.f, 9.f));
-		wallPart3->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallPart3);
 
-		Static3DObject* wallPart4 = new Static3DObject;
-		wallPart4->SetObjectName("wallPart4");
-		wallPart4->AddColliderCube("wallPart");
-		wallPart4->Setup("Resources/XFile/", "Wall_x4.X");
-		wallPart4->SetRot(rotation);
-		wallPart4->SetPos(D3DXVECTOR3(0.5f, 2.f, 9.f));
-		wallPart4->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallPart4);
-		
-		Static3DObject* wallDoor1 = new Static3DObject;
-		wallDoor1->SetObjectName("wallDoor1");
-		wallDoor1->AddColliderCube("wallDoor");
-		wallDoor1->Setup("Resources/XFile/", "Wall_Door.X");
-		wallDoor1->SetRot(rotation);
-		wallDoor1->SetPos(D3DXVECTOR3(17.5f, 2.f, 3.f));
-		wallDoor1->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallDoor1);
-		
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 1.5);
-		Static3DObject* wallDoor2 = new Static3DObject;
-		wallDoor2->SetObjectName("wallDoor2");
-		wallDoor2->AddColliderCube("wallDoor");
-		wallDoor2->Setup("Resources/XFile/", "Wall_Door.X");
-		wallDoor2->SetRot(rotation);
-		wallDoor2->SetPos(D3DXVECTOR3(17.5f, 2.f, 15.f));
-		wallDoor2->CollideHandle = KeyColliderHandler;
-		room->InsertObject(wallDoor2);
-		*/
-	
 		gJSON->LoadJSON("Resources/Json/wallTest.json");
 		Value& walls = gJSON->mDocument["wall"];
 		for (SizeType i = 0; i < walls.Size(); ++i)

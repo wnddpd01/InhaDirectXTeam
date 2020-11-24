@@ -31,7 +31,6 @@ void ModelLoader::LoadXfile(
 
 		D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)pMtlBuffer->GetBufferPointer();
 
-
 		*mpMaterials = new D3DMATERIAL9[mNumMaterials];
 		*mpTextures = new LPDIRECT3DTEXTURE9[mNumMaterials];
 

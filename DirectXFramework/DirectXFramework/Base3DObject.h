@@ -4,7 +4,8 @@ class ColliderCube;
 class ColliderSphere;
 
 enum class eObjTag { NON_OBJECT_TAG = 0, PLAYER_CHARACTER, STATIC_OBJECT, MOVE_OBJECT };
-enum class eShaderTag { NON_SHADER = 0, PLAYER_CHARACTER, WALL, ITEM };
+enum class eTypeTag { PLAYER_CHARACTER, DOOR , WALL, ITEM };
+enum class eStateTag { NON_STATE = 0, DOOR_OPEN, DOOR_CLOSE };
 
 class Base3DObject :
 	public BaseObject
@@ -17,9 +18,10 @@ protected:
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
 	BOOL mbIsInteractable;
-	
+	eStateTag mStateTag;
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
+
 public:
 	Base3DObject();
 	virtual ~Base3DObject();
