@@ -82,7 +82,9 @@ public:
 		void Render();
 		void SetInItem(BOOL state, string ObjectName);
 		bool GetInItem(string ObjectName);
-	
+
+		void UseItem(Base3DObject& Object);
+		
 		Inventory();
 		~Inventory();
 	}mInventory;	

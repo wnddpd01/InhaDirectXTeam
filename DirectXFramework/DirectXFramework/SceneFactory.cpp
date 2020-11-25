@@ -65,31 +65,12 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
-		UIImage * uiImage = new UIImage("Resources/UI/Inventory.png");
-		uiImage->SetObjectName("inventory");
-		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x ,
-			uiImage->GetPos().y, 0.0f));
-		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("inventory", uiImage));
-
-		uiImage = new UIImage("Resources/UI/Inventory.png");
-		uiImage->SetObjectName("inventory2");
-		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x+ uiImage->GetWidth(),
-			uiImage->GetPos().y, 0.0f));
-		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("inventory2", uiImage));
-
-		uiImage = new UIImage("Resources/UI/Inventory.png");
-		uiImage->SetObjectName("inventory3");
-		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + uiImage->GetWidth()*2.f,
-			uiImage->GetPos().y, 0.0f));
-		uiImage->SetVisible(true);
-		newScene->mGameUIs.insert(make_pair("inventory3", uiImage));
-
+	
 		Player* player = new Player;
 		player->AddColliderCube("playerCubeCollider");
 		player->Setup();
 		player->SetObjectName("player");
+		player->mInventory.DrawInventoryUI(*newScene);
 		newScene->mCamera->SetTarget(player->GetPosRef());
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
@@ -105,16 +86,16 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		room->InsertObject(justCube);
 
 		
-		Static3DObject* key = new Static3DObject;
-		key->SetObjectName("key");
-		key->AddColliderCube("basicColliderCube");
-		key->Setup("Resources/XFile/", "DeathDropBox.X");
-		key->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
-		key->SetPos(D3DXVECTOR3(16,0,10));
-		key->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
-		key->SetIsInteractable(true);
-		key->CollideHandle = KeyColliderHandler;
-		room->InsertObject(key);
+		Static3DObject* box = new Static3DObject;
+		box->SetObjectName("key");
+		box->AddColliderCube("basicColliderCube");
+		box->Setup("Resources/XFile/", "DeathDropBox.X");
+		box->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
+		box->SetPos(D3DXVECTOR3(16,0,10));
+		box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
+		box->SetIsInteractable(true);
+		box->CollideHandle = KeyColliderHandler;
+		room->InsertObject(box);
 
 		Static3DObject* door = new Static3DObject;
 		door->SetObjectName("door");

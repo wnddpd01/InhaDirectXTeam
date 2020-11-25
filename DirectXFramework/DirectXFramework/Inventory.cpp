@@ -78,12 +78,11 @@ void Player::Inventory::Render()
 
 void Player::Inventory::SetInItem(BOOL state, string ObjectName)
 {
-	if (ObjectName == "box")
+	if (ObjectName == "key")
 	{
 		mbGetKey = state;
 	}
 
-	
 }
 
 bool Player::Inventory::GetInItem(string ObjectName)
@@ -93,5 +92,14 @@ bool Player::Inventory::GetInItem(string ObjectName)
 		return mbGetKey;
 	}
 
+}
+
+void Player::Inventory::UseItem(Base3DObject& Object)
+{
+	if (Object.GetTypeTag() == eTypeTag::DOOR &&  GetInItem("key"))
+	{
+		Object.SetStateTag(eStateTag::DOOR_OPEN);
+		SetInItem(false, "key");
+	}
 }
 

@@ -19,6 +19,7 @@ protected:
 	eObjTag mObjectTag;
 	BOOL mbIsInteractable;
 	eStateTag mStateTag;
+	eTypeTag mTypeTag;
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
 
@@ -49,7 +50,10 @@ public:
 	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
 	BOOL isInteractable() const { return mbIsInteractable; }
 
-
+	eTypeTag GetTypeTag()const { return mTypeTag; }
+	
+	void SetStateTag(const eStateTag statetag) { mStateTag = statetag; }
+	
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;
 	ColliderSphere* GetColliderSphere() { return mColliderSphere; }

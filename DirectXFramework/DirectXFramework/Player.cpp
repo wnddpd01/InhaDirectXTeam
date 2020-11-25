@@ -110,6 +110,8 @@ void Player::Update()
 	}
 
 	Base3DObject::Update();
+
+	mInventory.Update();
 }
 
 void Player::Render()
@@ -127,6 +129,8 @@ void Player::Render()
 	{
 		DrawMark();
 	}
+
+	mInventory.Render();
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
@@ -182,3 +186,5 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 		MoveBack();
 	}
 }
+
+
