@@ -32,8 +32,6 @@ Player::Player()
 	mInteractingObjectMark = new UIImage(string("Resources/UI/InteractMark.png"));
 	mInteractingObjectMark->SetPos(D3DXVECTOR3(0, 10, 0));
 	mInteractingObjectMark->SetVisible(true);
-
-
 }
 
 
@@ -76,6 +74,7 @@ void Player::DrawMark()
 
 void Player::MoveBack()
 {
+	mPos = mPrevPos;
 }
 
 void Player::Setup()
@@ -91,20 +90,17 @@ void Player::Setup()
 }
 
 void Player::Update()
-{
-	D3DXMATRIXA16 matWorld, matR, matT;
-
-	Base3DObject::Update();
-
-	if (D3DXVec3Length(&mMoveVelocity) != 0)
-	{
-		mPos += mMoveVelocity;
-	}
-
+{	
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
 	{
 		ChangeState(retState);
+	}
+
+	if (D3DXVec3Length(&mMoveVelocity) > 0.01f)
+	{
+		mPrevPos = mPos;
+		mPos += mMoveVelocity;
 	}
 	m_pSkinnedMesh->Update();
 
@@ -113,8 +109,7 @@ void Player::Update()
 		mInteractingObject = nullptr;
 	}
 
-	mInventory.Update();
-	
+	Base3DObject::Update();
 }
 
 void Player::Render()
@@ -132,8 +127,6 @@ void Player::Render()
 	{
 		DrawMark();
 	}
-
-	mInventory.Render();
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
@@ -154,7 +147,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
+				/*if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
 				{
 					POINT& mousePt = *(POINT*)parameter;
 					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
@@ -166,7 +159,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 					D3DXQuaternionRotationMatrix(&quatRot, &matRot);
 
 					mRot = quatRot;
-				}
+				}*/
 			}
 			break;
 		default:
@@ -188,8 +181,4 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 	{
 		MoveBack();
 	}
-
-
-	
 }
-

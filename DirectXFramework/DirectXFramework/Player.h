@@ -12,6 +12,8 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXVECTOR3 mMoveVelocity;
 	Base3DObject * mInteractingObject;
 	UIImage * mInteractingObjectMark;
+	D3DXVECTOR3 mPrevPos;
+	D3DXQUATERNION mPrevRot;
 	void ChangeState(CharacterState * nextState);
 	void DrawMark();
 	void MoveBack();

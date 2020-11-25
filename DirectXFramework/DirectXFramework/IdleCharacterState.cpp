@@ -23,6 +23,7 @@ void IdleCharacterState::Enter(Player& player)
 	idleStartTime = GetTickCount();
 	mbAnimationChanged = false;
 	mMoveVelocity = D3DXVECTOR3(0, 0, 0);
+	player.SetMoveVelocity(mMoveVelocity);
 }
 
 CharacterState* IdleCharacterState::HandleInput(Player& player, eEventName eventName, eKeyName &key)

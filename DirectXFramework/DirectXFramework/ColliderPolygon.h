@@ -16,8 +16,11 @@ public:
 	D3DXVECTOR3 * GetPosition() { return mPosition; }
 	
 	void SetPosition(D3DXVECTOR3 * pos) { mPosition = pos; }
+	D3DXVECTOR3* GetPosition() const { return mScale; }
 	void SetRotation(D3DXQUATERNION * rot) { mRot = rot; }
+	D3DXVECTOR3* GetRotation() const { return mScale; }
 	void SetScale(D3DXVECTOR3 * scale) { mScale = scale; }
+	D3DXVECTOR3* GetScale() const { return mScale; }
 
 	LPD3DXMESH& GetMash() { return mMesh; }
 protected:

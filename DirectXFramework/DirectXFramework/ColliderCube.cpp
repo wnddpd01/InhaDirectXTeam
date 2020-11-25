@@ -133,6 +133,18 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 
 	D3DXVECTOR3 D = obj2Cube->m_vCenterPos - obj1Cube->m_vCenterPos;
 
+
+	float obj1AxisHalfLen[3];
+	float obj2AxisHalfLen[3];
+
+	obj1AxisHalfLen[0] = obj1Cube->m_fAxisHalfLen[0] * obj1Cube->GetScale()->x;
+	obj1AxisHalfLen[1] = obj1Cube->m_fAxisHalfLen[1] * obj1Cube->GetScale()->y;
+	obj1AxisHalfLen[2] = obj1Cube->m_fAxisHalfLen[2] * obj1Cube->GetScale()->z;
+	
+	obj2AxisHalfLen[0] = obj2Cube->m_fAxisHalfLen[0] * obj2Cube->GetScale()->x;
+	obj2AxisHalfLen[1] = obj2Cube->m_fAxisHalfLen[1] * obj2Cube->GetScale()->y;
+	obj2AxisHalfLen[2] = obj2Cube->m_fAxisHalfLen[2] * obj2Cube->GetScale()->z;
+	
 	for (int a = 0; a < 3; a++)
 	{
 		for (int b = 0; b < 3; ++b)
@@ -146,10 +158,10 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 		dist[a] = D3DXVec3Dot(&obj1Cube->m_vAxisDir[a], &D);
 		r = abs(dist[a]);
 
-		r0 = obj1Cube->m_fAxisHalfLen[a];
-		r1 = obj2Cube->m_fAxisHalfLen[0] * absCos[a][0] +
-			obj2Cube->m_fAxisHalfLen[1] * absCos[a][1] +
-			obj2Cube->m_fAxisHalfLen[2] * absCos[a][2];
+		r0 = obj1AxisHalfLen[a];
+		r1 = obj2AxisHalfLen[0] * absCos[a][0] +
+			obj2AxisHalfLen[1] * absCos[a][1] +
+			obj2AxisHalfLen[2] * absCos[a][2];
 
 		if (r > r0 + r1)
 			return false;
@@ -159,10 +171,10 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 	for (int b = 0; b < 3; ++b)
 	{
 		r = abs(D3DXVec3Dot(&obj2Cube->m_vAxisDir[b], &D));
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[0][b] +
-			obj1Cube->m_fAxisHalfLen[1] * absCos[1][b] +
-			obj1Cube->m_fAxisHalfLen[2] * absCos[2][b];
-		r1 = obj2Cube->m_fAxisHalfLen[b];
+		r0 = obj1AxisHalfLen[0] * absCos[0][b] +
+			obj1AxisHalfLen[1] * absCos[1][b] +
+			obj1AxisHalfLen[2] * absCos[2][b];
+		r1 = obj2AxisHalfLen[b];
 
 		if (r > r0 + r1)
 		{
@@ -175,50 +187,50 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 	{
 		// : 0
 		r = abs(dist[0] * cos[2][0] - dist[2] * cos[0][0]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[2][0] + obj1Cube->m_fAxisHalfLen[2] * absCos[0][0];
-		r1 = obj1Cube->m_fAxisHalfLen[1] * absCos[1][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][1];
+		r0 = obj1AxisHalfLen[0] * absCos[2][0] + obj1AxisHalfLen[2] * absCos[0][0];
+		r1 = obj2AxisHalfLen[1] * absCos[1][2] + obj2AxisHalfLen[2] * absCos[1][1];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[0] * cos[2][1] - dist[2] * cos[0][1]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[2][1] + obj1Cube->m_fAxisHalfLen[2] * absCos[0][1];
-		r1 = obj1Cube->m_fAxisHalfLen[0] * absCos[1][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][0];
+		r0 = obj1AxisHalfLen[0] * absCos[2][1] + obj1AxisHalfLen[2] * absCos[0][1];
+		r1 = obj2AxisHalfLen[0] * absCos[1][2] + obj2AxisHalfLen[2] * absCos[1][0];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[0] * cos[2][2] - dist[2] * cos[0][2]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[2][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[0][2];
-		r1 = obj1Cube->m_fAxisHalfLen[1] * absCos[1][1] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][0];
+		r0 = obj1AxisHalfLen[0] * absCos[2][2] + obj1AxisHalfLen[2] * absCos[0][2];
+		r1 = obj2AxisHalfLen[0] * absCos[1][1] + obj2AxisHalfLen[1] * absCos[1][0];
 		if (r > r0 + r1) return false;
 
 		// : 1
 		r = abs(dist[1] * cos[0][0] - dist[0] * cos[1][0]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[1][0] + obj1Cube->m_fAxisHalfLen[1] * absCos[0][0];
-		r1 = obj1Cube->m_fAxisHalfLen[1] * absCos[2][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[2][1];
+		r0 = obj1AxisHalfLen[0] * absCos[1][1] + obj1AxisHalfLen[1] * absCos[0][1];
+		r1 = obj2AxisHalfLen[1] * absCos[2][2] + obj2AxisHalfLen[2] * absCos[2][0];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[1] * cos[0][1] - dist[0] * cos[1][1]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[1][1] + obj1Cube->m_fAxisHalfLen[1] * absCos[0][1];
-		r1 = obj1Cube->m_fAxisHalfLen[0] * absCos[2][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[2][0];
+		r0 = obj1AxisHalfLen[0] * absCos[1][1] + obj1AxisHalfLen[1] * absCos[0][1];
+		r1 = obj2AxisHalfLen[0] * absCos[2][2] + obj2AxisHalfLen[2] * absCos[2][0];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[1] * cos[0][2] - dist[0] * cos[1][2]);
-		r0 = obj1Cube->m_fAxisHalfLen[0] * absCos[1][2] + obj1Cube->m_fAxisHalfLen[1] * absCos[0][2];
-		r1 = obj1Cube->m_fAxisHalfLen[1] * absCos[2][1] + obj1Cube->m_fAxisHalfLen[1] * absCos[2][0];
+		r0 = obj1AxisHalfLen[0] * absCos[1][2] + obj1AxisHalfLen[1] * absCos[0][2];
+		r1 = obj2AxisHalfLen[1] * absCos[2][1] + obj2AxisHalfLen[1] * absCos[2][0];
 		if (r > r0 + r1) return false;
 
 		// : 2
 		r = abs(dist[2] * cos[1][0] - dist[1] * cos[2][0]);
-		r0 = obj1Cube->m_fAxisHalfLen[1] * absCos[2][0] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][0];
-		r1 = obj1Cube->m_fAxisHalfLen[1] * absCos[0][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[0][1];
+		r0 = obj1AxisHalfLen[1] * absCos[2][0] + obj1AxisHalfLen[2] * absCos[1][0];
+		r1 = obj2AxisHalfLen[1] * absCos[0][2] + obj2AxisHalfLen[2] * absCos[0][1];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[2] * cos[1][1] - dist[1] * cos[1][1]);
-		r0 = obj1Cube->m_fAxisHalfLen[1] * absCos[2][1] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][1];
-		r1 = obj1Cube->m_fAxisHalfLen[0] * absCos[0][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[0][0];
+		r0 = obj1AxisHalfLen[1] * absCos[2][1] + obj1AxisHalfLen[2] * absCos[1][1];
+		r1 = obj2AxisHalfLen[0] * absCos[0][2] + obj2AxisHalfLen[2] * absCos[0][0];
 		if (r > r0 + r1) return false;
 
 		r = abs(dist[2] * cos[1][2] - dist[1] * cos[2][2]);
-		r0 = obj1Cube->m_fAxisHalfLen[1] * absCos[2][2] + obj1Cube->m_fAxisHalfLen[2] * absCos[1][2];
-		r1 = obj1Cube->m_fAxisHalfLen[0] * absCos[0][1] + obj1Cube->m_fAxisHalfLen[1] * absCos[0][0];
+		r0 = obj1AxisHalfLen[1] * absCos[2][2] + obj1AxisHalfLen[2] * absCos[1][2];
+		r1 = obj2AxisHalfLen[0] * absCos[0][1] + obj2AxisHalfLen[1] * absCos[0][0];
 		if (r > r0 + r1) return false;
 	}
 	return true;
