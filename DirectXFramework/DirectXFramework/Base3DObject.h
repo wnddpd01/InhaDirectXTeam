@@ -36,16 +36,16 @@ public:
 	virtual void Update();
 	virtual void Setup();
 
-	void SetPos(const D3DXVECTOR3& pos);
-	D3DXVECTOR3 GetPos();
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
+	void SetRot(const D3DXQUATERNION& rotation);
+	D3DXQUATERNION GetRot();
+	void SetPos(const D3DXVECTOR3& pos);
+	D3DXVECTOR3 GetPos();
 
 	void LoadColliderCube();
 	void LoadColliderSphere();
 
-	void SetRot(const D3DXQUATERNION& rotation);
-	D3DXQUATERNION GetRot();
 	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
 	BOOL isInteractable() const { return mbIsInteractable; }
 

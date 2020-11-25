@@ -96,7 +96,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		room->SetPlayer(player);
 
+		Base3DObject* justCube = new Base3DObject;
+		justCube->SetObjectName("justCube");
+		justCube->AddColliderCube("basicColliderCube");
+		justCube->Setup();
+		justCube->SetPos(D3DXVECTOR3(12, 0, 7));
+		justCube->SetScale(D3DXVECTOR3(1.3f, 1.f, 2.1f));
+		room->InsertObject(justCube);
 
+		
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key");
 		key->AddColliderCube("basicColliderCube");

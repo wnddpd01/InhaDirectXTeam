@@ -57,7 +57,6 @@ void Static3DObject::Update()
 		}
 	}
 	Base3DObject::Update();
-
 }
 
 void Static3DObject::Render()

@@ -13,7 +13,6 @@ public:
 	void SetCubeCollider(float height, float width, float depth);
 	
 	static bool IsCollision(ColliderCube* obj1Cube, ColliderCube* obj2Cube);
-	void OBBBOX_Render(D3DCOLOR c);
 	
 private:
 	float mCubeHeight;
