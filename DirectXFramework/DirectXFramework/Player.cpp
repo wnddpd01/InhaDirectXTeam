@@ -32,6 +32,8 @@ Player::Player()
 	mInteractingObjectMark = new UIImage(string("Resources/UI/InteractMark.png"));
 	mInteractingObjectMark->SetPos(D3DXVECTOR3(0, 10, 0));
 	mInteractingObjectMark->SetVisible(true);
+
+
 }
 
 
@@ -110,6 +112,9 @@ void Player::Update()
 	{
 		mInteractingObject = nullptr;
 	}
+
+	mInventory.Update();
+	
 }
 
 void Player::Render()
@@ -127,6 +132,8 @@ void Player::Render()
 	{
 		DrawMark();
 	}
+
+	mInventory.Render();
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
@@ -181,4 +188,8 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 	{
 		MoveBack();
 	}
+
+
+	
 }
+

@@ -19,6 +19,7 @@ protected:
 	eObjTag mObjectTag;
 	BOOL mbIsInteractable;
 	eStateTag mStateTag;
+	eTypeTag  mTypeTag;
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
 
@@ -46,9 +47,15 @@ public:
 
 	void SetRot(const D3DXQUATERNION& rotation);
 	D3DXQUATERNION GetRot();
+	
 	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
 	BOOL isInteractable() const { return mbIsInteractable; }
 
+	void SetTypeTag(const eTypeTag typetag) { mTypeTag = typetag; }
+	eTypeTag GetTypeTag()const { return mTypeTag; }
+
+	void SetStateTag(const eStateTag statetag) { mStateTag = statetag; }
+	eStateTag GetStateTag()const { return mStateTag; }
 
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;

@@ -28,7 +28,14 @@ CharacterState* InteractCharacterState::Update(Player& player)
 {
 	if(GetTickCount() - interactStartTime > (AnimationPeriod -  player.GetSkinnedMesh()->GetBlendTime() - 0.1f) * 1000 )
 	{
-		player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
+		//player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
+		
+		if(player.GetInteractingObject()->GetTypeTag()==eTypeTag::DOOR && player.mInventory.GetInItem("key"))
+		{
+			player.GetInteractingObject()->SetStateTag(eStateTag::DOOR_OPEN);
+		}
+		
+		player.mInventory.SetInItem(true, player.GetInteractingObject()->GetObjectName());	
 		return new IdleCharacterState;
 	}
 	return nullptr;

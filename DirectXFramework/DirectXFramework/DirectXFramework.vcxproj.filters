@@ -161,6 +161,9 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">

@@ -32,6 +32,7 @@ void Static3DObject::Setup(
 
 void Static3DObject::Update()
 {
+	
 	if (mTypeTag == eTypeTag::DOOR)
 	{
 		static float angle = 0.f;
@@ -57,7 +58,7 @@ void Static3DObject::Update()
 		}
 	}
 	Base3DObject::Update();
-
+	
 }
 
 void Static3DObject::Render()
@@ -85,6 +86,8 @@ void Static3DObject::RenderMesh()
 		mpMesh->DrawSubset(i);
 	}
 }
+
+
 
 
 LPD3DXEFFECT Static3DObject::LoadShader(const char* filename)

@@ -43,7 +43,7 @@ public:
 		mMoveVelocity = moveVelocity;
 	}
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
-	
+
 #pragma endregion
 
 	void Setup() override;
@@ -58,11 +58,31 @@ public:
 	}
 
 	void SetAnimationSpeed(FLOAT spd);
-	
+
 	Player();
 	virtual ~Player();
 
 	void HandleInteractableObjectSphereCollideEvent(Base3DObject* interactableObject);
 	void HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
+
+
+	struct Inventory
+	{	
+		UIImage* mInventory1;
+		UIImage* mInventory2;
+		UIImage* mInventory3;	
+		UIImage* mKey;
+		bool mbGetKey;
+
+		void Setup();
+		void DrawInventoryUI(Scene& scene);
+		void Update();
+		void Render();
+		void SetInItem(BOOL state, string ObjectName);
+		bool GetInItem(string ObjectName);
+	
+		Inventory();
+		~Inventory();
+	}mInventory;	
 };
 

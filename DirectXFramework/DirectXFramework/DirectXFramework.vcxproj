@@ -32,6 +32,7 @@
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Room.cpp" />

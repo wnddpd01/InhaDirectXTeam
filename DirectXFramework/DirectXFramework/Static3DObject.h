@@ -11,7 +11,7 @@ private:
 	D3DMATERIAL9*			mpMaterials;
 	LPDIRECT3DTEXTURE9*		mpTextures;
 	DWORD					mNumMaterials;
-	eTypeTag				mTypeTag;
+
 	
 public:
 	Static3DObject();
@@ -25,8 +25,8 @@ public:
 
 	void Update() override;
 	void Render() override;
-
 	void RenderMesh();
+	
 
 	LPD3DXEFFECT LoadShader(const char* filename);
 };
