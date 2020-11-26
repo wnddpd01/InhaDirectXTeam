@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "CollideHandle.h"
 #include "Portal.h"
+#include "ColliderCube.h"
 
 SceneFactory::SceneFactory()
 {
@@ -130,54 +131,65 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		Value& walls = gJSON->mDocument["wall"];
 		for (SizeType i = 0; i < walls.Size(); ++i)
 		{
-			Value::ConstMemberIterator itr = walls[i].FindMember("rotation");
-			if (itr != walls[i].MemberEnd())
+			D3DXQUATERNION rotation(0, 0, 0, 0);
+			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
+			if (itrot != walls[i].MemberEnd())
 			{
-				D3DXQUATERNION rotation;
 				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
 					walls[i]["rotation"]["x"].GetFloat(),
 					walls[i]["rotation"]["y"].GetFloat(),
 					walls[i]["rotation"]["z"].GetFloat()
 				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			}
 
-				Static3DObject* wall = CreateStatic3DObject(
-					string("wall") + to_string(i),
-					walls[i]["sourceFileName"].GetString(),
-					{
-						walls[i]["position"]["x"].GetFloat(),
-						walls[i]["position"]["y"].GetFloat(),
-						walls[i]["position"]["z"].GetFloat()
-					},
-					rotation
-				);
-				wall->CollideHandle = KeyColliderHandler;
-				room->InsertObject(wall);
-			}
-			else
+			D3DXVECTOR3 ColliderScale(1.f,1.f,1.f);
+			Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
+			if (itcol != walls[i].MemberEnd())
 			{
-				Static3DObject* wall = CreateStatic3DObject(
-					string("wall") + to_string(i),
-					walls[i]["sourceFileName"].GetString(),
-					{ walls[i]["position"]["x"].GetFloat(),
-					walls[i]["position"]["y"].GetFloat(),
-					walls[i]["position"]["z"].GetFloat() }
-				);
-				wall->CollideHandle = KeyColliderHandler;
-				room->InsertObject(wall);
+				ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
+				ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+				ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
 			}
+			
+			Static3DObject* wall = CreateStatic3DObject(
+				string("wall") + to_string(i),
+				walls[i]["sourceFileName"].GetString(),
+				{
+					walls[i]["position"]["x"].GetFloat(),
+					walls[i]["position"]["y"].GetFloat(),
+					walls[i]["position"]["z"].GetFloat()
+				},
+				ColliderScale,
+				rotation
+			);
+			
+			wall->CollideHandle = KeyColliderHandler;
+			room->InsertObject(wall);
 		}
 		gShader->LoadAllShader();
 	}
 	return newScene;
 }
 
-Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position, D3DXQUATERNION rotation, string colliderName)
+Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
 {
 	Static3DObject* newStaticObject = new Static3DObject;
 	newStaticObject->SetObjectName(objectName);
-	newStaticObject->AddColliderCube(colliderName);
 	newStaticObject->Setup("Resources/XFile/", sourceFileName);
 	newStaticObject->SetRot(rotation);
 	newStaticObject->SetPos(position);
+	
+	if ((colliderScale.x <= 0) || (colliderScale.y <= 0) || (colliderScale.z <= 0))
+	{
+	}
+	else
+	{
+		newStaticObject->AddColliderCube(colliderName);
+		newStaticObject->GetColliderCube()["basicColliderCube"]->SetCubeCollider(
+			colliderScale.x,
+			colliderScale.y,
+			colliderScale.z);
+	}
+
 	return newStaticObject;
 }
