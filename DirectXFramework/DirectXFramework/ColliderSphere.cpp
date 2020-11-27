@@ -31,13 +31,13 @@ void ColliderSphere::Update()
 
 void ColliderSphere::Render()
 {
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
-	gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	gD3Device->SetTexture(0, nullptr);
-	mMesh->DrawSubset(0);
-	gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	//gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//gD3Device->SetTexture(0, nullptr);
+	//mMesh->DrawSubset(0);
+	//gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void ColliderSphere::SetSphereCollider(float radius)
