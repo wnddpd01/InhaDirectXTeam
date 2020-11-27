@@ -33,6 +33,7 @@ Base3DObject::~Base3DObject()
 
 void Base3DObject::Update()
 {
+	mColliderSphere->Update();
 	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
 	{
 		it->second->Update();
@@ -45,6 +46,7 @@ void Base3DObject::Setup()
 {
 	SetObjectTag();
 
+	mColliderSphere->Setup();
 	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
 	{
 		it->second->Setup();
@@ -64,6 +66,7 @@ void Base3DObject::Render()
 
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 
+	mColliderSphere->Render();
 	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
 	{
 		it->second->Render();
