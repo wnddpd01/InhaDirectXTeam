@@ -18,7 +18,7 @@ void ModelLoader::LoadXfile(
 		string fullPath = folder + "/" + fileName;
 		LPD3DXBUFFER pMtlBuffer;
 
-		D3DXLoadMeshFromXA(
+		HRESULT hr = D3DXLoadMeshFromXA(
 			fullPath.c_str(),
 			D3DXMESH_MANAGED,
 			gD3Device,
@@ -28,6 +28,11 @@ void ModelLoader::LoadXfile(
 			&mNumMaterials,
 			&mpMesh
 		);
+		if (hr != S_OK)
+		{
+			string error = fileName + " 파일의 로드를 실패하였습니다.";
+			MessageBoxA(GetActiveWindow(), error.c_str(), "XFile 로드 실패", MB_ICONERROR);
+		}
 
 		D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)pMtlBuffer->GetBufferPointer();
 

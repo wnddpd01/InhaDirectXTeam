@@ -23,18 +23,23 @@ void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 	mShaders["Toon"]->SetVector("gSurfaceColor", &gSurfaceColor);
 
 	UINT numPasses = 0;
-	mShaders["Toon"]->Begin(&numPasses, NULL);
+
+	if (FAILED(mShaders["Toon"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "Toon shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			mShaders["Toon"]->BeginPass(i);
+			if (FAILED(mShaders["Toon"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "Toon shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			mShaders["Toon"]->EndPass();
+			if (FAILED(mShaders["Toon"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "Toon shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	mShaders["Toon"]->End();
+	if (FAILED(mShaders["Toon"]->End()))
+		MessageBoxA(GetActiveWindow(), "Toon shader End 실패", "에러", MB_ICONERROR);
 }
 
 void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
@@ -64,19 +69,25 @@ void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 	mShaders["OutLine"]->SetVector("OutlineColor", &D3DXVECTOR4(1.f,0.f, 0.f, 0.f));
 	mShaders["OutLine"]->SetFloat("OutlineWidth", 1.f);
 	*/
+
 	UINT numPasses = 0;
-	mShaders["OutLine"]->Begin(&numPasses, NULL);
+
+	if (FAILED(mShaders["OutLine"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "OutLine shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			mShaders["OutLine"]->BeginPass(i);
+			if (FAILED(mShaders["OutLine"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "OutLine shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			mShaders["OutLine"]->EndPass();
+			if (FAILED(mShaders["OutLine"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "OutLine shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	mShaders["OutLine"]->End();
+	if (FAILED(mShaders["OutLine"]->End()))
+		MessageBoxA(GetActiveWindow(), "OutLine shader End 실패", "에러", MB_ICONERROR);
 }
 
 void ShaderManager::RenderWithPointLightShader(function<void()> FunctionPtr)
@@ -116,18 +127,23 @@ void ShaderManager::RenderWithPointLightShader(function<void()> FunctionPtr)
 	mShaders["PointLight"]->SetValue("myPointLight", &PointLight, sizeof(PointLight));
 
 	UINT numPasses = 0;
-	mShaders["PointLight"]->Begin(&numPasses, NULL);
+
+	if (FAILED(mShaders["PointLight"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "PointLight shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			mShaders["PointLight"]->BeginPass(i);
+			if (FAILED(mShaders["PointLight"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "PointLight shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			mShaders["PointLight"]->EndPass();
+			if (FAILED(mShaders["PointLight"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "PointLight shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	mShaders["PointLight"]->End();
+	if (FAILED(mShaders["PointLight"]->End()))
+		MessageBoxA(GetActiveWindow(), "PointLight shader End 실패", "에러", MB_ICONERROR);
 	
 }
 
@@ -171,18 +187,23 @@ void ShaderManager::RenderWithSpotLightShader(function<void()> FunctionPtr)
 	
 	
 	UINT numPasses = 0;
-	mShaders["SpotLight"]->Begin(&numPasses, NULL);
+
+	if (FAILED(mShaders["SpotLight"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "SpotLight shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			mShaders["SpotLight"]->BeginPass(i);
+			if (FAILED(mShaders["SpotLight"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "SpotLight shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			mShaders["SpotLight"]->EndPass();
+			if (FAILED(mShaders["SpotLight"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "SpotLight shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	mShaders["SpotLight"]->End();
+	if (FAILED(mShaders["SpotLight"]->End()))
+		MessageBoxA(GetActiveWindow(), "SpotLight shader End 실패", "에러", MB_ICONERROR);
 	
 }
 
@@ -212,18 +233,25 @@ void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
 	time += gDeltaTime*0.1;
 
 	UINT numPasses = 0;
-	mShaders["Fire"]->Begin(&numPasses, NULL);
+
+
+	if (FAILED(mShaders["Fire"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "Fire shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			mShaders["Fire"]->BeginPass(i);
+			if (FAILED(mShaders["Fire"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "Fire shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			mShaders["Fire"]->EndPass();
+			if (FAILED(mShaders["Fire"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "Fire shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	mShaders["Fire"]->End();
+	if (FAILED(mShaders["Fire"]->End()))
+		MessageBoxA(GetActiveWindow(), "Fire shader End 실패", "에러", MB_ICONERROR);
+
 	
 }
 
@@ -238,8 +266,15 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 	dwShaderFlags |= D3DXSHADER_DEBUG;
 #endif
 	dwShaderFlags |= D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY;
-	D3DXCreateEffectFromFileA(gD3Device, filename,
-		NULL, NULL, dwShaderFlags, NULL, &ret, &pError);
+
+	HRESULT hr;
+	if (FAILED(D3DXCreateEffectFromFileA(gD3Device, filename,
+		NULL, NULL, dwShaderFlags, NULL, &ret, &pError)))
+	{
+		string error = *filename + " 파일의 로드를 실패하였습니다.";
+		MessageBoxA(GetActiveWindow(), error.c_str(), "shader 로드 실패", MB_ICONERROR);
+	}
+
 
 	// 쉐이더 로딩에 실패한 경우 output창에 쉐이더
 	// 컴파일 에러를 출력한다.
@@ -280,5 +315,7 @@ void ShaderManager::LoadAllShader()
 	mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
 	//mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
 	//mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
+
+
 }
 
