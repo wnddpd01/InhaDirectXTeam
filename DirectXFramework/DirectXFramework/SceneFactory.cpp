@@ -9,7 +9,7 @@
 #include "CollideHandle.h"
 #include "Portal.h"
 #include "ColliderCube.h"
-
+#include "ColliderSphere.h"
 SceneFactory::SceneFactory()
 {
 }
@@ -190,6 +190,7 @@ Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string so
 			colliderScale.x,
 			colliderScale.y,
 			colliderScale.z);
+		newStaticObject->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x/2, colliderScale.y/2, colliderScale.z/2)-D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
 	}
 
 	return newStaticObject;
