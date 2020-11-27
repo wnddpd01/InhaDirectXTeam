@@ -137,13 +137,13 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 	float obj1AxisHalfLen[3];
 	float obj2AxisHalfLen[3];
 
-	obj1AxisHalfLen[0] = obj1Cube->m_fAxisHalfLen[0] * obj1Cube->GetScale()->x;
-	obj1AxisHalfLen[1] = obj1Cube->m_fAxisHalfLen[1] * obj1Cube->GetScale()->y;
-	obj1AxisHalfLen[2] = obj1Cube->m_fAxisHalfLen[2] * obj1Cube->GetScale()->z;
+	obj1AxisHalfLen[0] = obj1Cube->m_fAxisHalfLen[0] * obj1Cube->mCubeWidth;
+	obj1AxisHalfLen[1] = obj1Cube->m_fAxisHalfLen[1] * obj1Cube->mCubeHeight;
+	obj1AxisHalfLen[2] = obj1Cube->m_fAxisHalfLen[2] * obj1Cube->mCubeDepth;
 	
-	obj2AxisHalfLen[0] = obj2Cube->m_fAxisHalfLen[0] * obj2Cube->GetScale()->x;
-	obj2AxisHalfLen[1] = obj2Cube->m_fAxisHalfLen[1] * obj2Cube->GetScale()->y;
-	obj2AxisHalfLen[2] = obj2Cube->m_fAxisHalfLen[2] * obj2Cube->GetScale()->z;
+	obj2AxisHalfLen[0] = obj2Cube->m_fAxisHalfLen[0] * obj2Cube->mCubeWidth;
+	obj2AxisHalfLen[1] = obj2Cube->m_fAxisHalfLen[1] * obj2Cube->mCubeHeight;
+	obj2AxisHalfLen[2] = obj2Cube->m_fAxisHalfLen[2] * obj2Cube->mCubeHeight;
 	
 	for (int a = 0; a < 3; a++)
 	{
