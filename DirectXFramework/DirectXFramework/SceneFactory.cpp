@@ -69,6 +69,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	
 		Player* player = new Player;
 		player->AddColliderCube("playerCubeCollider");
+		player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
 		player->Setup();
 		player->SetObjectName("player");
 		player->mInventory.DrawInventoryUI(*newScene);
