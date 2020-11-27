@@ -293,5 +293,8 @@
     <ClInclude Include="Portal.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

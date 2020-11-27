@@ -43,8 +43,6 @@ CharacterState* InteractCharacterState::Update(Player& player)
 	{
 		//player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
 		
-		player.mInventory.UseItem(*player.GetInteractingObject());	
-		player.mInventory.SetInItem(true, player.GetInteractingObject()->GetObjectName());	
 		return new IdleCharacterState;
 	}
 	return nullptr;
