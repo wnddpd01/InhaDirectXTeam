@@ -14,7 +14,7 @@ ColliderSphere::~ColliderSphere()
 
 void ColliderSphere::Setup()
 {
-	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
+	D3DXCreateSphere(gD3Device, mRadius, 6, 6, &mMesh, NULL);
 }
 
 void ColliderSphere::Update()
@@ -31,11 +31,18 @@ void ColliderSphere::Update()
 
 void ColliderSphere::Render()
 {
+	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	gD3Device->SetTexture(0, nullptr);
+	mMesh->DrawSubset(0);
+	gD3Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	gD3Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void ColliderSphere::SetSphereCollider(float radius)
 {
 	mRadius = radius;
 	SAFE_RELEASE(mMesh);
-	D3DXCreateSphere(gD3Device, mRadius, 10, 10, &mMesh, NULL);
+	D3DXCreateSphere(gD3Device, mRadius, 6, 6, &mMesh, NULL);
 }
