@@ -30,9 +30,11 @@ CharacterState* IdleCharacterState::HandleInput(Player& player, eEventName event
 {
 	if(key == eKeyName::KEY_INTERACTION)
 	{
+		gSoundManager->Play("GET");
 		if (player.GetInteractingObject() != nullptr)
 		{
 			player.SetMoveVelocity(D3DXVECTOR3(0, 0, 0));
+
 			return new InteractCharacterState;
 		}
 	}
