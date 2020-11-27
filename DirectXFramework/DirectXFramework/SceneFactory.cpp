@@ -157,6 +157,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 			wall->CollideHandle = KeyColliderHandler;
 			room->InsertObject(wall);
 		}
+		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
 	return newScene;
