@@ -151,7 +151,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				/*if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
+				if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
 				{
 					POINT& mousePt = *(POINT*)parameter;
 					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
@@ -163,7 +163,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 					D3DXQuaternionRotationMatrix(&quatRot, &matRot);
 
 					mRot = quatRot;
-				}*/
+				}
 			}
 			break;
 		default:

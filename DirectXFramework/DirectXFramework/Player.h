@@ -1,5 +1,6 @@
 #pragma once
 #include "Base3DObject.h"
+#include "Inventory.h"
 
 class SkinnedMesh;
 class CharacterState;
@@ -14,6 +15,7 @@ class Player : public Base3DObject, public BaseObserver
 	UIImage * mInteractingObjectMark;
 	D3DXVECTOR3 mPrevPos;
 	D3DXQUATERNION mPrevRot;
+	Inventory mInventory;
 	void ChangeState(CharacterState * nextState);
 	void DrawMark();
 	void MoveBack();
@@ -68,25 +70,6 @@ public:
 	void HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
 
 
-	struct Inventory
-	{	
-		UIImage* mInventory1;
-		UIImage* mInventory2;
-		UIImage* mInventory3;	
-		UIImage* mKey;
-		bool mbGetKey;
-
-		void Setup();
-		void DrawInventoryUI(Scene& scene);
-		void Update();
-		void Render();
-		void SetInItem(BOOL state, string ObjectName);
-		bool GetInItem(string ObjectName);
-
-		void UseItem(Base3DObject& Object);
-		
-		Inventory();
-		~Inventory();
-	}mInventory;	
+	
 };
 

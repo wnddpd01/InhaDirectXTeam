@@ -90,7 +90,8 @@ void SoundManager::SoundSet()
 
 	
 	AddSound("BGM", "Resources/Sound/Sonata.mp3", true);
-	AddSound("CLICK", "Resources/Sound/get.wav", false);
+	AddSound("CLICK", "Resources/Sound/Click.wav", false);
+	AddSound("GET", "Resources/Sound/attack1.wav", false);
 
 }
 

@@ -50,6 +50,10 @@ void Room::SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwByt
 
 void Room::InsertObject(Base3DObject* object)
 {
+	if(mObjectsInRoom.find(object->GetObjectName()) != mObjectsInRoom.end())
+	{
+		assert("Room Insert ERROR\nAlready in Room Object");
+	}
 	mObjectsInRoom.insert(make_pair(object->GetObjectName(), object));
 	object->DeleteInRoom = bind(&Room::DeleteObject, this, placeholders::_1);
 }
