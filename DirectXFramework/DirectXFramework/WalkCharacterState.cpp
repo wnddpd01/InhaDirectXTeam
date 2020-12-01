@@ -89,7 +89,7 @@ CharacterState* WalkCharacterState::Update(Player& player)
 	}
 	if(mMoveVelocity != mPrevMoveVelocity)
 	{
-		D3DXQUATERNION & playerRot = player.GetRotRef();
+		/*D3DXQUATERNION & playerRot = player.GetRotRef();
 		
 		D3DXMATRIXA16 matLook;
 		D3DXMatrixLookAtLH(&matLook, &D3DXVECTOR3(0, 0, 0), &mMoveVelocity, &D3DXVECTOR3(0, 1, 0));
@@ -99,7 +99,7 @@ CharacterState* WalkCharacterState::Update(Player& player)
 		D3DXQuaternionRotationMatrix(&moveRot, &matLook);
 
 		D3DXQuaternionRotationYawPitchRoll(&playerRot, D3DX_PI, 0, 0);
-		playerRot *= moveRot;
+		playerRot *= moveRot;*/ //이동 방향으로 회전하는 코드
 		mPrevMoveVelocity = mMoveVelocity;
 	}
 	D3DXVec3Normalize(&mMoveVelocity, &mMoveVelocity);

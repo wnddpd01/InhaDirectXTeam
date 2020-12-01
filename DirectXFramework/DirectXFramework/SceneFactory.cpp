@@ -72,21 +72,11 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
 		player->Setup();
 		player->SetObjectName("player");
-		player->mInventory.DrawInventoryUI(*newScene);
 		newScene->mCamera->SetTarget(player->GetPosRef());
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		room->SetPlayer(player);
-
-		Base3DObject* justCube = new Base3DObject;
-		justCube->SetObjectName("justCube");
-		justCube->AddColliderCube("basicColliderCube");
-		justCube->Setup();
-		justCube->SetPos(D3DXVECTOR3(12, 0, 7));
-		justCube->SetScale(D3DXVECTOR3(1.3f, 1.f, 2.1f));
-		room->InsertObject(justCube);
-
 		
 		Static3DObject* box = new Static3DObject;
 		box->SetObjectName("key");
@@ -167,6 +157,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 			wall->CollideHandle = KeyColliderHandler;
 			room->InsertObject(wall);
 		}
+		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
 	return newScene;

@@ -4,13 +4,7 @@ class BaseObject;
 class ColliderCube;
 class Player;
 
-struct CollisionEvent
-{
-	Base3DObject * obj1;
-	string obj1ColliderTag;
-	Base3DObject * obj2;
-	string obj2ColliderTag;
-};
+
 
 
 class ColliderChecker

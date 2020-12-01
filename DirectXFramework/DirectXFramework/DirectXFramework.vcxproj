@@ -82,6 +82,7 @@
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Room.h" />

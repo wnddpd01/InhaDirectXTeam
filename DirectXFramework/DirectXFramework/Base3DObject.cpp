@@ -7,7 +7,6 @@
 Base3DObject::Base3DObject()
 	: mScale(1,1,1)
 	, mPos(0,0,0)
-	, mObjectTag(eObjTag::NON_OBJECT_TAG)
 	, mbIsInteractable(false)
 	, mStateTag(eStateTag::NON_STATE)
 {
@@ -44,8 +43,6 @@ void Base3DObject::Update()
 
 void Base3DObject::Setup()
 {
-	SetObjectTag();
-
 	mColliderSphere->Setup();
 	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
 	{
@@ -73,27 +70,27 @@ void Base3DObject::Render()
 	}
 }
 
-void Base3DObject::SetObjectTag()
-{
-	string objectName = this->GetObjectName();
-
-	if (objectName == "player")
-	{
-		mObjectTag = eObjTag::PLAYER_CHARACTER;
-	}
-	else if (objectName == "key")
-	{
-		mObjectTag = eObjTag::STATIC_OBJECT;
-	}
-	else if (objectName == "door")
-	{
-		mObjectTag = eObjTag::STATIC_OBJECT;
-	}
-	else if (objectName == "desk")
-	{
-		mObjectTag = eObjTag::STATIC_OBJECT;
-	}
-}
+//void Base3DObject::SetObjectTag()
+//{
+//	string objectName = this->GetObjectName();
+//
+//	if (objectName == "player")
+//	{
+//		mObjectTag = eObjTag::PLAYER_CHARACTER;
+//	}
+//	else if (objectName == "key")
+//	{
+//		mObjectTag = eObjTag::STATIC_OBJECT;
+//	}
+//	else if (objectName == "door")
+//	{
+//		mObjectTag = eObjTag::STATIC_OBJECT;
+//	}
+//	else if (objectName == "desk")
+//	{
+//		mObjectTag = eObjTag::STATIC_OBJECT;
+//	}
+//}
 
 void Base3DObject::AddColliderCube(string colliderName)
 {

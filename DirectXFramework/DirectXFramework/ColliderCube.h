@@ -13,6 +13,8 @@ public:
 	void SetCubeCollider(float height, float width, float depth);
 	
 	static bool IsCollision(ColliderCube* obj1Cube, ColliderCube* obj2Cube);
+
+	D3DXVECTOR3* GetAxisDir();
 	
 private:
 	float mCubeHeight;

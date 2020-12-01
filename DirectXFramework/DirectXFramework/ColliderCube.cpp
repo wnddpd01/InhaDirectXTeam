@@ -237,6 +237,11 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 	return true;
 }
 
+D3DXVECTOR3 * ColliderCube::GetAxisDir()
+{
+	return m_vAxisDir;
+}
+
 void ColliderCube::Render()
 {	
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);

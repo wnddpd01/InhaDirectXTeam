@@ -198,3 +198,13 @@ inline string to_string(D3DXVECTOR3 & vec3)
 		",z : " + to_string(vec3.z);
 	return ret;
 }
+
+
+#include "Base3DObject.h"
+struct CollisionEvent
+{
+	Base3DObject * obj1;
+	string obj1ColliderTag;
+	Base3DObject * obj2;
+	string obj2ColliderTag;
+};
