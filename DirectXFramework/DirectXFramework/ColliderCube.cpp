@@ -182,7 +182,8 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 		}
 	}
 
-	if (existsParallelPair) return true;
+	if (existsParallelPair) 
+		return true;
 
 	{
 		// : 0

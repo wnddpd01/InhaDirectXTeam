@@ -22,7 +22,6 @@ public:
 
 	void CheckCollider(Player * player, map<string, Base3DObject*>& objects);
 
-private:
 	bool CheckCubeByOBB(ColliderCube * obj1Cube, ColliderCube * obj2Cube);
 	bool CheckCube(Base3DObject* object1, Base3DObject* object2, string& obj1Tag, string& obj2Tag);
 	bool CheckSphere(Base3DObject * object1, Base3DObject * object2);

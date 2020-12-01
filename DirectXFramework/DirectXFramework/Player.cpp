@@ -8,6 +8,8 @@
 #include "FontManager.h"
 #include "UIImage.h"
 #include "Camera.h"
+#include "ColliderCube.h"
+#include "ColliderChecker.h"
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
@@ -74,7 +76,11 @@ void Player::DrawMark()
 
 void Player::MoveBack()
 {
+
+
 	mPos = mPrevPos;
+
+
 }
 
 void Player::Setup()
@@ -151,7 +157,8 @@ bool Player::Update(eEventName eventName, void* parameter)
 			break;
 		case eEventName::MOUSE_MOVE :
 			{
-				/*if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
+			/*
+				if (mCurState->GetStateName() != eCharacterStateName::INTERACTION_STATE)
 				{
 					POINT& mousePt = *(POINT*)parameter;
 					D3DXVECTOR3 mouseWorldPos = gCurrentCamera->GetPickingPosition(mousePt) - mPos;
@@ -163,7 +170,9 @@ bool Player::Update(eEventName eventName, void* parameter)
 					D3DXQuaternionRotationMatrix(&quatRot, &matRot);
 
 					mRot = quatRot;
-				}*/
+				}
+
+				*/
 			}
 			break;
 		default:
@@ -184,6 +193,41 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 	if(otherColliderTag == "basicColliderCube")
 	{
 		MoveBack();
+		Base3DObject::Update();
+
+		D3DXMATRIXA16 rot45;
+		D3DXMatrixRotationY(&rot45, D3DX_PI * 0.25);
+
+		D3DXVECTOR3 rot45Velocity;
+		D3DXVec3TransformNormal(&rot45Velocity, &mMoveVelocity, &rot45);
+
+		if (D3DXVec3Length(&rot45Velocity) > 0.01f)
+		{
+			mPos += rot45Velocity;
+			Base3DObject::Update();
+
+			if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+			{
+				mPos = mPrevPos;
+				D3DXVECTOR3 rot45RevVelocity;
+				D3DXMATRIXA16 rotRev45;
+				D3DXMatrixRotationY(&rotRev45, D3DX_PI * -0.25);
+				D3DXVec3TransformNormal(&rot45RevVelocity, &mMoveVelocity, &rotRev45);
+				if (D3DXVec3Length(&rot45Velocity) > 0.01f)
+				{
+					mPos += rot45RevVelocity;
+					Base3DObject::Update();
+					if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+					{
+						mPos = mPrevPos;
+					}
+				}
+			}
+
+		}
+
+
+		
 	}
 }
 
