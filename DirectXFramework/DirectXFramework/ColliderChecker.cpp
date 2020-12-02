@@ -23,7 +23,7 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 			string obj1Tag;
 			string obj2Tag;
 
-			if (iter->second->isInteractable())
+			if (iter->second->GetObjectTag() == eObjTag::INTERACTABLE_OBJECT)
 			{
 				player->HandleInteractableObjectSphereCollideEvent(iter->second);
 			}

@@ -173,6 +173,21 @@ bool Player::Update(eEventName eventName, void* parameter)
 	return true;
 }
 
+void Player::AddItem(eInventorySlot slot, Base3DObject* item)
+{
+	mInventory.AddItem(slot, item);
+}
+
+void Player::UseItem(eInventorySlot slot)
+{
+	mInventory.UseItem(slot);
+}
+
+bool Player::HasItem(eInventorySlot slot, string itemName)
+{
+	return mInventory.HasItem(slot, itemName);
+}
+
 void Player::SetAnimationSpeed(FLOAT spd)
 {
 	m_pSkinnedMesh->m_pAnimController->SetTrackSpeed(0, spd);

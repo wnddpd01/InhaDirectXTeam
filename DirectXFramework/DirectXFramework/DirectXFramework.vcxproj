@@ -32,6 +32,7 @@
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
+    <ClCompile Include="Interactable3DObject.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="Interactable3DObject.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Portal.h" />

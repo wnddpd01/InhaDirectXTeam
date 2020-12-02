@@ -164,6 +164,9 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Interactable3DObject.cpp">
+      <Filter>3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable3DObject.h">
+      <Filter>3DObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

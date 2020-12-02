@@ -126,7 +126,7 @@ Inventory::~Inventory()
 {
 	for (int i = 0; i < SLOT_COUNT; ++i)
 	{
-		
+		SAFE_DELETE(mUISlotImage[i]);
 	}
 }
 
@@ -143,14 +143,40 @@ void Inventory::Render()
 	for (int i = 0; i < SLOT_COUNT; ++i)
 	{
 		mUISlotImage[i]->Render();
+		if(mSlotItem[i] != nullptr)
+		{
+			
+		}
 	}
 }
 
-void Inventory::AddItem(Base3DObject* item)
+void Inventory::AddItem(eInventorySlot slot, Base3DObject* item)
 {
+	if(mSlotItem[slot] != nullptr)
+	{
+		assert("Inventory AddItem\nAlready Item in Slot");
+		return;
+	}
+	mSlotItem[slot] = item;
 }
 
-void Inventory::UseItem(eInventorySlot eSlot)
+void Inventory::UseItem(eInventorySlot slot)
 {
+	if (mSlotItem[slot] == nullptr)
+	{
+		assert("Inventory USeItem Error\nNo Item in Slot");
+		return;
+	}
+	//TODO 아이템 사용 처리
+	cout << mSlotItem[slot]->GetObjectName() << " : 아이템 사용" << endl;
+}
+
+bool Inventory::HasItem(eInventorySlot slot, string itemName)
+{
+	if(mSlotItem[slot] != nullptr && mSlotItem[slot]->GetObjectName() == itemName)
+	{
+		return true;
+	}
+	return false;
 }
 
