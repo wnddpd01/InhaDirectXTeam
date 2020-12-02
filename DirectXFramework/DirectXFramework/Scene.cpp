@@ -17,6 +17,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	DetachAllSubscriberInSubscriberList();
 	for (auto gameObject : mGameObjects)
 	{
 		SAFE_DELETE(gameObject.second);

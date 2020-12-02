@@ -3,7 +3,7 @@
 class ColliderCube;
 class ColliderSphere;
 
-enum class eObjTag { NON_OBJECT_TAG = 0, PLAYER_CHARACTER, STATIC_OBJECT, MOVE_OBJECT };
+enum class eObjTag { NON_OBJECT_TAG = 0, STATIC_OBJECT, INTERACTABLE_OBJECT };
 enum class eTypeTag { PLAYER_CHARACTER, DOOR , WALL, ITEM };
 enum class eStateTag { NON_STATE = 0, DOOR_OPEN, DOOR_CLOSE };
 
@@ -18,24 +18,25 @@ protected:
 	D3DXQUATERNION mRot;
 	eObjTag mObjectTag;
 	BOOL mbIsInteractable;
-	eStateTag mStateTag;
-	eTypeTag mTypeTag;
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
 
+	eStateTag mStateTag;
+	eTypeTag mTypeTag;
 public:
 	Base3DObject();
 	virtual ~Base3DObject();
 
-	void Render() override;
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render() override;
 
-	void SetObjectTag();
+	void SetObjectTag(eObjTag tag) { mObjectTag = tag; }
+	eObjTag GetObjectTag() const { return mObjectTag; }
 	
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);
 
-	virtual void Update();
-	virtual void Setup();
 
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
@@ -47,17 +48,17 @@ public:
 	void LoadColliderCube();
 	void LoadColliderSphere();
 
-	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
-	BOOL isInteractable() const { return mbIsInteractable; }
 
 	eTypeTag GetTypeTag()const { return mTypeTag; }
-	
-	void SetStateTag(const eStateTag statetag) { mStateTag = statetag; }
 	
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;
 	ColliderSphere* GetColliderSphere() { return mColliderSphere; }
 	map<string, ColliderCube*>& GetColliderCube() { return mColliderCubeMap; }
+
+	void SetIsInteractable(const BOOL isInteractable) { mbIsInteractable = isInteractable; }
+	BOOL isInteractable() const { return mbIsInteractable; }
+	void SetStateTag(const eStateTag statetag) { mStateTag = statetag; }
 
 };
 

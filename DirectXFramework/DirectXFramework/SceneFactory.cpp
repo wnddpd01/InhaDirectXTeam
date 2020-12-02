@@ -10,6 +10,8 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "Interactable3DObject.h"
+#include "Inventory.h"
 SceneFactory::SceneFactory()
 {
 }
@@ -77,9 +79,14 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		room->SetPlayer(player);
+
+		Static3DObject* key = new Static3DObject;
+		key->SetObjectName("key1");
+		key->Setup("Resources/Xfile/", "Key.X");
+		key->AddColliderCube("basicColliderCube");
 		
-		Static3DObject* box = new Static3DObject;
-		box->SetObjectName("key");
+		Interactable3DObject* box = new Interactable3DObject;
+		box->SetObjectName("box");
 		box->AddColliderCube("basicColliderCube");
 		box->Setup("Resources/XFile/", "DeathDropBox.X");
 		box->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
@@ -87,15 +94,37 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
 		box->SetIsInteractable(true);
 		box->CollideHandle = KeyColliderHandler;
+		box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
+		box->AddInteractionBehavior([=]()->void
+			{
+				player->AddItem(eInventorySlot::Key, key);
+			});
+		box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
 		room->InsertObject(box);
 
-		Static3DObject* door = new Static3DObject;
+		Interactable3DObject* door = new Interactable3DObject;
 		door->SetObjectName("door");
 		door->AddColliderCube("basicColliderCube");
 		door->Setup("Resources/XFile/", "Door.x", eTypeTag::DOOR);
 		door->SetPos(D3DXVECTOR3(3, 1.5, 9));
 		door->SetIsInteractable(true);
 		door->CollideHandle = KeyColliderHandler;
+		door->AddInteractionCondition([=]()->bool
+			{
+				return player->HasItem(eInventorySlot::Key, "key1");
+			});
+		door->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, door));
+		door->AddInteractionBehavior([=]()->void
+			{
+				D3DXQUATERNION rotY;
+				D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
+				door->SetRot(rotY);
+			});
+		door->AddInteractionBehavior([=]()->void
+			{
+				player->UseItem(eInventorySlot::Key);
+			});
+		door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
 		room->InsertObject(door);
 
 

@@ -51,7 +51,11 @@ void Room::SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwByt
 
 void Room::InsertObject(Base3DObject* object)
 {
-	if(mObjectsInRoom.find(object->GetObjectName()) != mObjectsInRoom.end())
+	if(object->GetObjectName().empty() == true)
+	{
+		assert("Room Insert ERROR\nObject Name is Empty");
+	}
+	else if(mObjectsInRoom.find(object->GetObjectName()) != mObjectsInRoom.end())
 	{
 		assert("Room Insert ERROR\nAlready in Room Object");
 	}

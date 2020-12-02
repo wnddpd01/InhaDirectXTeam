@@ -38,7 +38,6 @@ void Base3DObject::Update()
 		it->second->Update();
 	}
 
-	mColliderSphere->Update();
 }
 
 void Base3DObject::Setup()

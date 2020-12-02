@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SkinnedMesh.h"
 #include "IdleCharacterState.h"
+#include "Interactable3DObject.h"
 
 InteractCharacterState::InteractCharacterState()
 	: interactStartTime(0)
@@ -42,6 +43,8 @@ CharacterState* InteractCharacterState::Update(Player& player)
 	if(GetTickCount() - interactStartTime > (AnimationPeriod -  player.GetSkinnedMesh()->GetBlendTime() - 0.1f) * 1000 )
 	{
 		//player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
+		Interactable3DObject* interactable3DObject = (Interactable3DObject *)player.GetInteractingObject();
+		interactable3DObject->TryInteraction();
 		return new IdleCharacterState;
 	}
 	return nullptr;

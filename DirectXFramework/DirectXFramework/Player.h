@@ -61,7 +61,6 @@ public:
 	void Setup() override;
 	void Update() override;
 	void Render() override;
-
 	bool Update(eEventName eventName, void* parameter) override;
 
 	SkinnedMesh * GetSkinnedMesh()
@@ -69,6 +68,10 @@ public:
 		return m_pSkinnedMesh;
 	}
 
+	void AddItem(eInventorySlot slot, Base3DObject* item);
+	void UseItem(eInventorySlot slot);
+	bool HasItem(eInventorySlot slot, string itemName);
+	
 	void SetAnimationSpeed(FLOAT spd);
 
 	Player();
