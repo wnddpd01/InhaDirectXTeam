@@ -32,7 +32,7 @@
 namespace  std
 {
 	template<class T>
-	void SAFE_DELETE(T* item)
+	void SAFE_DELETE(T& item)
 	{
 		if (item)
 		{
@@ -40,7 +40,6 @@ namespace  std
 		}
 	}
 }
-
 #endif    
 #ifndef SAFE_DELETE_ARRAY
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);   (p)=NULL; } }
