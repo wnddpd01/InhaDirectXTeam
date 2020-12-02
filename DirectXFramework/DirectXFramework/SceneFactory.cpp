@@ -29,14 +29,14 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	{
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
-		UIImage * uiImage = new UIImage("Resources/UI/Title.png");
+		UIImage * uiImage = new UIImage("Resources/UI/Main/Title.png");
 		uiImage->SetObjectName("Title");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y, 0.0f));
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("Title", uiImage));
 
-		uiImage = new UIImage("Resources/UI/NewGame.png");
+		uiImage = new UIImage("Resources/UI/Main/NewGame.png");
 		uiImage->SetObjectName("BtnStart");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y + viewPort.Height * 0.4f + uiImage->GetHeight() * 0.5, 0.0f));
@@ -47,7 +47,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->SetVisible(true);
 		newScene->mGameUIs.insert(make_pair("btnStart", uiImage));
 
-		uiImage = new UIImage("Resources/UI/Quit.png");
+		uiImage = new UIImage("Resources/UI/Main/Quit.png");
 		uiImage->SetObjectName("BtnExit");
 		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
 			uiImage->GetPos().y + viewPort.Height * 0.65f + uiImage->GetHeight() * 0.5f, 0.0f));
@@ -68,7 +68,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
-	
+
 		Player* player = new Player;
 		player->AddColliderCube("playerCubeCollider");
 		player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
@@ -79,6 +79,62 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		room->SetPlayer(player);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		UIImage * uiImage = new UIImage("Resources/UI/Setting/Layer3.png");
+		uiImage->SetObjectName("SettingLayer");
+		uiImage->SetPos(D3DXVECTOR3(uiImage->GetPos().x + viewPort.Width * 0.5f - uiImage->GetWidth() * 0.5f,
+			uiImage->GetPos().y + viewPort.Height * 0.5f - uiImage->GetHeight() * 0.5f, 0.0f));
+		uiImage->EventProcess = BtnSettingEventListen;
+		newScene->AddEventSubscriberList(eEventName::KEY_UP, 0, uiImage);
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 0, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 0, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 0, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 0, uiImage);
+		uiImage->SetVisible(false);
+		newScene->mGameUIs.insert(make_pair("SettingLayer", uiImage));
+
+		UIImage * childuiImage = new UIImage("Resources/UI/Setting/Exit_off.png");
+		childuiImage->SetObjectName("ExitBtn");
+		childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.2f - childuiImage->GetWidth() * 0.5f,
+			childuiImage->GetPos().y + viewPort.Height * 0.8f - childuiImage->GetHeight() * 0.5f, 0.0f));
+		childuiImage->EventProcess = BtnSettingEventListen;
+		childuiImage->SetVisible(true);
+		uiImage->AddChild("ExitBtn", childuiImage);
+
+		childuiImage = new UIImage("Resources/UI/Setting/BGM_off1.png");
+		childuiImage->SetObjectName("BGMBtn");
+		childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.25f - childuiImage->GetWidth() * 0.5f,
+			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));
+		childuiImage->EventProcess = BtnSettingEventListen;
+		childuiImage->SetVisible(true);
+		uiImage->AddChild("BGMBtn",childuiImage);
+
+		childuiImage = new UIImage("Resources/UI/Setting/Lines1.png");
+		childuiImage->SetObjectName("BGMLine");
+		childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.5f - childuiImage->GetWidth() * 0.5f,
+			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));
+		childuiImage->EventProcess = BtnSettingEventListen;
+		childuiImage->SetVisible(true);
+		uiImage->AddChild("BGMLine",childuiImage);
+
+		childuiImage = new UIImage("Resources/UI/Setting/Button01_1.png");
+		childuiImage->SetObjectName("BGMSoundBtn");
+		childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.5f - childuiImage->GetWidth() * 0.5f,
+			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));
+		childuiImage->EventProcess = BtnSettingEventListen;
+		childuiImage->SetVisible(true);
+		uiImage->AddChild("BGMSoundBtn",childuiImage);
+
+		childuiImage = new UIImage("Resources/UI/Setting/OptionText1.png");
+		childuiImage->SetObjectName("OptionText");
+		childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.73f - childuiImage->GetWidth() * 0.5f,
+			childuiImage->GetPos().y + viewPort.Height * 0.8f - childuiImage->GetHeight() * 0.5f, 0.0f));
+		childuiImage->EventProcess = BtnSettingEventListen;
+		childuiImage->SetVisible(true);
+		uiImage->AddChild("OptionText",childuiImage);
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key1");

@@ -7,7 +7,8 @@ class UIImage :
 	LPD3DXSPRITE		mSprite;
 	RECT				mDrawRect;
 
-	vector<UIImage*>	mChildSprite;
+	//vector<UIImage*>	mChildSprite;
+	map<string, UIImage*> mChildSprite;
 public:
 	D3DXMATRIXA16 mMatWorld;
 	UIImage(string texturePath);
@@ -15,8 +16,13 @@ public:
 
 	void Render() override;
 
-	void AddChild(UIImage* child);
-	void Destory();
+	void AddChild(string UIname, UIImage* child);
+
+	UIImage* GetChildUI(string UIname)
+	{	
+		return mChildSprite.find(UIname)->second;
+	}
+	
 	
 	void SetTexture(string newTexturePath)
 	{

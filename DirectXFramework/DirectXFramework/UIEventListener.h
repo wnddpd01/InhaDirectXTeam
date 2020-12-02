@@ -42,7 +42,7 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		POINT& mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
-			uiImageConvert->SetTexture("Resources/UI/NewGame_Click.png");
+			uiImageConvert->SetTexture("Resources/UI/Main/NewGame_Click.png");
 			isClicked = true;
 			return true;
 		}
@@ -57,10 +57,10 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 			eSceneName sceneName = eSceneName::INGAME_SCENE;
 			gSoundManager->Play("CLICK");
 			gEventManager->EventOccurred(eEventName::SCENE_CHANGE, &(sceneName));
-			uiImageConvert->SetTexture("Resources/UI/NewGame.png");
+			uiImageConvert->SetTexture("Resources/UI/Main/NewGame.png");
 			return true;
 		}
-		uiImageConvert->SetTexture("Resources/UI/NewGame.png");
+		uiImageConvert->SetTexture("Resources/UI/Main/NewGame.png");
 	}
 	break;
 	case eEventName::MOUSE_MOVE:
@@ -70,11 +70,11 @@ inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase *
 		{
 			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->SetTexture("Resources/UI/NewGame_Click.png");
+				uiImageConvert->SetTexture("Resources/UI/Main/NewGame_Click.png");
 			}
 			else
 			{
-				uiImageConvert->SetTexture("Resources/UI/NewGame.png");
+				uiImageConvert->SetTexture("Resources/UI/Main/NewGame.png");
 			}
 		}
 	}
@@ -96,7 +96,7 @@ inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* ui
 		POINT mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
-			uiImageConvert->SetTexture("Resources/UI/Quit_Click.png");
+			uiImageConvert->SetTexture("Resources/UI/Main/Quit_Click.png");
 			isClicked = true;
 			return true;
 		}
@@ -109,10 +109,10 @@ inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* ui
 		if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 		{
 			gSoundManager->Play("CLICK");
-			uiImageConvert->SetTexture("Resources/UI/Quit.png");
+			uiImageConvert->SetTexture("Resources/UI/Main/Quit.png");
 			return true;
 		}
-		uiImageConvert->SetTexture("Resources/UI/Quit.png");
+		uiImageConvert->SetTexture("Resources/UI/Main/Quit.png");
 	}
 	break;
 	case eEventName::MOUSE_MOVE:
@@ -122,11 +122,11 @@ inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* ui
 		{
 			if (PtInRect(&uiImageConvert->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->SetTexture("Resources/UI/Quit_Click.png");
+				uiImageConvert->SetTexture("Resources/UI/Main/Quit_Click.png");
 			}
 			else
 			{
-				uiImageConvert->SetTexture("Resources/UI/Quit.png");
+				uiImageConvert->SetTexture("Resources/UI/Main/Quit.png");
 			}
 		}
 	}
@@ -157,21 +157,45 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 			if (isCalled == 1)
 			{
 				uiImageConvert->SetVisible(true);
-				return true;
+				
 			}
 			else
 			{
 				uiImageConvert->SetVisible(false);
 			}
 			
+		}	
+	}
+	break;
+	case eEventName::MOUSE_MOVE:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		if (isClicked == false)
+		{
+			if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_on.png");
+			}
+			else
+			{
+				uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_off.png");
+
+			}
+
 		}
-			
 	}
 	break;
 	default:
 		break;
 	}
 
-
+	if (isCalled == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 	
 }
