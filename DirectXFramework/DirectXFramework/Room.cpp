@@ -30,6 +30,7 @@ void Room::Update()
 		objectInRoom.second->Update();
 	}
 	mColliderChecker.CheckCollider(mPlayer, mObjectsInRoom);
+	mPlayer->ProcessCollisionEventQueue();
 }
 
 void Room::Render()

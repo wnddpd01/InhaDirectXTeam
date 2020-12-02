@@ -8,6 +8,8 @@
 #include "FontManager.h"
 #include "UIImage.h"
 #include "Camera.h"
+#include "ColliderCube.h"
+#include "ColliderChecker.h"
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
@@ -77,6 +79,8 @@ void Player::MoveBack()
 	mPos = mPrevPos;
 }
 
+
+
 void Player::Setup()
 {
 	Base3DObject::Setup();
@@ -91,6 +95,8 @@ void Player::Setup()
 
 void Player::Update()
 {	
+
+
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
 	{
@@ -99,8 +105,10 @@ void Player::Update()
 
 	if (D3DXVec3Length(&mMoveVelocity) > 0.01f)
 	{
+		
 		mPrevPos = mPos;
 		mPos += mMoveVelocity;
+		
 	}
 	m_pSkinnedMesh->Update();
 
@@ -112,6 +120,9 @@ void Player::Update()
 	Base3DObject::Update();
 
 	mInventory.Update();
+
+	//ProcessCollisionEventQueue();
+	
 }
 
 void Player::Render()
@@ -164,6 +175,7 @@ bool Player::Update(eEventName eventName, void* parameter)
 
 					mRot = quatRot;
 				}
+
 			}
 			break;
 		default:
@@ -198,8 +210,163 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 {
 	if(otherColliderTag == "basicColliderCube")
 	{
-		MoveBack();
+		mCollisionEventQueue.push({ player , myColliderTag ,otherCollider, otherColliderTag });
 	}
+
+	/*
+	if(otherColliderTag == "basicColliderCube")
+	{
+		MoveBack();
+		//otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0];
+
+		Base3DObject::Update();
+
+		D3DXMATRIXA16 rot45;
+		D3DXMatrixRotationY(&rot45, D3DX_PI * 0.25);
+
+		float XAxisVelocity, ZAxisVelocity;
+
+		XAxisVelocity = D3DXVec3Dot(
+			&(otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0]),
+			&(mMoveVelocity));
+		
+		ZAxisVelocity = D3DXVec3Dot(
+			&(otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[2]),
+			&(mMoveVelocity));
+		
+
+		if (abs(XAxisVelocity) > 0.01f)
+		{
+			mPos += (XAxisVelocity * (otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0]));
+			Base3DObject::Update();
+
+			if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+			{
+				mPos = mPrevPos;
+				if (abs(ZAxisVelocity) > 0.01f)
+				{
+					mPos += (ZAxisVelocity * (otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[2]));
+					Base3DObject::Update();
+					if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+					{
+						mPos = mPrevPos;
+					}
+				}
+			}
+		}
+	}
+	*/
+	/*
+		//콜라이더 체크이용 슬라이딩 벡터
+		Base3DObject::Update();
+
+		D3DXMATRIXA16 rot45;
+		D3DXMatrixRotationY(&rot45, D3DX_PI * 0.25);
+
+		D3DXVECTOR3 rot45Velocity;
+		D3DXVec3TransformNormal(&rot45Velocity, &mMoveVelocity, &rot45);
+
+		if (D3DXVec3Length(&rot45Velocity) > 0.01f)
+		{
+			mPos += rot45Velocity;
+			Base3DObject::Update();
+
+			if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+			{
+				mPos = mPrevPos;
+				D3DXVECTOR3 rot45RevVelocity;
+				D3DXMATRIXA16 rotRev45;
+				D3DXMatrixRotationY(&rotRev45, D3DX_PI * -0.25);
+				D3DXVec3TransformNormal(&rot45RevVelocity, &mMoveVelocity, &rotRev45);
+				if (D3DXVec3Length(&rot45Velocity) > 0.01f)
+				{
+					mPos += rot45RevVelocity;
+					Base3DObject::Update();
+					if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
+					{
+						mPos = mPrevPos;
+					}
+				}
+			}
+		}
+		*/
+
+	
 }
 
+void Player::ProcessCollisionEventQueue()
+{
+	vector<D3DXVECTOR3> vecNextMoveVelocity;
+
+	while (!mCollisionEventQueue.empty())
+	{
+		MoveBack();
+		Base3DObject::Update();
+
+		float XAxisVelocity, ZAxisVelocity;
+
+		XAxisVelocity = D3DXVec3Dot(
+			&(mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0]),
+			&(mMoveVelocity));
+
+		ZAxisVelocity = D3DXVec3Dot(
+			&(mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2]),
+			&(mMoveVelocity));
+
+		cout << "xAxis : " << XAxisVelocity << endl;
+		cout << "zAxis : " << ZAxisVelocity << endl;
+
+		if (abs(XAxisVelocity) > 0.01f)
+		{
+			mPos += (XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0]));
+			Base3DObject::Update();
+			if (ColliderCube::IsCollision(
+				mCollisionEventQueue.front().obj1->GetColliderCube()[mCollisionEventQueue.front().obj1ColliderTag],
+				mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]))
+			{
+				MoveBack();
+				if (abs(ZAxisVelocity) > 0.01f)
+				{
+					mPos += (ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2]));
+					Base3DObject::Update();
+					if (ColliderCube::IsCollision(
+						mCollisionEventQueue.front().obj1->GetColliderCube()[mCollisionEventQueue.front().obj1ColliderTag],
+						mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]))
+					{
+						MoveBack();
+					}
+					else
+					{
+						MoveBack();
+						vecNextMoveVelocity.push_back((ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2])));
+					}
+				}
+			}
+			else
+			{
+				MoveBack();
+				vecNextMoveVelocity.push_back((XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0])));
+			}
+		}
+		mCollisionEventQueue.pop();
+	}
+
+	bool bMovable = true;
+	for (auto& i : vecNextMoveVelocity)
+	{
+		if (vecNextMoveVelocity[0] != i)
+		{
+			bMovable = false;
+		}
+	}
+	if(!vecNextMoveVelocity.empty())
+	{
+		if (bMovable)
+		{
+			mPos += vecNextMoveVelocity[0];
+			Base3DObject::Update();
+		}
+	}
+	
+}
 

@@ -6,6 +6,9 @@ class SkinnedMesh;
 class CharacterState;
 class UIImage;
 
+
+
+
 class Player : public Base3DObject, public BaseObserver
 {
 	RECT mDrawFontArea;
@@ -16,9 +19,14 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXVECTOR3 mPrevPos;
 	D3DXQUATERNION mPrevRot;
 	Inventory mInventory;
+	queue<CollisionEvent> mCollisionEventQueue;
+
 	void ChangeState(CharacterState * nextState);
 	void DrawMark();
 	void MoveBack();
+
+
+
 public:
 	SkinnedMesh* m_pSkinnedMesh;
 #pragma region GetterAndSetter
@@ -73,6 +81,6 @@ public:
 	void HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
 
 
-	
+	void ProcessCollisionEventQueue();
 };
 
