@@ -96,6 +96,18 @@ void Player::Setup()
 void Player::Update()
 {	
 
+	
+	//카메라 무빙 테스트용 코드 (추후삭제)
+	if (GetKeyState(VK_UP) & 0x8000)
+	{
+		gCameraManager->SetArcCamera(5.f, &mPos, D3DXVECTOR3(2, 2, 2), 0.4, true);
+		static bool temp = false;
+		if (!temp)
+		{
+			temp = true;
+		}
+	}
+	//카메라 무빙 테스트용 코드 끝 
 
 	CharacterState * retState = mCurState->Update(*this);
 	if (retState != nullptr)
@@ -120,9 +132,6 @@ void Player::Update()
 	Base3DObject::Update();
 
 	mInventory.Update();
-
-	//ProcessCollisionEventQueue();
-	
 }
 
 void Player::Render()
@@ -146,6 +155,7 @@ void Player::Render()
 
 bool Player::Update(eEventName eventName, void* parameter)
 {
+
 	switch (eventName)
 	{
 		case eEventName::KEY_DOWN:
@@ -212,92 +222,32 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 	{
 		mCollisionEventQueue.push({ player , myColliderTag ,otherCollider, otherColliderTag });
 	}
-
-	/*
-	if(otherColliderTag == "basicColliderCube")
-	{
-		MoveBack();
-		//otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0];
-
-		Base3DObject::Update();
-
-		D3DXMATRIXA16 rot45;
-		D3DXMatrixRotationY(&rot45, D3DX_PI * 0.25);
-
-		float XAxisVelocity, ZAxisVelocity;
-
-		XAxisVelocity = D3DXVec3Dot(
-			&(otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0]),
-			&(mMoveVelocity));
-		
-		ZAxisVelocity = D3DXVec3Dot(
-			&(otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[2]),
-			&(mMoveVelocity));
-		
-
-		if (abs(XAxisVelocity) > 0.01f)
-		{
-			mPos += (XAxisVelocity * (otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[0]));
-			Base3DObject::Update();
-
-			if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
-			{
-				mPos = mPrevPos;
-				if (abs(ZAxisVelocity) > 0.01f)
-				{
-					mPos += (ZAxisVelocity * (otherCollider->GetColliderCube()[otherColliderTag]->GetAxisDir()[2]));
-					Base3DObject::Update();
-					if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
-					{
-						mPos = mPrevPos;
-					}
-				}
-			}
-		}
-	}
-	*/
-	/*
-		//콜라이더 체크이용 슬라이딩 벡터
-		Base3DObject::Update();
-
-		D3DXMATRIXA16 rot45;
-		D3DXMatrixRotationY(&rot45, D3DX_PI * 0.25);
-
-		D3DXVECTOR3 rot45Velocity;
-		D3DXVec3TransformNormal(&rot45Velocity, &mMoveVelocity, &rot45);
-
-		if (D3DXVec3Length(&rot45Velocity) > 0.01f)
-		{
-			mPos += rot45Velocity;
-			Base3DObject::Update();
-
-			if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
-			{
-				mPos = mPrevPos;
-				D3DXVECTOR3 rot45RevVelocity;
-				D3DXMATRIXA16 rotRev45;
-				D3DXMatrixRotationY(&rotRev45, D3DX_PI * -0.25);
-				D3DXVec3TransformNormal(&rot45RevVelocity, &mMoveVelocity, &rotRev45);
-				if (D3DXVec3Length(&rot45Velocity) > 0.01f)
-				{
-					mPos += rot45RevVelocity;
-					Base3DObject::Update();
-					if (ColliderCube::IsCollision(player->GetColliderCube()[myColliderTag], otherCollider->GetColliderCube()[otherColliderTag]))
-					{
-						mPos = mPrevPos;
-					}
-				}
-			}
-		}
-		*/
-
-	
 }
 
 void Player::ProcessCollisionEventQueue()
 {
 	vector<D3DXVECTOR3> vecNextMoveVelocity;
+	D3DXVECTOR3 vecReflectionVelocity(0,0,0);
 
+	//회전 밀어내기 부분
+	/*
+	플레이어측에서 4개 꼭지점이 충돌체의 안에 들어갔는지 체크
+	들어간 점이 있다면 플레이어 중심에서 그점을 향하는 벡터를 충돌체기준으로 분해하여 2중체크
+	분해한 벡터가 충돌체의 해당방향으로의 길이보다 큰지 체크 빠져나가는쪽 선택 / 둘다 빠져나가면 짧은쪽 선택
+	분해한 벡터 = 해당방향의 플레이어 벡터성분 + 해당뱡향의 충돌체길이 - 2*겹치는부분 
+
+	들어간점이 없다면 충돌체쪽에서 
+	
+	
+	*/
+	
+
+
+
+
+
+
+	//슬라이딩 벡터 부분
 	while (!mCollisionEventQueue.empty())
 	{
 		MoveBack();
@@ -312,9 +262,6 @@ void Player::ProcessCollisionEventQueue()
 		ZAxisVelocity = D3DXVec3Dot(
 			&(mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2]),
 			&(mMoveVelocity));
-
-		cout << "xAxis : " << XAxisVelocity << endl;
-		cout << "zAxis : " << ZAxisVelocity << endl;
 
 		if (abs(XAxisVelocity) > 0.01f)
 		{
@@ -339,6 +286,7 @@ void Player::ProcessCollisionEventQueue()
 					{
 						MoveBack();
 						vecNextMoveVelocity.push_back((ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2])));
+						vecReflectionVelocity -= (XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0]));
 					}
 				}
 			}
@@ -346,6 +294,7 @@ void Player::ProcessCollisionEventQueue()
 			{
 				MoveBack();
 				vecNextMoveVelocity.push_back((XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0])));
+				vecReflectionVelocity -= (ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2]));
 			}
 		}
 		mCollisionEventQueue.pop();
@@ -367,6 +316,5 @@ void Player::ProcessCollisionEventQueue()
 			Base3DObject::Update();
 		}
 	}
-	
 }
 

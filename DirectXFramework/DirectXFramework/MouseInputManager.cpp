@@ -162,14 +162,16 @@
 
 void MouseInputManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	POINT curMousePosition;
-	static POINT prevMosuePosition;
-	
-	curMousePosition.x = LOWORD(lParam);
-	curMousePosition.y = HIWORD(lParam);
-	
-	switch (message)
-	{	
+	if (!mbDisalble)
+	{
+		POINT curMousePosition;
+		static POINT prevMosuePosition;
+
+		curMousePosition.x = LOWORD(lParam);
+		curMousePosition.y = HIWORD(lParam);
+
+		switch (message)
+		{
 		case WM_LBUTTONDOWN:
 
 			gEventManager->EventOccurred(eEventName::MOUSE_L_DOWN, &curMousePosition);
@@ -182,51 +184,62 @@ void MouseInputManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			gEventManager->EventOccurred(eEventName::MOUSE_L_UP, &curMousePosition);
 			mbLButtonDown = false;
 			break;
-		
+
 		case WM_RBUTTONUP:
 
 			gEventManager->EventOccurred(eEventName::MOUSE_R_DOWN, &curMousePosition);
 			prevMosuePosition = curMousePosition;
 			mbRButtonDown = true;
 			break;
-		
+
 		case WM_RBUTTONDOWN:
 
 			gEventManager->EventOccurred(eEventName::MOUSE_R_UP, &curMousePosition);
 			mbRButtonDown = false;
 			break;
-		
-		case WM_MOUSEMOVE:
-			{
-				POINT mouseDeltaDistance;
-				
-				mouseDeltaDistance.x = curMousePosition.x - prevMosuePosition.x;
-				mouseDeltaDistance.y = curMousePosition.y - prevMosuePosition.y;
 
-				gEventManager->EventOccurred(eEventName::MOUSE_MOVE, &curMousePosition);
-				
-				if(mbLButtonDown)
-				{
-					gEventManager->EventOccurred(eEventName::MOUSE_L_DRAG, &mouseDeltaDistance);
-					prevMosuePosition = curMousePosition;
-				}
-				else if(mbRButtonDown)
-				{
-					gEventManager->EventOccurred(eEventName::MOUSE_R_DRAG, &mouseDeltaDistance);
-					prevMosuePosition = curMousePosition;
-				}
-				
-				break;
+		case WM_MOUSEMOVE:
+		{
+			POINT mouseDeltaDistance;
+
+			mouseDeltaDistance.x = curMousePosition.x - prevMosuePosition.x;
+			mouseDeltaDistance.y = curMousePosition.y - prevMosuePosition.y;
+
+			gEventManager->EventOccurred(eEventName::MOUSE_MOVE, &curMousePosition);
+
+			if (mbLButtonDown)
+			{
+				gEventManager->EventOccurred(eEventName::MOUSE_L_DRAG, &mouseDeltaDistance);
+				prevMosuePosition = curMousePosition;
 			}
+			else if (mbRButtonDown)
+			{
+				gEventManager->EventOccurred(eEventName::MOUSE_R_DRAG, &mouseDeltaDistance);
+				prevMosuePosition = curMousePosition;
+			}
+
+			break;
+		}
 		case WM_MBUTTONDOWN:
 			gEventManager->EventOccurred(eEventName::MOUSE_WHEEL_DOWN, &curMousePosition);
 			break;
-		
+
 		case WM_MOUSEWHEEL:
 			float wheelDeltaDistance(GET_WHEEL_DELTA_WPARAM(wParam) / 30.0f);
 			gEventManager->EventOccurred(eEventName::MOUSE_WHEEL_SCROLL, &wheelDeltaDistance);
 			break;
+		}
 	}
+}
+
+void MouseInputManager::Disabled()
+{
+	mbDisalble = true;
+}
+
+void MouseInputManager::Abled()
+{
+	mbDisalble = false;
 }
 
 

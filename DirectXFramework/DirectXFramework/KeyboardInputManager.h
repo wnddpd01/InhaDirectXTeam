@@ -12,6 +12,8 @@ typedef UINT KeyState;
 class KeyboardInputManager : public Singleton<KeyboardInputManager>
 {
 private:
+	bool mbDisalble;
+
 	KeyState mKeyState;
 	KeyState mPrevKeyState;
 protected:
@@ -20,4 +22,6 @@ protected:
 public:
 	void ChangeKeyState();
 	void Update();
+	void Disabled();
+	void Abled();
 };
