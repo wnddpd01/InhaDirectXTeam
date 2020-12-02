@@ -34,6 +34,7 @@ void KeyboardInputManager::ChangeKeyState()
 	}
 	if (GetKeyState(VK_ESCAPE) & 0x8000)
 	{
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_ESC;
 	}
 	if (GetKeyState(VK_SHIFT) & 0x8000)
 	{
@@ -106,5 +107,18 @@ void KeyboardInputManager::Update()
 		keyName = eKeyName::KEY_INTERACTION;
 		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
 	}
+
+	if ((curKey = (mKeyState & (UINT)eKeyName::KEY_ESC)))
+	{
+		keyName = eKeyName::KEY_ESC;
+		gEventManager->EventOccurred(eEventName::KEY_DOWN, &keyName);
+	}
+	else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_ESC)))
+	{
+		keyName = eKeyName::KEY_ESC;
+		gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+	}
+
+	
 	mPrevKeyState = mKeyState;
 }

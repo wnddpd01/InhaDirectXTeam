@@ -20,6 +20,7 @@ UIImage::UIImage(string texturePath)
 
 UIImage::~UIImage()
 {
+	Destory();
 }
 
 void UIImage::Render()
@@ -35,4 +36,24 @@ void UIImage::Render()
 	mSprite->SetTransform(&matWorld);
 	mSprite->Draw(mTextureUI, &mDrawRect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 	mSprite->End();
+
+	for (UIImage* child : mChildSprite)
+	{
+		child->Render();
+	}
+}
+
+void UIImage::AddChild(UIImage* child)
+{
+	mChildSprite.push_back(child);
+}
+
+void UIImage::Destory()
+{
+	mSprite->Release();
+
+	for (UIImage* child : mChildSprite)
+	{
+		child->Destory();
+	}
 }

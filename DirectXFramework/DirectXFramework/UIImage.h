@@ -6,6 +6,8 @@ class UIImage :
 	LPDIRECT3DTEXTURE9	mTextureUI;
 	LPD3DXSPRITE		mSprite;
 	RECT				mDrawRect;
+
+	vector<UIImage*>	mChildSprite;
 public:
 	D3DXMATRIXA16 mMatWorld;
 	UIImage(string texturePath);
@@ -13,6 +15,9 @@ public:
 
 	void Render() override;
 
+	void AddChild(UIImage* child);
+	void Destory();
+	
 	void SetTexture(string newTexturePath)
 	{
 		D3DXIMAGE_INFO imageInfo;

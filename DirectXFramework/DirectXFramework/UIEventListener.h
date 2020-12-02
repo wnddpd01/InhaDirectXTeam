@@ -7,7 +7,7 @@
 #include "UIBase.h"
 #include "UIImage.h"
 #include "SceneCenter.h"
-
+#include "KeyboardInputManager.h"
 //inline void PanelEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
 //{
 //	static bool isClicked = false;
@@ -137,4 +137,41 @@ inline bool BtnExitEventListen(eEventName eventName, void* parameter, UIBase* ui
 
 
 	return false;
+}
+
+inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
+{
+	UIImage* uiImageConvert = (UIImage*)uiImage;
+	static bool isClicked = false;
+	static int isCalled = -1;
+
+	switch (eventName)
+	{
+	case eEventName::KEY_UP:
+	{
+		eKeyName key = *(eKeyName*)parameter;
+		if (key == eKeyName::KEY_ESC)
+		{
+			isCalled *= -1;
+
+			if (isCalled == 1)
+			{
+				uiImageConvert->SetVisible(true);
+				return true;
+			}
+			else
+			{
+				uiImageConvert->SetVisible(false);
+			}
+			
+		}
+			
+	}
+	break;
+	default:
+		break;
+	}
+
+
+	
 }
