@@ -15,6 +15,10 @@ public:
 	static bool IsCollision(ColliderCube* obj1Cube, ColliderCube* obj2Cube);
 
 	D3DXVECTOR3* GetAxisDir();
+
+	float GetCubeHeight();
+	float GetCubeWidth();
+	float GetCubeDepth();
 	
 private:
 	float mCubeHeight;

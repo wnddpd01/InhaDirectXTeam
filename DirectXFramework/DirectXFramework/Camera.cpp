@@ -10,13 +10,15 @@ Camera::Camera()
 	, mTarget(nullptr)
 	, mEye(0, 10, mCameraDistance)
 	, mCamRotAngle(0, D3DX_PI * 0.25f, 0)
+	, bEventCamera(false)
 {
-	
+	mStartPos = D3DXVECTOR3(0, 10, -mCameraDistance);
 }
 
 
 Camera::~Camera()
 {
+
 }
 
 void Camera::Setup()
@@ -29,6 +31,16 @@ void Camera::Setup()
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
+void Camera::SetupPre()
+{
+	D3DVIEWPORT9 viewPort;
+	gD3Device->GetViewport(&viewPort);
+	D3DXMATRIXA16 matProj;
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
+	//D3DXMatrixOrthoLH(&matProj, ORTHO_WIDTH/3, ORTHO_WIDTH / 3 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
+	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
+}
+
 void Camera::SetTarget(D3DXVECTOR3* target)
 {
 	mTarget = target;
@@ -36,12 +48,24 @@ void Camera::SetTarget(D3DXVECTOR3* target)
 
 void Camera::Update()
 {
+	if (bEventCamera)
+	{
+		// 라이프타임 체크
+		if (mLifeTime <= 0)
+		{
+			gCameraManager->EndEventCamera();
+			return;
+		}
+		mLifeTime -= gDeltaTime;
+		mCamRotAngle.y += gDeltaTime * mMoveSpeed;
+	}
+
 	D3DXMATRIXA16 matR, matRX, matRY;
 	D3DXMatrixRotationX(&matRX, mCamRotAngle.x);
 	D3DXMatrixRotationY(&matRY, mCamRotAngle.y);
 	matR = matRX * matRY;
 
-	mEye = D3DXVECTOR3(0, 10, -mCameraDistance);
+	mEye = mStartPos;
 	D3DXVec3TransformCoord(&mEye, &mEye, &matR);
 	
 	if (mTarget)
@@ -53,7 +77,6 @@ void Camera::Update()
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &mEye, &mLookAt, &mUp);
 
-	
 	gD3Device->SetTransform(D3DTS_VIEW, &matView);
 }
 
@@ -114,4 +137,64 @@ D3DXVECTOR3 Camera::GetPickingPosition(POINT& mousePos)
 	mouseWorldPosition += abs(mouseWorldPosition.y / ray.y) * ray;
 	
 	return mouseWorldPosition;
+}
+
+void Camera::SetEventCamera(bool setEvent)
+{
+	bEventCamera = setEvent;
+}
+
+bool Camera::GetEventCamera()
+{
+	return bEventCamera;
+}
+
+void Camera::SetLifeTime(float lifeTime)
+{
+	mLifeTime = lifeTime;
+}
+
+float Camera::GetLifeTime()
+{
+	return mLifeTime;
+}
+
+void Camera::SetYCamRotAngle(float CamRotAngle)
+{
+	mCamRotAngle.y = CamRotAngle;
+}
+
+float Camera::GetYCamRotAngle()
+{
+	return mCamRotAngle.y;
+}
+
+void Camera::SetStartPos(D3DXVECTOR3 StartPos)
+{
+	mStartPos = StartPos;
+}
+
+D3DXVECTOR3 Camera::GetStartPos()
+{
+	return mStartPos;
+}
+
+void Camera::SetMoveSpeed(float MoveSpeed)
+{
+	mMoveSpeed = MoveSpeed;
+}
+
+float Camera::GetMoveSpeed()
+{
+	return mMoveSpeed;
+}
+
+void Camera::SetCameraDistance(float CameraDistance)
+{
+	mCameraDistance = CameraDistance;
+}
+
+float Camera::GetCameraDistance()
+{
+	return mCameraDistance;
 }

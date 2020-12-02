@@ -11,8 +11,8 @@ Scene::Scene()
 	mCamera = new Camera;
 	mCamera->Setup();
 
-	AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
-	AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
+	//AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 10, mCamera);
+	//AddEventSubscriberList(eEventName::MOUSE_WHEEL_SCROLL, 10, mCamera);
 }
 
 Scene::~Scene()
@@ -57,6 +57,10 @@ void Scene::DetachAllSubscriberInSubscriberList()
 
 void Scene::Update()
 {
+	if (gCurrentCamera != mCamera)
+	{
+		mCamera = gCurrentCamera;
+	}
 	mCamera->Update();
 	
 	for (auto gameObject : mGameObjects)

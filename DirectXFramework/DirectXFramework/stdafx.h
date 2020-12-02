@@ -32,14 +32,17 @@
 namespace  std
 {
 	template<class T>
-	void SAFE_DELETE(T* item)
+	void SAFE_DELETE(T& item)
 	{
 		if (item)
 		{
-			delete item; (item) = nullptr;
+			delete item;
+			item = NULL;
 		}
 	}
 }
+
+//#define SAFE_DELETE(p) {if(p) {delete (p); (p) = nullptr; }}
 
 #endif    
 #ifndef SAFE_DELETE_ARRAY
@@ -178,8 +181,6 @@ using namespace std;
 
 #include "fmod/fmod.hpp"
 #pragma comment(lib, "fmod/fmodex_vc.lib")
-
-
 
 #include "UIEventListener.h"
 #include "TimeManager.h"

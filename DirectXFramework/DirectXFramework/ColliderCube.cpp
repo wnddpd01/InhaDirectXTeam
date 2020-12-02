@@ -242,6 +242,21 @@ D3DXVECTOR3 * ColliderCube::GetAxisDir()
 	return m_vAxisDir;
 }
 
+float ColliderCube::GetCubeHeight()
+{
+	return mCubeHeight;
+}
+
+float ColliderCube::GetCubeWidth()
+{
+	return mCubeWidth;
+}
+
+float ColliderCube::GetCubeDepth()
+{
+	return mCubeDepth;
+}
+
 void ColliderCube::Render()
 {	
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
