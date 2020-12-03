@@ -28,12 +28,12 @@ void Static3DObject::Setup(
 	Base3DObject::Setup();
 	gModelLoader->LoadXfile(folder, fileName, mpMesh, &mpMaterials, &mpTextures, mNumMaterials);
 	
-	/*mTypeTag = typeTag;
+	mTypeTag = typeTag;
 
 	if (mTypeTag == eTypeTag::DOOR)
 	{
 		mStateTag = eStateTag::DOOR_CLOSE;
-	}*/
+	}
 }
 
 void Static3DObject::Update()
@@ -68,7 +68,6 @@ void Static3DObject::Update()
 void Static3DObject::Render()
 {
 	Base3DObject::Render();
-	RenderMesh();
 	switch (mTypeTag)
 	{
 		case eTypeTag::DOOR :
@@ -79,7 +78,6 @@ void Static3DObject::Render()
 		break;
 		default:
 		{
-				gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
 		}
 		break;
 
