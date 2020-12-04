@@ -88,8 +88,8 @@ void SoundManager::SoundSet()
 	memset(mSound, 0, sizeof(Sound*)*(mBuffer));
 	memset(mChannel, 0, sizeof(Channel*)*(mBuffer));
 
-	
 	AddSound("BGM", "Resources/Sound/Sonata.mp3", true);
+	//AddSound("BGM", "Resources/Sound/WinterWind.mp3", true);
 	AddSound("CLICK", "Resources/Sound/Click.wav", false);
 	AddSound("GET", "Resources/Sound/attack1.wav", false);
 

@@ -22,6 +22,11 @@ public:
 	{	
 		return mChildSprite.find(UIname)->second;
 	}
+
+	map<string,UIImage*> GetChildUI()
+	{
+		return mChildSprite;
+	}
 	
 	
 	void SetTexture(string newTexturePath)
