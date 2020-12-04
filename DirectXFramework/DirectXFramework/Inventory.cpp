@@ -120,6 +120,9 @@ Inventory::Inventory()
 	mUISlotImage[Key]->SetObjectName("inventory3");
 	mUISlotImage[Key]->SetPos(D3DXVECTOR3(mUISlotImage[Key]->GetPos().x + mUISlotImage[Key]->GetWidth() * 2.f, mUISlotImage[Key]->GetPos().y, 0.0f));
 	mUISlotImage[Key]->SetVisible(true);
+
+	mItemUIImageMap["key1"] = new UIImage("Resources/item/key.png");
+	mItemUIImageMap["key1"]->SetObjectName("key1UIImage");
 }
 
 Inventory::~Inventory()
@@ -145,7 +148,9 @@ void Inventory::Render()
 		mUISlotImage[i]->Render();
 		if(mSlotItem[i] != nullptr)
 		{
-			
+			mItemUIImageMap[mSlotItem[i]->GetObjectName()]->SetPos(mUISlotImage[i]->GetPos());
+			mItemUIImageMap[mSlotItem[i]->GetObjectName()]->SetVisible(true);
+			mItemUIImageMap[mSlotItem[i]->GetObjectName()]->Render();
 		}
 	}
 }

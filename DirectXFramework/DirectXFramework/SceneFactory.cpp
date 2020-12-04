@@ -149,7 +149,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		box->SetPos(D3DXVECTOR3(16,0,10));
 		box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
 		box->SetIsInteractable(true);
-		box->CollideHandle = KeyColliderHandler;
 		box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
 		box->AddInteractionBehavior([=]()->void
 			{
@@ -164,7 +163,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		door->Setup("Resources/XFile/", "Door.x", eTypeTag::DOOR);
 		door->SetPos(D3DXVECTOR3(3, 1.5, 9));
 		door->SetIsInteractable(true);
-		door->CollideHandle = KeyColliderHandler;
 		door->AddInteractionCondition([=]()->bool
 			{
 				return player->HasItem(eInventorySlot::Key, "key1");
@@ -239,7 +237,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				rotation
 			);
 			
-			wall->CollideHandle = KeyColliderHandler;
 			room->InsertObject(wall);
 		}
 		gSoundManager->Play("BGM");
