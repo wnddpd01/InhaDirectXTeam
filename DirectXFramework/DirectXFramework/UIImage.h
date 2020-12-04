@@ -14,6 +14,9 @@ public:
 	UIImage(string texturePath);
 	virtual ~UIImage();
 
+	RECT GetDrawRect() const { return mDrawRect; }
+	void SetDrawRect(RECT drawRect) { mDrawRect = drawRect; }
+
 	void Render() override;
 
 	void AddChild(string UIname, UIImage* child);

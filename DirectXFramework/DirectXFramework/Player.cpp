@@ -221,33 +221,56 @@ void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myCollid
 	if(otherColliderTag == "basicColliderCube")
 	{
 		mCollisionEventQueue.push({ player , myColliderTag ,otherCollider, otherColliderTag });
+		mCollisionEventQueue2.push({ player , myColliderTag ,otherCollider, otherColliderTag });
 	}
 }
 
 void Player::ProcessCollisionEventQueue()
 {
 	vector<D3DXVECTOR3> vecNextMoveVelocity;
-	D3DXVECTOR3 vecReflectionVelocity(0,0,0);
+	D3DXVECTOR3 reflectionMoveVelocity(0,0,0);
 
 	//회전 밀어내기 부분
-	/*
-	플레이어측에서 4개 꼭지점이 충돌체의 안에 들어갔는지 체크
-	들어간 점이 있다면 플레이어 중심에서 그점을 향하는 벡터를 충돌체기준으로 분해하여 2중체크
-	분해한 벡터가 충돌체의 해당방향으로의 길이보다 큰지 체크 빠져나가는쪽 선택 / 둘다 빠져나가면 짧은쪽 선택
-	분해한 벡터 = 해당방향의 플레이어 벡터성분 + 해당뱡향의 충돌체길이 - 2*겹치는부분 
+	while (!mCollisionEventQueue2.empty())
+	{
+		
+		static float multi;
+		multi = 0.00f;
+		while(true)
+		{
+			D3DXVECTOR3 thisVelocity(0, 0, 0);
+			multi += 0.01f;
+			D3DXVECTOR3 normal = ColliderCube::CheckCollidePosNormal(
+				mCollisionEventQueue2.front().obj1->GetColliderCube()[mCollisionEventQueue2.front().obj1ColliderTag],
+				mCollisionEventQueue2.front().obj2->GetColliderCube()[mCollisionEventQueue2.front().obj2ColliderTag]);
+			if (D3DXVec3Length(&normal) < 0.000001f)
+			{
+				break;
+			}
 
-	들어간점이 없다면 충돌체쪽에서 
-	
-	
-	*/
-	
+			thisVelocity += multi * normal;
 
+			mPos += thisVelocity;
+			Base3DObject::Update();
 
+			if (ColliderCube::IsCollision(
+				mCollisionEventQueue2.front().obj1->GetColliderCube()[mCollisionEventQueue2.front().obj1ColliderTag],
+				mCollisionEventQueue2.front().obj2->GetColliderCube()[mCollisionEventQueue2.front().obj2ColliderTag]))
+			{
+				MoveBack();
+				Base3DObject::Update();
+			}
+			else
+			{
+				MoveBack();
+				Base3DObject::Update();
+				reflectionMoveVelocity += thisVelocity;
+				break;
+			}
+		}
+		mCollisionEventQueue2.pop();
+	}
 
-
-
-
-	//슬라이딩 벡터 부분
 	while (!mCollisionEventQueue.empty())
 	{
 		MoveBack();
@@ -286,7 +309,6 @@ void Player::ProcessCollisionEventQueue()
 					{
 						MoveBack();
 						vecNextMoveVelocity.push_back((ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2])));
-						vecReflectionVelocity -= (XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0]));
 					}
 				}
 			}
@@ -294,7 +316,6 @@ void Player::ProcessCollisionEventQueue()
 			{
 				MoveBack();
 				vecNextMoveVelocity.push_back((XAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[0])));
-				vecReflectionVelocity -= (ZAxisVelocity * (mCollisionEventQueue.front().obj2->GetColliderCube()[mCollisionEventQueue.front().obj2ColliderTag]->GetAxisDir()[2]));
 			}
 		}
 		mCollisionEventQueue.pop();
@@ -308,13 +329,27 @@ void Player::ProcessCollisionEventQueue()
 			bMovable = false;
 		}
 	}
+	
+	
 	if(!vecNextMoveVelocity.empty())
 	{
 		if (bMovable)
 		{
 			mPos += vecNextMoveVelocity[0];
+			mPos += reflectionMoveVelocity;
 			Base3DObject::Update();
 		}
+		else
+		{
+			mPos += reflectionMoveVelocity;
+			Base3DObject::Update();
+		}
+		
+	}
+	else
+	{
+		mPos += reflectionMoveVelocity;
+		Base3DObject::Update();
 	}
 }
 

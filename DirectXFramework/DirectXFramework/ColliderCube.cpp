@@ -6,6 +6,7 @@ ColliderCube::ColliderCube()
 	: mCubeWidth(1.0f)
 	, mCubeHeight(1.0f)
 	, mCubeDepth(1.0f)
+	, m_pCollidePosNormal(nullptr)
 {
 	
 }
@@ -133,7 +134,6 @@ bool ColliderCube::IsCollision(ColliderCube * obj1Cube, ColliderCube * obj2Cube)
 
 	D3DXVECTOR3 D = obj2Cube->m_vCenterPos - obj1Cube->m_vCenterPos;
 
-
 	float obj1AxisHalfLen[3];
 	float obj2AxisHalfLen[3];
 
@@ -255,6 +255,134 @@ float ColliderCube::GetCubeWidth()
 float ColliderCube::GetCubeDepth()
 {
 	return mCubeDepth;
+}
+
+D3DXVECTOR3 ColliderCube::CheckCollidePosNormal(ColliderCube* obj1Cube, ColliderCube* obj2Cube)
+{
+	D3DXVECTOR3 rectObj1[4], rectObj2[4], result;
+
+	rectObj1[0] = (*obj1Cube->GetPosition()
+		+ (obj1Cube->GetAxisDir()[0] * (obj1Cube->GetCubeWidth() * 0.5f))
+		+ (obj1Cube->GetAxisDir()[2] * (obj1Cube->GetCubeDepth() * 0.5f)));
+	rectObj1[1] = (*obj1Cube->GetPosition()
+		+ (obj1Cube->GetAxisDir()[0] * (obj1Cube->GetCubeWidth() * 0.5f))
+		- (obj1Cube->GetAxisDir()[2] * (obj1Cube->GetCubeDepth() * 0.5f)));
+	rectObj1[2] = (*obj1Cube->GetPosition()
+		- (obj1Cube->GetAxisDir()[0] * (obj1Cube->GetCubeWidth() * 0.5f))
+		- (obj1Cube->GetAxisDir()[2] * (obj1Cube->GetCubeDepth() * 0.5f)));
+	rectObj1[3] = (*obj1Cube->GetPosition()
+		- (obj1Cube->GetAxisDir()[0] * (obj1Cube->GetCubeWidth() * 0.5f))
+		+ (obj1Cube->GetAxisDir()[2] * (obj1Cube->GetCubeDepth() * 0.5f)));
+
+	rectObj2[0] = (*obj2Cube->GetPosition()
+		+ (obj2Cube->GetAxisDir()[0] * (obj2Cube->GetCubeWidth() * 0.5f))
+		+ (obj2Cube->GetAxisDir()[2] * (obj2Cube->GetCubeDepth() * 0.5f)));
+	rectObj2[1] = (*obj2Cube->GetPosition()
+		+ (obj2Cube->GetAxisDir()[0] * (obj2Cube->GetCubeWidth() * 0.5f))
+		- (obj2Cube->GetAxisDir()[2] * (obj2Cube->GetCubeDepth() * 0.5f)));
+	rectObj2[2] = (*obj2Cube->GetPosition()
+		- (obj2Cube->GetAxisDir()[0] * (obj2Cube->GetCubeWidth() * 0.5f))
+		- (obj2Cube->GetAxisDir()[2] * (obj2Cube->GetCubeDepth() * 0.5f)));
+	rectObj2[3] = (*obj2Cube->GetPosition()
+		- (obj2Cube->GetAxisDir()[0] * (obj2Cube->GetCubeWidth() * 0.5f))
+		+ (obj2Cube->GetAxisDir()[2] * (obj2Cube->GetCubeDepth() * 0.5f)));
+
+
+	vector<D3DXVECTOR3> vecPosInRect;
+	for (int i = 0; i < 4; i++)
+	{
+		if ((abs(D3DXVec3Dot(&(rectObj1[i] - *obj2Cube->GetPosition()), &(obj2Cube->GetAxisDir()[0]))) <= obj2Cube->GetCubeWidth()) &&
+			(abs(D3DXVec3Dot(&(rectObj1[i] - *obj2Cube->GetPosition()), &(obj2Cube->GetAxisDir()[2]))) <= obj2Cube->GetCubeDepth()))
+		{
+			vecPosInRect.push_back(rectObj1[i]);
+		}
+	}
+
+	if (!vecPosInRect.empty())
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (i < 3)
+			{
+				if (isIntersect({ *obj1Cube->GetPosition() ,vecPosInRect[0] }, { rectObj2[i] , rectObj2[i + 1] }))
+				{
+					D3DXVec3Cross(&result, &(rectObj2[i + 1] - rectObj2[i]), &D3DXVECTOR3(0, 1, 0));
+					D3DXVec3Normalize(&result, &result);
+					return result;
+				}
+			}
+			else
+			{
+				if (isIntersect({ *obj1Cube->GetPosition() ,vecPosInRect[0] }, { rectObj2[i] , rectObj2[0] }))
+				{
+					D3DXVec3Cross(&result, &(rectObj2[0] - rectObj2[i]), &D3DXVECTOR3(0, 1, 0));
+					D3DXVec3Normalize(&result, &result);
+					return result;
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if ((abs(D3DXVec3Dot(&(rectObj2[i] - *obj1Cube->GetPosition()), &(obj1Cube->GetAxisDir()[0]))) <= obj1Cube->GetCubeWidth()) &&
+				(abs(D3DXVec3Dot(&(rectObj2[i] - *obj1Cube->GetPosition()), &(obj1Cube->GetAxisDir()[2]))) <= obj1Cube->GetCubeDepth()))
+			{
+				vecPosInRect.push_back(rectObj2[i]);
+			}
+			if (!vecPosInRect.empty())
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					if (i < 3)
+					{
+						if (isIntersect({ *obj2Cube->GetPosition() ,vecPosInRect[0] }, { rectObj1[i] , rectObj1[i + 1] }))
+						{
+							D3DXVec3Cross(&result, &(rectObj1[i + 1] - rectObj1[i]), &D3DXVECTOR3(0, 1, 0));
+							D3DXVec3Normalize(&result, &result);
+							return result;
+						}
+					}
+					else
+					{
+						if (isIntersect({ *obj2Cube->GetPosition() ,vecPosInRect[0] }, { rectObj1[i] , rectObj1[0] }))
+						{
+							D3DXVec3Cross(&result, &(rectObj1[0] - rectObj1[i]), &D3DXVECTOR3(0, 1, 0));
+							D3DXVec3Normalize(&result, &result);
+							return result;
+						}
+					}
+				}
+			}
+		}
+	}
+	return D3DXVECTOR3(0, 0, 0);
+}
+
+bool ColliderCube::isIntersect(pair<D3DXVECTOR3, D3DXVECTOR3> line1, pair<D3DXVECTOR3, D3DXVECTOR3> line2)
+{
+	D3DXVECTOR3 a = line1.first;
+	D3DXVECTOR3 b = line1.second;
+	D3DXVECTOR3 c = line2.first;
+	D3DXVECTOR3 d = line2.second;
+	int ab = ccw(a, b, c) * ccw(a, b, d);
+	int cd = ccw(c, d, a) * ccw(c, d, b);
+	if (ab == 0 && cd == 0) {
+		if (a > b)swap(a, b);
+		if (c > d)swap(c, d);
+		return c <= b&&a <= d;
+	}
+	return ab <= 0 && cd <= 0;
+}
+
+int ColliderCube::ccw(D3DXVECTOR3 point1, D3DXVECTOR3 point2, D3DXVECTOR3 point3)
+{
+	int op = point1.x * point2.z + point2.x * point3.z + point3.x * point1.z;
+	op -= (point1.z * point2.x + point2.z * point3.x + point3.z * point1.x);
+	if (op > 0)return 1;
+	else if (op == 0)return 0;
+	else return -1;
 }
 
 void ColliderCube::Render()

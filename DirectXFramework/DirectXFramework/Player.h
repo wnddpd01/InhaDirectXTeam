@@ -20,6 +20,7 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXQUATERNION mPrevRot;
 	Inventory mInventory;
 	queue<CollisionEvent> mCollisionEventQueue;
+	queue<CollisionEvent> mCollisionEventQueue2;
 
 	void ChangeState(CharacterState * nextState);
 	void DrawMark();
