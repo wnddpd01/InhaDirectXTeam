@@ -330,7 +330,6 @@ void Player::ProcessCollisionEventQueue()
 		}
 	}
 	
-	
 	if(!vecNextMoveVelocity.empty())
 	{
 		if (bMovable)
@@ -344,7 +343,6 @@ void Player::ProcessCollisionEventQueue()
 			mPos += reflectionMoveVelocity;
 			Base3DObject::Update();
 		}
-		
 	}
 	else
 	{

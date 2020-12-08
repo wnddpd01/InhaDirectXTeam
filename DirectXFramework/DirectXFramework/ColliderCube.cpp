@@ -31,20 +31,20 @@ void ColliderCube::Setup()
 	m_fAxisLen[2] = fabs(mMax.z - mMin.z);
 
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
-	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[1] = (m_fAxisLen[1] / 2.0f) + 0.5f;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
 
 	vector<D3DXVECTOR3> m_BoxVertex;
 
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], -m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
 	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
 	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], -m_fAxisHalfLen[1], -m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, -m_fAxisHalfLen[2]));
 
-	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], -m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
 	m_BoxVertex.push_back(D3DXVECTOR3(-m_fAxisHalfLen[0], m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
 	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
-	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], -m_fAxisHalfLen[1], m_fAxisHalfLen[2]));
+	m_BoxVertex.push_back(D3DXVECTOR3(m_fAxisHalfLen[0], 0, m_fAxisHalfLen[2]));
 
 	vector<DWORD> BoxIndex;
 
@@ -85,7 +85,6 @@ void ColliderCube::Setup()
 	{
 		m_BoxDrawVertex[i] = m_BoxVertex[BoxIndex[i]];
 	}
-
 }
 
 void ColliderCube::Update()
@@ -386,10 +385,20 @@ int ColliderCube::ccw(D3DXVECTOR3 point1, D3DXVECTOR3 point2, D3DXVECTOR3 point3
 }
 
 void ColliderCube::Render()
-{	
+{
+	D3DXMATRIXA16 matS, matR, matT, stockMat, matWorld;
+	D3DXMatrixScaling(&matS, 1, 1, 1);
+	D3DXMatrixRotationQuaternion(&matR, mRot);
+	D3DXMatrixTranslation(&matT, mPosition->x, mPosition->y, mPosition->z);
+
+	gD3Device->GetTransform(D3DTS_WORLD, &stockMat);
+	gD3Device->SetTransform(D3DTS_WORLD, &(matS * matR * matT));
+
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	gD3Device->SetTexture(0, nullptr);
 	gD3Device->SetFVF(D3DFVF_XYZ);
 	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, m_BoxDrawVertex.size() / 2, &m_BoxDrawVertex[0], sizeof(D3DXVECTOR3));
+
+	gD3Device->SetTransform(D3DTS_WORLD, &stockMat);
 }
 

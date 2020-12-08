@@ -62,9 +62,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-		Room * room = new Room;
-		room->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
-		newScene->mGameObjects.insert({ "room", room });
+		Room * room3A02 = new Room;
+		room3A02->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		newScene->mGameObjects.insert({ "room3A02", room3A02 });
 
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
@@ -78,7 +78,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		room->SetPlayer(player);
+		room3A02->SetPlayer(player);
 
 		// >> : UI
 		UIImage * uiImage = new UIImage("Resources/UI/Setting/Layer3.png");
@@ -163,7 +163,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->AddItem(eInventorySlot::Key, key);
 			});
 		box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
-		room->InsertObject(box);
+		room3A02->InsertObject(box);
 
 		Interactable3DObject* door = new Interactable3DObject;
 		door->SetObjectName("door");
@@ -187,7 +187,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->UseItem(eInventorySlot::Key);
 			});
 		door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
-		room->InsertObject(door);
+		room3A02->InsertObject(door);
 
 
 		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
@@ -197,7 +197,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal1->SetPos(D3DXVECTOR3(18.5f, 0 ,4));
 		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
 		portal1->Setup();
-		room->InsertObject(portal1);
+		room3A02->InsertObject(portal1);
 
 		Portal * portal2 = new Portal(D3DXVECTOR3(1,0,0));
 		portal2->SetObjectName("portal2");
@@ -206,13 +206,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->SetPos(D3DXVECTOR3(18.5f, 0, 14));
 		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
 		portal2->Setup();
-		room->InsertObject(portal2);
+		room3A02->InsertObject(portal2);
 
+		int wallCnt = 0;
 
 		gJSON->LoadJSON("Resources/Json/wallTest.json");
 		Value& walls = gJSON->mDocument["wall"];
 		for (SizeType i = 0; i < walls.Size(); ++i)
 		{
+			D3DXVECTOR3 scale(1,1,1);
 			D3DXQUATERNION rotation(0, 0, 0, 0);
 			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
 			if (itrot != walls[i].MemberEnd())
@@ -222,6 +224,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 					walls[i]["rotation"]["y"].GetFloat(),
 					walls[i]["rotation"]["z"].GetFloat()
 				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			}
+
+			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+			if (itscale != walls[i].MemberEnd())
+			{
+				scale = D3DXVECTOR3(
+					walls[i]["scale"]["x"].GetFloat(),
+					walls[i]["scale"]["y"].GetFloat(),
+					walls[i]["scale"]["z"].GetFloat());
 			}
 
 			D3DXVECTOR3 ColliderScale(1.f,1.f,1.f);
@@ -234,33 +245,86 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 			}
 			
 			Static3DObject* wall = CreateStatic3DObject(
-				string("wall") + to_string(i),
+				string("wall") + to_string(wallCnt++),
 				walls[i]["sourceFileName"].GetString(),
 				{
 					walls[i]["position"]["x"].GetFloat(),
 					walls[i]["position"]["y"].GetFloat(),
 					walls[i]["position"]["z"].GetFloat()
 				},
+				scale,
 				ColliderScale,
 				rotation
 			);
-			
-			room->InsertObject(wall);
+			room3A02->InsertObject(wall);
 		}
+
+		gJSON->LoadJSON("Resources/Json/wallTest2.json");
+		walls = gJSON->mDocument["wall"];
+		for (SizeType i = 0; i < walls.Size(); ++i)
+		{
+			D3DXVECTOR3 scale(1, 1, 1);
+			D3DXQUATERNION rotation(0, 0, 0, 0);
+			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
+			if (itrot != walls[i].MemberEnd())
+			{
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
+					walls[i]["rotation"]["x"].GetFloat(),
+					walls[i]["rotation"]["y"].GetFloat(),
+					walls[i]["rotation"]["z"].GetFloat()
+				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			}
+
+			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+			if (itscale != walls[i].MemberEnd())
+			{
+				scale = D3DXVECTOR3(
+					walls[i]["scale"]["x"].GetFloat(),
+					walls[i]["scale"]["y"].GetFloat(),
+					walls[i]["scale"]["z"].GetFloat());
+			}
+
+			D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
+			Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
+			if (itcol != walls[i].MemberEnd())
+			{
+				ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
+				ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+				ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
+			}
+
+			Static3DObject* wall = CreateStatic3DObject(
+				string("wall") + to_string(wallCnt++),
+				walls[i]["sourceFileName"].GetString(),
+				{
+					walls[i]["position"]["x"].GetFloat(),
+					walls[i]["position"]["y"].GetFloat(),
+					walls[i]["position"]["z"].GetFloat()
+				},
+				scale,
+				ColliderScale,
+				rotation
+			);
+			room3A02->InsertObject(wall);
+		}
+
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
+
 	return newScene;
 }
 
-Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
+Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
+	D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
 {
 	Static3DObject* newStaticObject = new Static3DObject;
 	newStaticObject->SetObjectName(objectName);
 	newStaticObject->Setup("Resources/XFile/", sourceFileName);
 	newStaticObject->SetRot(rotation);
 	newStaticObject->SetPos(position);
-	
+	newStaticObject->SetScale(scale);
+
 	if ((colliderScale.x <= 0) || (colliderScale.y <= 0) || (colliderScale.z <= 0))
 	{
 	}
