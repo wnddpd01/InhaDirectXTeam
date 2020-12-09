@@ -73,9 +73,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-		Room * room = new Room;
-		room->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
-		newScene->mGameObjects.insert({ "room", room });
+		Room * room3A02 = new Room;
+		room3A02->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
+		newScene->mGameObjects.insert({ "room3A02", room3A02 });
 
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
@@ -89,7 +89,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		room->SetPlayer(player);
+		room3A02->SetPlayer(player);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		UIImage * uiImage = new UIImage("Resources/UI/Setting/Layer3.png", {12, 6}, 40, 24);
@@ -105,47 +105,109 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		uiImage->SetVisible(false);
 		newScene->mGameUIs.insert(make_pair("SettingLayer", uiImage));
 
-		UIImage * childuiImage = new UIImage("Resources/UI/Setting/Exit_off.png", {42, 26}, 6,2);
-		childuiImage->SetObjectName("ExitBtn");
+		UIImage * childUI = new UIImage("Resources/UI/Setting/Exit_off.png", {42, 26}, 6,2);
+		childUI->SetObjectName("ExitBtn");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.2f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.8f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
-		childuiImage->EventProcess = BtnSettingEventListen;
-		childuiImage->SetVisible(true);
-		uiImage->AddChild("ExitBtn", childuiImage);
+		childUI->EventProcess = BtnSettingEventListen;
+		childUI->SetVisible(true);
+		uiImage->AddChild("ExitBtn", childUI);
 
-		childuiImage = new UIImage("Resources/UI/Setting/BGM_off1.png", {16, 10} , 6,2);
-		childuiImage->SetObjectName("BGMBtn");
+		childUI = new UIImage("Resources/UI/Setting/BGM_off1.png", {16, 10} , 6,2);
+		childUI->SetObjectName("BGMText");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.25f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
-		childuiImage->EventProcess = BtnSettingEventListen;
-		childuiImage->SetVisible(true);
-		uiImage->AddChild("BGMBtn",childuiImage);
+		childUI->EventProcess = BtnSettingEventListen;
+		childUI->SetVisible(true);
+		uiImage->AddChild("BGMText",childUI);
 
-		childuiImage = new UIImage("Resources/UI/Setting/Lines1.png", {24, 10}, 16, 2);
-		childuiImage->SetObjectName("BGMLine");
+		childUI = new UIImage("Resources/UI/Setting/Lines1.png", {24, 10}, 16, 2);
+		childUI->SetObjectName("BGMLine");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.5f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
-		childuiImage->EventProcess = BtnSettingEventListen;
-		childuiImage->SetVisible(true);
-		uiImage->AddChild("BGMLine",childuiImage);
+		childUI->EventProcess = BtnSettingEventListen;
+		childUI->SetVisible(true);
+		uiImage->AddChild("BGMLine",childUI);
 
-		childuiImage = new UIImage("Resources/UI/Setting/Button01_1.png", {46 , 10} , 4,2);
-		childuiImage->SetObjectName("BGMSoundBtn");
+		childUI = new UIImage("Resources/UI/Setting/Button01_1.png", {46 , 10} , 4,2);
+		childUI->SetObjectName("BGMBtn");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.5f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
-		childuiImage->EventProcess = BtnSettingEventListen;
-		childuiImage->SetVisible(true);
-		uiImage->AddChild("BGMSoundBtn",childuiImage);
+		childUI->EventProcess = BtnSettingEventListen;
+		childUI->SetVisible(true);
+		uiImage->GetChildUI("BGMLine")->AddChild("BGMBtn", childUI);
 
-		childuiImage = new UIImage("Resources/UI/Setting/OptionText1.png", {22, 26} , 6,2);
-		childuiImage->SetObjectName("OptionText");
+		childUI = new UIImage("Resources/UI/Setting/Control_off.png", {16, 14} ,6 ,2);
+		childUI->SetObjectName("Control");
+		childUI->SetVisible(true);
+		uiImage->AddChild("Control", childUI);
+		
+		childUI = new UIImage("Resources/UI/Setting/OptionText1.png", {22, 26} , 6,2);
+		childUI->SetObjectName("OptionText");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.73f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.8f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
-		childuiImage->EventProcess = BtnSettingEventListen;
-		childuiImage->SetVisible(true);
-		uiImage->AddChild("OptionText",childuiImage);
+		childUI->EventProcess = BtnSettingEventListen;
+		childUI->SetVisible(true);
+		uiImage->AddChild("OptionText",childUI);
+
+		childUI = new UIImage("Resources/UI/Setting/Control.png", { 12, 6 }, 40, 24);
+		childUI->SetObjectName("ControlLayer");
+		/*childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.5f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.5f - childUI->GetHeight() * 0.5f, 0.0f));*/
+		childUI->SetVisible(false);
+		uiImage->AddChild("ControlLayer", childUI); 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		
+		/*UIImage * childUI = new UIImage("Resources/UI/Setting/Exit_off.png");
+		childUI->SetObjectName("ExitBtn");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.22f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.82f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(true);
+		uiImage->AddChild("ExitBtn", childUI);
+
+		childUI = new UIImage("Resources/UI/Setting/BGM_off1.png");
+		childUI->SetObjectName("BGMText");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.25f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.25f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(true);
+		uiImage->AddChild("BGMText", childUI);
+
+		childUI = new UIImage("Resources/UI/Setting/Lines1.png");
+		childUI->SetObjectName("BGMLine");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.5f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.25f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(true);
+		uiImage->AddChild("BGMLine", childUI);
+
+		UIImage* childUIBtn = new UIImage("Resources/UI/Setting/Button_set.png");
+		childUIBtn->SetObjectName("BGMBtn");
+		childUIBtn->SetPos(D3DXVECTOR3(childUI->GetPos().x + childUI->GetWidth()*0.4f,
+			childUI->GetPos().y - childUIBtn->GetHeight()*0.25f, 0.0f));
+		childUIBtn->SetVisible(true);
+		uiImage->GetChildUI("BGMLine")->AddChild("BGMBtn", childUIBtn);
+
+		childUI = new UIImage("Resources/UI/Setting/Control_off.png");
+		childUI->SetObjectName("Control");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.25f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.5f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(true);
+		uiImage->AddChild("Control", childUI);
+
+		childUI = new UIImage("Resources/UI/Setting/OptionText1.png");
+		childUI->SetObjectName("OptionText");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.73f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.8f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(true);
+		uiImage->AddChild("OptionText", childUI);
+
+		childUI = new UIImage("Resources/UI/Setting/Control.png");
+		childUI->SetObjectName("ControlLayer");
+		childUI->SetPos(D3DXVECTOR3(childUI->GetPos().x + viewPort.Width * 0.5f - childUI->GetWidth() * 0.5f,
+			childUI->GetPos().y + viewPort.Height * 0.5f - childUI->GetHeight() * 0.5f, 0.0f));
+		childUI->SetVisible(false);
+		uiImage->AddChild("ControlLayer", childUI);*/
+		// << : UI
 
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key1");
@@ -166,7 +228,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->AddItem(eInventorySlot::Key, key);
 			});
 		box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
-		room->InsertObject(box);
+		room3A02->InsertObject(box);
 
 		Interactable3DObject* door = new Interactable3DObject;
 		door->SetObjectName("door");
@@ -190,7 +252,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->UseItem(eInventorySlot::Key);
 			});
 		door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
-		room->InsertObject(door);
+		room3A02->InsertObject(door);
 
 
 		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
@@ -200,7 +262,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal1->SetPos(D3DXVECTOR3(18.5f, 0 ,4));
 		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
 		portal1->Setup();
-		room->InsertObject(portal1);
+		room3A02->InsertObject(portal1);
 
 		Portal * portal2 = new Portal(D3DXVECTOR3(1,0,0));
 		portal2->SetObjectName("portal2");
@@ -209,13 +271,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->SetPos(D3DXVECTOR3(18.5f, 0, 14));
 		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
 		portal2->Setup();
-		room->InsertObject(portal2);
+		room3A02->InsertObject(portal2);
 
+		int wallCnt = 0;
 
 		gJSON->LoadJSON("Resources/Json/wallTest.json");
 		Value& walls = gJSON->mDocument["wall"];
 		for (SizeType i = 0; i < walls.Size(); ++i)
 		{
+			D3DXVECTOR3 scale(1,1,1);
 			D3DXQUATERNION rotation(0, 0, 0, 0);
 			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
 			if (itrot != walls[i].MemberEnd())
@@ -225,6 +289,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 					walls[i]["rotation"]["y"].GetFloat(),
 					walls[i]["rotation"]["z"].GetFloat()
 				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			}
+
+			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+			if (itscale != walls[i].MemberEnd())
+			{
+				scale = D3DXVECTOR3(
+					walls[i]["scale"]["x"].GetFloat(),
+					walls[i]["scale"]["y"].GetFloat(),
+					walls[i]["scale"]["z"].GetFloat());
 			}
 
 			D3DXVECTOR3 ColliderScale(1.f,1.f,1.f);
@@ -237,33 +310,86 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 			}
 			
 			Static3DObject* wall = CreateStatic3DObject(
-				string("wall") + to_string(i),
+				string("wall") + to_string(wallCnt++),
 				walls[i]["sourceFileName"].GetString(),
 				{
 					walls[i]["position"]["x"].GetFloat(),
 					walls[i]["position"]["y"].GetFloat(),
 					walls[i]["position"]["z"].GetFloat()
 				},
+				scale,
 				ColliderScale,
 				rotation
 			);
-			
-			room->InsertObject(wall);
+			room3A02->InsertObject(wall);
 		}
+
+		gJSON->LoadJSON("Resources/Json/wallTest2.json");
+		walls = gJSON->mDocument["wall"];
+		for (SizeType i = 0; i < walls.Size(); ++i)
+		{
+			D3DXVECTOR3 scale(1, 1, 1);
+			D3DXQUATERNION rotation(0, 0, 0, 0);
+			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
+			if (itrot != walls[i].MemberEnd())
+			{
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
+					walls[i]["rotation"]["x"].GetFloat(),
+					walls[i]["rotation"]["y"].GetFloat(),
+					walls[i]["rotation"]["z"].GetFloat()
+				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			}
+
+			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+			if (itscale != walls[i].MemberEnd())
+			{
+				scale = D3DXVECTOR3(
+					walls[i]["scale"]["x"].GetFloat(),
+					walls[i]["scale"]["y"].GetFloat(),
+					walls[i]["scale"]["z"].GetFloat());
+			}
+
+			D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
+			Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
+			if (itcol != walls[i].MemberEnd())
+			{
+				ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
+				ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+				ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
+			}
+
+			Static3DObject* wall = CreateStatic3DObject(
+				string("wall") + to_string(wallCnt++),
+				walls[i]["sourceFileName"].GetString(),
+				{
+					walls[i]["position"]["x"].GetFloat(),
+					walls[i]["position"]["y"].GetFloat(),
+					walls[i]["position"]["z"].GetFloat()
+				},
+				scale,
+				ColliderScale,
+				rotation
+			);
+			room3A02->InsertObject(wall);
+		}
+
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
+
 	return newScene;
 }
 
-Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
+Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
+	D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
 {
 	Static3DObject* newStaticObject = new Static3DObject;
 	newStaticObject->SetObjectName(objectName);
 	newStaticObject->Setup("Resources/XFile/", sourceFileName);
 	newStaticObject->SetRot(rotation);
 	newStaticObject->SetPos(position);
-	
+	newStaticObject->SetScale(scale);
+
 	if ((colliderScale.x <= 0) || (colliderScale.y <= 0) || (colliderScale.z <= 0))
 	{
 	}

@@ -7,6 +7,16 @@ void TimeManager::Update()
 	mNewTime = GetCurTime();
 	mDeltaTime = mNewTime - mLastTime;
 	mLastTime = mNewTime;
+
+	timeStack += GetDeltaTime();
+	fpsCnt++;
+
+	if (timeStack > 1.f)
+	{
+		cout << "fps : " << fpsCnt << endl;
+		fpsCnt = 0;
+		timeStack = 0.f;
+	}
 }
 
 float TimeManager::GetDeltaTime()

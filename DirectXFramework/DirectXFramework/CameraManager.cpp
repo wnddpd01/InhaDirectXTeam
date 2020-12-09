@@ -46,6 +46,5 @@ void CameraManager::EndEventCamera()
 	gKeyboardInputManager->Abled();
 	gMouseInputManager->Abled();
 	
-
 	SAFE_DELETE(mEventCamera);
 }

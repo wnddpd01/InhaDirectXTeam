@@ -152,19 +152,77 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		eKeyName key = *(eKeyName*)parameter;
 		if (key == eKeyName::KEY_ESC)
 		{
-			isCalled *= -1;
+			isCalled *= -1;	
+		}	
+	}
+	break;
+	case eEventName::MOUSE_L_DOWN:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_on.png");
+			isClicked = true;
+		}
 
-			if (isCalled == 1)
+		if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_on.png");
+			isClicked = true;
+		}
+
+		if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_set.png");
+			isClicked = true;
+		}
+			
+			
+	}
+	break;
+	case eEventName::MOUSE_L_UP:
+	{
+		POINT mousePt = *(POINT*)(parameter);
+		isClicked = false;
+		if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt))
+		{
+			uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_off.png");
+			isCalled = -1;
+		}
+
+		if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
+		{
+			
+			uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_off.png");
+
+			for(pair<string, UIImage*> child : uiImageConvert->GetChildUI() )
 			{
-				uiImageConvert->SetVisible(true);
-				
-			}
-			else
-			{
-				uiImageConvert->SetVisible(false);
+				if(child.first == "ControlLayer")
+				{
+					child.second->SetVisible(true);
+				}
+				else
+				{
+					child.second->SetVisible(false);
+				}
 			}
 			
-		}	
+		}
+
+		if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetRectInViewPort(), mousePt))
+		{
+			UIImage*Line = uiImageConvert->GetChildUI("BGMLine");	
+			UIImage*Btn = uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn");
+			
+			int num = (mousePt.x- Line->GetPos().x )/ (Line->GetWidth()*0.1f);
+			LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
+			POINT pos = {x, Btn->GetPos().y};
+			Btn->SetPos(pos);
+			gSoundManager->Volume("BGM", num*0.1f);
+		}
+
+	
+
 	}
 	break;
 	case eEventName::MOUSE_MOVE:
@@ -179,9 +237,43 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 			else
 			{
 				uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_off.png");
-
 			}
 
+			if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_on.png");
+			}
+			else
+			{
+				uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_off.png");
+			}
+
+			if(PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->GetRectInViewPort(), mousePt))
+			{
+				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_click.png");
+			}
+			else
+			{
+				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_set.png");
+			}
+
+
+			
+		}
+		else
+		{
+
+			if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetRectInViewPort(), mousePt))
+			{
+				UIImage*Line = uiImageConvert->GetChildUI("BGMLine");
+				UIImage*Btn = uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn");
+
+				int num = (mousePt.x - Line->GetPos().x) / (Line->GetWidth()*0.1f);
+				LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
+				POINT pos = { x, Btn->GetPos().y };
+				Btn->SetPos(pos);
+				gSoundManager->Volume("BGM", num*0.1f);
+			}
 		}
 	}
 	break;
@@ -189,12 +281,27 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		break;
 	}
 
+
+	
 	if (isCalled == 1)
 	{
+		uiImageConvert->SetVisible(true);
 		return true;
 	}
 	else
 	{
+		for (pair<string, UIImage*> child : uiImageConvert->GetChildUI())
+		{
+			if (child.first == "ControlLayer")
+			{
+				child.second->SetVisible(false);
+			}
+			else
+			{
+				child.second->SetVisible(true);
+			}
+		}
+		uiImageConvert->SetVisible(false);
 		return false;
 	}
 	

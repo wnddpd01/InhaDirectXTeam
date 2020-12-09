@@ -3,16 +3,16 @@
 
 
 Camera::Camera()
-	: mCameraDistance(15.0f)
+	: mCameraDistance(75.0f)
 	, mLookAt(0, 0, 0)
 	, mUp(0, 1, 0)
 	, mRight(0, 0 ,0)
 	, mTarget(nullptr)
-	, mEye(0, 10, mCameraDistance)
+	, mEye(0, 50, mCameraDistance)
 	, mCamRotAngle(0, D3DX_PI * 0.25f, 0)
 	, bEventCamera(false)
 {
-	mStartPos = D3DXVECTOR3(0, 10, -mCameraDistance);
+	mStartPos = D3DXVECTOR3(0, 50, -mCameraDistance);
 }
 
 

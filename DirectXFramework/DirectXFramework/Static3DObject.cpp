@@ -73,7 +73,8 @@ void Static3DObject::Render()
 		case eTypeTag::DOOR :
 		case eTypeTag::ITEM :
 		{
-				gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
+				//gShader->GetInstance()->RenderWithOutLineShader(bind(&Static3DObject::RenderMesh, this));
+				RenderMesh();
 		}
 		break;
 		default:
