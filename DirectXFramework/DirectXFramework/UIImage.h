@@ -11,7 +11,7 @@ class UIImage :
 	map<string, UIImage*> mChildSprite;
 public:
 	D3DXMATRIXA16 mMatWorld;
-	UIImage(string texturePath);
+	UIImage(string texturePath, POINT pos, LONG width, LONG height);
 	virtual ~UIImage();
 
 	RECT GetDrawRect() const { return mDrawRect; }
