@@ -8,13 +8,11 @@
 ColliderChecker Room::mColliderChecker;
 
 Room::Room()
-	: mQuarterMap(nullptr)
 {
 }
 
 Room::~Room()
 {
-	SAFE_DELETE(mQuarterMap);
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		SAFE_DELETE(objectInRoom.second);
@@ -35,18 +33,11 @@ void Room::Update()
 
 void Room::Render()
 {
-	mQuarterMap->Render();
 	mPlayer->Render();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Render();
 	}
-}
-
-void Room::SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel)
-{
-	mQuarterMap = new QuarterMap;
-	mQuarterMap->Setup(szFolder, szRaw, szTex, dwBytesPerPixel);
 }
 
 void Room::InsertObject(Base3DObject* object)

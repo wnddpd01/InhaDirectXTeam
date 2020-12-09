@@ -14,7 +14,6 @@ public :
 	~Room();
 	void Update() override;
 	void Render() override;
-	void SetupQuarterMap(char* szFolder, char* szRaw, char* szTex, DWORD dwBytesPerPixel = 1);
 	void SetPlayer(Player* player) { mPlayer = player; }
 	void InsertObject(Base3DObject * object);
 	void DeleteObject(string& name);
@@ -23,7 +22,6 @@ private:
 protected:
 private:
 	static ColliderChecker mColliderChecker;
-	QuarterMap* mQuarterMap;
 	Player* mPlayer;
 	map<string, Base3DObject*> mObjectsInRoom;
 };

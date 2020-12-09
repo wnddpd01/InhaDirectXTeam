@@ -38,6 +38,7 @@
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomCenter.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="RoomCenter.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
@@ -118,10 +120,6 @@
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WalkCharacterState.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
