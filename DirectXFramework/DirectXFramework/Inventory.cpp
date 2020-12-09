@@ -106,22 +106,19 @@
 
 Inventory::Inventory()
 {
-	mUISlotImage[Recovery] = new UIImage("Resources/UI/Inventory.png");
+	mUISlotImage[Recovery] = new UIImage("Resources/UI/Inventory.png", {1, 1}, 4, 4);
 	mUISlotImage[Recovery]->SetObjectName("inventory");
-	mUISlotImage[Recovery]->SetPos(D3DXVECTOR3(mUISlotImage[Recovery]->GetPos().x, mUISlotImage[Recovery]->GetPos().y, 0.0f));
 	mUISlotImage[Recovery]->SetVisible(true);
 
-	mUISlotImage[Useful] = new UIImage("Resources/UI/Inventory.png");
+	mUISlotImage[Useful] = new UIImage("Resources/UI/Inventory.png", {6, 1}, 4, 4);
 	mUISlotImage[Useful]->SetObjectName("inventory2");
-	mUISlotImage[Useful]->SetPos(D3DXVECTOR3(mUISlotImage[Useful]->GetPos().x + mUISlotImage[Useful]->GetWidth(), mUISlotImage[Useful]->GetPos().y, 0.0f));
 	mUISlotImage[Useful]->SetVisible(true);
 
-	mUISlotImage[Key] = new UIImage("Resources/UI/Inventory.png");
+	mUISlotImage[Key] = new UIImage("Resources/UI/Inventory.png", {11, 1}, 4, 4);
 	mUISlotImage[Key]->SetObjectName("inventory3");
-	mUISlotImage[Key]->SetPos(D3DXVECTOR3(mUISlotImage[Key]->GetPos().x + mUISlotImage[Key]->GetWidth() * 2.f, mUISlotImage[Key]->GetPos().y, 0.0f));
 	mUISlotImage[Key]->SetVisible(true);
 
-	mItemUIImageMap["key1"] = new UIImage("Resources/item/key.png");
+	mItemUIImageMap["key1"] = new UIImage("Resources/item/key.png", {0, 0}, 4, 4);
 	mItemUIImageMap["key1"]->SetObjectName("key1UIImage");
 }
 

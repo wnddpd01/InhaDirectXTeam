@@ -32,8 +32,7 @@ Player::Player()
 	mDrawFontArea.right = mDrawFontArea.left + viewPort.Width * 0.3f;
 	mDrawFontArea.right = mDrawFontArea.left + viewPort.Height * 0.1f;
 
-	mInteractingObjectMark = new UIImage(string("Resources/UI/InteractMark.png"));
-	mInteractingObjectMark->SetPos(D3DXVECTOR3(0, 10, 0));
+	mInteractingObjectMark = new UIImage(string("Resources/UI/InteractMark.png"), {0, 0}, 5, 5);
 	mInteractingObjectMark->SetVisible(true);
 }
 
@@ -67,11 +66,15 @@ void Player::DrawMark()
 	D3DXMatrixIdentity(&matWorld);
 	gD3Device->GetViewport(&viewPort);
 	D3DXVECTOR3 markPos = mInteractingObject->GetPos();
+	markPos.y += mInteractingObject->GetScale().y * 0.5f;
 	D3DXVec3Project(&markPos, &markPos, &viewPort, &matProj, &matView, &matWorld);
 	markPos.z = 0;
-	markPos.y -= mInteractingObjectMark->GetWidth() * 0.5f + viewPort.Height * 0.2f;
+	markPos.y -= mInteractingObjectMark->GetHeight() * 0.5f + viewPort.Height * 0.05f;
 	markPos.x -= mInteractingObjectMark->GetWidth() * 0.5f;
-	mInteractingObjectMark->SetPos(markPos);
+	POINT markPosPoint;
+	markPosPoint.x = markPos.x;
+	markPosPoint.y = markPos.y;
+	mInteractingObjectMark->SetPos(markPosPoint);
 	mInteractingObjectMark->Render();
 }
 
@@ -186,14 +189,14 @@ bool Player::Update(eEventName eventName, void* parameter)
 
 					mRot = quatRot;
 				}
-
 			}
+			return true;
 			break;
 		default:
 			break;
 	}
 
-	return true;
+	return false;
 }
 
 void Player::AddItem(eInventorySlot slot, Base3DObject* item)

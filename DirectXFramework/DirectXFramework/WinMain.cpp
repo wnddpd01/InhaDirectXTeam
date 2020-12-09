@@ -82,7 +82,7 @@ bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windo
 		return false;
 	}
 
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPED | WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_EX_TOPMOST | WS_POPUP,
 	                      (GetSystemMetrics(SM_CXSCREEN) - windowWidth) / 2,
 	                      (GetSystemMetrics(SM_CYSCREEN) - windowHeight) / 2,
 	                      windowWidth, windowHeight, nullptr, nullptr, hIns, nullptr);

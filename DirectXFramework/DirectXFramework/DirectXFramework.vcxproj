@@ -64,6 +64,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="UICellGrid.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -111,9 +112,14 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="UIBase.h" />
+    <ClInclude Include="UICellGrid.h" />
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WalkCharacterState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

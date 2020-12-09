@@ -37,7 +37,7 @@ namespace  std
 		if (item)
 		{
 			delete item;
-			item = NULL;
+			item = nullptr;
 		}
 	}
 }

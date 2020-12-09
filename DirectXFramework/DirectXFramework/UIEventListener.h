@@ -216,8 +216,8 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 			
 			int num = (mousePt.x- Line->GetPos().x )/ (Line->GetWidth()*0.1f);
 			LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
-			
-			Btn->SetPos(D3DXVECTOR3(x, Btn->GetPos().y, 0));
+			POINT pos = {x, Btn->GetPos().y};
+			Btn->SetPos(pos);
 			gSoundManager->Volume("BGM", num*0.1f);
 		}
 
@@ -270,8 +270,8 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 
 				int num = (mousePt.x - Line->GetPos().x) / (Line->GetWidth()*0.1f);
 				LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
-
-				Btn->SetPos(D3DXVECTOR3(x, Btn->GetPos().y, 0));
+				POINT pos = { x, Btn->GetPos().y };
+				Btn->SetPos(pos);
 				gSoundManager->Volume("BGM", num*0.1f);
 			}
 		}

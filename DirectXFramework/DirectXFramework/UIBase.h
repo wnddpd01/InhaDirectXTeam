@@ -2,16 +2,22 @@
 #include "BaseObject.h"
 #include "BaseObserver.h"
 
+#define HORIZONTAL_CELL_NUM 64
+#define VERTICAL_CELL_NUM 36
+
 class UIBase :
 	public BaseObject, public BaseObserver
 {
 protected:
-	D3DXVECTOR3 mPos;
+	/*D3DXVECTOR3 mPos;
 	float		mWidth;
-	float		mHeight;
+	float		mHeight;*/
+	POINT		mPos;
+	LONG		mWidth;
+	LONG		mHeight;
 	bool		mbVisible;
 public:
-	D3DXVECTOR3 GetPos() const
+	/*D3DXVECTOR3 GetPos() const
 	{
 		return mPos;
 	}
@@ -41,9 +47,18 @@ public:
 	void SetHeight(float m_height)
 	{
 		mHeight = m_height;
-	}
+	}*/
 
 
+	POINT GetPos() { return mPos; }
+	void SetPos(POINT& pos) { mPos = pos; }
+
+	LONG GetWidth() { return mWidth; }
+	void SetWidth(LONG& width) { mWidth = width; }
+
+	LONG GetHeight() { return mHeight; }
+	void SetHeight(LONG& height) { mHeight = height; }
+	
 	bool IsVisible() const
 	{
 		return mbVisible;
