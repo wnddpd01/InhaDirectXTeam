@@ -44,7 +44,6 @@ void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 
 void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 {
-
 	//D3DXVECTOR4	gWorldLightPosition = D3DXVECTOR4(500.0f, 500.0f, -500.0f, 1.0f);
 	//D3DXVECTOR4	gSurfaceColor = D3DXVECTOR4(0, 1, 0, 1);
 	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matWVP, matViewInvTrans, matWorldViewInverse;
@@ -61,6 +60,7 @@ void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
 
 	mShaders["OutLine"]->SetMatrix("gWorldViewProj", &matWVP);
 	mShaders["OutLine"]->SetFloat("gOutlineWidth", 0.1f);
+	mShaders["OutLine"]->SetTexture("DiffuseMap_Tex", mTexA1);
 	/*
 	mShaders["OutLine"]->SetMatrix("matViewInverseTranspose", &matViewInvTrans);
 	mShaders["OutLine"]->SetMatrix("matProjection", &matProjection);
@@ -309,6 +309,7 @@ LPDIRECT3DTEXTURE9 ShaderManager::LoadTexture(const char* filename)
 
 void ShaderManager::LoadAllShader()
 {
+	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
 	mShaders["Toon"]		= LoadShader("Resources/Shader/ToonShader.fx");
 	mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
 	mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");

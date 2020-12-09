@@ -13,6 +13,8 @@
 #include "Interactable3DObject.h"
 #include "Inventory.h"
 #include "UICellGrid.h"
+#include "Door.h"
+
 SceneFactory::SceneFactory()
 {
 }
@@ -273,12 +275,25 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room3A02->InsertObject(portal2);
 
-
+		LoadWallfromJson("Resources/Json/wall3A01.json", room3A02);
 		LoadWallfromJson("Resources/Json/wall3A02.json", room3A02);
 		LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
 		LoadWallfromJson("Resources/Json/wall3A04.json", room3A02);
+		LoadWallfromJson("Resources/Json/wall3A06.json", room3A02);
 		LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
+
 		
+		Door* tempDoor = new Door;
+		tempDoor->SetObjectName("tempDoor");
+		tempDoor->Setup("Resources/XFile/", "newDoor.x");
+		tempDoor->SetRot(D3DXQUATERNION(0,0,0,1));
+		tempDoor->SetPos(D3DXVECTOR3(25.f,1.5f,18.5f));
+		tempDoor->SetScale(D3DXVECTOR3(0.65f, 1.f, 0.5f));
+		tempDoor->AddColliderCube("basicColliderCube");
+		tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f,3.f,0.5f);
+		tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
+
+		room3A02->InsertObject(tempDoor);
 		
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();

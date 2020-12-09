@@ -32,7 +32,7 @@ void CameraManager::SetArcCamera(float period, D3DXVECTOR3* tragetPos, D3DXVECTO
 		mEventCamera->SetCameraDistance(D3DXVec3Length(&(*tragetPos - startingPos)));
 		mEventCamera->SetStartPos(startingPos);
 
-		mEventCamera->SetupPre();
+		mEventCamera->Setup();
 
 		gCameraManager->SetCamera(mEventCamera);
 	}

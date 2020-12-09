@@ -8,7 +8,7 @@ class ShaderManager : public Singleton<ShaderManager>
 {
 private:
 	map<string, LPD3DXEFFECT>		mShaders;
-	
+	LPDIRECT3DTEXTURE9				mTexA1;
 public:
 	void LoadAllShader();
 	LPD3DXEFFECT LoadShader(const char* filename);

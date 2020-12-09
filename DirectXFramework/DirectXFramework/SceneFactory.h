@@ -19,7 +19,7 @@ public:
 		D3DXVECTOR3	position, 
 		D3DXVECTOR3 scale,
 		D3DXVECTOR3 colliderScale,
-		D3DXQUATERNION rotation = D3DXQUATERNION(0,0,0,0),
+		D3DXQUATERNION rotation = D3DXQUATERNION(0,0,0,1),
 		string colliderName = "basicColliderCube");
 
 	void LoadWallfromJson(string fileName, Room* targetRoom);
