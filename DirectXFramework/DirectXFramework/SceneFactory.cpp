@@ -73,23 +73,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-		Room * room3A02 = new Room;
-		room3A02->SetupQuarterMap("HeightMapData/", "HeightMap.raw", "StoneTiles.jpg");
-		newScene->mGameObjects.insert({ "room3A02", room3A02 });
 
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
-
-		Player* player = new Player;
-		player->AddColliderCube("playerCubeCollider");
-		player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
-		player->Setup();
-		player->SetObjectName("player");
-		newScene->mCamera->SetTarget(player->GetPosRef());
-		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
-		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
-		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		room3A02->SetPlayer(player);
 
 		//>> : UI
 		UIImage * uiImage = new UIImage("Resources/UI/Setting/Layer.png", {12, 6}, 40, 24);
@@ -143,6 +129,20 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		childUI->SetVisible(false);
 		uiImage->AddChild("ReturnBtn", childUI);
 		//<< : UI
+
+		Room * room3A02 = new Room;
+		newScene->mGameObjects.insert({ "room3A02", room3A02 });
+
+		Player* player = new Player;
+		player->AddColliderCube("playerCubeCollider");
+		player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
+		player->Setup();
+		player->SetObjectName("player");
+		newScene->mCamera->SetTarget(player->GetPosRef());
+		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
+		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
+		room3A02->SetPlayer(player);
 
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key1");

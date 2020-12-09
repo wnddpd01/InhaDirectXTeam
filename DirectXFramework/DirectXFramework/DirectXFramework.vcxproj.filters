@@ -170,6 +170,9 @@
     <ClCompile Include="UICellGrid.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="RoomCenter.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -308,9 +311,8 @@
     <ClInclude Include="UICellGrid.h">
       <Filter>UI</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="cpp.hint" />
+    <ClInclude Include="RoomCenter.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
