@@ -50,7 +50,7 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-#define ORTHO_WIDTH 24.f
+#define ORTHO_WIDTH 36.f
 
 struct Vertex
 {

@@ -22,6 +22,7 @@ Player::Player()
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 
 	mPos = { 8.f, 0.f, 8.f };
+	mScale = { 2.f,2.f, 2.f };
 	
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);

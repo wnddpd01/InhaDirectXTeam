@@ -208,106 +208,13 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room3A02->InsertObject(portal2);
 
-		int wallCnt = 0;
 
-		gJSON->LoadJSON("Resources/Json/wallTest.json");
-		Value& walls = gJSON->mDocument["wall"];
-		for (SizeType i = 0; i < walls.Size(); ++i)
-		{
-			D3DXVECTOR3 scale(1,1,1);
-			D3DXQUATERNION rotation(0, 0, 0, 0);
-			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
-			if (itrot != walls[i].MemberEnd())
-			{
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
-					walls[i]["rotation"]["x"].GetFloat(),
-					walls[i]["rotation"]["y"].GetFloat(),
-					walls[i]["rotation"]["z"].GetFloat()
-				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
-			}
-
-			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
-			if (itscale != walls[i].MemberEnd())
-			{
-				scale = D3DXVECTOR3(
-					walls[i]["scale"]["x"].GetFloat(),
-					walls[i]["scale"]["y"].GetFloat(),
-					walls[i]["scale"]["z"].GetFloat());
-			}
-
-			D3DXVECTOR3 ColliderScale(1.f,1.f,1.f);
-			Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
-			if (itcol != walls[i].MemberEnd())
-			{
-				ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
-				ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
-				ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
-			}
-			
-			Static3DObject* wall = CreateStatic3DObject(
-				string("wall") + to_string(wallCnt++),
-				walls[i]["sourceFileName"].GetString(),
-				{
-					walls[i]["position"]["x"].GetFloat(),
-					walls[i]["position"]["y"].GetFloat(),
-					walls[i]["position"]["z"].GetFloat()
-				},
-				scale,
-				ColliderScale,
-				rotation
-			);
-			room3A02->InsertObject(wall);
-		}
-
-		gJSON->LoadJSON("Resources/Json/wallTest2.json");
-		walls = gJSON->mDocument["wall"];
-		for (SizeType i = 0; i < walls.Size(); ++i)
-		{
-			D3DXVECTOR3 scale(1, 1, 1);
-			D3DXQUATERNION rotation(0, 0, 0, 0);
-			Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
-			if (itrot != walls[i].MemberEnd())
-			{
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
-					walls[i]["rotation"]["x"].GetFloat(),
-					walls[i]["rotation"]["y"].GetFloat(),
-					walls[i]["rotation"]["z"].GetFloat()
-				), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
-			}
-
-			Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
-			if (itscale != walls[i].MemberEnd())
-			{
-				scale = D3DXVECTOR3(
-					walls[i]["scale"]["x"].GetFloat(),
-					walls[i]["scale"]["y"].GetFloat(),
-					walls[i]["scale"]["z"].GetFloat());
-			}
-
-			D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
-			Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
-			if (itcol != walls[i].MemberEnd())
-			{
-				ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
-				ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
-				ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
-			}
-
-			Static3DObject* wall = CreateStatic3DObject(
-				string("wall") + to_string(wallCnt++),
-				walls[i]["sourceFileName"].GetString(),
-				{
-					walls[i]["position"]["x"].GetFloat(),
-					walls[i]["position"]["y"].GetFloat(),
-					walls[i]["position"]["z"].GetFloat()
-				},
-				scale,
-				ColliderScale,
-				rotation
-			);
-			room3A02->InsertObject(wall);
-		}
-
+		LoadWallfromJson("Resources/Json/wall3A02.json", room3A02);
+		LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
+		LoadWallfromJson("Resources/Json/wall3A04.json", room3A02);
+		LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
+		
+		
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
@@ -339,4 +246,58 @@ Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string so
 	}
 
 	return newStaticObject;
+}
+
+void SceneFactory::LoadWallfromJson(string fileName, Room* targetRoom)
+{
+	static int wallCnt = 0;
+
+	gJSON->LoadJSON(fileName);
+	Value& walls = gJSON->mDocument["wall"];
+	for (SizeType i = 0; i < walls.Size(); ++i)
+	{
+		D3DXVECTOR3 scale(1, 1, 1);
+		D3DXQUATERNION rotation(0, 0, 0, 0);
+		Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
+		if (itrot != walls[i].MemberEnd())
+		{
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
+				walls[i]["rotation"]["x"].GetFloat(),
+				walls[i]["rotation"]["y"].GetFloat(),
+				walls[i]["rotation"]["z"].GetFloat()
+			), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+		}
+
+		Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+		if (itscale != walls[i].MemberEnd())
+		{
+			scale = D3DXVECTOR3(
+				walls[i]["scale"]["x"].GetFloat(),
+				walls[i]["scale"]["y"].GetFloat(),
+				walls[i]["scale"]["z"].GetFloat());
+		}
+
+		D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
+		Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
+		if (itcol != walls[i].MemberEnd())
+		{
+			ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
+			ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+			ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
+		}
+
+		Static3DObject* wall = CreateStatic3DObject(
+			string("wall") + to_string(wallCnt++),
+			walls[i]["sourceFileName"].GetString(),
+			{
+				walls[i]["position"]["x"].GetFloat(),
+				walls[i]["position"]["y"].GetFloat(),
+				walls[i]["position"]["z"].GetFloat()
+			},
+			scale,
+			ColliderScale,
+			rotation
+		);
+		targetRoom->InsertObject(wall);
+	}
 }
