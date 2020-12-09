@@ -129,7 +129,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		childUI->SetVisible(true);
 		uiImage->AddChild("BGMLine",childUI);
 
-		childUI = new UIImage("Resources/UI/Setting/Button01_1.png", {46 , 10} , 4,2);
+		childUI = new UIImage("Resources/UI/Setting/Button01_1.png", {30 , 10} , 4,2);
 		childUI->SetObjectName("BGMBtn");
 		/*childuiImage->SetPos(D3DXVECTOR3(childuiImage->GetPos().x + viewPort.Width * 0.5f - childuiImage->GetWidth() * 0.5f,
 			childuiImage->GetPos().y + viewPort.Height * 0.25f - childuiImage->GetHeight() * 0.5f, 0.0f));*/
