@@ -5,6 +5,7 @@
 #include "QuarterMap.h"
 #include "Player.h"
 #include "Static3DObject.h"
+#include "RoomCenter.h"
 #include "Room.h"
 #include "CollideHandle.h"
 #include "Portal.h"
@@ -75,7 +76,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	}
 	else if(eSceneName == eSceneName::INGAME_SCENE)
 	{
-
 		D3DVIEWPORT9 viewPort;
 		gD3Device->GetViewport(&viewPort);
 
@@ -131,9 +131,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		childUI->SetVisible(false);
 		uiImage->AddChild("ReturnBtn", childUI);
 		//<< : UI
-
-		Room * room3A02 = new Room;
-		newScene->mGameObjects.insert({ "room3A02", room3A02 });
+		RoomCenter* roomCenter = new RoomCenter;
+		roomCenter->SetObjectName("RoomCenter");
+		newScene->mGameObjects.insert(make_pair("RoomCenter", roomCenter));
 
 		Player* player = new Player;
 		player->AddColliderCube("playerCubeCollider");
@@ -144,7 +144,12 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
-		room3A02->SetPlayer(player);
+		roomCenter->SetPlayer(player);
+		newScene->mGameObjects.insert(make_pair("player", player));
+		
+		Room * room2A02 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
+		roomCenter->SetCurRoom(eRoomName::R2A02);
 
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key1");
@@ -165,7 +170,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->AddItem(eInventorySlot::Key, key);
 			});
 		box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
-		room3A02->InsertObject(box);
+		room2A02->InsertObject(box);
 
 		Interactable3DObject* door = new Interactable3DObject;
 		door->SetObjectName("door");
@@ -189,7 +194,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 				player->UseItem(eInventorySlot::Key);
 			});
 		door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
-		room3A02->InsertObject(door);
+		room2A02->InsertObject(door);
 
 
 		Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
@@ -199,7 +204,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal1->SetPos(D3DXVECTOR3(18.5f, 0 ,4));
 		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
 		portal1->Setup();
-		room3A02->InsertObject(portal1);
+		room2A02->InsertObject(portal1);
 
 		Portal * portal2 = new Portal(D3DXVECTOR3(1,0,0));
 		portal2->SetObjectName("portal2");
@@ -208,14 +213,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->SetPos(D3DXVECTOR3(18.5f, 0, 14));
 		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
 		portal2->Setup();
-		room3A02->InsertObject(portal2);
+		room2A02->InsertObject(portal2);
 
-		LoadWallfromJson("Resources/Json/wall3A01.json", room3A02);
-		LoadWallfromJson("Resources/Json/wall3A02.json", room3A02);
-		LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
-		LoadWallfromJson("Resources/Json/wall3A04.json", room3A02);
-		LoadWallfromJson("Resources/Json/wall3A06.json", room3A02);
-		LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
+		//("Resources/Json/wall3A01.json", room2A02);
+		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
+		//LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
+		
+		//LoadWallfromJson("Resources/Json/wall3A04.json", room3A02);
+		//LoadWallfromJson("Resources/Json/wall3A06.json", room3A02);
+		//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
 
 		
 		Door* tempDoor = new Door;
@@ -227,8 +233,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		tempDoor->AddColliderCube("basicColliderCube");
 		tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f,3.f,0.5f);
 		tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
-
-		room3A02->InsertObject(tempDoor);
+		room2A02->InsertObject(tempDoor);
 		
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();

@@ -12,9 +12,10 @@ class Room :
 public :
 	Room();
 	~Room();
-	void Update() override;
+	//void Update() override;
+	void Update(Player* player);
 	void Render() override;
-	void SetPlayer(Player* player) { mPlayer = player; }
+	//void SetPlayer(Player* player) { mPlayer = player; }
 	void InsertObject(Base3DObject * object);
 	void DeleteObject(string& name);
 protected:
@@ -22,7 +23,7 @@ private:
 protected:
 private:
 	static ColliderChecker mColliderChecker;
-	Player* mPlayer;
+	//Player* mPlayer;
 	map<string, Base3DObject*> mObjectsInRoom;
 };
 

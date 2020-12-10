@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RoomCenter.h"
+#include "Room.h"
 
 
 RoomCenter::RoomCenter()
@@ -12,4 +13,14 @@ RoomCenter::RoomCenter()
 
 RoomCenter::~RoomCenter()
 {
+}
+
+void RoomCenter::Update()
+{
+	mCurRoom->Update(mPlayer);
+}
+
+void RoomCenter::Render()
+{
+	mCurRoom->Render();
 }

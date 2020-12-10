@@ -55,6 +55,7 @@ public:
 	{
 		mMoveVelocity = moveVelocity;
 	}
+	void SetInteractingObject(Base3DObject* interactObject) { mInteractingObject = interactObject; }
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
 
 #pragma endregion

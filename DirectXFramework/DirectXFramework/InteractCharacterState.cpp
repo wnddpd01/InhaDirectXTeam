@@ -45,6 +45,7 @@ CharacterState* InteractCharacterState::Update(Player& player)
 		//player.GetInteractingObject()->DeleteInRoom(player.GetInteractingObject()->GetObjectName());
 		Interactable3DObject* interactable3DObject = (Interactable3DObject *)player.GetInteractingObject();
 		interactable3DObject->TryInteraction();
+		player.SetInteractingObject(nullptr);
 		return new IdleCharacterState;
 	}
 	return nullptr;
