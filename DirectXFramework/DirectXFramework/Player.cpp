@@ -123,15 +123,8 @@ void Player::Update()
 		
 	}
 	m_pSkinnedMesh->Update();
-
-	if (mInteractingObject != nullptr)
-	{
-		mInteractingObject = nullptr;
-	}
-
-	Base3DObject::Update();
-
 	mInventory.Update();
+	Base3DObject::Update();
 }
 
 void Player::Render()
@@ -155,7 +148,6 @@ void Player::Render()
 
 bool Player::Update(eEventName eventName, void* parameter)
 {
-
 	switch (eventName)
 	{
 		case eEventName::KEY_DOWN:

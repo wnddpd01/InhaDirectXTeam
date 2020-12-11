@@ -3,8 +3,8 @@
 #include "Scene.h"
 #include "MouseInputManager.h"
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1920,
-                    UINT windowHeight = 1080);
+bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1600,
+                    UINT windowHeight = 900);
 HWND hWnd;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hIns,

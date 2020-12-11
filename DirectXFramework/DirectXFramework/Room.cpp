@@ -20,20 +20,29 @@ Room::~Room()
 	mObjectsInRoom.clear();
 }
 
-void Room::Update()
+void Room::Update(Player* player)
 {
-	mPlayer->Update();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Update();
 	}
-	mColliderChecker.CheckCollider(mPlayer, mObjectsInRoom);
-	mPlayer->ProcessCollisionEventQueue();
+	mColliderChecker.CheckCollider(player, mObjectsInRoom);
+	player->ProcessCollisionEventQueue();
 }
+
+//void Room::Update()
+//{
+//	mPlayer->Update();
+//	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
+//	{
+//		objectInRoom.second->Update();
+//	}
+//	mColliderChecker.CheckCollider(mPlayer, mObjectsInRoom);
+//	mPlayer->ProcessCollisionEventQueue();
+//}
 
 void Room::Render()
 {
-	mPlayer->Render();
 	for (map<string, Base3DObject*>::value_type objectInRoom : mObjectsInRoom)
 	{
 		objectInRoom.second->Render();
