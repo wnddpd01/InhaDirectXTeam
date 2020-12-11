@@ -22,7 +22,7 @@ Player::Player()
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 
 	mPos = { 8.f, 0.f, 8.f };
-	mScale = { 2.f,2.f, 2.f };
+	mScale = { 2.f, 2.f, 2.f };
 	
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
@@ -52,7 +52,7 @@ void Player::ChangeState(CharacterState* nextState)
 {
 	SAFE_DELETE(mCurState);
 	mCurState = nextState;
-	mCurState->Enter(*this);
+ 	mCurState->Enter(*this);
 }
 
 void Player::DrawMark()
@@ -83,12 +83,10 @@ void Player::MoveBack()
 	mPos = mPrevPos;
 }
 
-
-
 void Player::Setup()
 {
 	Base3DObject::Setup();
-	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "zealot.X");
+	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "Zealot.X");
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	
 	mCurState = new IdleCharacterState;
@@ -99,8 +97,6 @@ void Player::Setup()
 
 void Player::Update()
 {	
-
-	
 	//카메라 무빙 테스트용 코드 (추후삭제)
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
