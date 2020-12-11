@@ -75,6 +75,8 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		pMeshData->pMesh->UnlockVertexBuffer();
 	}
 	
+	cout << pMeshData->pMesh->GetFVF() << endl;
+
 	pMeshData->pMesh->CloneMeshFVF(
 		pMeshData->pMesh->GetOptions(),
 		pMeshData->pMesh->GetFVF(),

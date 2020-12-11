@@ -73,10 +73,12 @@ CharacterState* IdleCharacterState::Update(Player& player)
 	{
 		return new WalkCharacterState;
 	}
+
 	if(mbAnimationChanged == false && GetTickCount() - idleStartTime > 50)
 	{
 		mbAnimationChanged = true;
 		player.GetSkinnedMesh()->SetAnimationIndexBlend(4);
 	}
+
 	return nullptr;
 }

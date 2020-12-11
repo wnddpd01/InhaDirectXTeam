@@ -164,7 +164,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		box->AddColliderCube("basicColliderCube");
 		box->Setup("Resources/XFile/", "DeathDropBox.X");
 		box->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
-		box->SetPos(D3DXVECTOR3(16,0,10));
+		box->SetPos(D3DXVECTOR3(16,0,135));
 		box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
 		box->SetIsInteractable(true);
 		box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
@@ -179,7 +179,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		door->SetObjectName("door");
 		door->AddColliderCube("basicColliderCube");
 		door->Setup("Resources/XFile/", "Door.x", eTypeTag::DOOR);
-		door->SetPos(D3DXVECTOR3(3, 1.5, 9));
+		door->SetPos(D3DXVECTOR3(3, 1.5, 135));
 		door->SetIsInteractable(true);
 		door->AddInteractionCondition([=]()->bool
 			{
@@ -204,8 +204,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal1->SetObjectName("portal1");
 		portal1->AddColliderCube("portal1ColliderCube");
 		portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-		portal1->SetPos(D3DXVECTOR3(18.5f, 0 ,4));
-		portal1->SetExitPos(D3DXVECTOR3(18, 0,14));
+		portal1->SetPos(D3DXVECTOR3(25, 0 ,121.5));
+		portal1->SetExitPos(D3DXVECTOR3(25, 0, 143.5));
 		portal1->Setup();
 		room2A02->InsertObject(portal1);
 
@@ -213,17 +213,17 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->SetObjectName("portal2");
 		portal2->AddColliderCube("portal2ColliderCube");
 		portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-		portal2->SetPos(D3DXVECTOR3(18.5f, 0, 14));
-		portal2->SetExitPos(D3DXVECTOR3(18, 0, 4));
+		portal2->SetPos(D3DXVECTOR3(25, 0, 143.5));
+		portal2->SetExitPos(D3DXVECTOR3(25, 0, 121.5));
 		portal2->Setup();
 		room2A02->InsertObject(portal2);
 
 		LoadWallfromJson("Resources/Json/wall3A01.json", room2A01);
 		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
-		//LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
-		
-		//LoadWallfromJson("Resources/Json/wall3A04.json", room3A02);
-		//LoadWallfromJson("Resources/Json/wall3A06.json", room3A02);
+		/*LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
+		LoadWallfromJson("Resources/Json/wall3A04.json", room2A02);
+		LoadWallfromJson("Resources/Json/wall3A06.json", room2A02);*/
+
 		//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
 
 		
@@ -236,8 +236,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		tempDoor->AddColliderCube("basicColliderCube");
 		tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f,3.f,0.5f);
 		tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
+
 		room2A02->InsertObject(tempDoor);
-		
+
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
