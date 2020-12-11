@@ -35,6 +35,8 @@ UIImage::~UIImage()
 	{
 		SAFE_DELETE(child.second);
 	}
+
+
 }
 
 void UIImage::Render()
@@ -59,8 +61,9 @@ void UIImage::Render()
 
 }
 
-void UIImage::AddChild(string UIname,UIImage* child)
+void UIImage::AddChild(string UIname, UIImage* child)
 {
-	mChildSprite.insert(make_pair(UIname,child));
+	mChildSprite.insert(make_pair(UIname, child));
 }
+
 

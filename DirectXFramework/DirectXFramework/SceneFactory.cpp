@@ -88,16 +88,21 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 0, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 0, uiImage);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 0, uiImage);
+		newScene->AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 0, uiImage);
 		uiImage->SetVisible(false);
 		newScene->mGameUIs.insert(make_pair("SettingLayer", uiImage));
 
 		UIImage * childUI = new UIImage("Resources/UI/Setting/Exit_off.png", { 14, 28 }, 4, 1);
 		childUI->SetObjectName("ExitBtn");
+		childUI->SetUIPath("Resources/UI/Setting/Exit_off.png",eStateUI::off);
+		childUI->SetUIPath("Resources/UI/Setting/Exit_on.png", eStateUI::on);
 		childUI->SetVisible(true);
 		uiImage->AddChild("ExitBtn", childUI);
 
 		childUI = new UIImage("Resources/UI/Setting/BGM_off.png", {16, 10} , 6,2);
 		childUI->SetObjectName("BGMText");
+		childUI->SetUIPath("Resources/UI/Setting/BGM_off.png", eStateUI::off);
+		childUI->SetUIPath("Resources/UI/Setting/BGM_on.png", eStateUI::on);
 		childUI->SetVisible(true);
 		uiImage->AddChild("BGMText",childUI);
 
@@ -108,11 +113,15 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		childUI = new UIImage("Resources/UI/Setting/Button_set.png", {30 , 10} , 4,2);
 		childUI->SetObjectName("BGMBtn");
+		childUI->SetUIPath("Resources/UI/Setting/Button_set.png", eStateUI::off);
+		childUI->SetUIPath("Resources/UI/Setting/Button_click.png", eStateUI::on);
 		childUI->SetVisible(true);
 		uiImage->GetChildUI("BGMLine")->AddChild("BGMBtn", childUI);
 
 		childUI = new UIImage("Resources/UI/Setting/Control_off.png", {16, 14} ,6 ,2);
 		childUI->SetObjectName("Control");
+		childUI->SetUIPath("Resources/UI/Setting/Control_off.png", eStateUI::off);
+		childUI->SetUIPath("Resources/UI/Setting/Control_on.png", eStateUI::on);
 		childUI->SetVisible(true);
 		uiImage->AddChild("Control", childUI);
 		
@@ -128,9 +137,12 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		childUI = new UIImage("Resources/UI/Setting/Return_off.png", { 14, 28 }, 4, 1);
 		childUI->SetObjectName("ReturnBtn");
+		childUI->SetUIPath("Resources/UI/Setting/Return_off.png", eStateUI::off);
+		childUI->SetUIPath("Resources/UI/Setting/Return_on.png", eStateUI::on);
 		childUI->SetVisible(false);
 		uiImage->AddChild("ReturnBtn", childUI);
 		//<< : UI
+		
 		RoomCenter* roomCenter = new RoomCenter;
 		roomCenter->SetObjectName("RoomCenter");
 		newScene->mGameObjects.insert(make_pair("RoomCenter", roomCenter));

@@ -1,5 +1,8 @@
 #pragma once
 #include "UIBase.h"
+
+enum class eStateUI{off = 0, on};
+
 class UIImage :
 	public UIBase
 {
@@ -7,7 +10,7 @@ class UIImage :
 	LPD3DXSPRITE		mSprite;
 	RECT				mDrawRect;
 
-	//vector<UIImage*>	mChildSprite;
+	string mStateUI[2];
 	map<string, UIImage*> mChildSprite;
 public:
 	D3DXMATRIXA16 mMatWorld;
@@ -18,19 +21,23 @@ public:
 	void SetDrawRect(RECT drawRect) { mDrawRect = drawRect; }
 
 	void Render() override;
-
+	
 	void AddChild(string UIname, UIImage* child);
 
 	UIImage* GetChildUI(string UIname)
 	{	
 		return mChildSprite.find(UIname)->second;
 	}
-
+	
 	map<string,UIImage*> GetChildUI()
 	{
 		return mChildSprite;
 	}
-	
+
+	void SetUIPath(string newTexturePath, eStateUI state)
+	{
+		mStateUI[static_cast<int>(state)] = newTexturePath;
+	}
 	
 	void SetTexture(string newTexturePath)
 	{
@@ -38,5 +45,13 @@ public:
 		ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
 		mTextureUI = gTextureManager->GetUITexture(newTexturePath, imageInfo);
 	}
+
+	void SetTexture(eStateUI state)
+	{
+		D3DXIMAGE_INFO imageInfo;
+		ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
+		mTextureUI = gTextureManager->GetUITexture(mStateUI[static_cast<int>(state)], imageInfo);
+	}
+	
 };
 
