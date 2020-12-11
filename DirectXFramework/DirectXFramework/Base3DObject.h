@@ -33,7 +33,11 @@ public:
 
 	void SetObjectTag(eObjTag tag) { mObjectTag = tag; }
 	eObjTag GetObjectTag() const { return mObjectTag; }
-	
+
+	void SetTypeTag(eTypeTag tag) { mTypeTag = tag; }
+	eTypeTag GetTypeTag() const { return mTypeTag; }
+
+
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);
 
@@ -47,9 +51,6 @@ public:
 
 	void LoadColliderCube();
 	void LoadColliderSphere();
-
-
-	eTypeTag GetTypeTag()const { return mTypeTag; }
 	
 	function<void(Base3DObject *, string&, Base3DObject *, string&)> CollideHandle;
 	function<void(string&)> DeleteInRoom;

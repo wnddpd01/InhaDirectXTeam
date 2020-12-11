@@ -13,7 +13,7 @@ void TimeManager::Update()
 
 	if (timeStack > 1.f)
 	{
-		cout << "fps : " << fpsCnt << endl;
+		//cout << "fps : " << fpsCnt << endl;
 		fpsCnt = 0;
 		timeStack = 0.f;
 	}
