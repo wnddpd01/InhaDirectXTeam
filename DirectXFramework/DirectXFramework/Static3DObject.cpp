@@ -70,11 +70,17 @@ void Static3DObject::Render()
 	Base3DObject::Render();
 	switch (mTypeTag)
 	{
-		case eTypeTag::DOOR :
+		
 		case eTypeTag::ITEM :
 		{
-				gShader->GetInstance()->RenderWithWallShader(bind(&Static3DObject::RenderMesh, this));
-				//RenderMesh();
+			gShader->GetInstance()->RenderWithItemShader(bind(&Static3DObject::RenderMesh, this));
+			//RenderMesh();
+		}
+		break;
+		case eTypeTag::WALL:
+		{
+			gShader->GetInstance()->RenderWithWallShader(bind(&Static3DObject::RenderMesh, this));
+			//RenderMesh();
 		}
 		break;
 		default:

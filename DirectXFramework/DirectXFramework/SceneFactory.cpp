@@ -178,7 +178,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		Interactable3DObject* door = new Interactable3DObject;
 		door->SetObjectName("door");
 		door->AddColliderCube("basicColliderCube");
-		door->Setup("Resources/XFile/", "Door.x", eTypeTag::DOOR);
+		door->Setup("Resources/XFile/", "Door.x", eTypeTag::ITEM);
 		door->SetPos(D3DXVECTOR3(3, 1.5, 135));
 		door->SetIsInteractable(true);
 		door->AddInteractionCondition([=]()->bool
@@ -322,6 +322,7 @@ void SceneFactory::LoadWallfromJson(string fileName, Room* targetRoom)
 			ColliderScale,
 			rotation
 		);
+		wall->SetTypeTag(eTypeTag::WALL);
 		targetRoom->InsertObject(wall);
 	}
 }

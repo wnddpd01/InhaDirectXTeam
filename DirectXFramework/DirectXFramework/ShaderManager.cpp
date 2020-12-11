@@ -80,8 +80,6 @@ void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
 	}
 	if (FAILED(mShaders["Fire"]->End()))
 		MessageBoxA(GetActiveWindow(), "Fire shader End 실패", "에러", MB_ICONERROR);
-
-	
 }
 
 void ShaderManager::RenderWithWallShader(function<void()> FunctionPtr)
@@ -163,7 +161,7 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 #endif
 	dwShaderFlags |= D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY;
 
-	HRESULT hr;
+	
 	if (FAILED(D3DXCreateEffectFromFileA(gD3Device, filename,
 		NULL, NULL, dwShaderFlags, NULL, &ret, &pError)))
 	{
@@ -207,13 +205,14 @@ void ShaderManager::LoadAllShader()
 {
 	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
 
-	//mShaders["Toon"]		= LoadShader("Resources/Shader/ToonShader.fx");
+	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
 	//mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
-	//mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");
+	//mShaders["SpotLight"]		= LoadShader("Resources/Shader/SpotLight.fx");
 	//mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
-	//mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
-	//mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
-	mShaders["WallShader"] = LoadShader("Resources/Shader/WallShader.fx");
-	//mShaders["ItemShader"] = LoadShader("Resources/Shader/ItemShader.fx");
+	//mShaders["Item"]			= LoadShader("Resources/Shader/ItemShader.fx");
+	//mShaders["Fire"]			= LoadShader("Resources/Shader/Fire.fx");
+	mShaders["ItemShader"]		= LoadShader("Resources/Shader/ItemShader.fx");
+	mShaders["WallShader"]		= LoadShader("Resources/Shader/WallShader.fx");
+
 }
 
