@@ -146,6 +146,9 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		roomCenter->SetPlayer(player);
 		newScene->mGameObjects.insert(make_pair("player", player));
+
+		Room* room2A01 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 		
 		Room * room2A02 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
@@ -215,7 +218,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room2A02->InsertObject(portal2);
 
-		//("Resources/Json/wall3A01.json", room2A02);
+		LoadWallfromJson("Resources/Json/wall3A01.json", room2A01);
 		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
 		//LoadWallfromJson("Resources/Json/wall3A03.json", room3A02);
 		
