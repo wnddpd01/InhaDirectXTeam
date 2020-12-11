@@ -257,13 +257,16 @@ void SkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		BYTE * src = NULL;
 		BYTE * dest = NULL;
 
-		pBoneMesh->pOrigMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&src);
+		if (pBoneMesh->pOrigMesh)
+			pBoneMesh->pOrigMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&src);
 		pBoneMesh->MeshData.pMesh->LockVertexBuffer(0, (void**)&dest);
 
-		pBoneMesh->pSkinInfo->UpdateSkinnedMesh(pBoneMesh->pCurrentBoneMatrices, NULL, src, dest);
-		
+		if(pBoneMesh->pSkinInfo)
+			pBoneMesh->pSkinInfo->UpdateSkinnedMesh(pBoneMesh->pCurrentBoneMatrices, NULL, src, dest);
+
 		pBoneMesh->MeshData.pMesh->UnlockVertexBuffer();
-		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
+		if (pBoneMesh->pOrigMesh)
+			pBoneMesh->pOrigMesh->UnlockVertexBuffer();
 	}
 	if (pFrame->pFrameFirstChild)
 		UpdateSkinnedMesh(pFrame->pFrameFirstChild);
@@ -288,6 +291,16 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_isAnimBlend = true;
 	m_fPassedBlendTime = 0.0f;
 	int num = m_pAnimController->GetNumAnimationSets();
+
+	// 확인용 코드
+	LPD3DXANIMATIONSET testset;
+	LPCSTR outchar[128];
+	m_pAnimController->GetAnimationSetByName("m_pAnimController", &testset);
+	m_pAnimController->GetAnimationSet(0, &testset);
+	cout << "애니메이션 숫자 : " << testset->GetNumAnimations() << endl;
+	// 확인용 코드 
+
+
 	if (nIndex > num) nIndex = nIndex % num;
 
 	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
@@ -302,7 +315,6 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
 	m_pAnimController->SetTrackPosition(0, 0.0f);
-
 
 	m_pAnimController->SetTrackWeight(0, 0.0f);
 	m_pAnimController->SetTrackWeight(1, 1.0f);

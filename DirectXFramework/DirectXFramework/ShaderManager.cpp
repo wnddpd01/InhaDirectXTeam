@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ShaderManager.h"
 
-
 void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 {
 	D3DXVECTOR4	gWorldLightPosition = D3DXVECTOR4(500.0f, 500.0f, -500.0f, 1.0f);
@@ -40,176 +39,6 @@ void ShaderManager::RenderWithToonShader(function<void()> FunctionPtr)
 	}
 	if (FAILED(mShaders["Toon"]->End()))
 		MessageBoxA(GetActiveWindow(), "Toon shader End 실패", "에러", MB_ICONERROR);
-}
-
-void ShaderManager::RenderWithOutLineShader(function<void()> FunctionPtr)
-{
-	//D3DXVECTOR4	gWorldLightPosition = D3DXVECTOR4(500.0f, 500.0f, -500.0f, 1.0f);
-	//D3DXVECTOR4	gSurfaceColor = D3DXVECTOR4(0, 1, 0, 1);
-	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matWVP, matViewInvTrans, matWorldViewInverse;
-
-	gD3Device->GetTransform(D3DTS_VIEW, &matView);
-	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
-	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
-	D3DXMatrixInverse(&matInvWorld, nullptr, &matWorld);
-	matWVP = matWorld * matView * matProjection;
-
-	//D3DXMatrixInverse(&matViewInvTrans, NULL, &matView);
-	//D3DXMatrixTranspose(&matViewInvTrans, &matViewInvTrans);
-	//D3DXMatrixInverse(&matWorldViewInverse, NULL, &(matWorld * matView));
-
-	mShaders["OutLine"]->SetMatrix("gWorldViewProj", &matWVP);
-	mShaders["OutLine"]->SetFloat("gOutlineWidth", 0.1f);
-	mShaders["OutLine"]->SetTexture("DiffuseMap_Tex", mTexA1);
-	/*
-	mShaders["OutLine"]->SetMatrix("matViewInverseTranspose", &matViewInvTrans);
-	mShaders["OutLine"]->SetMatrix("matProjection", &matProjection);
-	mShaders["OutLine"]->SetMatrix("matWorldInverse", &matInvWorld);
-	mShaders["OutLine"]->SetMatrix("matWorldViewInverse", &matWorldViewInverse);
-	mShaders["OutLine"]->SetVector("OutlineColor", &D3DXVECTOR4(1.f,0.f, 0.f, 0.f));
-	mShaders["OutLine"]->SetFloat("OutlineWidth", 1.f);
-	*/
-
-	UINT numPasses = 0;
-
-	if (FAILED(mShaders["OutLine"]->Begin(&numPasses, NULL)))
-		MessageBoxA(GetActiveWindow(), "OutLine shader Begin 실패", "에러", MB_ICONERROR);
-	{
-		for (UINT i = 0; i < numPasses; ++i)
-		{
-			if (FAILED(mShaders["OutLine"]->BeginPass(i)))
-				MessageBoxA(GetActiveWindow(), "OutLine shader Begin pass 실패", "에러", MB_ICONERROR);
-			{
-				FunctionPtr();
-			}
-			if (FAILED(mShaders["OutLine"]->EndPass()))
-				MessageBoxA(GetActiveWindow(), "OutLine shader End pass 실패", "에러", MB_ICONERROR);
-		}
-	}
-	if (FAILED(mShaders["OutLine"]->End()))
-		MessageBoxA(GetActiveWindow(), "OutLine shader End 실패", "에러", MB_ICONERROR);
-}
-
-void ShaderManager::RenderWithPointLightShader(function<void()> FunctionPtr)
-{
-	struct PointLight
-	{
-		D3DXVECTOR3	color;
-		D3DXVECTOR3	position;
-		float	range;
-	};
-	
-	PointLight PointLight = {
-		{ 1.f, 1.f, 1.f},
-		{ 5.f, 5.f, 5.f },
-		1000.f };
-	
-	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP, matWorldInvTrans;
-	D3DXVECTOR4 vec4CameraPos = { 0.f, 10.f, -15.f, 0.f };
-	D3DXVECTOR4 vec4ObejctColor = { 0.f, 0.8f, 0.f, 1.f };
-	D3DXVECTOR4 vec4AmbientLightColor = { 0.8f, 0.f, 0.f, 0.3f };
-	
-	gD3Device->GetTransform(D3DTS_VIEW, &matView);
-	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
-	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
-	matWVP = matWorld * matView * matProjection;
-	D3DXMatrixInverse(&matWorldInvTrans, NULL, &matWorld);
-	D3DXMatrixTranspose(&matWorldInvTrans, &matWorldInvTrans);
-
-	mShaders["PointLight"]->SetMatrix("worldViewProj", &matWVP);
-	mShaders["PointLight"]->SetMatrix("world", &matWorld);
-	mShaders["PointLight"]->SetMatrix("view", &matView);
-	mShaders["PointLight"]->SetMatrix("worldInverseTranspose", &matWorldInvTrans);
-	
-	mShaders["PointLight"]->SetVector("cameraPosition", &vec4CameraPos);
-	mShaders["PointLight"]->SetVector("objectColor", &vec4ObejctColor);
-	mShaders["PointLight"]->SetVector("ambientLightColor", &vec4AmbientLightColor);
-	mShaders["PointLight"]->SetValue("myPointLight", &PointLight, sizeof(PointLight));
-
-	UINT numPasses = 0;
-
-	if (FAILED(mShaders["PointLight"]->Begin(&numPasses, NULL)))
-		MessageBoxA(GetActiveWindow(), "PointLight shader Begin 실패", "에러", MB_ICONERROR);
-	{
-		for (UINT i = 0; i < numPasses; ++i)
-		{
-			if (FAILED(mShaders["PointLight"]->BeginPass(i)))
-				MessageBoxA(GetActiveWindow(), "PointLight shader Begin pass 실패", "에러", MB_ICONERROR);
-			{
-				FunctionPtr();
-			}
-			if (FAILED(mShaders["PointLight"]->EndPass()))
-				MessageBoxA(GetActiveWindow(), "PointLight shader End pass 실패", "에러", MB_ICONERROR);
-		}
-	}
-	if (FAILED(mShaders["PointLight"]->End()))
-		MessageBoxA(GetActiveWindow(), "PointLight shader End 실패", "에러", MB_ICONERROR);
-	
-}
-
-void ShaderManager::RenderWithSpotLightShader(function<void()> FunctionPtr)
-{
-	float multiflier = 5.f;
-	
-	struct SpotLight
-	{
-		D3DXVECTOR3	color = { 1.f,1.f,1.f };
-		D3DXVECTOR3	position;
-		float		range = 5.f;
-		D3DXVECTOR3	direction = {0,-1.f,0};
-		float		innerConeAngle = D3DX_PI / 32.f;
-		float		outerConeAngle = D3DX_PI / 32.f;
-	};
-
-	SpotLight mySpotLight;
-	mySpotLight.color = { multiflier, multiflier,multiflier };
-	mySpotLight.position = { 5.f, 5.f, 1.4f };
-
-	D3DXMATRIXA16 matView, matProjection, matWorld, matWVP, matWorldInvTrans;
-	D3DXVECTOR4 vec4ObejctColor = { 0.f, 0.8f, 0.f, 1.f };
-	D3DXVECTOR4 vec4AmbientLightColor = { 0.8f, 0.f, 0.f, 0.3f };
-
-	gD3Device->GetTransform(D3DTS_VIEW, &matView);
-	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
-	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
-	matWVP = matWorld * matView * matProjection;
-	D3DXMatrixInverse(&matWorldInvTrans, NULL, &matWorld);
-	D3DXMatrixTranspose(&matWorldInvTrans, &matWorldInvTrans);
-
-	mShaders["SpotLight"]->SetMatrix("WorldViewProj", &matWVP);
-	mShaders["SpotLight"]->SetMatrix("World", &matWorld);
-	mShaders["SpotLight"]->SetMatrix("View", &matView);
-	mShaders["SpotLight"]->SetMatrix("WorldInverseTranspose", &matWorldInvTrans);
-
-	mShaders["SpotLight"]->SetVector("ObjectColor", &vec4ObejctColor);
-	mShaders["SpotLight"]->SetVector("AmbientLightColor", &vec4AmbientLightColor);
-	mShaders["SpotLight"]->SetValue("mySpotLight", &mySpotLight, sizeof(SpotLight));
-	
-	
-	UINT numPasses = 0;
-
-	if (FAILED(mShaders["SpotLight"]->Begin(&numPasses, NULL)))
-		MessageBoxA(GetActiveWindow(), "SpotLight shader Begin 실패", "에러", MB_ICONERROR);
-	{
-		for (UINT i = 0; i < numPasses; ++i)
-		{
-			if (FAILED(mShaders["SpotLight"]->BeginPass(i)))
-				MessageBoxA(GetActiveWindow(), "SpotLight shader Begin pass 실패", "에러", MB_ICONERROR);
-			{
-				FunctionPtr();
-			}
-			if (FAILED(mShaders["SpotLight"]->EndPass()))
-				MessageBoxA(GetActiveWindow(), "SpotLight shader End pass 실패", "에러", MB_ICONERROR);
-		}
-	}
-	if (FAILED(mShaders["SpotLight"]->End()))
-		MessageBoxA(GetActiveWindow(), "SpotLight shader End 실패", "에러", MB_ICONERROR);
-	
-}
-
-void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
-{
-	
 }
 
 void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
@@ -251,10 +80,75 @@ void ShaderManager::RenderWithFireShader(function<void()> FunctionPtr)
 	}
 	if (FAILED(mShaders["Fire"]->End()))
 		MessageBoxA(GetActiveWindow(), "Fire shader End 실패", "에러", MB_ICONERROR);
-
-	
 }
 
+void ShaderManager::RenderWithWallShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matViewProj, matViewInvTrans, matWorldViewInverse;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	
+	matViewProj = matView * matProjection;
+
+	mShaders["WallShader"]->SetMatrix("gWorld", &matWorld);
+	mShaders["WallShader"]->SetMatrix("gViewProj", &matViewProj);
+	mShaders["WallShader"]->SetFloat("gOutlineWidth", 0.1f);
+	mShaders["WallShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
+	mShaders["WallShader"]->SetVector("gLightPos", &D3DXVECTOR4(0,10,0,0));
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["WallShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "WallShader shader Begin 실패", "에러", MB_ICONERROR);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			if (FAILED(mShaders["WallShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "WallShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			{
+				FunctionPtr();
+			}
+			if (FAILED(mShaders["WallShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "WallShader shader End pass 실패", "에러", MB_ICONERROR);
+		}
+	}
+	if (FAILED(mShaders["WallShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "WallShader shader End 실패", "에러", MB_ICONERROR);
+}
+
+void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matWorldViewProj, matViewInvTrans, matWorldViewInverse;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+
+	matWorldViewProj = matWorld * matView * matProjection;
+
+	mShaders["ItemShader"]->SetMatrix("gWorldViewProj", &matWorldViewProj);
+	mShaders["ItemShader"]->SetFloat("gOutlineWidth", 0.1f);
+	mShaders["ItemShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["ItemShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "ItemShader shader Begin 실패", "에러", MB_ICONERROR);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			if (FAILED(mShaders["ItemShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "ItemShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			{
+				FunctionPtr();
+			}
+			if (FAILED(mShaders["ItemShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "ItemShader shader End pass 실패", "에러", MB_ICONERROR);
+		}
+	}
+	if (FAILED(mShaders["ItemShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "ItemShader shader End 실패", "에러", MB_ICONERROR);
+}
 
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 {
@@ -267,7 +161,7 @@ LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 #endif
 	dwShaderFlags |= D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY;
 
-	HRESULT hr;
+	
 	if (FAILED(D3DXCreateEffectFromFileA(gD3Device, filename,
 		NULL, NULL, dwShaderFlags, NULL, &ret, &pError)))
 	{
@@ -310,13 +204,15 @@ LPDIRECT3DTEXTURE9 ShaderManager::LoadTexture(const char* filename)
 void ShaderManager::LoadAllShader()
 {
 	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
-	mShaders["Toon"]		= LoadShader("Resources/Shader/ToonShader.fx");
-	mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
-	mShaders["SpotLight"]	= LoadShader("Resources/Shader/SpotLight.fx");
-	mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
-	//mShaders["Item"]		= LoadShader("Resources/Shader/ItemShader.fx");
-	//mShaders["Fire"]		= LoadShader("Resources/Shader/Fire.fx");
 
+	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
+	//mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
+	//mShaders["SpotLight"]		= LoadShader("Resources/Shader/SpotLight.fx");
+	//mShaders["PointLight"]	= LoadShader("Resources/Shader/PointLight.fx");
+	//mShaders["Item"]			= LoadShader("Resources/Shader/ItemShader.fx");
+	//mShaders["Fire"]			= LoadShader("Resources/Shader/Fire.fx");
+	mShaders["ItemShader"]		= LoadShader("Resources/Shader/ItemShader.fx");
+	mShaders["WallShader"]		= LoadShader("Resources/Shader/WallShader.fx");
 
 }
 

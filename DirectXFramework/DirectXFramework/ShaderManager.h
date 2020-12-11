@@ -15,10 +15,8 @@ public:
 	LPDIRECT3DTEXTURE9 LoadTexture(const char * filename);
 	
 	void RenderWithToonShader(function<void()> FunctionPtr);
-	void RenderWithOutLineShader(function<void()> FunctionPtr);
-	void RenderWithPointLightShader(function<void()> FunctionPtr);
-	void RenderWithSpotLightShader(function<void()> FunctionPtr);
-	void RenderWithItemShader(function<void()> FunctionPtr);
 	void RenderWithFireShader(function<void()> FunctionPtr);
+	void RenderWithWallShader(function<void()> FunctionPtr);
+	void RenderWithItemShader(function<void()> FunctionPtr);
 };
 
