@@ -218,8 +218,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal1->SetObjectName("portal1");
 		portal1->AddColliderCube("portal1ColliderCube");
 		portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-		portal1->SetPos(D3DXVECTOR3(25, 0 ,121.5));
-		portal1->SetExitPos(D3DXVECTOR3(25, 0, 143.5));
+		portal1->SetPos(D3DXVECTOR3(25, 0 , 123.5));
+		portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
 		portal1->Setup();
 		room2A02->InsertObject(portal1);
 
@@ -227,18 +227,16 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->SetObjectName("portal2");
 		portal2->AddColliderCube("portal2ColliderCube");
 		portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-		portal2->SetPos(D3DXVECTOR3(25, 0, 143.5));
-		portal2->SetExitPos(D3DXVECTOR3(25, 0, 121.5));
+		portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
+		portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
 		portal2->Setup();
 		room2A02->InsertObject(portal2);
 
-		LoadWallfromJson("Resources/Json/wall3A01.json", room2A01);
+		LoadWallfromJson("Resources/Json/wall3A01.json", room2A02);
 		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
-		/*LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
+		LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
 		LoadWallfromJson("Resources/Json/wall3A04.json", room2A02);
-		LoadWallfromJson("Resources/Json/wall3A06.json", room2A02);*/
-
-		//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
+		LoadWallfromJson("Resources/Json/wall3A07.json", room2A02);
 
 		Door* tempDoor = new Door;
 		tempDoor->SetObjectName("tempDoor");
@@ -256,7 +254,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
 		newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 		
-
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();
 	}
@@ -292,9 +289,16 @@ Static3DObject * SceneFactory::CreateStatic3DObject(string objectName, string so
 
 void SceneFactory::LoadWallfromJson(string fileName, Room* targetRoom)
 {
-	static int wallCnt = 0;
-
 	gJSON->LoadJSON(fileName);
+	
+	D3DXVECTOR3 offset;
+	Value& JsonOffset = gJSON->mDocument["offset"];
+	offset.x = JsonOffset["x"].GetFloat();
+	offset.y = JsonOffset["y"].GetFloat();
+	offset.z = JsonOffset["z"].GetFloat();
+	
+	static int wallCnt = 0;
+	
 	Value& walls = gJSON->mDocument["wall"];
 	for (SizeType i = 0; i < walls.Size(); ++i)
 	{
@@ -303,11 +307,14 @@ void SceneFactory::LoadWallfromJson(string fileName, Room* targetRoom)
 		Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
 		if (itrot != walls[i].MemberEnd())
 		{
-			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
-				walls[i]["rotation"]["x"].GetFloat(),
-				walls[i]["rotation"]["y"].GetFloat(),
-				walls[i]["rotation"]["z"].GetFloat()
-			), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			D3DXVECTOR3 rot(
+				walls[i]["rotation"]["x"].GetFloat() * D3DX_PI / 180.f,
+				walls[i]["rotation"]["y"].GetFloat() * D3DX_PI / 180.f,
+				walls[i]["rotation"]["z"].GetFloat() * D3DX_PI / 180.f);
+
+			D3DXQUATERNION quater;
+
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0,1,0), rot.y);
 		}
 
 		Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
@@ -324,18 +331,24 @@ void SceneFactory::LoadWallfromJson(string fileName, Room* targetRoom)
 		if (itcol != walls[i].MemberEnd())
 		{
 			ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
-			ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+			ColliderScale.y = (walls[i]["colliderScale"]["width"].GetFloat() * scale.x) - 1.f;
 			ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
 		}
+
+		D3DXVECTOR3 Position(0.f, 0.f, 0.f);
+		Value::ConstMemberIterator itpos = walls[i].FindMember("position");
+		if (itpos != walls[i].MemberEnd())
+		{
+			Position.x = (walls[i]["position"]["x"].GetFloat() + offset.x);
+			Position.y = (walls[i]["position"]["y"].GetFloat() + offset.y);
+			Position.z = (walls[i]["position"]["z"].GetFloat() + offset.z);
+		}
+
 
 		Static3DObject* wall = CreateStatic3DObject(
 			string("wall") + to_string(wallCnt++),
 			walls[i]["sourceFileName"].GetString(),
-			{
-				walls[i]["position"]["x"].GetFloat(),
-				walls[i]["position"]["y"].GetFloat(),
-				walls[i]["position"]["z"].GetFloat()
-			},
+			Position,
 			scale,
 			ColliderScale,
 			rotation
