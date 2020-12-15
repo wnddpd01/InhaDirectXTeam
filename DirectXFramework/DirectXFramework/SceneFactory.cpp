@@ -15,6 +15,7 @@
 #include "Inventory.h"
 #include "UICellGrid.h"
 #include "Door.h"
+#include "FlashLight.h"
 
 SceneFactory::SceneFactory()
 {
@@ -131,6 +132,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		childUI->SetVisible(false);
 		uiImage->AddChild("ReturnBtn", childUI);
 		//<< : UI
+	
+		
 		RoomCenter* roomCenter = new RoomCenter;
 		roomCenter->SetObjectName("RoomCenter");
 		newScene->mGameObjects.insert(make_pair("RoomCenter", roomCenter));
@@ -145,8 +148,8 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		roomCenter->SetPlayer(player);
-		newScene->mGameObjects.insert(make_pair("player", player));
-		
+		newScene->mGameObjects.insert(make_pair("1player", player));
+
 		Room * room2A02 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 		roomCenter->SetCurRoom(eRoomName::R2A02);
@@ -224,7 +227,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
 
-		
 		Door* tempDoor = new Door;
 		tempDoor->SetObjectName("tempDoor");
 		tempDoor->Setup("Resources/XFile/", "newDoor.x");
@@ -236,6 +238,11 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
 
 		room2A02->InsertObject(tempDoor);
+
+		FlashLight* onlyFlashLight = new FlashLight;
+		onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
+		newScene->mGameObjects.insert(make_pair("FlashLight", onlyFlashLight));
+		
 
 		gSoundManager->Play("BGM");
 		gShader->LoadAllShader();

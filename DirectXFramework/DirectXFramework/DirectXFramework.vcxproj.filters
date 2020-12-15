@@ -173,6 +173,8 @@
     <ClCompile Include="RoomCenter.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="FlashLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -314,5 +316,13 @@
     <ClInclude Include="RoomCenter.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="FlashLight.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXFramework.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

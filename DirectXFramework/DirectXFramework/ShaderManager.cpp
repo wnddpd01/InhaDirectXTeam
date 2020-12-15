@@ -92,11 +92,12 @@ void ShaderManager::RenderWithWallShader(function<void()> FunctionPtr)
 	
 	matViewProj = matView * matProjection;
 
+
 	mShaders["WallShader"]->SetMatrix("gWorld", &matWorld);
 	mShaders["WallShader"]->SetMatrix("gViewProj", &matViewProj);
 	mShaders["WallShader"]->SetFloat("gOutlineWidth", 0.1f);
 	mShaders["WallShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
-	mShaders["WallShader"]->SetVector("gLightPos", &D3DXVECTOR4(0,10,0,0));
+
 
 	UINT numPasses = 0;
 	if (FAILED(mShaders["WallShader"]->Begin(&numPasses, NULL)))
@@ -117,7 +118,7 @@ void ShaderManager::RenderWithWallShader(function<void()> FunctionPtr)
 		MessageBoxA(GetActiveWindow(), "WallShader shader End 실패", "에러", MB_ICONERROR);
 }
 
-void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
+void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr, eShaderPath eShaderPath)
 {
 	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matWorldViewProj, matViewInvTrans, matWorldViewInverse;
 
@@ -132,22 +133,85 @@ void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr)
 	mShaders["ItemShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
 
 	UINT numPasses = 0;
-	if (FAILED(mShaders["ItemShader"]->Begin(&numPasses, NULL)))
-		MessageBoxA(GetActiveWindow(), "ItemShader shader Begin 실패", "에러", MB_ICONERROR);
+	switch (eShaderPath)
+	{
+	case eShaderPath::ALL_PATH:
+		if (FAILED(mShaders["ItemShader"]->Begin(&numPasses, NULL)))
+			MessageBoxA(GetActiveWindow(), "ItemShader shader Begin 실패", "에러", MB_ICONERROR);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				if (FAILED(mShaders["ItemShader"]->BeginPass(i)))
+					MessageBoxA(GetActiveWindow(), "ItemShader shader Begin pass 실패", "에러", MB_ICONERROR);
+				{
+					FunctionPtr();
+				}
+				if (FAILED(mShaders["ItemShader"]->EndPass()))
+					MessageBoxA(GetActiveWindow(), "ItemShader shader End pass 실패", "에러", MB_ICONERROR);
+			}
+		}
+		if (FAILED(mShaders["ItemShader"]->End()))
+			MessageBoxA(GetActiveWindow(), "ItemShader shader End 실패", "에러", MB_ICONERROR);
+
+		break;
+	case eShaderPath::PATH1:
+		if (FAILED(mShaders["ItemShader"]->Begin(&numPasses, NULL)))
+			MessageBoxA(GetActiveWindow(), "ItemShader shader Begin 실패", "에러", MB_ICONERROR);
+		{
+			for (UINT i = 1; i < numPasses; ++i)
+			{
+				if (FAILED(mShaders["ItemShader"]->BeginPass(i)))
+					MessageBoxA(GetActiveWindow(), "ItemShader shader Begin pass 실패", "에러", MB_ICONERROR);
+				{
+					FunctionPtr();
+				}
+				if (FAILED(mShaders["ItemShader"]->EndPass()))
+					MessageBoxA(GetActiveWindow(), "ItemShader shader End pass 실패", "에러", MB_ICONERROR);
+			}
+		}
+		if (FAILED(mShaders["ItemShader"]->End()))
+			MessageBoxA(GetActiveWindow(), "ItemShader shader End 실패", "에러", MB_ICONERROR);
+
+		break;
+	default:
+		MessageBoxA(GetActiveWindow(), "ItemShader shader eShaderPath 에러", "에러", MB_ICONERROR);
+		break;
+	}
+
+	
+
+}
+
+void ShaderManager::RednerWithFlashShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWorldViewProj;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+
+	matWorldViewProj = matWorld * matView * matProjection;
+
+	mShaders["FlashShader"]->SetMatrix("gWorldViewProj", &matWorldViewProj);
+	mShaders["FlashShader"]->SetTexture("gRoundTexture", mTexRound);
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["FlashShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "FlashShader shader Begin 실패", "에러", MB_ICONERROR);
 	{
 		for (UINT i = 0; i < numPasses; ++i)
 		{
-			if (FAILED(mShaders["ItemShader"]->BeginPass(i)))
-				MessageBoxA(GetActiveWindow(), "ItemShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			if (FAILED(mShaders["FlashShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "FlashShader shader Begin pass 실패", "에러", MB_ICONERROR);
 			{
 				FunctionPtr();
 			}
-			if (FAILED(mShaders["ItemShader"]->EndPass()))
-				MessageBoxA(GetActiveWindow(), "ItemShader shader End pass 실패", "에러", MB_ICONERROR);
+			if (FAILED(mShaders["FlashShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "FlashShader shader End pass 실패", "에러", MB_ICONERROR);
 		}
 	}
-	if (FAILED(mShaders["ItemShader"]->End()))
-		MessageBoxA(GetActiveWindow(), "ItemShader shader End 실패", "에러", MB_ICONERROR);
+	if (FAILED(mShaders["FlashShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "FlashShader shader End 실패", "에러", MB_ICONERROR);
 }
 
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
@@ -204,6 +268,7 @@ LPDIRECT3DTEXTURE9 ShaderManager::LoadTexture(const char* filename)
 void ShaderManager::LoadAllShader()
 {
 	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
+	mTexRound = LoadTexture("Resources/Shader/round.png");
 
 	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
 	//mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
@@ -213,6 +278,6 @@ void ShaderManager::LoadAllShader()
 	//mShaders["Fire"]			= LoadShader("Resources/Shader/Fire.fx");
 	mShaders["ItemShader"]		= LoadShader("Resources/Shader/ItemShader.fx");
 	mShaders["WallShader"]		= LoadShader("Resources/Shader/WallShader.fx");
-
+	mShaders["FlashShader"]		= LoadShader("Resources/Shader/FlashShader.fx");
 }
 

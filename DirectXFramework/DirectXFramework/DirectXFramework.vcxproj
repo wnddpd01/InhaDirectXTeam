@@ -33,6 +33,7 @@
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="FlashLight.cpp" />
     <ClCompile Include="Interactable3DObject.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="JSON.cpp" />
@@ -87,10 +88,12 @@
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="FlashLight.h" />
     <ClInclude Include="Interactable3DObject.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomCenter.h" />
     <ClInclude Include="ShaderManager.h" />
@@ -120,6 +123,9 @@
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WalkCharacterState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXFramework.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
