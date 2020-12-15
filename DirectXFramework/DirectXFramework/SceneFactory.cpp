@@ -143,10 +143,6 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		childUI->SetVisible(false);
 		uiImage->AddChild("ReturnBtn", childUI);
 		//<< : UI
-<<<<<<< HEAD
-	
-=======
->>>>>>> f7c4147219955d9d8c6b34ffe2a551d3824dd894
 		
 		RoomCenter* roomCenter = new RoomCenter;
 		roomCenter->SetObjectName("RoomCenter");
@@ -162,16 +158,12 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		roomCenter->SetPlayer(player);
-<<<<<<< HEAD
-		newScene->mGameObjects.insert(make_pair("1player", player));
 
-=======
-		newScene->mGameObjects.insert(make_pair("player", player));
+		newScene->mGameObjects.insert(make_pair("1player", player));
 
 		Room* room2A01 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 		
->>>>>>> f7c4147219955d9d8c6b34ffe2a551d3824dd894
 		Room * room2A02 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 		roomCenter->SetCurRoom(eRoomName::R2A02);
