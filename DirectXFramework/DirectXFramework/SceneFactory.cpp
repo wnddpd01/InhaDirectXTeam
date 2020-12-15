@@ -159,7 +159,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 		roomCenter->SetPlayer(player);
 
-		newScene->mGameObjects.insert(make_pair("1player", player));
+		newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
 		Room* room2A01 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
@@ -254,7 +254,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		FlashLight* onlyFlashLight = new FlashLight;
 		onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
-		newScene->mGameObjects.insert(make_pair("FlashLight", onlyFlashLight));
+		newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 		
 
 		gSoundManager->Play("BGM");
