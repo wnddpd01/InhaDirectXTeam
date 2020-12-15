@@ -38,6 +38,9 @@
     <Filter Include="3DObject\Colider">
       <UniqueIdentifier>{3a1e285b-0e3a-4929-a2a7-b27659168f89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\SceneFactory">
+      <UniqueIdentifier>{1ad87ed2-6a0e-4177-81f1-1b4f58a83550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -78,9 +81,6 @@
     </ClCompile>
     <ClCompile Include="QuarterMap.cpp">
       <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneFactory.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>Singleton</Filter>
@@ -173,6 +173,16 @@
     <ClCompile Include="RoomCenter.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="SceneFactory.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAssemblyLine.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAssemblyLine.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -216,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="QuarterMap.h">
       <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneFactory.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="FontManager.h">
       <Filter>Singleton</Filter>
@@ -313,6 +320,16 @@
     </ClInclude>
     <ClInclude Include="RoomCenter.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="SceneFactory.h">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAssemblyLine.h">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAssemblyLine.h">
+      <Filter>Scene\SceneFactory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

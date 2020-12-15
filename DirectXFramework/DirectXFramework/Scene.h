@@ -12,7 +12,7 @@ class Scene
 	Camera * mCamera;
 	map<eEventName, multimap<UINT, BaseObserver*>> mEventSubscriberList;
 public:
-	Scene();
+	Scene(eSceneName sceneName);
 	virtual ~Scene();
 
 	map<string, BaseObject*> mGameObjects;
@@ -21,11 +21,6 @@ public:
 	eSceneName GetSceneName() const
 	{
 		return mSceneName;
-	}
-
-	void SetSceneName(const eSceneName& m_scene_name)
-	{
-		mSceneName = m_scene_name;
 	}
 
 	void AddEventSubscriberList(eEventName eventName, UINT priority, BaseObserver* baseObserver);

@@ -1,0 +1,236 @@
+#include "stdafx.h"
+#include "GameObjectAssemblyLine.h"
+#include "Scene.h"
+#include "Room.h"
+#include "Door.h"
+#include "Interactable3DObject.h"
+#include "RoomCenter.h"
+#include "Player.h"
+#include "Portal.h"
+#include "ColliderCube.h"
+#include "ColliderSphere.h"
+
+Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
+                                                     D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
+{
+	Static3DObject* newStaticObject = new Static3DObject;
+	newStaticObject->SetObjectName(objectName);
+	newStaticObject->Setup("Resources/XFile/", sourceFileName);
+	newStaticObject->SetRot(rotation);
+	newStaticObject->SetPos(position);
+	newStaticObject->SetScale(scale);
+
+	if ((colliderScale.x <= 0) || (colliderScale.y <= 0) || (colliderScale.z <= 0))
+	{
+	}
+	else
+	{
+		newStaticObject->AddColliderCube(colliderName);
+		newStaticObject->GetColliderCube()["basicColliderCube"]->SetCubeCollider(
+			colliderScale.x,
+			colliderScale.y,
+			colliderScale.z);
+		newStaticObject->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
+	}
+
+	return newStaticObject;
+}
+
+void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
+{
+	static int wallCnt = 0;
+
+	gJSON->LoadJSON(fileName);
+	Value& walls = gJSON->mDocument["wall"];
+	for (SizeType i = 0; i < walls.Size(); ++i)
+	{
+		D3DXVECTOR3 scale(1, 1, 1);
+		D3DXQUATERNION rotation(0, 0, 0, 0);
+		Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
+		if (itrot != walls[i].MemberEnd())
+		{
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
+				walls[i]["rotation"]["x"].GetFloat(),
+				walls[i]["rotation"]["y"].GetFloat(),
+				walls[i]["rotation"]["z"].GetFloat()
+			), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+		}
+
+		Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
+		if (itscale != walls[i].MemberEnd())
+		{
+			scale = D3DXVECTOR3(
+				walls[i]["scale"]["x"].GetFloat(),
+				walls[i]["scale"]["y"].GetFloat(),
+				walls[i]["scale"]["z"].GetFloat());
+		}
+
+		D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
+		Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
+		if (itcol != walls[i].MemberEnd())
+		{
+			ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
+			ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+			ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
+		}
+
+		Static3DObject* wall = CreateStatic3DObject(
+			string("wall") + to_string(wallCnt++),
+			walls[i]["sourceFileName"].GetString(),
+			{
+				walls[i]["position"]["x"].GetFloat(),
+				walls[i]["position"]["y"].GetFloat(),
+				walls[i]["position"]["z"].GetFloat()
+			},
+			scale,
+			ColliderScale,
+			rotation
+		);
+		wall->SetTypeTag(eTypeTag::WALL);
+		targetRoom->InsertObject(wall);
+	}
+}
+
+void GameObjectAssemblyLine::CreateStartSceneGameObject(Scene* newScene)
+{
+}
+
+void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
+{
+	RoomCenter* roomCenter = new RoomCenter;
+	roomCenter->SetObjectName("RoomCenter");
+	newScene->mGameObjects.insert(make_pair("RoomCenter", roomCenter));
+
+	Player* player = new Player;
+	player->AddColliderCube("playerCubeCollider");
+	player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
+	player->Setup();
+	player->SetObjectName("player");
+	newScene->GetCamera()->SetTarget(player->GetPosRef());
+	newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 9, player);
+	newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
+	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
+	roomCenter->SetPlayer(player);
+	newScene->mGameObjects.insert(make_pair("player", player));
+
+	Room* room2A01 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
+
+	Room* room2A02 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
+	roomCenter->SetCurRoom(eRoomName::R2A02);
+
+
+	Portal* portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal1->SetObjectName("portal1");
+	portal1->AddColliderCube("portal1ColliderCube");
+	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal1->SetPos(D3DXVECTOR3(25, 0, 121.5));
+	portal1->SetExitPos(D3DXVECTOR3(25, 0, 143.5));
+	portal1->Setup();
+	room2A02->InsertObject(portal1);
+
+	Portal* portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal2->SetObjectName("portal2");
+	portal2->AddColliderCube("portal2ColliderCube");
+	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal2->SetPos(D3DXVECTOR3(25, 0, 143.5));
+	portal2->SetExitPos(D3DXVECTOR3(25, 0, 121.5));
+	portal2->Setup();
+	room2A02->InsertObject(portal2);
+
+	Static3DObject* key = new Static3DObject;
+	key->SetObjectName("key1");
+	key->Setup("Resources/Xfile/", "Key.X");
+	key->AddColliderCube("basicColliderCube");
+
+	Interactable3DObject* box = new Interactable3DObject;
+	box->SetObjectName("box");
+	box->AddColliderCube("basicColliderCube");
+	box->Setup("Resources/XFile/", "DeathDropBox.X");
+	box->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
+	box->SetPos(D3DXVECTOR3(16, 0, 135));
+	box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
+	box->SetIsInteractable(true);
+	box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
+	box->AddInteractionBehavior([=]()->void
+		{
+			player->AddItem(eInventorySlot::Key, key);
+		});
+	box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
+	room2A02->InsertObject(box);
+
+	Interactable3DObject* door = new Interactable3DObject;
+	door->SetObjectName("door");
+	door->AddColliderCube("basicColliderCube");
+	door->Setup("Resources/XFile/", "Door.x", eTypeTag::ITEM);
+	door->SetPos(D3DXVECTOR3(3, 1.5, 135));
+	door->SetIsInteractable(true);
+	door->AddInteractionCondition([=]()->bool
+		{
+			return player->HasItem(eInventorySlot::Key, "key1");
+		});
+	door->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, door));
+	door->AddInteractionBehavior([=]()->void
+		{
+			D3DXQUATERNION rotY;
+			D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
+			door->SetRot(rotY);
+		});
+	door->AddInteractionBehavior([=]()->void
+		{
+			player->UseItem(eInventorySlot::Key);
+		});
+	door->AddInteractionBehavior([=]()->void
+		{
+			portal1->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+			{
+				roomCenter->SetCurRoom(eRoomName::R2A01);
+			};
+			portal2->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+			{
+				roomCenter->SetCurRoom(eRoomName::R2A01);
+			};
+		});
+	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
+	room2A02->InsertObject(door);
+
+	LoadWallFromJson("Resources/Json/wall3A01.json", room2A01);
+	LoadWallFromJson("Resources/Json/wall3A02.json", room2A02);
+	/*LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
+	LoadWallfromJson("Resources/Json/wall3A04.json", room2A02);
+	LoadWallfromJson("Resources/Json/wall3A06.json", room2A02);*/
+
+	//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
+
+
+	Door* tempDoor = new Door;
+	tempDoor->SetObjectName("tempDoor");
+	tempDoor->Setup("Resources/XFile/", "newDoor.x");
+	tempDoor->SetRot(D3DXQUATERNION(0, 0, 0, 1));
+	tempDoor->SetPos(D3DXVECTOR3(25.f, 1.5f, 18.5f));
+	tempDoor->SetScale(D3DXVECTOR3(0.65f, 1.f, 0.5f));
+	tempDoor->AddColliderCube("basicColliderCube");
+	tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f, 3.f, 0.5f);
+	tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
+	room2A02->InsertObject(tempDoor);
+}
+
+void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)
+{
+	switch (newScene->GetSceneName())
+	{
+		case eSceneName::START_SCENE :
+			{
+			}
+			break;
+		case eSceneName::INGAME_SCENE :
+			{
+				CreateIngameSceneGameObject(newScene);
+			}
+			break;
+		default :
+			{}
+			break;
+	}
+}

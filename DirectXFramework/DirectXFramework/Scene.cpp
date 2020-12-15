@@ -6,7 +6,8 @@
 #include "QuarterMap.h"
 
 
-Scene::Scene()
+Scene::Scene(eSceneName sceneName)
+	: mSceneName(sceneName)
 {
 	mCamera = new Camera;
 	mCamera->Setup();

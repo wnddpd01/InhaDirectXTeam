@@ -33,6 +33,7 @@
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="GameObjectAssemblyLine.cpp" />
     <ClCompile Include="Interactable3DObject.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="JSON.cpp" />
@@ -68,6 +69,7 @@
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UICellGrid.cpp" />
     <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="UIAssemblyLine.cpp" />
     <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -87,6 +89,7 @@
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="GameObjectAssemblyLine.h" />
     <ClInclude Include="Interactable3DObject.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="JSON.h" />
@@ -119,6 +122,7 @@
     <ClInclude Include="UICellGrid.h" />
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UIAssemblyLine.h" />
     <ClInclude Include="WalkCharacterState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
