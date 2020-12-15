@@ -143,6 +143,24 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
 	room2A02->InsertObject(box);
 
+	Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal1->SetObjectName("portal1");
+	portal1->AddColliderCube("portal1ColliderCube");
+	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal1->SetPos(D3DXVECTOR3(25, 0, 123.5));
+	portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
+	portal1->Setup();
+	room2A02->InsertObject(portal1);
+
+	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal2->SetObjectName("portal2");
+	portal2->AddColliderCube("portal2ColliderCube");
+	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
+	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
+	portal2->Setup();
+	room2A02->InsertObject(portal2);
+
 	Interactable3DObject* door = new Interactable3DObject;
 	door->SetObjectName("door");
 	door->AddColliderCube("basicColliderCube");
@@ -164,27 +182,19 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	{
 		player->UseItem(eInventorySlot::Key);
 	});
+	door->AddInteractionBehavior([=]()->void
+	{
+		portal1->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+		{
+			roomCenter->SetCurRoom(eRoomName::R2A01);
+		};
+		portal2->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+		{
+			roomCenter->SetCurRoom(eRoomName::R2A01);
+		};
+	});
 	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
 	room2A02->InsertObject(door);
-
-
-	Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
-	portal1->SetObjectName("portal1");
-	portal1->AddColliderCube("portal1ColliderCube");
-	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-	portal1->SetPos(D3DXVECTOR3(25, 0, 123.5));
-	portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
-	portal1->Setup();
-	room2A02->InsertObject(portal1);
-
-	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
-	portal2->SetObjectName("portal2");
-	portal2->AddColliderCube("portal2ColliderCube");
-	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-	portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
-	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
-	portal2->Setup();
-	room2A02->InsertObject(portal2);
 
 	LoadWallFromJson("Resources/Json/wall3A01.json", room2A02);
 	LoadWallFromJson("Resources/Json/wall3A02.json", room2A02);
