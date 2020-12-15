@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "FlashLight.h"
 
 Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
                                                      D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
@@ -111,33 +112,15 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 	roomCenter->SetPlayer(player);
-	newScene->mGameObjects.insert(make_pair("player", player));
+
+	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 
-	Room* room2A02 = new Room;
+	Room * room2A02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 	roomCenter->SetCurRoom(eRoomName::R2A02);
-
-
-	Portal* portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
-	portal1->SetObjectName("portal1");
-	portal1->AddColliderCube("portal1ColliderCube");
-	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-	portal1->SetPos(D3DXVECTOR3(25, 0, 121.5));
-	portal1->SetExitPos(D3DXVECTOR3(25, 0, 143.5));
-	portal1->Setup();
-	room2A02->InsertObject(portal1);
-
-	Portal* portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
-	portal2->SetObjectName("portal2");
-	portal2->AddColliderCube("portal2ColliderCube");
-	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
-	portal2->SetPos(D3DXVECTOR3(25, 0, 143.5));
-	portal2->SetExitPos(D3DXVECTOR3(25, 0, 121.5));
-	portal2->Setup();
-	room2A02->InsertObject(portal2);
 
 	Static3DObject* key = new Static3DObject;
 	key->SetObjectName("key1");
@@ -154,9 +137,9 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	box->SetIsInteractable(true);
 	box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
 	box->AddInteractionBehavior([=]()->void
-		{
-			player->AddItem(eInventorySlot::Key, key);
-		});
+	{
+		player->AddItem(eInventorySlot::Key, key);
+	});
 	box->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, box));
 	room2A02->InsertObject(box);
 
@@ -167,42 +150,47 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	door->SetPos(D3DXVECTOR3(3, 1.5, 135));
 	door->SetIsInteractable(true);
 	door->AddInteractionCondition([=]()->bool
-		{
-			return player->HasItem(eInventorySlot::Key, "key1");
-		});
+	{
+		return player->HasItem(eInventorySlot::Key, "key1");
+	});
 	door->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, door));
 	door->AddInteractionBehavior([=]()->void
-		{
-			D3DXQUATERNION rotY;
-			D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
-			door->SetRot(rotY);
-		});
+	{
+		D3DXQUATERNION rotY;
+		D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
+		door->SetRot(rotY);
+	});
 	door->AddInteractionBehavior([=]()->void
-		{
-			player->UseItem(eInventorySlot::Key);
-		});
-	door->AddInteractionBehavior([=]()->void
-		{
-			portal1->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-			{
-				roomCenter->SetCurRoom(eRoomName::R2A01);
-			};
-			portal2->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-			{
-				roomCenter->SetCurRoom(eRoomName::R2A01);
-			};
-		});
+	{
+		player->UseItem(eInventorySlot::Key);
+	});
 	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
 	room2A02->InsertObject(door);
 
-	LoadWallFromJson("Resources/Json/wall3A01.json", room2A01);
+
+	Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal1->SetObjectName("portal1");
+	portal1->AddColliderCube("portal1ColliderCube");
+	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal1->SetPos(D3DXVECTOR3(25, 0, 123.5));
+	portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
+	portal1->Setup();
+	room2A02->InsertObject(portal1);
+
+	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal2->SetObjectName("portal2");
+	portal2->AddColliderCube("portal2ColliderCube");
+	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
+	portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
+	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
+	portal2->Setup();
+	room2A02->InsertObject(portal2);
+
+	LoadWallFromJson("Resources/Json/wall3A01.json", room2A02);
 	LoadWallFromJson("Resources/Json/wall3A02.json", room2A02);
-	/*LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
-	LoadWallfromJson("Resources/Json/wall3A04.json", room2A02);
-	LoadWallfromJson("Resources/Json/wall3A06.json", room2A02);*/
-
-	//LoadWallfromJson("Resources/Json/wall3A07.json", room3A02);
-
+	LoadWallFromJson("Resources/Json/wall3A03.json", room2A02);
+	LoadWallFromJson("Resources/Json/wall3A04.json", room2A02);
+	LoadWallFromJson("Resources/Json/wall3A07.json", room2A02);
 
 	Door* tempDoor = new Door;
 	tempDoor->SetObjectName("tempDoor");
@@ -213,7 +201,12 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	tempDoor->AddColliderCube("basicColliderCube");
 	tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f, 3.f, 0.5f);
 	tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
+
 	room2A02->InsertObject(tempDoor);
+
+	FlashLight* onlyFlashLight = new FlashLight;
+	onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
+	newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 }
 
 void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)

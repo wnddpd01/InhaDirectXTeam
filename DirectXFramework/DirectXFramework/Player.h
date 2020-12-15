@@ -36,6 +36,11 @@ public:
 		return mRot;
 	}
 
+	D3DXQUATERNION* GetRotPt()
+	{
+		return &mRot;
+	}
+
 	D3DXVECTOR3 GetPos() const
 	{
 		return mPos;

@@ -13,6 +13,7 @@
 #include "Inventory.h"
 #include "UICellGrid.h"
 #include "Door.h"
+#include "FlashLight.h"
 
 SceneFactory::SceneFactory()
 {
@@ -30,3 +31,4 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 	mGameObjectLine.MakeGameObject(newScene);
 	return newScene;
 }
+

@@ -28,7 +28,9 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 			if (iter->second->GetObjectTag() == eObjTag::INTERACTABLE_OBJECT)
 			{
 				player->HandleInteractableObjectSphereCollideEvent(iter->second);
+				iter->second->SetShaderPath(eShaderPath::ALL_PATH);
 				sphereCollideOccurred = true;
+
 			}
 
 			if (CheckCube((*iter).second, (Base3DObject*)player, obj1Tag, obj2Tag))
@@ -49,6 +51,7 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 
 	if (sphereCollideOccurred == false && player->GetInteractingObject() != nullptr)
 	{
+		player->GetInteractingObject()->SetShaderPath(eShaderPath::PATH1);
 		player->SetInteractingObject(nullptr);
 	}
 	

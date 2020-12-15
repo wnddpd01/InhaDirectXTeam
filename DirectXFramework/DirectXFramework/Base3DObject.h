@@ -23,6 +23,8 @@ protected:
 
 	eStateTag mStateTag;
 	eTypeTag mTypeTag;
+	eShaderPath mShaderPath;
+
 public:
 	Base3DObject();
 	virtual ~Base3DObject();
@@ -37,6 +39,8 @@ public:
 	void SetTypeTag(eTypeTag tag) { mTypeTag = tag; }
 	eTypeTag GetTypeTag() const { return mTypeTag; }
 
+	void SetShaderPath(eShaderPath tag) { mShaderPath = tag; }
+	eShaderPath GetShaderPath() const { return mShaderPath; }
 
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);

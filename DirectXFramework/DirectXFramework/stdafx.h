@@ -50,8 +50,16 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-#define ORTHO_WIDTH 48.f
+#define ORTHO_WIDTH 80.f
 
+enum class eShaderPath
+{
+	ALL_PATH = 0,
+	PATH0 = 1,
+	PATH1 = 2,
+	PATH2 = 4,
+	PATH3 = 8
+};
 struct Vertex
 {
 	D3DXVECTOR3 Pos;
@@ -179,6 +187,7 @@ using namespace std;
 
 #include "fmod/fmod.hpp"
 #pragma comment(lib, "fmod/fmodex_vc.lib")
+
 
 #include "UIEventListener.h"
 #include "TimeManager.h"

@@ -26,6 +26,7 @@ Interactable3DObject::Interactable3DObject()
 	: mbTryInteractionCalled(false)
 {
 	mObjectTag = eObjTag::INTERACTABLE_OBJECT;
+	mShaderPath = eShaderPath::PATH1;
 }
 
 Interactable3DObject::~Interactable3DObject()

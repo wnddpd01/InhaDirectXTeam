@@ -17,8 +17,5 @@ public:
 	~SceneFactory();
 
 	Scene* CreateScene(eSceneName eSceneName);
-
-
-
 };
 

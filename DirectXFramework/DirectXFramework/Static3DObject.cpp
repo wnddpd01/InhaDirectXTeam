@@ -73,7 +73,7 @@ void Static3DObject::Render()
 		
 		case eTypeTag::ITEM :
 		{
-			gShader->GetInstance()->RenderWithItemShader(bind(&Static3DObject::RenderMesh, this));
+			gShader->GetInstance()->RenderWithItemShader(bind(&Static3DObject::RenderMesh, this), mShaderPath);
 			//RenderMesh();
 		}
 		break;
