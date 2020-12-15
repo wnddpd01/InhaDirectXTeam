@@ -8,28 +8,6 @@
 #include "UIImage.h"
 #include "SceneCenter.h"
 #include "KeyboardInputManager.h"
-//inline void PanelEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
-//{
-//	static bool isClicked = false;
-//	uiImage = (UIImage*)uiImage;
-//	if(eventName == eEventName::MOUSE_L_DOWN)
-//	{
-//		POINT mousePt = *(POINT*)(parameter);
-//		if (PtInRect(&uiImage->GetRectInViewPort(), mousePt))
-//		{
-//			isClicked = true;
-//		}
-//	}
-//	else if(eventName == eEventName::MOUSE_L_UP)
-//	{
-//		POINT mousePt = *(POINT*)(parameter);
-//		isClicked = false;
-//		if (PtInRect(&uiImage->GetRectInViewPort(), mousePt))
-//		{
-//			uiImage->SetVisible(!uiImage->IsVisible());
-//		}
-//	}
-//}
 
 inline bool BtnStartEventListen(eEventName eventName, void * parameter, UIBase * uiImage)
 {
@@ -154,6 +132,49 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		{
 			isCalled *= -1;
 		}
+
+		if (isCalled == 1)
+		{
+			static int temp = 0;
+			switch (key)
+			{
+			case eKeyName::KEY_FRONT:
+				temp -= 1;
+				break;
+
+			case eKeyName::KEY_BACK:
+				temp += 1;
+				break;
+
+			case eKeyName::KEY_INTERACTION:
+
+				break;
+			default:
+				break;
+			}
+		
+			
+		}
+	}
+	break;
+	case eEventName::KEY_DOWN:
+	{
+		/*eKeyName key = *(eKeyName*)parameter;
+
+		switch (key)
+		{
+		case eKeyName::KEY_FRONT:
+
+			break;
+
+		case eKeyName::KEY_BACK:
+
+			break;
+
+		case eKeyName::KEY_INTERACTION:
+
+			break;
+		}		*/
 	}
 	break;
 	case eEventName::MOUSE_L_DOWN:
@@ -161,26 +182,26 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		POINT mousePt = *(POINT*)(parameter);
 		if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt) && uiImageConvert->GetChildUI("ExitBtn")->IsVisible())
 		{
-			uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_on.png");
+			uiImageConvert->GetChildUI("ExitBtn")->SetTexture(eStateUI::on);
 			isClicked = true;
 		}
 
 		if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
 		{
-			uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_on.png");
+			uiImageConvert->GetChildUI("Control")->SetTexture(eStateUI::on);
 			isClicked = true;
 		}
 
 		if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->GetRectInViewPort(), mousePt))
 		{
-			uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_set.png");
+			uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture(eStateUI::on);
 			isClicked = true;
 		}
 
 
 		if (PtInRect(&uiImageConvert->GetChildUI("ReturnBtn")->GetRectInViewPort(), mousePt) && uiImageConvert->GetChildUI("ReturnBtn")->IsVisible())
 		{
-			uiImageConvert->GetChildUI("ReturnBtn")->SetTexture("Resources/UI/Setting/Return_on.png");
+			uiImageConvert->GetChildUI("ReturnBtn")->SetTexture(eStateUI::on);
 			isClicked = true;
 		}
 
@@ -192,14 +213,14 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		isClicked = false;
 		if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt) && uiImageConvert->GetChildUI("ExitBtn")->IsVisible())
 		{
-			uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_off.png");
+			uiImageConvert->GetChildUI("ExitBtn")->SetTexture(eStateUI::off);
 			isCalled = -1;
 		}
 
 		if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
 		{
 
-			uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_off.png");
+			uiImageConvert->GetChildUI("Control")->SetTexture(eStateUI::off);
 
 			for (pair<string, UIImage*> child : uiImageConvert->GetChildUI())
 			{
@@ -230,7 +251,7 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 
 		if (PtInRect(&uiImageConvert->GetChildUI("ReturnBtn")->GetRectInViewPort(), mousePt) && uiImageConvert->GetChildUI("ReturnBtn")->IsVisible())
 		{
-			uiImageConvert->GetChildUI("ReturnBtn")->SetTexture("Resources/UI/Setting/Return_off.png");
+			uiImageConvert->GetChildUI("ReturnBtn")->SetTexture(eStateUI::off);
 			for (pair<string, UIImage*> child : uiImageConvert->GetChildUI())
 			{
 				if (child.first == "ControlLayer" || child.first == "ReturnBtn")
@@ -253,45 +274,44 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 		{
 			if (PtInRect(&uiImageConvert->GetChildUI("ExitBtn")->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_on.png");
+				uiImageConvert->GetChildUI("ExitBtn")->SetTexture(eStateUI::on);
 			}
 			else
 			{
-				uiImageConvert->GetChildUI("ExitBtn")->SetTexture("Resources/UI/Setting/Exit_off.png");
+				uiImageConvert->GetChildUI("ExitBtn")->SetTexture(eStateUI::off);
 			}
 
 			if (PtInRect(&uiImageConvert->GetChildUI("Control")->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_on.png");
+				uiImageConvert->GetChildUI("Control")->SetTexture(eStateUI::on);
 			}
 			else
 			{
-				uiImageConvert->GetChildUI("Control")->SetTexture("Resources/UI/Setting/Control_off.png");
+				uiImageConvert->GetChildUI("Control")->SetTexture(eStateUI::off);
 			}
 
 			if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_click.png");
+				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture(eStateUI::on);
 			}
 			else
 			{
-				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture("Resources/UI/Setting/Button_set.png");
+				uiImageConvert->GetChildUI("BGMLine")->GetChildUI("BGMBtn")->SetTexture(eStateUI::off);
 			}
 
 			if (PtInRect(&uiImageConvert->GetChildUI("ReturnBtn")->GetRectInViewPort(), mousePt))
 			{
-				uiImageConvert->GetChildUI("ReturnBtn")->SetTexture("Resources/UI/Setting/Return_on.png");
+				uiImageConvert->GetChildUI("ReturnBtn")->SetTexture(eStateUI::on);
 			}
 			else
 			{
-				uiImageConvert->GetChildUI("ReturnBtn")->SetTexture("Resources/UI/Setting/Return_off.png");
+				uiImageConvert->GetChildUI("ReturnBtn")->SetTexture(eStateUI::off);
 			}
 
 
 		}
 		else
 		{
-
 			if (PtInRect(&uiImageConvert->GetChildUI("BGMLine")->GetRectInViewPort(), mousePt))
 			{
 				UIImage*Line = uiImageConvert->GetChildUI("BGMLine");
@@ -309,7 +329,6 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 	default:
 		break;
 	}
-
 
 
 	if (isCalled == 1)

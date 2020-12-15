@@ -22,7 +22,6 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 	{
 		if (CheckSphere((*iter).second, (Base3DObject*)player))
 		{
-			sphereCollideOccurred = true;
 			string obj1Tag;
 			string obj2Tag;
 			
@@ -30,6 +29,8 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 			{
 				player->HandleInteractableObjectSphereCollideEvent(iter->second);
 				iter->second->SetShaderPath(eShaderPath::ALL_PATH);
+				sphereCollideOccurred = true;
+
 			}
 
 			if (CheckCube((*iter).second, (Base3DObject*)player, obj1Tag, obj2Tag))
