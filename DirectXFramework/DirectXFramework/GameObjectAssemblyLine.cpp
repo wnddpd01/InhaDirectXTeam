@@ -137,8 +137,18 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadWallFromJson("Resources/Json/wall3A01.json", room2A01);
+	Portal * portal2A01 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal2A01->SetObjectName("portal2A07");
+	portal2A01->AddColliderCube("portal2A07ColliderCube");
+	portal2A01->Setup();
+	portal2A01->SetPos({ 24.5f, 0.f, 17.f });
+	portal2A01->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+	{
+		roomCenter->SetCurRoom(eRoomName::R2A07);
+		cout << "i'm in Room2A07" << endl;
+	};
+	room2A01->InsertObject(portal2A01);
 	
-
 	Room * room2A02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 	LoadWallFromJson("Resources/Json/wall3A02.json", room2A02);
@@ -162,6 +172,18 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Room* room2A07 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
 	LoadWallFromJson("Resources/Json/wall3A07.json", room2A07);
+
+	Portal * portal2A07 = new Portal(D3DXVECTOR3(1, 0, 0));
+	portal2A07->SetObjectName("portal2A07");
+	portal2A07->AddColliderCube("portal2A07ColliderCube");
+	portal2A07->Setup();
+	portal2A07->SetPos({ 25.5f, 0.f, 17.f });
+	portal2A07->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+	{
+		roomCenter->SetCurRoom(eRoomName::R2A01);
+		cout << "i'm in Room2A01" << endl;
+	};
+	room2A07->InsertObject(portal2A07);
 
 	Room* room2B01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
