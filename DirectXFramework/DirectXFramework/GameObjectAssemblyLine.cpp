@@ -132,11 +132,12 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
-
-
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadWallFromJson("Resources/Json/wall3A01.json", room2A01);
+
+	//MakeRoomConnector(eRoomName::R2A01, eRoomName::R2A07, D3DXVECTOR3(24.5f, 0.f, 17.f), eDir::UP);
+
 	Portal * portal2A01 = new Portal(D3DXVECTOR3(1, 0, 0));
 	portal2A01->SetObjectName("portal2A07");
 	portal2A01->AddColliderCube("portal2A07ColliderCube");
@@ -148,6 +149,8 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 		cout << "i'm in Room2A07" << endl;
 	};
 	room2A01->InsertObject(portal2A01);
+
+
 	
 	Room * room2A02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
