@@ -13,7 +13,7 @@ void JSON::LoadJSON(string FullPath)
 		cout << "Parsing error" << endl;
 	}
 	fclose(fp);
-	cout << buffer;
+	//cout << buffer;
 }
 
 void JSON::WriteJSON(string FullPath)
