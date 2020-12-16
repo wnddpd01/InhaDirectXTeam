@@ -83,6 +83,12 @@ void Static3DObject::Render()
 			//RenderMesh();
 		}
 		break;
+		case eTypeTag::FLOOR:
+		{
+			//gShader->GetInstance()->RenderWithWallShader(bind(&Static3DObject::RenderMesh, this));
+			RenderMesh();
+		}
+		break;
 		default:
 		{
 		}

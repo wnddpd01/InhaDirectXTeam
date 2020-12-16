@@ -293,11 +293,13 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	int num = m_pAnimController->GetNumAnimationSets();
 
 	// 확인용 코드
+	/*
 	LPD3DXANIMATIONSET testset;
 	LPCSTR outchar[128];
 	m_pAnimController->GetAnimationSetByName("m_pAnimController", &testset);
 	m_pAnimController->GetAnimationSet(0, &testset);
 	cout << "애니메이션 숫자 : " << testset->GetNumAnimations() << endl;
+	*/
 	// 확인용 코드 
 
 

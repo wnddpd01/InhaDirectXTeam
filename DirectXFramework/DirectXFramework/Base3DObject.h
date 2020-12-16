@@ -4,7 +4,7 @@ class ColliderCube;
 class ColliderSphere;
 
 enum class eObjTag { NON_OBJECT_TAG = 0, STATIC_OBJECT, INTERACTABLE_OBJECT };
-enum class eTypeTag { PLAYER_CHARACTER, DOOR , WALL, ITEM };
+enum class eTypeTag { PLAYER_CHARACTER, DOOR , WALL, ITEM, FLOOR};
 enum class eStateTag { NON_STATE = 0, DOOR_OPEN, DOOR_CLOSE };
 
 class Base3DObject :

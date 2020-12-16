@@ -163,16 +163,78 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 
 		Room* room2A01 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
-		
+		LoadWallfromJson("Resources/Json/wall3A01.json", room2A01);
+
 		Room * room2A02 = new Room;
 		roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
-		roomCenter->SetCurRoom(eRoomName::R2A02);
+		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
 
+		roomCenter->SetCurRoom(eRoomName::R2A07);
+
+		Room* room2A03 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
+		LoadWallfromJson("Resources/Json/wall3A03.json", room2A03);
+		
+		Room* room2A04 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
+		LoadWallfromJson("Resources/Json/wall3A04.json", room2A04);
+
+		Room* room2A05 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A05, room2A05);
+		LoadWallfromJson("Resources/Json/wall3A05.json", room2A05);
+
+		Room* room2A06 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A06, room2A06);
+		LoadWallfromJson("Resources/Json/wall3A06.json", room2A06);
+
+		Room* room2A07 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
+		LoadWallfromJson("Resources/Json/wall3A07.json", room2A07);
+		
+		Room* room2B01 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
+		LoadWallfromJson("Resources/Json/wall3B01.json", room2B01);
+
+		Room* room2B02 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2B02, room2B02);
+		LoadWallfromJson("Resources/Json/wall3B02.json", room2B02);
+
+		Room* room2B03 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2B03, room2B03);
+		LoadWallfromJson("Resources/Json/wall3B03.json", room2B03);
+
+		Room* room2B04 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2B04, room2B04);
+		LoadWallfromJson("Resources/Json/wall3B04.json", room2B04);
+
+		Room* room2C01 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2C01, room2C01);
+		LoadWallfromJson("Resources/Json/wall3C01.json", room2C01);
+
+		Room* room2C02 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2C02, room2C02);
+		LoadWallfromJson("Resources/Json/wall3C02.json", room2C02);
+
+		Room* room2C03 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2C03, room2C02);
+		LoadWallfromJson("Resources/Json/wall3C03.json", room2C02);
+		
+		Room* room2D01 = new Room;
+		roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
+		LoadWallfromJson("Resources/Json/wall3D01.json", room2D01);
+		
+		
 		Static3DObject* key = new Static3DObject;
 		key->SetObjectName("key1");
 		key->Setup("Resources/Xfile/", "Key.X");
 		key->AddColliderCube("basicColliderCube");
 		
+
+		Static3DObject* floor = new Static3DObject;
+		floor = CreateStatic3DObject("floor", "mapTile.X", D3DXVECTOR3(75, 0, 75), D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
+		floor->SetTypeTag(eTypeTag::FLOOR);
+		newScene->mGameObjects.insert(make_pair("AAfloor", floor));
+
 		Interactable3DObject* box = new Interactable3DObject;
 		box->SetObjectName("box");
 		box->AddColliderCube("basicColliderCube");
@@ -232,11 +294,7 @@ Scene* SceneFactory::CreateScene(eSceneName eSceneName)
 		portal2->Setup();
 		room2A02->InsertObject(portal2);
 
-		LoadWallfromJson("Resources/Json/wall3A01.json", room2A02);
-		LoadWallfromJson("Resources/Json/wall3A02.json", room2A02);
-		LoadWallfromJson("Resources/Json/wall3A03.json", room2A02);
-		LoadWallfromJson("Resources/Json/wall3A04.json", room2A02);
-		LoadWallfromJson("Resources/Json/wall3A07.json", room2A02);
+		
 
 		Door* tempDoor = new Door;
 		tempDoor->SetObjectName("tempDoor");
