@@ -39,9 +39,16 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 
 void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
 {
+	gJSON->LoadJSON(fileName);
+
+	D3DXVECTOR3 offset;
+	Value& JsonOffset = gJSON->mDocument["offset"];
+	offset.x = JsonOffset["x"].GetFloat();
+	offset.y = JsonOffset["y"].GetFloat();
+	offset.z = JsonOffset["z"].GetFloat();
+
 	static int wallCnt = 0;
 
-	gJSON->LoadJSON(fileName);
 	Value& walls = gJSON->mDocument["wall"];
 	for (SizeType i = 0; i < walls.Size(); ++i)
 	{
@@ -50,11 +57,14 @@ void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
 		Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
 		if (itrot != walls[i].MemberEnd())
 		{
-			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(
-				walls[i]["rotation"]["x"].GetFloat(),
-				walls[i]["rotation"]["y"].GetFloat(),
-				walls[i]["rotation"]["z"].GetFloat()
-			), walls[i]["rotation"]["w"].GetFloat() * D3DX_PI);
+			D3DXVECTOR3 rot(
+				walls[i]["rotation"]["x"].GetFloat() * D3DX_PI / 180.f,
+				walls[i]["rotation"]["y"].GetFloat() * D3DX_PI / 180.f,
+				walls[i]["rotation"]["z"].GetFloat() * D3DX_PI / 180.f);
+
+			D3DXQUATERNION quater;
+
+			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), rot.y);
 		}
 
 		Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
@@ -71,18 +81,24 @@ void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
 		if (itcol != walls[i].MemberEnd())
 		{
 			ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
-			ColliderScale.y = walls[i]["colliderScale"]["width"].GetFloat();
+			ColliderScale.y = (walls[i]["colliderScale"]["width"].GetFloat() * scale.x) - 1.f;
 			ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
 		}
+
+		D3DXVECTOR3 Position(0.f, 0.f, 0.f);
+		Value::ConstMemberIterator itpos = walls[i].FindMember("position");
+		if (itpos != walls[i].MemberEnd())
+		{
+			Position.x = (walls[i]["position"]["x"].GetFloat() + offset.x);
+			Position.y = (walls[i]["position"]["y"].GetFloat() + offset.y);
+			Position.z = (walls[i]["position"]["z"].GetFloat() + offset.z);
+		}
+
 
 		Static3DObject* wall = CreateStatic3DObject(
 			string("wall") + to_string(wallCnt++),
 			walls[i]["sourceFileName"].GetString(),
-			{
-				walls[i]["position"]["x"].GetFloat(),
-				walls[i]["position"]["y"].GetFloat(),
-				walls[i]["position"]["z"].GetFloat()
-			},
+			Position,
 			scale,
 			ColliderScale,
 			rotation
