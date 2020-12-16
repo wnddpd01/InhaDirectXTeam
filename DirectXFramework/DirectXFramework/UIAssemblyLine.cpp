@@ -4,7 +4,12 @@
 
 void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 {
-	UIImage* uiImage = new UIImage("Resources/UI/Main/Title.png", { 20, 4 }, 24, 8);
+	UIImage* uiImage= new UIImage("Resources/UI/Setting/Layer.png", { 0, 0 }, 64, 36);
+	uiImage->SetObjectName("Layer");
+	uiImage->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("Layer", uiImage));
+	
+	uiImage = new UIImage("Resources/UI/Main/Title.png", { 20, 4 }, 24, 8);
 	uiImage->SetObjectName("Title");
 	uiImage->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("Title", uiImage));
@@ -105,10 +110,15 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	MiniGameUI->SetVisible(false);
 	newScene->mGameUIs.insert(make_pair("MniGameLayer", MiniGameUI));
 
-	UIImage* MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/claw_hold.png", { 44,2 }, 5, 12);
+	UIImage* MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/claw_line.png", { 44, 2 }, 5, 6);
+	MiniGameObjectUI->SetObjectName("ClawLine");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("ClawLine", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/claw_hold.png", { 44,2 }, 5, 12);
 	MiniGameObjectUI->SetObjectName("Claw");
 	MiniGameObjectUI->SetVisible(true);
-	MiniGameUI->AddChild("Claw", MiniGameObjectUI);
+	MiniGameUI->GetChildUI("ClawLine")->AddChild("Claw", MiniGameObjectUI);
 
 	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/briefcase.png", { 6, 17 }, 12, 6);
 	MiniGameObjectUI->SetObjectName("briefcase");
