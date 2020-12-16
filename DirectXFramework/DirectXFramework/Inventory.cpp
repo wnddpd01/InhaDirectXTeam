@@ -169,8 +169,8 @@ void Inventory::UseItem(eInventorySlot slot)
 		assert("Inventory USeItem Error\nNo Item in Slot");
 		return;
 	}
-	//TODO 아이템 사용 처리
-	cout << mSlotItem[slot]->GetObjectName() << " : 아이템 사용" << endl;
+	SAFE_DELETE(mSlotItem[slot]);
+	mSlotItem[slot] = nullptr;
 }
 
 bool Inventory::HasItem(eInventorySlot slot, string itemName)

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="WinMain">
       <UniqueIdentifier>{0e7d50b4-ed6d-43a2-82d4-5e97b1de93ff}</UniqueIdentifier>
     </Filter>
@@ -37,6 +33,9 @@
     </Filter>
     <Filter Include="3DObject\Colider">
       <UniqueIdentifier>{3a1e285b-0e3a-4929-a2a7-b27659168f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneFactory">
+      <UniqueIdentifier>{c7c199c2-5ddf-4adf-ba39-1384e322d18c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="QuarterMap.cpp">
       <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneFactory.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>Singleton</Filter>
@@ -175,6 +171,18 @@
     </ClCompile>
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="FlashLight.cpp" />
+    <ClCompile Include="SceneFactory.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAssemblyLine.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAssemblyLine.cpp">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -218,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="QuarterMap.h">
       <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneFactory.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="FontManager.h">
       <Filter>Singleton</Filter>
@@ -317,12 +322,18 @@
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="Door.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="FlashLight.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DirectXFramework.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
+    <ClInclude Include="SceneFactory.h">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAssemblyLine.h">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAssemblyLine.h">
+      <Filter>Scene\SceneFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

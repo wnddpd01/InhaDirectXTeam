@@ -10,12 +10,13 @@ class Scene;
 
 class SceneCenter : public BaseObserver
 {
-	SceneFactory mSceneFactory;
-	void SceneLoad(eSceneName sceneName);
+private :
+	void LoadScene(eSceneName sceneName);
+	void EnterScene(eSceneName sceneName);
 public :
 	SceneCenter();
 	~SceneCenter() override;
-	void SceneChange(eSceneName sceneName);
+	void ChangeScene(eSceneName sceneName);
 	void RegisterScene(Scene* scene);
 	void InputProcess();
 	void Update();
@@ -34,6 +35,7 @@ public :
 
 	
 private:
+	SceneFactory mSceneFactory;
 	Scene* mCurScene;
 	std::map<eSceneName, Scene*> mSceneMap;
 };

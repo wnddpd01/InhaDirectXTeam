@@ -14,6 +14,11 @@ ColliderChecker::~ColliderChecker()
 
 void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>& objects)
 {
+	if (objects.empty() == true)
+	{
+		return;
+	}
+
 	queue<CollisionEvent> collisionEventQueue;
 
 	bool sphereCollideOccurred = false;
@@ -55,16 +60,16 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 		player->SetInteractingObject(nullptr);
 	}
 	
-	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(),1) ; ++iter)
+	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(), 1); ++iter)
 	{
-		for (map<string, Base3DObject*>::iterator iter2 = next(iter,1); iter2 != objects.end(); ++iter2)
+		for (map<string, Base3DObject*>::iterator iter2 = next(iter, 1); iter2 != objects.end(); ++iter2)
 		{
-			if(CheckSphere((*iter).second, (*iter2).second))
+			if (CheckSphere((*iter).second, (*iter2).second))
 			{
 				string obj1Tag;
 				string obj2Tag;
-				
-				if(CheckCube((*iter).second,(*iter2).second, obj1Tag, obj2Tag))
+
+				if (CheckCube((*iter).second, (*iter2).second, obj1Tag, obj2Tag))
 				{
 					CollisionEvent collisionEvent;
 					collisionEvent.obj1 = iter->second;
@@ -75,11 +80,12 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 				}
 				else
 				{
-					
+
 				}
 			}
 		}
 	}
+	
 
 	while(collisionEventQueue.empty() == false)
 	{

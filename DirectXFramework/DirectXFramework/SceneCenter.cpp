@@ -11,16 +11,41 @@
 
 using namespace std;
 
-void SceneCenter::SceneLoad(eSceneName sceneName)
+void SceneCenter::LoadScene(eSceneName sceneName)
 {
 	Scene* newScene = mSceneFactory.CreateScene(sceneName);
 	RegisterScene(newScene);
 }
 
-SceneCenter::SceneCenter() : mCurScene(nullptr)
+void SceneCenter::EnterScene(eSceneName sceneName)
 {
-	SceneChange(eSceneName::START_SCENE);
+	switch (sceneName)
+	{
+		case eSceneName::START_SCENE :
+			{
+				
+			}
+			break;
+		case eSceneName::INGAME_SCENE :
+			{
+				gSoundManager->Play("BGM");
+			}
+			break;
+		default :
+			{
+				
+			}
+			break;
+	}
+}
 
+SceneCenter::SceneCenter()
+	: mCurScene(nullptr)
+{
+	gSoundManager->SoundSet();
+	gShader->LoadAllShader();
+	
+	ChangeScene(eSceneName::START_SCENE);
 	gEventManager->AttachSubscriber(eEventName::SCENE_CHANGE, 0, this);
 }
 
@@ -33,19 +58,20 @@ SceneCenter::~SceneCenter()
 	mSceneMap.clear();
 }
 
-void SceneCenter::SceneChange(eSceneName sceneName)
+void SceneCenter::ChangeScene(eSceneName sceneName)
 {
 	if (mSceneMap.find(sceneName) == mSceneMap.end())
 	{
-		SceneLoad(sceneName);
+		LoadScene(sceneName);
 	}
 	if (mCurScene != nullptr)
 	{
 		mCurScene->DetachAllSubscriberInSubscriberList();
 	}
 	mCurScene = mSceneMap.find(sceneName)->second;
-	gCameraManager->SetCamera(mSceneMap.find(sceneName)->second->GetCamera());
 	mCurScene->AttachAllSubscriberInSubscriberList();
+	EnterScene(mCurScene->GetSceneName());
+	gCameraManager->SetCamera(mSceneMap.find(sceneName)->second->GetCamera());
 }
 
 
@@ -86,7 +112,7 @@ bool SceneCenter::Update(eEventName eventName, void* parameter)
 	if(eventName == eEventName::SCENE_CHANGE)
 	{
 		eSceneName * sceneName = static_cast<eSceneName *>(parameter);
-		SceneChange(*sceneName);
+		ChangeScene(*sceneName);
 	}
 	return true;
 }
