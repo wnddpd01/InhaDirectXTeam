@@ -354,3 +354,10 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 	}
 
 }
+
+
+inline bool MiniGameEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
+{
+
+	return false;
+}
