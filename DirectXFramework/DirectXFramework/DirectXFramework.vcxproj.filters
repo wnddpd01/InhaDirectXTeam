@@ -180,9 +180,6 @@
     <ClCompile Include="UIAssemblyLine.cpp">
       <Filter>Scene\SceneFactory</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -331,9 +328,6 @@
     </ClInclude>
     <ClInclude Include="UIAssemblyLine.h">
       <Filter>Scene\SceneFactory</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
