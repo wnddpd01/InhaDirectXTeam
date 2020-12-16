@@ -95,6 +95,7 @@ struct UIVertex : Vertex
 	float Row;
 };
 
+
 namespace std
 {
 	template <>
