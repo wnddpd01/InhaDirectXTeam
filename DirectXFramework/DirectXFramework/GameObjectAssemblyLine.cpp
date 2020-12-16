@@ -10,7 +10,7 @@
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
 #include "FlashLight.h"
-#include "Grid.h"
+
 
 Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
                                                      D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
@@ -236,11 +236,9 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
 	newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 
-	Grid* grid = new Grid;
-	grid->Setup();
-	newScene->mGameObjects.insert(make_pair("Grid", grid));
-}
 
+
+}
 void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)
 {
 	switch (newScene->GetSceneName())

@@ -95,13 +95,6 @@ struct UIVertex : Vertex
 	float Row;
 };
 
-struct ST_RECT
-{
-	D3DXVECTOR3 vCenter;
-	std::vector<Vertex> vVertex;
-	bool isPicked;
-	POINT Point_MapPosition;
-};
 
 namespace std
 {
