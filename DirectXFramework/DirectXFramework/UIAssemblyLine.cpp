@@ -91,6 +91,56 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	childUI->SetUIPath("Resources/UI/Setting/Return_on.png", eStateUI::on);
 	childUI->SetVisible(false);
 	uiImage->AddChild("ReturnBtn", childUI);
+
+
+	UIImage* MiniGameUI = new UIImage("Resources/UI/MiniGame/GameScene.png", { 5,2 }, 54, 32);
+	MiniGameUI->SetObjectName("MiniGameLayer");
+	MiniGameUI->EventProcess = MiniGameEventListen;
+	newScene->AddEventSubscriberList(eEventName::KEY_UP, 0, MiniGameUI);
+	newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 0, MiniGameUI);
+	newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 0, MiniGameUI);
+	newScene->AddEventSubscriberList(eEventName::MOUSE_L_UP, 0, MiniGameUI);
+	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 0, MiniGameUI);
+	newScene->AddEventSubscriberList(eEventName::MOUSE_L_DRAG, 0, MiniGameUI);
+	MiniGameUI->SetVisible(false);
+	newScene->mGameUIs.insert(make_pair("MniGameLayer", MiniGameUI));
+
+	UIImage* MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/claw_hold.png", { 44,2 }, 5, 12);
+	MiniGameObjectUI->SetObjectName("Claw");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("Claw", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/briefcase.png", { 6, 17 }, 12, 6);
+	MiniGameObjectUI->SetObjectName("briefcase");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("briefcase", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/tumbler.png", { 8, 20 }, 3, 4);
+	MiniGameObjectUI->SetObjectName("tumbler");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("tumbler", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/notebook.png", { 14, 18 }, 8, 5);
+	MiniGameObjectUI->SetObjectName("notebook");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("notebook", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/pen_holder.png", { 21, 18 }, 4, 5);
+	MiniGameObjectUI->SetObjectName("pen_holder");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("pen_holder", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/watch.png", { 25, 21 }, 3, 2);
+	MiniGameObjectUI->SetObjectName("watch");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("watch", MiniGameObjectUI);
+
+	MiniGameObjectUI = new UIImage("Resources/UI/MiniGame/telephone.png", { 27, 19 }, 10, 6);
+	MiniGameObjectUI->SetObjectName("telephone");
+	MiniGameObjectUI->SetVisible(true);
+	MiniGameUI->AddChild("telephone", MiniGameObjectUI);
+
+	
 }
 
 void UIAssemblyLine::MakeSceneUI(Scene* newScene)
