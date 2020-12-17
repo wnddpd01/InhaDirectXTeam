@@ -77,7 +77,7 @@ CharacterState* IdleCharacterState::Update(Player& player)
 	if(mbAnimationChanged == false && GetTickCount() - idleStartTime > 50)
 	{
 		mbAnimationChanged = true;
-		player.GetSkinnedMesh()->SetAnimationIndex(5);
+		player.GetSkinnedMesh()->SetAnimationIndexBlend(5);
 	}
 
 	return nullptr;
