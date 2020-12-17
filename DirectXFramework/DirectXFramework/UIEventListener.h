@@ -358,6 +358,57 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 
 inline bool MiniGameEventListen(eEventName eventName, void* parameter, UIBase* uiImage)
 {
+	UIImage* uiImageConvert = (UIImage*)uiImage;
+
+	switch (eventName)
+	{
+	case eEventName::KEY_UP:
+	{
+		eKeyName key = *(eKeyName*)parameter;
+		POINT temp = uiImageConvert->GetChildUI("ClawLine")->GetChildUI("Claw")->GetPos();
+		POINT temp2 = { 2 ,1 };
+		if (key == eKeyName::KEY_INTERACTION)
+		{
+			while(temp.y >1)
+			{
+				temp.y -= temp2.y;
+				uiImageConvert->GetChildUI("ClawLine")->GetChildUI("Claw")->SetPos(temp);
+			}
+		}
+
+	}
+	break;
+
+
+	case eEventName::KEY_DOWN:
+	{
+		eKeyName key = *(eKeyName*)parameter;
+		POINT temp = uiImageConvert->GetChildUI("ClawLine")->GetPos();
+		uiImageConvert->GetChildUI("ClawLine")->GetChildUI("Claw")->SetPos(temp);
+		POINT temp2 = { 2 ,3 };
+		if (key == eKeyName::KEY_LEFT)
+		{
+			temp.x -= temp2.x;
+		}
+		else if (key == eKeyName::KEY_RIGHT)
+		{
+			temp.x += temp2.x;
+		}
+		else if (key == eKeyName::KEY_INTERACTION)
+		{
+			temp.y += temp2.y;
+		}
+		uiImageConvert->GetChildUI("ClawLine")->SetPos(temp);
+
+	}
+	break;
+
+
+	default:
+		break;
+	}
+
+
 
 	return false;
 }
