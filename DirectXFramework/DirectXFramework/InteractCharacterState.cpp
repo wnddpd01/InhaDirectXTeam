@@ -19,7 +19,14 @@ InteractCharacterState::~InteractCharacterState()
 void InteractCharacterState::Enter(Player& player)
 {
 	interactStartTime = GetTickCount();
-	player.GetSkinnedMesh()->SetAnimationIndexBlend(rand() % 2 + 1);
+	if(player.GetInteractingObject()->GetPos().y > player.GetPos().y)
+	{
+		player.GetSkinnedMesh()->SetAnimationIndexBlend(1);
+	}
+	else
+	{
+		player.GetSkinnedMesh()->SetAnimationIndexBlend(2);
+	}
 	LPD3DXANIMATIONSET curAnimSet;
 	player.GetSkinnedMesh()->m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
 	AnimationPeriod = curAnimSet->GetPeriod();

@@ -282,7 +282,7 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_isAnimBlend = true;
 	m_fPassedBlendTime = 0.0f;
 	int num = m_pAnimController->GetNumAnimationSets();
-	
+
 	// 확인용 코드
 	/*
 	LPD3DXANIMATIONSET testset;
