@@ -63,9 +63,7 @@ void SkinnedMesh::Load(char* szFolder, char* szFilename)
 	m_vMax = ah.GetMax();
 	m_vMin = ah.GetMin();
 
-	if (m_pRoot)
-		SetupBoneMatrixPtrs(m_pRoot);
-	
+	SetupBoneMatrixPtrs(m_pRoot);
 }
 
 void SkinnedMesh::Destroy()
@@ -96,7 +94,7 @@ void SkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pMatWorld)
 	}
 	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
 
-	if(pMatWorld)
+	if(pMatWorld != nullptr)
 	{
 		pCurrent->CombinedTransformationMatrix = pCurrent->CombinedTransformationMatrix *(*pMatWorld);
 	}
@@ -151,13 +149,10 @@ void SkinnedMesh::Update()
 			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
 		}
 	}
-	LPD3DXANIMATIONSET curAnimSet;
 	m_pAnimController->AdvanceTime(gTimeManager->GetDeltaTime(), NULL);
-	m_pAnimController->GetTrackAnimationSet(0, &curAnimSet);
 	
-	Update(m_pRoot, NULL);
+	Update((ST_BONE*)m_pRoot, nullptr);
 	UpdateSkinnedMesh(m_pRoot);
-	SAFE_RELEASE(curAnimSet);
 }
 
 void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
@@ -167,18 +162,18 @@ void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	ST_BONE* pBone = (ST_BONE*)pFrame;
 	pBone->CombinedTransformationMatrix = pBone->TransformationMatrix;
 
-	if(pParent)
+	if(pParent != nullptr)
 	{
-		pBone->CombinedTransformationMatrix *= ((ST_BONE*)pParent)->CombinedTransformationMatrix;
+		pBone->CombinedTransformationMatrix = pBone->CombinedTransformationMatrix *(((ST_BONE*)pParent)->CombinedTransformationMatrix);
 	}
 
+	if (pFrame->pFrameSibling)
+	{
+		Update(pFrame->pFrameSibling, pParent);
+	}
 	if(pFrame->pFrameFirstChild)
 	{
 		Update(pFrame->pFrameFirstChild, pFrame);
-	}
-	if(pFrame->pFrameSibling)
-	{
-		Update(pFrame->pFrameSibling, pParent);
 	}
 }
 
@@ -192,10 +187,6 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame)
 		ST_BONE_MESH * pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
 		if(pBoneMesh->MeshData.pMesh)
 		{
-			D3DXMATRIXA16  matWorld;
-			D3DXMatrixIdentity(&matWorld);
-			matWorld = m_matWorldTM * pBone->CombinedTransformationMatrix;
-			gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); ++i)
 			{
 				gD3Device->SetTexture(0, pBoneMesh->vecTex[i]);
@@ -292,6 +283,13 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_fPassedBlendTime = 0.0f;
 	int num = m_pAnimController->GetNumAnimationSets();
 
+	for (int i = 0; i < num; ++i)
+	{
+		LPD3DXANIMATIONSET animSet;
+		m_pAnimController->GetAnimationSet(i, &animSet);
+		cout << animSet->GetName() << endl;
+	}
+	
 	// 확인용 코드
 	/*
 	LPD3DXANIMATIONSET testset;

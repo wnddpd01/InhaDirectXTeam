@@ -16,10 +16,12 @@ private :
 		D3DXQUATERNION rotation = D3DXQUATERNION(0, 0, 0, 1),
 		string colliderName = "basicColliderCube");
 
-	void LoadWallFromJson(string fileName, Room* targetRoom);
+	//void LoadWallFromJson(string fileName, Room* targetRoom);
 	void MakeRoomConnector(
 		Room * firstRoom, eRoomName eFirst, Room * secondRoom, 
 		eRoomName eSecond, D3DXVECTOR3 doorPos, RoomCenter* roomCenter, eDir dirFirst2Second);
+	void LoadObjectFromJson(string objectName, Room * targetRoom);
+	void LoadFromJson(string fileName, Room* targetRoom);
 	void CreateStartSceneGameObject(Scene* newScene);
 	void CreateIngameSceneGameObject(Scene* newScene);
 public :

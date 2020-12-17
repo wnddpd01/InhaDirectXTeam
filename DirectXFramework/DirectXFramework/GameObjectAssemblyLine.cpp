@@ -37,10 +37,8 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 	return newStaticObject;
 }
 
-void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
+void GameObjectAssemblyLine::LoadObjectFromJson(string objectName, Room* targetRoom)
 {
-	gJSON->LoadJSON(fileName);
-
 	D3DXVECTOR3 offset;
 	Value& JsonOffset = gJSON->mDocument["offset"];
 	offset.x = JsonOffset["x"].GetFloat();
@@ -49,64 +47,75 @@ void GameObjectAssemblyLine::LoadWallFromJson(string fileName, Room* targetRoom)
 
 	static int wallCnt = 0;
 
-	Value& walls = gJSON->mDocument["wall"];
-	for (SizeType i = 0; i < walls.Size(); ++i)
+	Value& object = gJSON->mDocument[objectName.c_str()];
+	for (SizeType i = 0; i < object.Size(); ++i)
 	{
 		D3DXVECTOR3 scale(1, 1, 1);
 		D3DXQUATERNION rotation(0, 0, 0, 0);
-		Value::ConstMemberIterator itrot = walls[i].FindMember("rotation");
-		if (itrot != walls[i].MemberEnd())
+		Value::ConstMemberIterator itrot = object[i].FindMember("rotation");
+		if (itrot != object[i].MemberEnd())
 		{
 			D3DXVECTOR3 rot(
-				walls[i]["rotation"]["x"].GetFloat() * D3DX_PI / 180.f,
-				walls[i]["rotation"]["y"].GetFloat() * D3DX_PI / 180.f,
-				walls[i]["rotation"]["z"].GetFloat() * D3DX_PI / 180.f);
+				object[i]["rotation"]["x"].GetFloat() * D3DX_PI / 180.f,
+				object[i]["rotation"]["y"].GetFloat() * D3DX_PI / 180.f,
+				object[i]["rotation"]["z"].GetFloat() * D3DX_PI / 180.f);
 
 			D3DXQUATERNION quater;
 
 			D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), rot.y);
 		}
 
-		Value::ConstMemberIterator itscale = walls[i].FindMember("scale");
-		if (itscale != walls[i].MemberEnd())
+		Value::ConstMemberIterator itscale = object[i].FindMember("scale");
+		if (itscale != object[i].MemberEnd())
 		{
 			scale = D3DXVECTOR3(
-				walls[i]["scale"]["x"].GetFloat(),
-				walls[i]["scale"]["y"].GetFloat(),
-				walls[i]["scale"]["z"].GetFloat());
+				object[i]["scale"]["x"].GetFloat(),
+				object[i]["scale"]["y"].GetFloat(),
+				object[i]["scale"]["z"].GetFloat());
 		}
 
 		D3DXVECTOR3 ColliderScale(1.f, 1.f, 1.f);
-		Value::ConstMemberIterator itcol = walls[i].FindMember("colliderScale");
-		if (itcol != walls[i].MemberEnd())
+		Value::ConstMemberIterator itcol = object[i].FindMember("colliderScale");
+		if (itcol != object[i].MemberEnd())
 		{
-			ColliderScale.x = walls[i]["colliderScale"]["height"].GetFloat();
-			ColliderScale.y = (walls[i]["colliderScale"]["width"].GetFloat() * scale.x) - 1.f;
-			ColliderScale.z = walls[i]["colliderScale"]["depth"].GetFloat();
+			ColliderScale.x = object[i]["colliderScale"]["height"].GetFloat();
+			ColliderScale.y = (object[i]["colliderScale"]["width"].GetFloat() * scale.x) - 1.f;
+			ColliderScale.z = object[i]["colliderScale"]["depth"].GetFloat();
 		}
 
 		D3DXVECTOR3 Position(0.f, 0.f, 0.f);
-		Value::ConstMemberIterator itpos = walls[i].FindMember("position");
-		if (itpos != walls[i].MemberEnd())
+		Value::ConstMemberIterator itpos = object[i].FindMember("position");
+		if (itpos != object[i].MemberEnd())
 		{
-			Position.x = (walls[i]["position"]["x"].GetFloat() + offset.x);
-			Position.y = (walls[i]["position"]["y"].GetFloat() + offset.y);
-			Position.z = (walls[i]["position"]["z"].GetFloat() + offset.z);
+			Position.x = (object[i]["position"]["x"].GetFloat() + offset.x);
+			Position.y = (object[i]["position"]["y"].GetFloat() + offset.y);
+			Position.z = (object[i]["position"]["z"].GetFloat() + offset.z);
 		}
 
-
-		Static3DObject* wall = CreateStatic3DObject(
-			string("wall") + to_string(wallCnt++),
-			walls[i]["sourceFileName"].GetString(),
+		Static3DObject* static3Dobject = CreateStatic3DObject(
+			objectName + to_string(wallCnt++),
+			object[i]["sourceFileName"].GetString(),
 			Position,
 			scale,
 			ColliderScale,
 			rotation
 		);
-		wall->SetTypeTag(eTypeTag::WALL);
-		targetRoom->InsertObject(wall);
+		static3Dobject->SetTypeTag(eTypeTag::WALL);
+		targetRoom->InsertObject(static3Dobject);
 	}
-	
+}
+
+void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
+{
+	gJSON->LoadJSON(fileName);
+	if(gJSON->mDocument.HasMember("wall"))
+	{
+		LoadObjectFromJson("wall", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("door"))
+	{
+		LoadObjectFromJson("door", targetRoom);
+	}
 }
 
 void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirst, Room * secondRoom,
@@ -222,49 +231,50 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
-	LoadWallFromJson("Resources/Json/wall3A01.json", room2A01);
+
+	LoadObjectFromJson("Resources/Json/wall3A01.json", room2A01);
 	Room * room2A02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
-	LoadWallFromJson("Resources/Json/wall3A02.json", room2A02);
+	LoadObjectFromJson("Resources/Json/wall3A02.json", room2A02);
 	Room* room2A03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
-	LoadWallFromJson("Resources/Json/wall3A03.json", room2A03);
+	LoadObjectFromJson("Resources/Json/wall3A03.json", room2A03);
 	Room* room2A04 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
-	LoadWallFromJson("Resources/Json/wall3A04.json", room2A04);
+	LoadObjectFromJson("Resources/Json/wall3A04.json", room2A04);
 	Room* room2A05 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A05, room2A05);
-	LoadWallFromJson("Resources/Json/wall3A05.json", room2A05);
+	LoadObjectFromJson("Resources/Json/wall3A05.json", room2A05);
 	Room* room2A06 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A06, room2A06);
-	LoadWallFromJson("Resources/Json/wall3A06.json", room2A06);
+	LoadObjectFromJson("Resources/Json/wall3A06.json", room2A06);
 	Room* room2A07 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
-	LoadWallFromJson("Resources/Json/wall3A07.json", room2A07);
+	LoadObjectFromJson("Resources/Json/wall3A07.json", room2A07);
 	Room* room2B01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
-	LoadWallFromJson("Resources/Json/wall3B01.json", room2B01);
+	LoadObjectFromJson("Resources/Json/wall3B01.json", room2B01);
 	Room* room2B02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2B02, room2B02);
-	LoadWallFromJson("Resources/Json/wall3B02.json", room2B02);
+	LoadObjectFromJson("Resources/Json/wall3B02.json", room2B02);
 	Room* room2B03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2B03, room2B03);
-	LoadWallFromJson("Resources/Json/wall3B03.json", room2B03);
+	LoadObjectFromJson("Resources/Json/wall3B03.json", room2B03);
 	Room* room2B04 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2B04, room2B04);
-	LoadWallFromJson("Resources/Json/wall3B04.json", room2B04);
+	LoadObjectFromJson("Resources/Json/wall3B04.json", room2B04);
 	Room* room2C01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2C01, room2C01);
-	LoadWallFromJson("Resources/Json/wall3C01.json", room2C01);
+	LoadObjectFromJson("Resources/Json/wall3C01.json", room2C01);
 	Room* room2C02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2C02, room2C02);
-	LoadWallFromJson("Resources/Json/wall3C02.json", room2C02);
+	LoadObjectFromJson("Resources/Json/wall3C02.json", room2C02);
 	Room* room2C03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2C03, room2C03);
-	LoadWallFromJson("Resources/Json/wall3C03.json", room2C03);
+	LoadObjectFromJson("Resources/Json/wall3C03.json", room2C03);
 	Room* room2D01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
-	LoadWallFromJson("Resources/Json/wall3D01.json", room2D01);
+	LoadObjectFromJson("Resources/Json/wall3D01.json", room2D01);
 	
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A07, eRoomName::R2A07, D3DXVECTOR3(25.0f, 0.f, 17.f), roomCenter, eDir::UP);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A04, eRoomName::R2A04, D3DXVECTOR3(45.0f, 0.f, 35.25f), roomCenter, eDir::UP);
@@ -285,7 +295,91 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 
 	roomCenter->SetCurRoom(eRoomName::R2A02);
+	/*
+	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
+	Base3DObject * portal2A01 = new Base3DObject();
+	portal2A01->SetObjectName("portal2A07");
+	portal2A01->AddColliderCube("portal2A07ColliderCube");
+	portal2A01->Setup();
+	portal2A01->SetPos({ 24.5f, 0.f, 17.f });
+	portal2A01->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+	{
+		roomCenter->SetCurRoom(eRoomName::R2A07);
+		cout << "i'm in Room2A07" << endl;
+	};
+	room2A01->InsertObject(portal2A01);
+	
+	Room * room2A02 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
+	LoadFromJson("Resources/Json/wall3A02.json", room2A02);
 
+	Room* room2A03 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
+	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
+
+	Room* room2A04 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
+	LoadFromJson("Resources/Json/wall3A04.json", room2A04);
+
+	Room* room2A05 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A05, room2A05);
+	LoadFromJson("Resources/Json/wall3A05.json", room2A05);
+
+	Room* room2A06 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A06, room2A06);
+	LoadFromJson("Resources/Json/wall3A06.json", room2A06);
+
+	Room* room2A07 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
+	LoadFromJson("Resources/Json/wall3A07.json", room2A07);
+
+	Base3DObject * portal2A07 = new Base3DObject();
+	portal2A07->SetObjectName("portal2A07");
+	portal2A07->AddColliderCube("portal2A07ColliderCube");
+	portal2A07->Setup();
+	portal2A07->SetPos({ 25.5f, 0.f, 17.f });
+	portal2A07->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
+	{
+		roomCenter->SetCurRoom(eRoomName::R2A01);
+		cout << "i'm in Room2A01" << endl;
+	};
+	room2A07->InsertObject(portal2A07);
+
+	Room* room2B01 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
+	LoadFromJson("Resources/Json/wall3B01.json", room2B01);
+
+	Room* room2B02 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2B02, room2B02);
+	LoadFromJson("Resources/Json/wall3B02.json", room2B02);
+
+	Room* room2B03 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2B03, room2B03);
+	LoadFromJson("Resources/Json/wall3B03.json", room2B03);
+
+	Room* room2B04 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2B04, room2B04);
+	LoadFromJson("Resources/Json/wall3B04.json", room2B04);
+
+	Room* room2C01 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2C01, room2C01);
+	LoadFromJson("Resources/Json/wall3C01.json", room2C01);
+
+	Room* room2C02 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2C02, room2C02);
+	LoadFromJson("Resources/Json/wall3C02.json", room2C02);
+
+	Room* room2C03 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2C03, room2C02);
+	LoadFromJson("Resources/Json/wall3C03.json", room2C02);
+
+	Room* room2D01 = new Room;
+	roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
+	LoadFromJson("Resources/Json/wall3D01.json", room2D01);
+
+	roomCenter->SetCurRoom(eRoomName::R2A07);
+>>>>>>> c0c1e2b1782525cdc67780f4d32a1139f73ce645
+*/
 	Static3DObject* floor = CreateStatic3DObject("floor", "mapTile.x", D3DXVECTOR3(75, 0, 75), D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
 	floor->SetTypeTag(eTypeTag::FLOOR);
 	newScene->mGameObjects.insert(make_pair("AAfloor", floor));

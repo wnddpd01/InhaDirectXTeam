@@ -19,7 +19,7 @@ WalkCharacterState::~WalkCharacterState()
 
 void WalkCharacterState::Enter(Player& player)
 {
-	player.GetSkinnedMesh()->SetAnimationIndexBlend(3);
+	player.GetSkinnedMesh()->SetAnimationIndexBlend(4);
 	mPrevMoveVelocity = D3DXVECTOR3(0, 0, 0);
 	mMoveVelocity = D3DXVECTOR3(0, 0, 0);
 }

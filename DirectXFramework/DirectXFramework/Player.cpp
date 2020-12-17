@@ -22,7 +22,7 @@ Player::Player()
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 
 	mPos = { 8.f, 0.f, 130.f };
-	mScale = { 2.f, 2.f, 2.f };
+	mScale = { 0.0035f, 0.0035f, 0.0035f };
 	
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
@@ -86,9 +86,7 @@ void Player::MoveBack()
 void Player::Setup()
 {
 	Base3DObject::Setup();
-	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Zealot", "Zealot.X");
-	m_pSkinnedMesh->SetRandomTrackPosition();
-	
+	m_pSkinnedMesh = new SkinnedMesh("Resources/XFile/Character", "Segmentation_Character.X");
 	mCurState = new IdleCharacterState;
 	mCurState->Enter(*this);
 
@@ -122,7 +120,10 @@ void Player::Update()
 		mPos += mMoveVelocity;
 		
 	}
-	m_pSkinnedMesh->Update();
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->Update();
+	}
 	mInventory.Update();
 	Base3DObject::Update();
 }
@@ -130,12 +131,6 @@ void Player::Update()
 void Player::Render()
  {
 	Base3DObject::Render();
-	D3DXMATRIXA16 matWorld;
-	
-	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
-	
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
-	m_pSkinnedMesh->SetTransform(&matWorld);
 	m_pSkinnedMesh->Render(nullptr);
 	
 	if(mInteractingObject != nullptr)
