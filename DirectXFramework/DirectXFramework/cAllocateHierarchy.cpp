@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "cAllocateHierarchy.h"
 #include <iostream>
-#include <mutex>
 
-std::mutex mtx;
 cAllocateHierarchy::cAllocateHierarchy()
 	: m_vMax(0,0,0)
 	, m_vMin(0,0,0)
@@ -41,14 +39,13 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 	LPD3DXSKININFO pSkinInfo,
 	LPD3DXMESHCONTAINER *ppNewMeshContainer)
 {
-	mtx.lock();
 	ST_BONE_MESH* pBoneMesh = new ST_BONE_MESH;
 	ZeroMemory(pBoneMesh, sizeof(ST_BONE_MESH));
 	for (DWORD i = 0; i < NumMaterials; ++i)
 	{
 		pBoneMesh->vecMtl.push_back(pMaterials[i].MatD3D);
 		string sFullPath = m_sFolder;
-		if (pMaterials[i].pTextureFilename)
+		if (pMaterials[i].pTextureFilename != nullptr)
 		{
 			sFullPath = sFullPath + string("/") + string(pMaterials[i].pTextureFilename);
 			pBoneMesh->vecTex.push_back(gTextureManager->GetTexture(sFullPath));
@@ -74,8 +71,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		D3DXVec3Maximize(&m_vMax, &m_vMax, &vMax);
 		pMeshData->pMesh->UnlockVertexBuffer();
 	}
-	
-	cout << pMeshData->pMesh->GetFVF() << endl;
 
 	pMeshData->pMesh->CloneMeshFVF(
 		pMeshData->pMesh->GetOptions(),
@@ -93,7 +88,6 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		pBoneMesh->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
 	}
 	*ppNewMeshContainer = pBoneMesh;
-	mtx.unlock();
 
 	return S_OK;
 }
