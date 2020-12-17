@@ -45,7 +45,6 @@ public:
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);
 
-
 	void SetScale(const D3DXVECTOR3& scale);
 	D3DXVECTOR3 GetScale();
 	void SetRot(const D3DXQUATERNION& rotation);

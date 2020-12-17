@@ -21,7 +21,7 @@ Player::Player()
 	float yAngle = D3DX_PI * 1.75f;
 	D3DXQuaternionRotationAxis(&mRot, &yAxis, yAngle);
 
-	mPos = { 8.f, 0.f, 8.f };
+	mPos = { 8.f, 0.f, 130.f };
 	mScale = { 2.f, 2.f, 2.f };
 	
 	D3DVIEWPORT9 viewPort;

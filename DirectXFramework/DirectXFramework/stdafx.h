@@ -50,7 +50,15 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-#define ORTHO_WIDTH 80.f
+#define ORTHO_WIDTH 40.f
+
+enum class eDir
+{
+	UP = 0,
+	DOWN,
+	RIGHT,
+	LEFT
+};
 
 enum class eShaderPath
 {

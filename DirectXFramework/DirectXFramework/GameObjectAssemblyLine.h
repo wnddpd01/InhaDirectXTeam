@@ -1,5 +1,7 @@
 #pragma once
 #include "Static3DObject.h"
+#include "RoomCenter.h"
+
 class Room;
 
 class GameObjectAssemblyLine
@@ -15,7 +17,9 @@ private :
 		string colliderName = "basicColliderCube");
 
 	void LoadWallFromJson(string fileName, Room* targetRoom);
-
+	void MakeRoomConnector(
+		Room * firstRoom, eRoomName eFirst, Room * secondRoom, 
+		eRoomName eSecond, D3DXVECTOR3 doorPos, RoomCenter* roomCenter, eDir dirFirst2Second);
 	void CreateStartSceneGameObject(Scene* newScene);
 	void CreateIngameSceneGameObject(Scene* newScene);
 public :

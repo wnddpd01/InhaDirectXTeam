@@ -6,9 +6,6 @@ class SkinnedMesh;
 class CharacterState;
 class UIImage;
 
-
-
-
 class Player : public Base3DObject, public BaseObserver
 {
 	RECT mDrawFontArea;
