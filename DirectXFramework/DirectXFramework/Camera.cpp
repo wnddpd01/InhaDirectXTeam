@@ -36,7 +36,7 @@ void Camera::SetupPre()
 	D3DVIEWPORT9 viewPort;
 	gD3Device->GetViewport(&viewPort);
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 1.0f, 1000.0f); // 원근 투영
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0F, viewPort.Width / (float)(viewPort.Height), 0.5f, 1000.0f); // 원근 투영
 	//D3DXMatrixOrthoLH(&matProj, ORTHO_WIDTH/3, ORTHO_WIDTH / 3 * viewPort.Height / viewPort.Width, 1.f, 1000.f); // 직교 투영
 	gD3Device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
@@ -105,9 +105,9 @@ bool Camera::Update(eEventName eventName, void* parameter)
 		case eEventName::MOUSE_WHEEL_SCROLL:
 			{
 				mCameraDistance -= *(float*)parameter;
-				if (mCameraDistance < 10.0f)
+				if (mCameraDistance < 75.0f)
 				{
-					mCameraDistance = 10.0f;
+					mCameraDistance = 75.0f;
 				}	
 			}
 			break;
