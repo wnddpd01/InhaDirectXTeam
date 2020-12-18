@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "Chaser.h"
 #include "FlashLight.h"
 
 Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
@@ -298,9 +299,11 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 	roomCenter->SetPlayer(player);
-
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
+	Chaser* chaser = new Chaser;
+	newScene->mGameObjects.insert(make_pair("Chaser",chaser));
+	
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
@@ -538,7 +541,6 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	tempDoor->AddColliderCube("basicColliderCube");
 	tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f, 3.f, 0.5f);
 	tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
-
 	room2A02->InsertObject(tempDoor);
 
 	FlashLight* onlyFlashLight = new FlashLight;

@@ -34,10 +34,12 @@ public :
 	void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
 	void SetAnimationIndex(int nIndex);
 	void SetAnimationIndexBlend(int nIndex);
+	void PrintAnimationList();
 
 	float GetBlendTime()
 	{
 		return m_fBlendTime;
 	}
+
 };
 
