@@ -116,6 +116,78 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("door", targetRoom);
 	}
+	if (gJSON->mDocument.HasMember("newWall"))
+	{
+		LoadObjectFromJson("newWall", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("newDoor"))
+	{
+		LoadObjectFromJson("newDoor", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Bin_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Bin_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Bin_Rubbish_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Bin_Rubbish_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Chair_05"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Chair_05", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Cord_Wall_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Cord_Wall_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_CubicalWalHalfl_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_CubicalWalHalfl_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_CubicalWall_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_CubicalWall_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_FaxMachine_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_FaxMachine_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Paper_Pile_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Paper_Pile_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_08"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_08", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_14"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_14", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_Flowers_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_Flowers_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Printer_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Printer_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Table_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Table_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Computer_Setup_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Computer_Setup_02", targetRoom);
+	}
 }
 
 void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirst, Room * secondRoom,
