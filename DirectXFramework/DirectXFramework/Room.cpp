@@ -26,7 +26,7 @@ void Room::Update(Player* player)
 	{
 		objectInRoom.second->Update();
 	}
-	mColliderChecker.CheckCollider(player, mObjectsInRoom);
+	//mColliderChecker.CheckCollider(player, mObjectsInRoom);
 	player->ProcessCollisionEventQueue();
 }
 
