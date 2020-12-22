@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "CCTV.h"
 #include "Chaser.h"
 #include "FlashLight.h"
 
@@ -367,8 +368,8 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	MakeRoomConnector(room2C01, eRoomName::R2C01, room2C02, eRoomName::R2C02, D3DXVECTOR3(97.5f, 0.f, 45.0f), roomCenter, eDir::LEFT);
 	MakeRoomConnector(room2C02, eRoomName::R2C02, room2D01, eRoomName::R2D01, D3DXVECTOR3(142.0f, 0.f, 40.0f), roomCenter, eDir::RIGHT);
 
-
 	roomCenter->SetCurRoom(eRoomName::R2A02);
+
 	/*
 	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
 	Base3DObject * portal2A01 = new Base3DObject();
@@ -463,6 +464,10 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	key->Setup("Resources/Xfile/", "Key.X");
 	key->AddColliderCube("basicColliderCube");
 
+	CCTV* cctv = new CCTV;
+	cctv->SetObjectName("CCTV1");
+	room2A01->InsertObject(cctv);
+	
 	Interactable3DObject* box = new Interactable3DObject;
 	box->SetObjectName("box");
 	box->AddColliderCube("basicColliderCube");

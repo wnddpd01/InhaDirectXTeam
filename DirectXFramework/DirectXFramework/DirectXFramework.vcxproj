@@ -25,6 +25,7 @@
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="CCTV.cpp" />
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="Chaser.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="CCTV.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="Chaser.h" />
     <ClInclude Include="cMtlTex.h" />

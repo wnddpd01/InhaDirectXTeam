@@ -54,10 +54,7 @@ Chaser::Chaser()
 {
 	SetScale(D3DXVECTOR3(0.003f, 0.003f, 0.003f));
 	mSkinnedMesh = new SkinnedMesh("Resources/XFile/Chaser", "Chaser.X");
-	mSkinnedMesh->SetAnimationIndex(8);
-	mSkinnedMesh->PrintAnimationList();
-	mPos = { 8.f, 0.f, 130.f };
-	MakingAndSetTestPath();
+	mSkinnedMesh->SetAnimationIndex(8); 
 }
 
 Chaser::~Chaser()

@@ -220,7 +220,6 @@ void Player::ProcessCollisionEventQueue()
 	//회전 밀어내기 부분
 	while (!mCollisionEventQueue2.empty())
 	{
-		
 		static float multi;
 		multi = 0.00f;
 		while(true)

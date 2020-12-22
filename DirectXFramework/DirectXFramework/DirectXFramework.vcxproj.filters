@@ -40,6 +40,9 @@
     <Filter Include="3DObject\AnimatingObject\Chaser">
       <UniqueIdentifier>{c6c01900-8879-4e3f-8dc6-90241bed7719}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DObject\AnimatingObject\CCTV">
+      <UniqueIdentifier>{d6213462-2c18-4c2d-9138-0a7122ccc8ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -185,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="Chaser.cpp">
       <Filter>3DObject\AnimatingObject\Chaser</Filter>
+    </ClCompile>
+    <ClCompile Include="CCTV.cpp">
+      <Filter>3DObject\AnimatingObject\CCTV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="Chaser.h">
       <Filter>3DObject\AnimatingObject\Chaser</Filter>
+    </ClInclude>
+    <ClInclude Include="CCTV.h">
+      <Filter>3DObject\AnimatingObject\CCTV</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
