@@ -69,6 +69,7 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIAnimation.cpp" />
     <ClCompile Include="UIAssemblyLine.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UICellGrid.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UIAnimation.h" />
     <ClInclude Include="UIAssemblyLine.h" />
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="UICellGrid.h" />
