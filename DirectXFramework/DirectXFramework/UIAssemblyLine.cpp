@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UIAssemblyLine.h"
 #include "Scene.h"
+#include "UIAnimation.h"
 
 void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 {
@@ -97,6 +98,10 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	childUI->SetVisible(false);
 	uiImage->AddChild("ReturnBtn", childUI);
 
+	UIAnimation* animUi = new UIAnimation("Resources/UI/Life.png", { 25, 0 }, 20, 10, 20);
+	animUi->SetObjectName("LifeBar");
+	animUi->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("LifeBar", animUi));
 
 	UIImage* MiniGameUI = new UIImage("Resources/UI/MiniGame/GameScene.png", { 5,2 }, 54, 32);
 	MiniGameUI->SetObjectName("MiniGameLayer");
@@ -151,6 +156,7 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	MiniGameUI->AddChild("telephone", MiniGameObjectUI);
 
 	
+
 }
 
 void UIAssemblyLine::MakeSceneUI(Scene* newScene)

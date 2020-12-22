@@ -4,6 +4,7 @@
 #include "UIImage.h"
 #include "UIEventListener.h"
 #include "QuarterMap.h"
+#include "UIAnimation.h"
 
 
 Scene::Scene(eSceneName sceneName)
