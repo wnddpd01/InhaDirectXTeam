@@ -192,6 +192,10 @@
     <ClCompile Include="CCTV.cpp">
       <Filter>3DObject\AnimatingObject\CCTV</Filter>
     </ClCompile>
+    <ClCompile Include="CullingManager.cpp" />
+    <ClCompile Include="UIAnimation.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -346,6 +350,10 @@
     </ClInclude>
     <ClInclude Include="CCTV.h">
       <Filter>3DObject\AnimatingObject\CCTV</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h" />
+    <ClInclude Include="UIAnimation.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -118,6 +118,22 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("door", targetRoom);
 	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Chair_05"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Chair_05", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Paper_Pile_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Paper_Pile_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Printer_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Printer_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Cord_Wall_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Cord_Wall_01", targetRoom);
+	}
 	if (gJSON->mDocument.HasMember("newWall"))
 	{
 		LoadObjectFromJson("newWall", targetRoom);
@@ -150,6 +166,18 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_CubicalWall_01", targetRoom);
 	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_Flowers_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_Flowers_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_08"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_08", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Table_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Table_01", targetRoom);
+	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_FaxMachine_01"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_FaxMachine_01", targetRoom);
@@ -173,6 +201,14 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_14"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Plant_14", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_02", targetRoom);
 	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_Flowers_02"))
 	{
@@ -314,6 +350,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Room* room2A03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
 	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
+	LoadFromJson("Resources/Json/OBJ2A03.json", room2A03);
 	Room* room2A04 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
 	LoadFromJson("Resources/Json/wall3A04.json", room2A04);
@@ -369,92 +406,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	MakeRoomConnector(room2C02, eRoomName::R2C02, room2D01, eRoomName::R2D01, D3DXVECTOR3(142.0f, 0.f, 40.0f), roomCenter, eDir::RIGHT);
 
 	roomCenter->SetCurRoom(eRoomName::R2A02);
-
-	/*
-	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
-	Base3DObject * portal2A01 = new Base3DObject();
-	portal2A01->SetObjectName("portal2A07");
-	portal2A01->AddColliderCube("portal2A07ColliderCube");
-	portal2A01->Setup();
-	portal2A01->SetPos({ 24.5f, 0.f, 17.f });
-	portal2A01->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-	{
-		roomCenter->SetCurRoom(eRoomName::R2A07);
-		cout << "i'm in Room2A07" << endl;
-	};
-	room2A01->InsertObject(portal2A01);
 	
-	Room * room2A02 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
-	LoadFromJson("Resources/Json/wall3A02.json", room2A02);
-
-	Room* room2A03 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
-	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
-
-	Room* room2A04 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
-	LoadFromJson("Resources/Json/wall3A04.json", room2A04);
-
-	Room* room2A05 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A05, room2A05);
-	LoadFromJson("Resources/Json/wall3A05.json", room2A05);
-
-	Room* room2A06 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A06, room2A06);
-	LoadFromJson("Resources/Json/wall3A06.json", room2A06);
-
-	Room* room2A07 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
-	LoadFromJson("Resources/Json/wall3A07.json", room2A07);
-
-	Base3DObject * portal2A07 = new Base3DObject();
-	portal2A07->SetObjectName("portal2A07");
-	portal2A07->AddColliderCube("portal2A07ColliderCube");
-	portal2A07->Setup();
-	portal2A07->SetPos({ 25.5f, 0.f, 17.f });
-	portal2A07->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-	{
-		roomCenter->SetCurRoom(eRoomName::R2A01);
-		cout << "i'm in Room2A01" << endl;
-	};
-	room2A07->InsertObject(portal2A07);
-
-	Room* room2B01 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
-	LoadFromJson("Resources/Json/wall3B01.json", room2B01);
-
-	Room* room2B02 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2B02, room2B02);
-	LoadFromJson("Resources/Json/wall3B02.json", room2B02);
-
-	Room* room2B03 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2B03, room2B03);
-	LoadFromJson("Resources/Json/wall3B03.json", room2B03);
-
-	Room* room2B04 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2B04, room2B04);
-	LoadFromJson("Resources/Json/wall3B04.json", room2B04);
-
-	Room* room2C01 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2C01, room2C01);
-	LoadFromJson("Resources/Json/wall3C01.json", room2C01);
-
-	Room* room2C02 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2C02, room2C02);
-	LoadFromJson("Resources/Json/wall3C02.json", room2C02);
-
-	Room* room2C03 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2C03, room2C02);
-	LoadFromJson("Resources/Json/wall3C03.json", room2C02);
-
-	Room* room2D01 = new Room;
-	roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
-	LoadFromJson("Resources/Json/wall3D01.json", room2D01);
-
-	roomCenter->SetCurRoom(eRoomName::R2A07);
->>>>>>> c0c1e2b1782525cdc67780f4d32a1139f73ce645
-*/
 	Static3DObject* floor = CreateStatic3DObject("floor", "mapTile.x", D3DXVECTOR3(75, 0, 75), D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
 	floor->SetTypeTag(eTypeTag::FLOOR);
 	newScene->mGameObjects.insert(make_pair("AAfloor", floor));
@@ -464,9 +416,9 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	key->Setup("Resources/Xfile/", "Key.X");
 	key->AddColliderCube("basicColliderCube");
 
-	CCTV* cctv = new CCTV;
+	/*CCTV* cctv = new CCTV;
 	cctv->SetObjectName("CCTV1");
-	room2A01->InsertObject(cctv);
+	room2A01->InsertObject(cctv);*/
 	
 	Interactable3DObject* box = new Interactable3DObject;
 	box->SetObjectName("box");

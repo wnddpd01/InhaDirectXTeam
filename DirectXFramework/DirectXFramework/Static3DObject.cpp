@@ -68,17 +68,26 @@ void Static3DObject::Update()
 void Static3DObject::Render()
 {
 	Base3DObject::Render();
+
 	switch (mTypeTag)
 	{
 		
 		case eTypeTag::ITEM :
 		{
+			if (!gCullingManager->CheckFrustumCulling(&mPos))
+			{
+				return;
+			}
 			gShader->GetInstance()->RenderWithItemShader(bind(&Static3DObject::RenderMesh, this), mShaderPath);
 			//RenderMesh();
 		}
 		break;
 		case eTypeTag::WALL:
 		{
+			if (!gCullingManager->CheckFrustumCulling(&mPos))
+			{
+				return;
+			}
 			gShader->GetInstance()->RenderWithWallShader(bind(&Static3DObject::RenderMesh, this));
 			//RenderMesh();
 		}

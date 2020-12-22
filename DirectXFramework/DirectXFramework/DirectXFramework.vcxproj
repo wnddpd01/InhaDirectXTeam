@@ -34,6 +34,7 @@
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
+    <ClCompile Include="CullingManager.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="FlashLight.cpp" />
     <ClCompile Include="GameObjectAssemblyLine.cpp" />
@@ -69,6 +70,7 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIAnimation.cpp" />
     <ClCompile Include="UIAssemblyLine.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UICellGrid.cpp" />
@@ -93,6 +95,7 @@
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="CullingManager.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="FlashLight.h" />
     <ClInclude Include="GameObjectAssemblyLine.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UIAnimation.h" />
     <ClInclude Include="UIAssemblyLine.h" />
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="UICellGrid.h" />

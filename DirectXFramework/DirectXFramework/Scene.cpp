@@ -4,6 +4,7 @@
 #include "UIImage.h"
 #include "UIEventListener.h"
 #include "QuarterMap.h"
+#include "UIAnimation.h"
 
 
 Scene::Scene(eSceneName sceneName)
@@ -85,6 +86,7 @@ void Scene::Render()
 	                 D3DCOLOR_XRGB(10, 10, 10),
 	                 1.0F, 0);
 	gD3Device->BeginScene();
+	gCullingManager->SetFrustum();
 
 	for (auto gameObject : mGameObjects)
 	{
