@@ -207,6 +207,7 @@ using namespace std;
 #include "CameraManager.h"
 #include "JSON.h"
 #include "ModelLoader.h"
+#include "CullingManager.h"
 
 inline string to_string(D3DXVECTOR3 & vec3)
 {

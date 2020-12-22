@@ -32,6 +32,7 @@
     <ClCompile Include="ColliderPolygon.cpp" />
     <ClCompile Include="ColliderChecker.cpp" />
     <ClCompile Include="ColliderSphere.cpp" />
+    <ClCompile Include="CullingManager.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="FlashLight.cpp" />
     <ClCompile Include="GameObjectAssemblyLine.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="ColliderPolygon.h" />
     <ClInclude Include="ColliderChecker.h" />
     <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="CullingManager.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="FlashLight.h" />
     <ClInclude Include="GameObjectAssemblyLine.h" />

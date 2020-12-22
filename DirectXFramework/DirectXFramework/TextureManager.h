@@ -2,7 +2,6 @@
 #include "Singleton.h"
 #define gTextureManager TextureManager::GetInstance()
 
-
 class TextureManager : public Singleton<TextureManager>
 {
 private:

@@ -180,6 +180,7 @@
     <ClCompile Include="UIAssemblyLine.cpp">
       <Filter>Scene\SceneFactory</Filter>
     </ClCompile>
+    <ClCompile Include="CullingManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -329,5 +330,6 @@
     <ClInclude Include="UIAssemblyLine.h">
       <Filter>Scene\SceneFactory</Filter>
     </ClInclude>
+    <ClInclude Include="CullingManager.h" />
   </ItemGroup>
 </Project>
