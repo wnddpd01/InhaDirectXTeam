@@ -10,7 +10,7 @@ public:
 	void Update() override;
 	void Render() override;
 	
-	void SetSphereCollider(float radius);
+	void SetRadius(float radius);
 	float& GetRadius() { return mRadius; }
 	
 private:

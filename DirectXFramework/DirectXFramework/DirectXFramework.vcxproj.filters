@@ -192,9 +192,11 @@
     <ClCompile Include="CCTV.cpp">
       <Filter>3DObject\AnimatingObject\CCTV</Filter>
     </ClCompile>
-    <ClCompile Include="CullingManager.cpp" />
     <ClCompile Include="UIAnimation.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CullingManager.cpp">
+      <Filter>Singleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,9 +353,11 @@
     <ClInclude Include="CCTV.h">
       <Filter>3DObject\AnimatingObject\CCTV</Filter>
     </ClInclude>
-    <ClInclude Include="CullingManager.h" />
     <ClInclude Include="UIAnimation.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

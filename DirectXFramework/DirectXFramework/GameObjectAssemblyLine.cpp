@@ -33,7 +33,7 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 			colliderScale.x,
 			colliderScale.y,
 			colliderScale.z);
-		newStaticObject->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
+		newStaticObject->GetColliderSphere()->SetRadius(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
 	}
 
 	return newStaticObject;
@@ -338,8 +338,8 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	roomCenter->SetPlayer(player);
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
-	Chaser* chaser = new Chaser;
-	newScene->mGameObjects.insert(make_pair("Chaser",chaser));
+	//Chaser* chaser = new Chaser;
+	//newScene->mGameObjects.insert(make_pair("Chaser",chaser));
 	
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
@@ -416,9 +416,10 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	key->Setup("Resources/Xfile/", "Key.X");
 	key->AddColliderCube("basicColliderCube");
 
-	/*CCTV* cctv = new CCTV;
+	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-1,-1), D3DXVECTOR3(58, 3, 130));
 	cctv->SetObjectName("CCTV1");
-	room2A01->InsertObject(cctv);*/
+	//room2A01->InsertObject(cctv);
+	newScene->mGameObjects.insert(make_pair("cctv", cctv));
 	
 	Interactable3DObject* box = new Interactable3DObject;
 	box->SetObjectName("box");
@@ -497,7 +498,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	tempDoor->SetScale(D3DXVECTOR3(0.65f, 1.f, 0.5f));
 	tempDoor->AddColliderCube("basicColliderCube");
 	tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f, 3.f, 0.5f);
-	tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
+	tempDoor->GetColliderSphere()->SetRadius(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
 	room2A02->InsertObject(tempDoor);
 
 	FlashLight* onlyFlashLight = new FlashLight;

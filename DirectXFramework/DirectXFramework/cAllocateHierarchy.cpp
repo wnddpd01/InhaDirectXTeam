@@ -78,17 +78,19 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_
 		gD3Device,
 		&pBoneMesh->pOrigMesh
 	);
-	DWORD dwNumBones = pSkinInfo->GetNumBones();
-	pBoneMesh->ppBoneMatrixPtrs = new D3DXMATRIX*[dwNumBones];
-	pBoneMesh->pBoneOffsetMatrices = new D3DXMATRIX[dwNumBones];
-	pBoneMesh->pCurrentBoneMatrices = new D3DXMATRIX[dwNumBones];
-
-	for (DWORD i = 0; i < dwNumBones; ++i)
+	if (pSkinInfo != nullptr)
 	{
-		pBoneMesh->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
+		DWORD dwNumBones = pSkinInfo->GetNumBones();
+		pBoneMesh->ppBoneMatrixPtrs = new D3DXMATRIX * [dwNumBones];
+		pBoneMesh->pBoneOffsetMatrices = new D3DXMATRIX[dwNumBones];
+		pBoneMesh->pCurrentBoneMatrices = new D3DXMATRIX[dwNumBones];
+
+		for (DWORD i = 0; i < dwNumBones; ++i)
+		{
+			pBoneMesh->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
+		}
 	}
 	*ppNewMeshContainer = pBoneMesh;
-
 	return S_OK;
 }
 STDMETHODIMP cAllocateHierarchy::DestroyFrame(THIS_ LPD3DXFRAME pFrameToFree)

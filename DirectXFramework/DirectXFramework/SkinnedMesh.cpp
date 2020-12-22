@@ -59,14 +59,10 @@ void SkinnedMesh::Load(char* szFolder, char* szFilename)
 	string sFullPath(szFolder);
 	sFullPath += (string("/")) + string(szFilename);
 	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, gD3Device, &ah, NULL, (LPD3DXFRAME*)&m_pRoot, &m_pAnimController);
-
 	m_vMax = ah.GetMax();
 	m_vMin = ah.GetMin();
 
-	if (m_pRoot)
-	{
-		SetupBoneMatrixPtrs(m_pRoot);
-	}
+	SetupBoneMatrixPtrs(m_pRoot);
 }
 
 void SkinnedMesh::Destroy()
@@ -131,7 +127,7 @@ void SkinnedMesh::Setup(char* szFolder, char* szFile)
 
 	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, gD3Device, &ah, NULL, &m_pRoot, &m_pAnimController);
 
-	SetupBoneMatrixPtrs(m_pRoot);
+	//SetupBoneMatrixPtrs(m_pRoot);
 }
 
 void SkinnedMesh::Update()
@@ -257,7 +253,7 @@ void SkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 
 		if(pBoneMesh->pSkinInfo)
 			pBoneMesh->pSkinInfo->UpdateSkinnedMesh(pBoneMesh->pCurrentBoneMatrices, NULL, src, dest);
-
+		
 		pBoneMesh->MeshData.pMesh->UnlockVertexBuffer();
 		if (pBoneMesh->pOrigMesh)
 			pBoneMesh->pOrigMesh->UnlockVertexBuffer();
