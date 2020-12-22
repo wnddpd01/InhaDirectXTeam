@@ -63,7 +63,10 @@ void SkinnedMesh::Load(char* szFolder, char* szFilename)
 	m_vMax = ah.GetMax();
 	m_vMin = ah.GetMin();
 
-	SetupBoneMatrixPtrs(m_pRoot);
+	if (m_pRoot)
+	{
+		SetupBoneMatrixPtrs(m_pRoot);
+	}
 }
 
 void SkinnedMesh::Destroy()
@@ -283,13 +286,6 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_fPassedBlendTime = 0.0f;
 	int num = m_pAnimController->GetNumAnimationSets();
 
-	for (int i = 0; i < num; ++i)
-	{
-		LPD3DXANIMATIONSET animSet;
-		m_pAnimController->GetAnimationSet(i, &animSet);
-		cout << animSet->GetName() << endl;
-	}
-	
 	// 확인용 코드
 	/*
 	LPD3DXANIMATIONSET testset;
@@ -323,4 +319,15 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	SAFE_RELEASE(pNextAnimSet);
 
 	m_animationStartTime = GetTickCount();
+}
+
+void SkinnedMesh::PrintAnimationList()
+{
+	int GetAnimationNum = m_pAnimController->GetNumAnimationSets();
+	LPD3DXANIMATIONSET animSet;
+	for (int i = 0; i < GetAnimationNum; ++i)
+	{
+		m_pAnimController->GetAnimationSet(i, &animSet);
+		cout << "AnimName : " << animSet->GetName() << " Index : " << i << endl;
+	}
 }

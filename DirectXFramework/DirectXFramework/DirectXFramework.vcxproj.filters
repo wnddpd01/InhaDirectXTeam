@@ -37,6 +37,9 @@
     <Filter Include="Scene\SceneFactory">
       <UniqueIdentifier>{c7c199c2-5ddf-4adf-ba39-1384e322d18c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DObject\AnimatingObject\Chaser">
+      <UniqueIdentifier>{c6c01900-8879-4e3f-8dc6-90241bed7719}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -180,7 +183,9 @@
     <ClCompile Include="UIAssemblyLine.cpp">
       <Filter>Scene\SceneFactory</Filter>
     </ClCompile>
-    <ClCompile Include="CullingManager.cpp" />
+    <ClCompile Include="Chaser.cpp">
+      <Filter>3DObject\AnimatingObject\Chaser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -330,6 +335,8 @@
     <ClInclude Include="UIAssemblyLine.h">
       <Filter>Scene\SceneFactory</Filter>
     </ClInclude>
-    <ClInclude Include="CullingManager.h" />
+    <ClInclude Include="Chaser.h">
+      <Filter>3DObject\AnimatingObject\Chaser</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

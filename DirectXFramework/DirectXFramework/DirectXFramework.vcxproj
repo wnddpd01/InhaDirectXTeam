@@ -26,6 +26,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CharacterState.cpp" />
+    <ClCompile Include="Chaser.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="ColliderCube.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CharacterState.h" />
+    <ClInclude Include="Chaser.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="CollideHandle.h" />

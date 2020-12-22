@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "Chaser.h"
 #include "FlashLight.h"
 
 Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
@@ -132,6 +133,14 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Cord_Wall_01", targetRoom);
 	}
+	if (gJSON->mDocument.HasMember("newWall"))
+	{
+		LoadObjectFromJson("newWall", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("newDoor"))
+	{
+		LoadObjectFromJson("newDoor", targetRoom);
+	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Bin_01"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Bin_01", targetRoom);
@@ -139,6 +148,14 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Bin_Rubbish_01"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Bin_Rubbish_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Chair_05"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Chair_05", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Cord_Wall_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Cord_Wall_01", targetRoom);
 	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_CubicalWalHalfl_01"))
 	{
@@ -160,6 +177,26 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Table_01", targetRoom);
 	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_FaxMachine_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_FaxMachine_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Paper_Pile_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Paper_Pile_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_08"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_08", targetRoom);
+	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_14"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Plant_14", targetRoom);
@@ -171,6 +208,14 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Photocopier_02"))
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Photocopier_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Plant_Flowers_02"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Plant_Flowers_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Printer_01"))
+	{
+		LoadObjectFromJson("2A0304_SM_Prop_Printer_01", targetRoom);
 	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Table_01"))
 	{
@@ -290,9 +335,11 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	newScene->AddEventSubscriberList(eEventName::KEY_UP, 9, player);
 	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, player);
 	roomCenter->SetPlayer(player);
-
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
+	Chaser* chaser = new Chaser;
+	newScene->mGameObjects.insert(make_pair("Chaser",chaser));
+	
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
@@ -454,7 +501,6 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	tempDoor->AddColliderCube("basicColliderCube");
 	tempDoor->GetColliderCube()["basicColliderCube"]->SetCubeCollider(8.f, 3.f, 0.5f);
 	tempDoor->GetColliderSphere()->SetSphereCollider(D3DXVec3Length(&(D3DXVECTOR3(1, 1, 1) - D3DXVECTOR3(1, 1, 1))));
-
 	room2A02->InsertObject(tempDoor);
 
 	FlashLight* onlyFlashLight = new FlashLight;
