@@ -98,10 +98,16 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	childUI->SetVisible(false);
 	uiImage->AddChild("ReturnBtn", childUI);
 
-	UIAnimation* animUi = new UIAnimation("Resources/UI/Life.png", { 25, 0 }, 20, 5, 20);
-	animUi->SetObjectName("LifeBar");
+
+	UIImage* uiLifeBar = new UIImage("Resources/UI/LifeBar.png", { 23, 0 }, 20, 5);
+	uiLifeBar->SetObjectName("LifeBar");
+	uiLifeBar->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("LifeBar", uiLifeBar));
+
+	UIAnimation* animUi = new UIAnimation("Resources/UI/Life.png", { 24, 1 }, 18, 4, 20);
+	animUi->SetObjectName("LifeLine");
 	animUi->SetVisible(true);
-	newScene->mGameUIs.insert(make_pair("LifeBar", animUi));
+	newScene->mGameUIs.insert(make_pair("LifeLine", animUi));
 
 	UIImage* MiniGameUI = new UIImage("Resources/UI/MiniGame/GameScene.png", { 5,2 }, 54, 32);
 	MiniGameUI->SetObjectName("MiniGameLayer");

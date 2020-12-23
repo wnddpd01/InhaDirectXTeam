@@ -251,6 +251,43 @@ void ShaderManager::RenderWithFloorShader(function<void()> FunctionPtr)
 		MessageBoxA(GetActiveWindow(), "FloorShader shader End 실패", "에러", MB_ICONERROR);
 }
 
+void ShaderManager::RenderWithPortalShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWorldViewProj;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+
+	matWorldViewProj = matWorld * matView * matProjection;
+
+	static float time = 0;
+	time += gDeltaTime;
+
+	mShaders["PortalShader"]->SetMatrix("gMVP", &matWorldViewProj);
+	mShaders["PortalShader"]->SetFloat("gTime", time);
+	mShaders["PortalShader"]->SetTexture("gRefractionTexture", mTexRound );
+	mShaders["PortalShader"]->SetTexture("gNormalTexture", mTexVoronoi);
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["PortalShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "PortalShader shader Begin 실패", "에러", MB_ICONERROR);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			if (FAILED(mShaders["PortalShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "PortalShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			{
+				FunctionPtr();
+			}
+			if (FAILED(mShaders["PortalShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "PortalShader shader End pass 실패", "에러", MB_ICONERROR);
+		}
+	}
+	if (FAILED(mShaders["PortalShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "PortalShader shader End 실패", "에러", MB_ICONERROR);
+}
+
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 {
 	LPD3DXEFFECT ret = NULL;
@@ -307,6 +344,7 @@ void ShaderManager::LoadAllShader()
 	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
 	mTexFloor = LoadTexture("Resources/XFile/floorTile.png");
 	mTexRound = LoadTexture("Resources/Shader/round.png");
+	mTexVoronoi = LoadTexture("Resources/Shader/voronoi2.png");
 
 	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
 	//mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
@@ -318,5 +356,6 @@ void ShaderManager::LoadAllShader()
 	mShaders["WallShader"]		= LoadShader("Resources/Shader/WallShader.fx");
 	mShaders["FlashShader"]		= LoadShader("Resources/Shader/FlashShader.fx");
 	mShaders["FloorShader"]		= LoadShader("Resources/Shader/FloorShader.fx");
+	mShaders["PortalShader"]	= LoadShader("Resources/Shader/PortalShader.fx");
 }
 
