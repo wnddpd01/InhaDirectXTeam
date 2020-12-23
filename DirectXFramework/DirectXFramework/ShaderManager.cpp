@@ -97,6 +97,7 @@ void ShaderManager::RenderWithWallShader(function<void()> FunctionPtr)
 	mShaders["WallShader"]->SetMatrix("gViewProj", &matViewProj);
 	mShaders["WallShader"]->SetFloat("gOutlineWidth", 0.1f);
 	mShaders["WallShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
+	mShaders["WallShader"]->SetFloat("gBrightness", SHADER_BRIGHTNESS);
 
 
 	UINT numPasses = 0;
@@ -131,6 +132,7 @@ void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr, eShaderPa
 	mShaders["ItemShader"]->SetMatrix("gWorldViewProj", &matWorldViewProj);
 	mShaders["ItemShader"]->SetFloat("gOutlineWidth", 0.1f);
 	mShaders["ItemShader"]->SetTexture("DiffuseMap_Tex", mTexA1);
+	mShaders["ItemShader"]->SetFloat("gBrightness", SHADER_BRIGHTNESS);
 
 	UINT numPasses = 0;
 	switch (eShaderPath)
@@ -177,12 +179,9 @@ void ShaderManager::RenderWithItemShader(function<void()> FunctionPtr, eShaderPa
 		MessageBoxA(GetActiveWindow(), "ItemShader shader eShaderPath 에러", "에러", MB_ICONERROR);
 		break;
 	}
-
-	
-
 }
 
-void ShaderManager::RednerWithFlashShader(function<void()> FunctionPtr)
+void ShaderManager::RenderWithFlashShader(function<void()> FunctionPtr)
 {
 	D3DXMATRIXA16 matView, matProjection, matWorld, matWorldViewProj;
 
@@ -212,6 +211,44 @@ void ShaderManager::RednerWithFlashShader(function<void()> FunctionPtr)
 	}
 	if (FAILED(mShaders["FlashShader"]->End()))
 		MessageBoxA(GetActiveWindow(), "FlashShader shader End 실패", "에러", MB_ICONERROR);
+}
+
+void ShaderManager::RenderWithFloorShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matInvWorld, matProjection, matWorld, matViewProj, matViewInvTrans, matWorldViewInverse;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+	
+
+	matViewProj = matView * matProjection;
+
+
+	mShaders["FloorShader"]->SetMatrix("gWorld", &matWorld);
+	mShaders["FloorShader"]->SetMatrix("gViewProj", &matViewProj);
+	mShaders["FloorShader"]->SetFloat("gOutlineWidth", 0.1f);
+	mShaders["FloorShader"]->SetTexture("DiffuseMap_Tex", mTexFloor);
+	mShaders["FloorShader"]->SetFloat("gBrightness", SHADER_BRIGHTNESS);
+
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["FloorShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "FloorShader shader Begin 실패", "에러", MB_ICONERROR);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			if (FAILED(mShaders["FloorShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "FloorShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			{
+				FunctionPtr();
+			}
+			if (FAILED(mShaders["FloorShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "FloorShader shader End pass 실패", "에러", MB_ICONERROR);
+		}
+	}
+	if (FAILED(mShaders["FloorShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "FloorShader shader End 실패", "에러", MB_ICONERROR);
 }
 
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
@@ -268,6 +305,7 @@ LPDIRECT3DTEXTURE9 ShaderManager::LoadTexture(const char* filename)
 void ShaderManager::LoadAllShader()
 {
 	mTexA1 = LoadTexture("Resources/XFile/PolygonOffice_Texture_01_A.png");
+	mTexFloor = LoadTexture("Resources/XFile/floorTile.png");
 	mTexRound = LoadTexture("Resources/Shader/round.png");
 
 	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
@@ -279,5 +317,6 @@ void ShaderManager::LoadAllShader()
 	mShaders["ItemShader"]		= LoadShader("Resources/Shader/ItemShader.fx");
 	mShaders["WallShader"]		= LoadShader("Resources/Shader/WallShader.fx");
 	mShaders["FlashShader"]		= LoadShader("Resources/Shader/FlashShader.fx");
+	mShaders["FloorShader"]		= LoadShader("Resources/Shader/FloorShader.fx");
 }
 

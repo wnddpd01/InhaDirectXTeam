@@ -94,8 +94,8 @@ void Static3DObject::Render()
 		break;
 		case eTypeTag::FLOOR:
 		{
-			//gShader->GetInstance()->RenderWithWallShader(bind(&Static3DObject::RenderMesh, this));
-			RenderMesh();
+			gShader->GetInstance()->RenderWithFloorShader(bind(&Static3DObject::RenderMesh, this));
+			//RenderMesh();
 		}
 		break;
 		default:
@@ -111,7 +111,7 @@ void Static3DObject::RenderMesh()
 	for (DWORD i = 0; i < mNumMaterials; ++i)
 	{
 		gD3Device->SetMaterial(&mpMaterials[i]);
-		gD3Device->SetTexture(0, mpTextures[i]);
+		//gD3Device->SetTexture(0, mpTextures[i]);
 		mpMesh->DrawSubset(i);
 	}
 }

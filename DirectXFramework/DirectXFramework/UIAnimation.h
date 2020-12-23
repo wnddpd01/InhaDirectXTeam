@@ -4,6 +4,7 @@ class UIAnimation :
 	public UIImage
 {
 private:
+	RECT mOriRect;
 	RECT mAnimRect;
 	LONG mNumRaw;
 	LONG mLenOneRaw;

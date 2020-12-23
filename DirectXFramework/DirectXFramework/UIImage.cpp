@@ -46,7 +46,7 @@ void UIImage::Render()
 	
 	D3DXMATRIXA16 matWorld = mMatWorld;
 	D3DXMATRIXA16 matS, matT;
-	D3DXMatrixScaling(&matS, (float)mWidth / (mDrawRect.right), float(mHeight) / mDrawRect.bottom, 0);
+	D3DXMatrixScaling(&matS, (float)mWidth / (mDrawRect.right - mDrawRect.left), float(mHeight) / (mDrawRect.bottom - mDrawRect.top), 0);
 	D3DXMatrixTranslation(&matT, mPos.x, mPos.y, 0);
 	matWorld = matS * matT;
 	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);

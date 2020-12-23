@@ -102,7 +102,16 @@ void GameObjectAssemblyLine::LoadObjectFromJson(string objectName, Room* targetR
 			ColliderScale,
 			rotation
 		);
-		static3Dobject->SetTypeTag(eTypeTag::WALL);
+		if (objectName == "wall" || objectName == "door")
+		{
+			static3Dobject->SetTypeTag(eTypeTag::WALL);
+		}
+		else
+		{
+			static3Dobject->SetTypeTag(eTypeTag::ITEM);
+			static3Dobject->SetShaderPath(eShaderPath::PATH1);
+		}
+
 		targetRoom->InsertObject(static3Dobject);
 	}
 }
@@ -226,6 +235,54 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A0304_SM_Prop_Computer_Setup_02", targetRoom);
 	}
+	//2A0302
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_ArcadeMachine_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_ArcadeMachine_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Bin_02"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Bin_02", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Chair_09"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Chair_09", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_CoffeeMachine_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_CoffeeMachine_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_FruitBowl_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_FruitBowl_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Kitchen_Cabinet_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Kitchen_Cabinet_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Kitchen_Counter_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Kitchen_Counter_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Kitchen_CounterSink_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Kitchen_CounterSink_01", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Plant_04"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Plant_04", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Plant_14"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Plant_14", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("2A02_SM_Prop_Table_Round_01"))
+	{
+		LoadObjectFromJson("2A02_SM_Prop_Table_Round_01", targetRoom);
+	}
+
+
+
 }
 
 void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirst, Room * secondRoom,
@@ -347,6 +404,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Room * room2A02 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 	LoadFromJson("Resources/Json/wall3A02.json", room2A02);
+	LoadFromJson("Resources/Json/OBJ2A02.json", room2A02);
 	Room* room2A03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
 	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
@@ -423,10 +481,10 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Interactable3DObject* box = new Interactable3DObject;
 	box->SetObjectName("box");
 	box->AddColliderCube("basicColliderCube");
-	box->Setup("Resources/XFile/", "DeathDropBox.X");
-	box->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
-	box->SetPos(D3DXVECTOR3(16, 0, 135));
-	box->SetRot(D3DXQUATERNION(0, 0.7f, 0, 1));
+	box->Setup("Resources/XFile/", "2A02_SM_Prop_Kitchen_Counter_01.X");
+	box->SetScale(D3DXVECTOR3(0.04f, 0.04f, 0.04f));
+	box->SetPos(D3DXVECTOR3(23.22, 0.69, 120.5 + 9.66));
+	box->SetRot(D3DXQUATERNION(0, 0.5f, 0, 0.8f));
 	box->SetIsInteractable(true);
 	box->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, box));
 	box->AddInteractionBehavior([=]()->void
@@ -457,8 +515,9 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	Interactable3DObject* door = new Interactable3DObject;
 	door->SetObjectName("door");
 	door->AddColliderCube("basicColliderCube");
-	door->Setup("Resources/XFile/", "Door.x", eTypeTag::ITEM);
-	door->SetPos(D3DXVECTOR3(3, 1.5, 135));
+	door->Setup("Resources/XFile/", "newDoor.x", eTypeTag::ITEM);
+	door->SetPos(D3DXVECTOR3(3, 0, 133.5));
+	door->GetColliderCube()["basicColliderCube"]->SetCubeCollider(3, 1.5, 0.5);
 	door->SetIsInteractable(true);
 	door->AddInteractionCondition([=]()->bool
 	{
@@ -470,6 +529,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 		D3DXQUATERNION rotY;
 		D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
 		door->SetRot(rotY);
+		door->SetPos(door->GetPos() + D3DXVECTOR3(-1, 0, -1));
 	});
 	door->AddInteractionBehavior([=]()->void
 	{

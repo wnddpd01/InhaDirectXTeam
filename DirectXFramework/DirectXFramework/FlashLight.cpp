@@ -47,7 +47,7 @@ void FlashLight::Render()
 	matWorld = matOffset * matS * matR * matT ;
 
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
-	gShader->GetInstance()->RednerWithFlashShader(bind(&FlashLight::RenderMesh, this));
+	gShader->GetInstance()->RenderWithFlashShader(bind(&FlashLight::RenderMesh, this));
 
 	//mpMesh->DrawSubset(0);
 }

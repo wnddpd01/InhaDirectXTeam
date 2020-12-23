@@ -397,7 +397,7 @@ void ColliderCube::Render()
 	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
 	gD3Device->SetTexture(0, nullptr);
 	gD3Device->SetFVF(D3DFVF_XYZ);
-	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, m_BoxDrawVertex.size() / 2, &m_BoxDrawVertex[0], sizeof(D3DXVECTOR3));
+	//gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, m_BoxDrawVertex.size() / 2, &m_BoxDrawVertex[0], sizeof(D3DXVECTOR3));
 
 	gD3Device->SetTransform(D3DTS_WORLD, &stockMat);
 }
