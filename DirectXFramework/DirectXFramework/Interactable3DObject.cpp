@@ -56,5 +56,6 @@ bool Interactable3DObject::TryInteraction()
 
 void Interactable3DObject::ChangeToStaticObject()
 {
+	mShaderPath = eShaderPath::PATH1;
 	mObjectTag = eObjTag::STATIC_OBJECT;
 }

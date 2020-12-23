@@ -62,11 +62,12 @@ void Base3DObject::Render()
 	matWorld = matS * matR * matT;
 
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
-
+	
 	for (map<string, ColliderCube*>::iterator it = mColliderCubeMap.begin(); it != mColliderCubeMap.end(); ++it)
 	{
 		it->second->Render();
 	}
+	
 }
 
 //void Base3DObject::SetObjectTag()

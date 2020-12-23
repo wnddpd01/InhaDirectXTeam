@@ -9,7 +9,7 @@ class ShaderManager : public Singleton<ShaderManager>
 {
 private:
 	map<string, LPD3DXEFFECT>		mShaders;
-	LPDIRECT3DTEXTURE9				mTexA1;
+	LPDIRECT3DTEXTURE9				mTexA1, mTexFloor;
 	LPDIRECT3DTEXTURE9				mTexRound;
 
 public:
@@ -21,6 +21,7 @@ public:
 	void RenderWithFireShader(function<void()> FunctionPtr);
 	void RenderWithWallShader(function<void()> FunctionPtr);
 	void RenderWithItemShader(function<void()> FunctionPtr, eShaderPath eShaderPath);
-	void RednerWithFlashShader(function<void()> FunctionPtr);
+	void RenderWithFlashShader(function<void()> FunctionPtr);
+	void RenderWithFloorShader(function<void()> FunctionPtr);
 };
 

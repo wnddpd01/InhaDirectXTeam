@@ -5,7 +5,7 @@
 
 void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 {
-	UIImage* uiImage= new UIImage("Resources/UI/Setting/Layer.png", { 0, 0 }, 64, 36);
+	UIImage* uiImage= new UIImage("Resources/UI/Setting/LayerCom.jpg", { 0, 0 }, 64, 36);
 	uiImage->SetObjectName("Layer");
 	uiImage->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("Layer", uiImage));
@@ -98,7 +98,7 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	childUI->SetVisible(false);
 	uiImage->AddChild("ReturnBtn", childUI);
 
-	UIAnimation* animUi = new UIAnimation("Resources/UI/Life.png", { 25, 0 }, 20, 10, 20);
+	UIAnimation* animUi = new UIAnimation("Resources/UI/Life.png", { 25, 0 }, 20, 5, 20);
 	animUi->SetObjectName("LifeBar");
 	animUi->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("LifeBar", animUi));

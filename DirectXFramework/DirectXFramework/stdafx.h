@@ -51,6 +51,7 @@ namespace  std
 #endif
 
 #define ORTHO_WIDTH 40.f
+#define SHADER_BRIGHTNESS 0.6f
 
 enum class eDir
 {
