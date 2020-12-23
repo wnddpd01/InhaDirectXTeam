@@ -11,6 +11,7 @@ ColliderSphere::ColliderSphere()
 
 ColliderSphere::~ColliderSphere()
 {
+	SAFE_RELEASE(mMesh);
 }
 
 void ColliderSphere::Setup()
