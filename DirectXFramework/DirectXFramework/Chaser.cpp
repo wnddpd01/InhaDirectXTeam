@@ -2,10 +2,12 @@
 #include "Chaser.h"
 #include "SkinnedMesh.h"
 
+
+
 void Chaser::FollowingPath()
 {
 	D3DXVECTOR3 moveDir = mPath.back() - mPos;
-	float distance = D3DXVec3Length(&moveDir);
+	const float distance = D3DXVec3Length(&moveDir);
 	if(distance < 0.1f)
 	{
 		mPos = mPath.back();
@@ -16,7 +18,15 @@ void Chaser::FollowingPath()
 		}
 		else
 		{
-			mSkinnedMesh->SetAnimationIndexBlend(8);
+			if(mChaserState == ChaserState::CHASING)
+			{
+				ReturnToBasePos();
+			}
+			else
+			{
+				mChaserState = ChaserState::STOP;
+				mSkinnedMesh->SetAnimationIndexBlend(8);
+			}
 		}
 	}
 	else
@@ -39,22 +49,15 @@ void Chaser::RotateToNextNode()
 	SetRot(idleRot * quatRot);
 }
 
-void Chaser::MakingAndSetTestPath()
-{
-	vector<D3DXVECTOR3> path;
-	path.emplace_back(10, 0, 10);
-	path.emplace_back(0, 0, 10);
-	path.emplace_back(0, 0, -10);
-	path.emplace_back(-10, 0, -10);
-	SetPath(path);
-}
-
-Chaser::Chaser()
+Chaser::Chaser(D3DXVECTOR3 basePos)
 	: mSpeed(0.05f)
+	, mBasePos(basePos)
+	, mChaserState(ChaserState::STOP)
 {
+	mPos = basePos;
 	SetScale(D3DXVECTOR3(0.003f, 0.003f, 0.003f));
 	mSkinnedMesh = new SkinnedMesh("Resources/XFile/Chaser", "Chaser.X");
-	mSkinnedMesh->SetAnimationIndex(8); 
+	mSkinnedMesh->SetAnimationIndex(8);
 }
 
 Chaser::~Chaser()
@@ -63,14 +66,28 @@ Chaser::~Chaser()
 	SAFE_DELETE(mSkinnedMesh);
 }
 
-void Chaser::SetPath(vector<D3DXVECTOR3>& pathNodes)
+void Chaser::FindPath(D3DXVECTOR3& endPos)
 {
 	mPath.clear();
-	mPath.assign(pathNodes.rbegin(), pathNodes.rend());
+	mPath.push_back(endPos);
 	RotateToNextNode();
-	mSkinnedMesh->SetAnimationIndexBlend(4);
 }
 
+void Chaser::ReturnToBasePos()
+{
+	mChaserState = ChaserState::RETURNING;
+	mSkinnedMesh->SetAnimationIndex(4);
+	mSpeed = Chaser::basicSpeed;
+	FindPath(mBasePos);
+}
+
+void Chaser::SetTarget(D3DXVECTOR3& targetPos)
+{
+	mChaserState = ChaserState::CHASING;
+	mSkinnedMesh->SetAnimationIndexBlend(6);
+	mSpeed = Chaser::angrySpeed;
+	FindPath(targetPos);
+}
 
 void Chaser::Update()
 {

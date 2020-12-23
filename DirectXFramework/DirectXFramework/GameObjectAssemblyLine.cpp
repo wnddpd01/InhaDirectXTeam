@@ -395,8 +395,11 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	roomCenter->SetPlayer(player);
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
-	//Chaser* chaser = new Chaser;
-	//newScene->mGameObjects.insert(make_pair("Chaser",chaser));
+	Chaser* chaser1 = new Chaser(D3DXVECTOR3(45, 0, 140));
+	D3DXQUATERNION chaserRot;
+	D3DXQuaternionRotationAxis(&chaserRot, &D3DXVECTOR3(0, 1, 0), -D3DX_PI / 2);
+	chaser1->SetRot(chaserRot);
+	newScene->mGameObjects.insert(make_pair("Chaser1",chaser1));
 	
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
@@ -450,7 +453,6 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A04, eRoomName::R2A04, D3DXVECTOR3(45.0f, 0.f, 35.25f), roomCenter, eDir::UP);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 54.5f), roomCenter, eDir::UP);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 116.5f), roomCenter, eDir::UP);
-	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A02, eRoomName::R2A02, D3DXVECTOR3(25.0f, 0.f, 123.5f), roomCenter, eDir::UP);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A06, eRoomName::R2A06, D3DXVECTOR3(60.0f, 0.f, 4.f), roomCenter, eDir::DOWN);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A05, eRoomName::R2A05, D3DXVECTOR3(60.0f, 0.f, 30.f), roomCenter, eDir::DOWN);
 	MakeRoomConnector(room2A01, eRoomName::R2A01, room2C01, eRoomName::R2C01, D3DXVECTOR3(60.0f, 0.f, 118.5f), roomCenter, eDir::DOWN);
@@ -476,6 +478,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-0.3f,-1), D3DXVECTOR3(59, 3, 134));
 	cctv->SetObjectName("CCTV1");
+	cctv->ConnectChaser(chaser1);
 	//room2A01->InsertObject(cctv);
 	newScene->mGameObjects.insert(make_pair("cctv", cctv));
 	

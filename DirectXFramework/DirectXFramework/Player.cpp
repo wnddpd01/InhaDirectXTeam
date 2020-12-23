@@ -126,6 +126,8 @@ void Player::Update()
 	}
 	mInventory.Update();
 	Base3DObject::Update();
+
+	cout << to_string(mPos) << endl;
 }
 
 void Player::Render()
@@ -201,7 +203,6 @@ void Player::SetAnimationSpeed(FLOAT spd)
 {
 	m_pSkinnedMesh->m_pAnimController->SetTrackSpeed(0, spd);
 }
-
 
 void Player::HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag)
 {
