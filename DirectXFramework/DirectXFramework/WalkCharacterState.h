@@ -6,7 +6,7 @@ class WalkCharacterState :
 	D3DXVECTOR3 mPrevMoveVelocity;
 	D3DXVECTOR3 mMoveVelocity;
 
-	static const UINT walkSpeed = 20;
+	static const UINT walkSpeed = 7;
 public:
 	WalkCharacterState();
 	~WalkCharacterState();

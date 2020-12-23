@@ -507,6 +507,14 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	portal1->Setup();
 	room2A02->InsertObject(portal1);
 
+	Static3DObject* portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
+		D3DXVECTOR3(25, 2, 123.5), 
+		D3DXVECTOR3(1, 2, 1), 
+		D3DXVECTOR3(0, 0, 0)
+	);
+	portalDraw->SetTypeTag(eTypeTag::PORTAL);
+	newScene->mGameObjects.insert(make_pair("portalDraw", portalDraw));
+
 	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
 	portal2->SetObjectName("portal2");
 	portal2->AddColliderCube("portal2ColliderCube");

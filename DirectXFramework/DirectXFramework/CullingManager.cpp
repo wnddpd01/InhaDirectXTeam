@@ -4,7 +4,7 @@
 void CullingManager::Setup()
 {
 	// 생성시 필요한 것
-	float one = 1.2;
+	float one = 2.0f;
 	mVecFrustumPlanes.resize(6);
 	mVecOriFrustumCube.resize(8);
 	mVecWorldFrustumCube.resize(8);
@@ -13,7 +13,7 @@ void CullingManager::Setup()
 	mVecOriFrustumCube[1] = D3DXVECTOR3(-one,  one, 0);
 	mVecOriFrustumCube[2] = D3DXVECTOR3( one,  one, 0);
 	mVecOriFrustumCube[3] = D3DXVECTOR3( one, -one, 0);
-						    
+
 	mVecOriFrustumCube[4] = D3DXVECTOR3(-one, -one, 1);
 	mVecOriFrustumCube[5] = D3DXVECTOR3(-one,  one, 1);
 	mVecOriFrustumCube[6] = D3DXVECTOR3( one,  one, 1);

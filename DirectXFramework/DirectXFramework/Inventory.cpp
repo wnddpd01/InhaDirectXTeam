@@ -106,19 +106,19 @@
 
 Inventory::Inventory()
 {
-	mUISlotImage[Recovery] = new UIImage("Resources/UI/Inventory.png", {1, 1}, 4, 4);
+	mUISlotImage[Recovery] = new UIImage("Resources/UI/Item.png", {1, 1}, 4, 4);
 	mUISlotImage[Recovery]->SetObjectName("inventory");
 	mUISlotImage[Recovery]->SetVisible(true);
 
-	mUISlotImage[Useful] = new UIImage("Resources/UI/Inventory.png", {6, 1}, 4, 4);
+	mUISlotImage[Useful] = new UIImage("Resources/UI/Item.png", {6, 1}, 4, 4);
 	mUISlotImage[Useful]->SetObjectName("inventory2");
 	mUISlotImage[Useful]->SetVisible(true);
 
-	mUISlotImage[Key] = new UIImage("Resources/UI/Inventory.png", {11, 1}, 4, 4);
+	mUISlotImage[Key] = new UIImage("Resources/UI/Item.png", {11, 1}, 4, 4);
 	mUISlotImage[Key]->SetObjectName("inventory3");
 	mUISlotImage[Key]->SetVisible(true);
 
-	mItemUIImageMap["key1"] = new UIImage("Resources/item/key.png", {0, 0}, 4, 4);
+	mItemUIImageMap["key1"] = new UIImage("Resources/item/goodKey.png", {0, 0}, 4, 4);
 	mItemUIImageMap["key1"]->SetObjectName("key1UIImage");
 }
 
