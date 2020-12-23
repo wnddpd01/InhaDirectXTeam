@@ -3,6 +3,8 @@
 
 #include "ColliderSphere.h"
 #include "SkinnedMesh.h"
+#include "Camera.h"
+#include "Chaser.h"
 
 void CCTV::RenderDetectRangeMesh()
 {
@@ -13,14 +15,14 @@ void CCTV::RenderDetectRangeMesh()
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	mDetectRangeMesh->DrawSubset(0);
 
-	for (int i = 1; i < 3; ++i)
-	{
-		D3DXMatrixScaling(&matS, mDetectSphere->GetRadius(), mDetectSphere->GetRadius(), mDetectSphere->GetRadius());
-		D3DXMatrixTranslation(&matT, mDetectSphereRange[i].x, mDetectSphereRange[i].y + 0.0001f, mDetectSphereRange[i].z);
-		matWorld = matS * matT;
-		gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
-		mDetectRangeMesh->DrawSubset(0);
-	}
+	//for (int i = 1; i < 3; ++i)
+	//{
+	//	D3DXMatrixScaling(&matS, mDetectSphere->GetRadius(), mDetectSphere->GetRadius(), mDetectSphere->GetRadius());
+	//	D3DXMatrixTranslation(&matT, mDetectSphereRange[i].x, mDetectSphereRange[i].y + 0.0001f, mDetectSphereRange[i].z);
+	//	matWorld = matS * matT;
+	//	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+	//	mDetectRangeMesh->DrawSubset(0);
+	//}
 }
 
 void CCTV::Rotate()
@@ -50,8 +52,18 @@ void CCTV::Rotate()
 	}
 }
 
+bool CCTV::DetectedTarget()
+{
+	if(D3DXVec3Length(&(*gCameraManager->GetCurrentCamera()->GetTarget() - mDetectSpherePos)) < mDetectSphere->GetRadius())
+	{
+		return true;
+	}
+	return false;
+}
+
 CCTV::CCTV(const LPD3DXMESH& floorMesh, D3DXVECTOR3 eyeDir, D3DXVECTOR3 pos)
 	: mbRotateRight(true)
+	, mbFindTarget(false)
 	, mRotateProgressTime(0.f)
 {
 	SetScale(D3DXVECTOR3(0.05f, 0.05f, 0.05f));
@@ -87,7 +99,7 @@ CCTV::CCTV(const LPD3DXMESH& floorMesh, D3DXVECTOR3 eyeDir, D3DXVECTOR3 pos)
 	mDetectSpherePos = mDetectSphereRange[0];
 	mDetectSphere = new ColliderSphere;
 	mDetectSphere->SetPosition(&mDetectSpherePos);
-	mDetectSphere->SetRadius(1.f);
+	mDetectSphere->SetRadius(5.5f);
 	
 	D3DXLoadMeshFromXA(
 		"Resources/XFile/FlashLight.X",
@@ -104,12 +116,33 @@ CCTV::CCTV(const LPD3DXMESH& floorMesh, D3DXVECTOR3 eyeDir, D3DXVECTOR3 pos)
 CCTV::~CCTV()
 {
 	SAFE_DELETE(mSkinnedMesh);
+	SAFE_DELETE(mDetectSphere);
+	SAFE_RELEASE(mDetectRangeMesh);
 }
 
 void CCTV::Update()
 {
+	if(DetectedTarget() == true)
+	{
+		if (mbFindTarget == false)
+		{
+			mbFindTarget = true;
+			for (Chaser* chaser : mChasers)
+			{
+				chaser->SetTarget(*gCameraManager->GetCurrentCamera()->GetTarget());
+			}
+		}
+	}
+	else
+	{
+		if (mbFindTarget == true)
+		{
+			mbFindTarget = false;
+		}
+		Rotate();
+	}
+	
 	mSkinnedMesh->Update();
-	Rotate();
 	Base3DObject::Update();
 }
 

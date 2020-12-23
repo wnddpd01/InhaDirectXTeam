@@ -23,6 +23,7 @@ private:
 
 public:
 	void SetTarget(D3DXVECTOR3 * target);
+	D3DXVECTOR3* GetTarget() { return mTarget; }
 	void Setup();
 	void SetupPre();
 	void Update();
