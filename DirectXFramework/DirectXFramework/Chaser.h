@@ -14,7 +14,6 @@ private :
 
 	void FollowingPath();
 	void RotateToNextNode();
-	void MakingAndSetTestPath();
 public :
 	Chaser();
 	~Chaser();

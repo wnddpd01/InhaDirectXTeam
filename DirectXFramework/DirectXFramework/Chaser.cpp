@@ -39,16 +39,6 @@ void Chaser::RotateToNextNode()
 	SetRot(idleRot * quatRot);
 }
 
-void Chaser::MakingAndSetTestPath()
-{
-	vector<D3DXVECTOR3> path;
-	path.emplace_back(10, 0, 10);
-	path.emplace_back(0, 0, 10);
-	path.emplace_back(0, 0, -10);
-	path.emplace_back(-10, 0, -10);
-	SetPath(path);
-}
-
 Chaser::Chaser()
 	: mSpeed(0.05f)
 {

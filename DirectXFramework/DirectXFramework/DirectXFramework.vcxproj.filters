@@ -198,6 +198,8 @@
     <ClCompile Include="CullingManager.cpp">
       <Filter>Singleton</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Astar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -359,5 +361,7 @@
     <ClInclude Include="CullingManager.h">
       <Filter>Singleton</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Astar.h" />
   </ItemGroup>
 </Project>
