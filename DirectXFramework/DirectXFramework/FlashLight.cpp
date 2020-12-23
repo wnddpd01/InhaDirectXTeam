@@ -9,6 +9,7 @@ FlashLight::FlashLight()
 
 FlashLight::~FlashLight()
 {
+	SAFE_RELEASE(mpMesh);
 }
 
 void FlashLight::Setup(D3DXVECTOR3* playerPos, D3DXQUATERNION* playerRot)

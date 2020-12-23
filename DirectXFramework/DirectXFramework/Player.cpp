@@ -126,8 +126,6 @@ void Player::Update()
 	}
 	mInventory.Update();
 	Base3DObject::Update();
-
-	cout << to_string(mPos) << endl;
 }
 
 void Player::Render()

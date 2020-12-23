@@ -104,63 +104,6 @@ struct UIVertex : Vertex
 };
 
 
-namespace std
-{
-	template <>
-	struct hash<D3DXVECTOR2>
-	{
-		std::size_t operator()(const D3DXVECTOR2& k) const
-		{
-			using std::size_t;
-			using std::hash;
-
-			// Compute individual hash values for first,
-			// second and third and combine them using XOR
-			// and bit shifting:
-
-			return ((hash<float>()(k.x)
-				^ (hash<float>()(k.y) << 1)));
-		}
-	};
-
-	template <>
-	struct hash<D3DXVECTOR3>
-	{
-		std::size_t operator()(const D3DXVECTOR3& k) const
-		{
-			using std::size_t;
-			using std::hash;
-
-			// Compute individual hash values for first,
-			// second and third and combine them using XOR
-			// and bit shifting:
-
-			return ((hash<float>()(k.x)
-					^ (hash<float>()(k.y) << 1)) >> 1)
-				^ (hash<float>()(k.z) << 1);
-		}
-	};
-
-	template <>
-	struct hash<Vertex>
-	{
-		std::size_t operator()(const Vertex& k) const
-		{
-			using std::size_t;
-			using std::hash;
-
-			// Compute individual hash values for first,
-			// second and third and combine them using XOR
-			// and bit shifting:
-
-			return ((hash<D3DXVECTOR3>()(k.Pos)
-					^ (hash<D3DXVECTOR3>()(k.Normal) << 1)) >> 1)
-				^ (hash<D3DXVECTOR2>()(k.TexUV) << 1);
-		}
-	};
-}
-
-
 #define SafeAddRef(p)	{if(p) p->AddRef() ; }
 
 #define Synthesize(varType , varName , funName) \
@@ -217,6 +160,10 @@ inline string to_string(D3DXVECTOR3 & vec3)
 	return ret;
 }
 
+inline D3DXVECTOR3 BezierSecond(D3DXVECTOR3& vec0, D3DXVECTOR3& vec1, D3DXVECTOR3& vec2, float t)
+{
+	return pow(1 - t, 2) * vec0 + 2 * t * (1 - t) * vec1 + pow(t, 2) * vec2;
+}
 
 #include "Base3DObject.h"
 struct CollisionEvent

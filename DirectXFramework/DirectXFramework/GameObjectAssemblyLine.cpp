@@ -416,7 +416,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	key->Setup("Resources/Xfile/", "Key.X");
 	key->AddColliderCube("basicColliderCube");
 
-	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-1,-1), D3DXVECTOR3(58, 3, 130));
+	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-0.3f,-1), D3DXVECTOR3(59, 3, 134));
 	cctv->SetObjectName("CCTV1");
 	//room2A01->InsertObject(cctv);
 	newScene->mGameObjects.insert(make_pair("cctv", cctv));
