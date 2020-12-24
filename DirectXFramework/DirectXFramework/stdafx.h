@@ -166,6 +166,46 @@ inline D3DXVECTOR3 BezierSecond(D3DXVECTOR3& vec0, D3DXVECTOR3& vec1, D3DXVECTOR
 	return pow(1 - t, 2) * vec0 + 2 * t * (1 - t) * vec1 + pow(t, 2) * vec2;
 }
 
+inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& dir, const float& dirLength, const float& angle, OUT vector<D3DXPLANE>& frustum)
+{
+	int sign[2] = { -1, 1 };
+	D3DXVECTOR3 frustumPoints[4];
+	D3DXQUATERNION quatR;
+	D3DXMATRIXA16 matR;
+	for (int i = 0; i < 2; ++i)
+	{
+		for (int j = 0; j < 2; ++j)
+		{
+			D3DXQuaternionRotationYawPitchRoll(&quatR, angle * sign[i], angle * sign[j], 0);
+			D3DXMatrixRotationQuaternion(&matR, &quatR);
+			D3DXVec3TransformNormal(&frustumPoints[i * 2 + j], &dir, &matR);
+			frustumPoints[i * 2 + j] = frustumPoints[i * 2 + j] * dirLength + pos;
+		}
+	}
+
+	D3DXPLANE frustumPlane;
+	
+	D3DXPlaneFromPoints(&frustumPlane, &pos, &frustumPoints[1], &frustumPoints[0]);
+	D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
+	frustum.emplace_back(frustumPlane); // left
+	D3DXPlaneFromPoints(&frustumPlane, &pos, &frustumPoints[2], &frustumPoints[3]);
+	D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
+	frustum.emplace_back(frustumPlane); // right
+
+	D3DXPlaneFromPoints(&frustumPlane, &pos, &frustumPoints[0], &frustumPoints[2]);
+	D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
+	frustum.emplace_back(frustumPlane); // up
+	D3DXPlaneFromPoints(&frustumPlane, &pos, &frustumPoints[3], &frustumPoints[1]);
+	D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
+	frustum.emplace_back(frustumPlane); // down
+	
+	//D3DXPlaneFromPoints(&frustumPlane, &frustumPoints[0], &frustumPoints[3], &frustumPoints[2]);
+	//D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
+	//frustum.emplace_back(frustumPlane); // back
+
+	return &frustum;
+}
+
 #include "Base3DObject.h"
 struct CollisionEvent
 {

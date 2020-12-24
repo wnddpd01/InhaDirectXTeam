@@ -44,6 +44,10 @@ void KeyboardInputManager::ChangeKeyState()
 	{
 		mKeyState = mKeyState | (UINT)eKeyName::KEY_INTERACTION;
 	}
+	if (GetKeyState(VK_F1) & 0x8000)
+	{
+		mKeyState = mKeyState | (UINT)eKeyName::KEY_ONOFFCOLLIDE;
+	}
 }
 
 void KeyboardInputManager::Update()
@@ -54,7 +58,7 @@ void KeyboardInputManager::Update()
 
 		bool prevKey = false;
 		bool curKey = false;
-		eKeyName keyName;;
+		eKeyName keyName;
 
 		if ((curKey = (mKeyState & (UINT)eKeyName::KEY_FRONT)))
 		{
@@ -119,6 +123,11 @@ void KeyboardInputManager::Update()
 		else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_ESC)))
 		{
 			keyName = eKeyName::KEY_ESC;
+			gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
+		}
+		else if ((prevKey = (mPrevKeyState & (UINT)eKeyName::KEY_ONOFFCOLLIDE)))
+		{
+			keyName = eKeyName::KEY_ONOFFCOLLIDE;
 			gEventManager->EventOccurred(eEventName::KEY_UP, &keyName);
 		}
 
