@@ -507,7 +507,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	portal1->Setup();
 	room2A02->InsertObject(portal1);
 
-	Static3DObject* portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
+	Static3DObject* portalDraw = CreateStatic3DObject("portalDraw1", "simplePlane.x",
 		D3DXVECTOR3(25, 2, 123.5), 
 		D3DXVECTOR3(1, 2, 1), 
 		D3DXVECTOR3(0, 0, 0)
@@ -523,6 +523,15 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
 	portal2->Setup();
 	room2A02->InsertObject(portal2);
+
+	portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
+		D3DXVECTOR3(25, 2, 142.5),
+		D3DXVECTOR3(1, 2, 1),
+		D3DXVECTOR3(0, 0, 0)
+	);
+
+	portalDraw->SetTypeTag(eTypeTag::PORTAL);
+	newScene->mGameObjects.insert(make_pair("portalDraw2", portalDraw));
 
 	Interactable3DObject* door = new Interactable3DObject;
 	door->SetObjectName("door");
