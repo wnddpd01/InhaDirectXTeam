@@ -7,7 +7,9 @@
 ColliderChecker Room::mColliderChecker;
 
 Room::Room()
+	: mbCheckCollision(false)
 {
+	gEventManager->AttachSubscriber(eEventName::KEY_UP, 10, this);
 }
 
 Room::~Room()
@@ -17,6 +19,7 @@ Room::~Room()
 		SAFE_DELETE(objectInRoom.second);
 	}
 	mObjectsInRoom.clear();
+	gEventManager->DetachSubscriber(eEventName::KEY_UP, this);
 }
 
 void Room::Update(Player* player)
@@ -25,8 +28,11 @@ void Room::Update(Player* player)
 	{
 		objectInRoom.second->Update();
 	}
-	/*mColliderChecker.CheckCollider(player, mObjectsInRoom);
-	player->ProcessCollisionEventQueue();*/
+	if (mbCheckCollision == true)
+	{
+		mColliderChecker.CheckCollider(player, mObjectsInRoom);
+		player->ProcessCollisionEventQueue();
+	}
 }
 
 //void Room::Update()
@@ -46,6 +52,28 @@ void Room::Render()
 	{
 		objectInRoom.second->Render();
 	}
+}
+
+bool Room::Update(eEventName eventName, void* parameter)
+{
+	switch (eventName)
+	{
+		case eEventName::KEY_UP:
+			{
+				eKeyName key = *static_cast<eKeyName*>(parameter);
+				if(key == eKeyName::KEY_ONOFFCOLLIDE)
+				{
+					mbCheckCollision = !mbCheckCollision;
+				}
+			}
+			break;
+		default:
+			{
+
+			}
+			break;
+	}
+	return false;
 }
 
 void Room::InsertObject(Base3DObject* object)
