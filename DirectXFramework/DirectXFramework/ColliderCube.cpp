@@ -384,6 +384,61 @@ int ColliderCube::ccw(D3DXVECTOR3 point1, D3DXVECTOR3 point2, D3DXVECTOR3 point3
 	else return -1;
 }
 
+bool ColliderCube::isIntersectRay(D3DXVECTOR3& rayPos, D3DXVECTOR3& rayDir, OUT float* distance)
+{
+	D3DXMATRIXA16 matR, matT, matInverseWorld;
+	D3DXMatrixRotationQuaternion(&matR, mRot);
+	D3DXMatrixTranslation(&matT, mPosition->x, mPosition->y, mPosition->z);
+	matInverseWorld = matR * matT;
+	D3DXMatrixInverse(&matInverseWorld, nullptr, &matInverseWorld);
+	D3DXVECTOR3 localRayPos, localRayDir;
+	D3DXVec3TransformCoord(&localRayPos, &rayPos, &matInverseWorld);
+	D3DXVec3TransformNormal(&localRayDir, &rayDir, &matInverseWorld);
+
+	D3DXVECTOR3 min = {-mCubeWidth / 2, -mCubeHeight /2, -mCubeDepth / 2};
+	D3DXVECTOR3 max = { mCubeWidth / 2, mCubeHeight / 2, mCubeDepth / 2 };
+	
+	float tmin = (min.x - localRayPos.x) / localRayDir.x;
+	float tmax = (max.x - localRayPos.x) / localRayDir.x;
+
+	if (tmin > tmax) swap(tmin, tmax);
+
+	float tymin = (min.y - localRayPos.y) / localRayDir.y;
+	float tymax = (max.y - localRayPos.y) / localRayDir.y;
+
+	if (tymin > tymax) swap(tymin, tymax);
+
+	if ((tmin > tymax) || (tymin > tmax))
+		return false;
+
+	if (tymin > tmin)
+		tmin = tymin;
+
+	if (tymax < tmax)
+		tmax = tymax;
+
+	float tzmin = (min.z - localRayPos.z) / localRayDir.z;
+	float tzmax = (max.z - localRayPos.z) / localRayDir.z;
+
+	if (tzmin > tzmax) swap(tzmin, tzmax);
+
+	if ((tmin > tzmax) || (tzmin > tmax))
+		return false;
+
+	if (tzmin > tmin)
+		tmin = tzmin;
+
+	if (tzmax < tmax)
+		tmax = tzmax;
+
+	if(distance != nullptr)
+	{
+		*distance = tmin;
+	}
+	
+	return true;
+}
+
 void ColliderCube::Render()
 {
 	D3DXMATRIXA16 matS, matR, matT, stockMat, matWorld;
