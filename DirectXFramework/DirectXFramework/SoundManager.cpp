@@ -47,31 +47,27 @@ void SoundManager::AddSound(string name, string soundFile, bool loop)
 {
 	if (loop == true)
 	{
-		if (name == "BGM")
-		{
+		
 			mSystem->createSound(
 				soundFile.c_str(),
 				FMOD_LOOP_NORMAL,
 				nullptr,
 				&mSound[mSounds.size()]);
-		}
-		else
-		{
-			mSystem->createSound(
-				soundFile.c_str(),
-				FMOD_3D,
-				nullptr,
-				&mSound[mSounds.size()]);
-		}
 
 	}
 	else
 	{
 		mSystem->createSound(
 			soundFile.c_str(),
-			FMOD_DEFAULT,
+			FMOD_3D,
 			nullptr,
 			&mSound[mSounds.size()]);
+
+	/*	mSystem->createSound(
+			soundFile.c_str(),
+			FMOD_DEFAULT,
+			nullptr,
+			&mSound[mSounds.size()]);*/
 	}
 
 	mSounds.insert(make_pair(name, &mSound[mSounds.size()]));
@@ -88,11 +84,13 @@ void SoundManager::SoundSet()
 	memset(mSound, 0, sizeof(Sound*)*(mBuffer));
 	memset(mChannel, 0, sizeof(Channel*)*(mBuffer));
 
-	AddSound("BGM", "Resources/Sound/Sonata.mp3", true);
-	//AddSound("BGM", "Resources/Sound/WinterWind.mp3", true);
+
+	AddSound("Menu_BGM", "Resources/Sound/BGM/Menu_BGM.mp3", true);
+	AddSound("PartA_BGM", "Resources/Sound/BGM/PartA_BGM.mp3", true);
+
 	AddSound("CLICK", "Resources/Sound/Click.wav", false);
 	AddSound("GET", "Resources/Sound/attack1.wav", false);
-
+	AddSound("WALK", "Resources/Sound/character/character_walkNormal.mp3", false);
 }
 
 void SoundManager::Play(string name, float volume)
@@ -236,63 +234,6 @@ void SoundManager::Update()
 	mSystem->update();
 }
 
-void SoundManager::SoundControl()
-{
-
-	if (GetKeyState('Q') & 0x8000)
-	{
-		Play("BGM", 0.9f);
-
-	}
-
-	if (GetKeyState('E') & 0x8000)
-	{
-		Play("DIE", 0.2f);
-	}
-
-	if (GetKeyState('M') & 0x8000)
-	{
-		Stop("BGM");
-		Stop("DIE");
-	}
-
-	if (GetKeyState('Z') & 0x8000)
-	{
-		Playing("DIE");
-	}
-
-	if (GetKeyState('P') & 0x8000)
-	{
-		Paused("BGM");
-	}
-
-	if (GetKeyState('R') & 0x8000)
-	{
-		Resume("BGM");
-	}
-
-
-	if (GetKeyState('U') & 0x8000)
-	{
-		if (mVolume <= 1.0f)
-		{
-			mVolume += 0.1f;
-			Volume("BGM", mVolume);
-		}
-	}
-
-	if (GetKeyState('J') & 0x8000)
-	{
-		if (mVolume >= 0.0f)
-		{
-			mVolume -= 0.1f;
-			Volume("BGM", mVolume);
-		}
-
-	}
-
-
-}
 
 void SoundManager::Sound3D(string name, float x, float z)
 {
@@ -308,7 +249,6 @@ void SoundManager::Sound3D(string name, float x, float z)
 		FMOD_VECTOR sourcePos = { 0.0f,0.0f,0.0f };
 		(*mChannel)->set3DAttributes(&sourcePos, 0);
 	}
-
 
 
 
