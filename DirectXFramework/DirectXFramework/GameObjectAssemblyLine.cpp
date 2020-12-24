@@ -280,12 +280,12 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A02_SM_Prop_Table_Round_01", targetRoom);
 	}
-
+	
 
 
 }
 
-void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirst, Room * secondRoom,
+void GameObjectAssemblyLine::MakeRoomConnector(Room* firstRoom, eRoomName eFirst, Room* secondRoom,
 	eRoomName eSecond, D3DXVECTOR3 doorPos, RoomCenter* roomCenter, eDir dirFirst2Second)
 {
 	D3DXVECTOR3 fisrtPos, secondPos;
@@ -294,26 +294,26 @@ void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirs
 
 	switch (dirFirst2Second)
 	{
-	case eDir::UP:
-		fisrtPos.x -= colGap;
-		secondPos.x += colGap;
-		break;
-	case eDir::DOWN:
-		fisrtPos.x += colGap;
-		secondPos.x -= colGap;
-		break;
-	case eDir::RIGHT:
-		fisrtPos.z += colGap;
-		secondPos.z -= colGap;
-		break;
-	case eDir::LEFT:
-		fisrtPos.z -= colGap;
-		secondPos.z += colGap;
-		break;
+		case eDir::UP:
+			fisrtPos.x -= colGap;
+			secondPos.x += colGap;
+			break;
+		case eDir::DOWN:
+			fisrtPos.x += colGap;
+			secondPos.x -= colGap;
+			break;
+		case eDir::RIGHT:
+			fisrtPos.z += colGap;
+			secondPos.z -= colGap;
+			break;
+		case eDir::LEFT:
+			fisrtPos.z -= colGap;
+			secondPos.z += colGap;
+			break;
 	}
 	static int portalcnt = 0;
 
-	Base3DObject * portalFirst = new Base3DObject();
+	Base3DObject* portalFirst = new Base3DObject();
 	portalFirst->SetObjectName(string("portalFisrt") + to_string(portalcnt));
 	portalFirst->AddColliderCube(string("portalFisrt") + to_string(portalcnt) + string("collider"));
 	portalFirst->Setup();
@@ -321,14 +321,14 @@ void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirs
 
 	switch (dirFirst2Second)
 	{
-	case eDir::UP:
-	case eDir::DOWN:
-		portalFirst->GetColliderCube()[string("portalFisrt") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 1, 2);
-		break;
-	case eDir::RIGHT:
-	case eDir::LEFT:
-		portalFirst->GetColliderCube()[string("portalFisrt") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 2, 1);
-		break;
+		case eDir::UP:
+		case eDir::DOWN:
+			portalFirst->GetColliderCube()[string("portalFisrt") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 1, 2);
+			break;
+		case eDir::RIGHT:
+		case eDir::LEFT:
+			portalFirst->GetColliderCube()[string("portalFisrt") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 2, 1);
+			break;
 	}
 
 	portalFirst->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
@@ -342,7 +342,7 @@ void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirs
 
 	firstRoom->InsertObject(portalFirst);
 
-	Base3DObject * portalSecond = new Base3DObject();
+	Base3DObject* portalSecond = new Base3DObject();
 	portalSecond->SetObjectName(string("portalSecond") + to_string(portalcnt));
 	portalSecond->AddColliderCube(string("portalSecond") + to_string(portalcnt) + string("collider"));
 	portalSecond->Setup();
@@ -350,14 +350,14 @@ void GameObjectAssemblyLine::MakeRoomConnector(Room * firstRoom, eRoomName eFirs
 
 	switch (dirFirst2Second)
 	{
-	case eDir::UP:
-	case eDir::DOWN:
-		portalSecond->GetColliderCube()[string("portalSecond") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 1, 2);
-		break;
-	case eDir::RIGHT:
-	case eDir::LEFT:
-		portalSecond->GetColliderCube()[string("portalSecond") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 2, 1);
-		break;
+		case eDir::UP:
+		case eDir::DOWN:
+			portalSecond->GetColliderCube()[string("portalSecond") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 1, 2);
+			break;
+		case eDir::RIGHT:
+		case eDir::LEFT:
+			portalSecond->GetColliderCube()[string("portalSecond") + to_string(portalcnt) + string("collider")]->SetCubeCollider(2, 2, 1);
+			break;
 	}
 	portalSecond->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
 	{
@@ -395,7 +395,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	roomCenter->SetPlayer(player);
 	newScene->mGameObjects.insert(make_pair("Aplayer", player));
 
-	Chaser* chaser1 = new Chaser(D3DXVECTOR3(45, 0, 140));
+	Chaser* chaser1 = new Chaser(D3DXVECTOR3(45, 0, 140), roomCenter);
 	D3DXQUATERNION chaserRot;
 	D3DXQuaternionRotationAxis(&chaserRot, &D3DXVECTOR3(0, 1, 0), -D3DX_PI / 2);
 	chaser1->SetRot(chaserRot);
