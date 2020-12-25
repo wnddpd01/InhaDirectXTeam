@@ -51,3 +51,8 @@ void Astar::LoadNode()
 		}
 	}
 }
+
+void Astar::CreatePath()
+{
+	
+}

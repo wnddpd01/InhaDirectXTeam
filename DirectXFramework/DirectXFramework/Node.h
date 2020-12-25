@@ -13,5 +13,14 @@ public:
 private:
 	map<float,Node*> mPath;
 	D3DXVECTOR3 mPosition;
+
+	enum eNodeType
+	{
+		E_START,
+		E_DEST,
+		E_CLOSE,
+		E_OPEN,
+		E_PATH,
+	};
 };
 

@@ -2,8 +2,6 @@
 #include "Chaser.h"
 #include "SkinnedMesh.h"
 
-
-
 void Chaser::FollowingPath()
 {
 	D3DXVECTOR3 moveDir = mPath.back() - mPos;
