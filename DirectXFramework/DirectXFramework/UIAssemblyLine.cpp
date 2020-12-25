@@ -161,8 +161,6 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	MiniGameObjectUI->SetVisible(true);
 	MiniGameUI->AddChild("telephone", MiniGameObjectUI);
 
-	
-
 }
 
 void UIAssemblyLine::MakeSceneUI(Scene* newScene)

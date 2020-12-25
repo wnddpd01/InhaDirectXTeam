@@ -23,12 +23,13 @@ void SceneCenter::EnterScene(eSceneName sceneName)
 	{
 		case eSceneName::START_SCENE :
 			{
-				
+				gSoundManager->Play("Menu_BGM");
 			}
 			break;
 		case eSceneName::INGAME_SCENE :
 			{
-				gSoundManager->Play("BGM");
+				gSoundManager->Stop("Menu_BGM");
+				gSoundManager->Play("PartA_BGM");
 			}
 			break;
 		default :

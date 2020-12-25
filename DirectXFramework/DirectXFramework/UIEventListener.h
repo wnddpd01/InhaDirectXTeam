@@ -245,7 +245,7 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 			LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
 			POINT pos = { x, Btn->GetPos().y };
 			Btn->SetPos(pos);
-			gSoundManager->Volume("BGM", num*0.1f);
+			gSoundManager->Volume("PartA_BGM", num*0.1f);
 		}
 
 
@@ -321,7 +321,7 @@ inline bool BtnSettingEventListen(eEventName eventName, void* parameter, UIBase*
 				LONG x = Line->GetPos().x + ((Line->GetWidth()*0.1)* num);
 				POINT pos = { x, Btn->GetPos().y };
 				Btn->SetPos(pos);
-				gSoundManager->Volume("BGM", num*0.1f);
+				gSoundManager->Volume("PartA_BGM", num*0.1f);
 			}
 		}
 	}

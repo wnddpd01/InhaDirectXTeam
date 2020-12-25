@@ -18,7 +18,7 @@ class RoomCenter :
 public:
 	RoomCenter();
 	~RoomCenter();
-
+	
 	void Update() override;
 	void Render() override;
 	
@@ -31,10 +31,19 @@ public:
 	{
 		mPlayer = player;
 	}
+	Player* GetPlayer() const
+	{
+		return mPlayer;
+	}
+
 
 	void SetCurRoom(eRoomName roomName)
 	{
 		mCurRoom = mRoomMap[roomName];
+	}
+	Room* GetCurRoom() const
+	{
+		return mCurRoom;
 	}
 };
 
