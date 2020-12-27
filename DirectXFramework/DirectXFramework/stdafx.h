@@ -50,7 +50,7 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-#define ORTHO_WIDTH 20.f
+#define ORTHO_WIDTH 40.f
 #define SHADER_BRIGHTNESS 0.3f
 
 enum class eDir

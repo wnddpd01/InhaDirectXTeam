@@ -3,7 +3,7 @@
 
 
 class Portal :
-	public Base3DObject
+	public Static3DObject
 {
 	static const D3DXVECTOR3 NOT_COLLIDED_POS;
 	D3DXVECTOR3 mExitPos;

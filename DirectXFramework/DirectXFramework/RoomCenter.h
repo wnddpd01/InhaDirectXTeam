@@ -13,7 +13,6 @@ class RoomCenter :
 	public BaseObject
 {
 	map<eRoomName, Room*> mRoomMap;
-	Room * mCurRoom;
 	Player * mPlayer;
 public:
 	RoomCenter();
@@ -36,14 +35,15 @@ public:
 		return mPlayer;
 	}
 
-
-	void SetCurRoom(eRoomName roomName)
+	Room* FindRoomIncludePos(D3DXVECTOR3& pos);
+	
+	/*void SetCurRoom(eRoomName roomName)
 	{
 		mCurRoom = mRoomMap[roomName];
 	}
 	Room* GetCurRoom() const
 	{
 		return mCurRoom;
-	}
+	}*/
 };
 

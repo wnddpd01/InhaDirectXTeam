@@ -94,3 +94,17 @@ void Room::DeleteObject(string& name)
 {
 	mObjectsInRoom.erase(mObjectsInRoom.find(name));
 }
+
+bool Room::isInRoom(D3DXVECTOR3& pos)
+{
+	for (AreaCube& cube : mArea.cubeArr)
+	{
+		if (pos.x >= cube.cubeMin.x && pos.x <= cube.cubeMax.x
+			&& pos.y >= cube.cubeMin.y && pos.y <= cube.cubeMax.y
+			&& pos.z >= cube.cubeMin.z && pos.z <= cube.cubeMax.z)
+		{
+			return true;
+		}
+	}
+	return false;
+}

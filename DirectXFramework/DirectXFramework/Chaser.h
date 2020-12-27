@@ -28,6 +28,8 @@ private :
 	DWORD mLastFindTime;
 	float mSpeed;
 
+	D3DXVECTOR3 testSightDir; // test
+	
 	void FollowingPath();
 	void RotateToNextNode();
 	bool ObjectInSightFrustum(Base3DObject* object, vector<D3DXPLANE>& sightFrustum);

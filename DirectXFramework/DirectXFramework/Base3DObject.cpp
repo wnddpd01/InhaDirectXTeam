@@ -48,8 +48,6 @@ void Base3DObject::Setup()
 	{
 		it->second->Setup();
 	}
-	
-	LoadColliderCube();
 }
 
 void Base3DObject::Render()
