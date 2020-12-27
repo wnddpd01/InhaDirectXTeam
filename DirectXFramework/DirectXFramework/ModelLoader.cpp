@@ -7,6 +7,7 @@ void ModelLoader::LoadXfile(
 {
 	if (staticXFiles.find(fileName) != staticXFiles.end())
 	{
+		
 		mpMesh = staticXFiles[fileName]->mpMesh;
 		*mpMaterials = staticXFiles[fileName]->mpMaterials;
 		*mpTextures = staticXFiles[fileName]->mpTextures;

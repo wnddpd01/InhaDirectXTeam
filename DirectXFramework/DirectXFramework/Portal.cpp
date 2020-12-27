@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Portal.h"
 #include "Player.h"
+#include "ColliderCube.h"
 
 const D3DXVECTOR3 Portal::NOT_COLLIDED_POS = D3DXVECTOR3(-999, -999, -999);
 
@@ -15,6 +16,20 @@ Portal::Portal(D3DXVECTOR3 portalDir)
 
 	mPortalDir = portalDir;
 	mPortalLineDir = portalLineDir;
+
+	Setup("Resources/XFile/", "simplePlane.x");
+	SetTypeTag(eTypeTag::PORTAL);
+
+	mScale = D3DXVECTOR3(1, 2, 1);
+
+
+	AddColliderCube("portalColliderCube");
+
+	ColliderCube* portalColliderCube = mColliderCubeMap["portalColliderCube"];
+	
+	portalColliderCube->SetCubeCollider(portalColliderCube->GetCubeHeight() + mPortalLineDir.y,
+										portalColliderCube->GetCubeWidth() + mPortalLineDir.x,
+										portalColliderCube->GetCubeDepth() + mPortalLineDir.z);
 }
 
 
@@ -24,8 +39,10 @@ Portal::~Portal()
 
 void Portal::Render()
 {
-	Base3DObject::Render();
-
+	D3DXVECTOR3 tempPos = mPos;
+	mPos.y += mScale.y;
+	Static3DObject::Render();
+	mPos = tempPos;
 	D3DXQUATERNION rotY;
 	D3DXQuaternionRotationYawPitchRoll(&rotY, D3DX_PI, 0, 0);
 

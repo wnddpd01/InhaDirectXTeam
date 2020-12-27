@@ -21,6 +21,7 @@ private :
 		Room * firstRoom, eRoomName eFirst, Room * secondRoom, 
 		eRoomName eSecond, D3DXVECTOR3 doorPos, RoomCenter* roomCenter, eDir dirFirst2Second);
 	void LoadObjectFromJson(string objectName, Room * targetRoom);
+	void LoadAreaFromJson(Room* targetRoom);
 	void LoadFromJson(string fileName, Room* targetRoom);
 	void CreateStartSceneGameObject(Scene* newScene);
 	void CreateIngameSceneGameObject(Scene* newScene);

@@ -97,8 +97,12 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	childUI->SetUIPath("Resources/UI/Setting/Return_on.png", eStateUI::on);
 	childUI->SetVisible(false);
 	uiImage->AddChild("ReturnBtn", childUI);
-
-
+	/*
+	UIImage* sideFilter = new UIImage("Resources/Shader/round.png", { 0, 0 }, 64, 36);
+	sideFilter->SetObjectName("sideFilter");
+	sideFilter->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("sideFilter", sideFilter));
+	*/
 	UIImage* uiLifeBar = new UIImage("Resources/UI/LifeBar.png", { 23, 0 }, 20, 5);
 	uiLifeBar->SetObjectName("LifeBar");
 	uiLifeBar->SetVisible(true);

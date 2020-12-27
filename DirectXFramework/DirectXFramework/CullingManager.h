@@ -16,7 +16,7 @@ public:
 
 	void Setup();
 	void SetFrustum();
-	bool CheckFrustumCulling(D3DXVECTOR3* pos);
+	bool CheckFrustumCulling(Base3DObject* obj);
 
 
 };

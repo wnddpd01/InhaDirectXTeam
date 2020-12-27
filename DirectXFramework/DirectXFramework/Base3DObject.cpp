@@ -5,11 +5,12 @@
 #include "CollideHandle.h"
 
 Base3DObject::Base3DObject()
-	: mScale(1,1,1)
-	, mPos(0,0,0)
+	: mScale(1, 1, 1)
+	, mPos(0, 0, 0)
 	, mbIsInteractable(false)
 	, mStateTag(eStateTag::NON_STATE)
 	, mShaderPath(eShaderPath::ALL_PATH)
+	, mCullingSize(0.f)
 {
 	D3DXQuaternionIdentity(&mRot);
 	CollideHandle = DefaultColliderHandler;
@@ -48,8 +49,6 @@ void Base3DObject::Setup()
 	{
 		it->second->Setup();
 	}
-	
-	LoadColliderCube();
 }
 
 void Base3DObject::Render()

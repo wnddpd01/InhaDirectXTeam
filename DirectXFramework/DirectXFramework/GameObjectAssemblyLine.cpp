@@ -33,6 +33,10 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 			colliderScale.x,
 			colliderScale.y,
 			colliderScale.z);
+
+		float big = max(colliderScale.x, colliderScale.y);
+		newStaticObject->SetCullingSize(max(big, colliderScale.z));
+
 		newStaticObject->GetColliderSphere()->SetRadius(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
 	}
 
@@ -116,6 +120,45 @@ void GameObjectAssemblyLine::LoadObjectFromJson(string objectName, Room* targetR
 	}
 }
 
+void GameObjectAssemblyLine::LoadAreaFromJson(Room* targetRoom)
+{
+	Value& jsonAreaArr = gJSON->mDocument["area"];
+	RoomArea roomArea;
+	D3DXVECTOR3 cubeMin;
+	D3DXVECTOR3 cubeMax;
+	for (int i = 0; i < jsonAreaArr.Size(); ++i)
+	{
+		cubeMin = { 0, 0, 0 };
+		cubeMax = { 0, 0, 0 };
+		if(jsonAreaArr[i].FindMember("x_start") != jsonAreaArr[i].MemberEnd())
+		{
+			cubeMin.x = jsonAreaArr[i]["x_start"].GetFloat();
+		}
+		if(jsonAreaArr[i].FindMember("y_start") != jsonAreaArr[i].MemberEnd())
+		{
+			cubeMin.y = jsonAreaArr[i]["y_start"].GetFloat();
+		}
+		if (jsonAreaArr[i].FindMember("z_start") != jsonAreaArr[i].MemberEnd())
+		{
+			cubeMin.z = jsonAreaArr[i]["z_start"].GetFloat();
+		}
+		if (jsonAreaArr[i].HasMember("x_end"))
+		{
+			cubeMax.x = jsonAreaArr[i]["x_end"].GetFloat();
+		}
+		if (jsonAreaArr[i].HasMember("y_end"))
+		{
+			cubeMax.y = jsonAreaArr[i]["y_end"].GetFloat();
+		}
+		if (jsonAreaArr[i].HasMember("z_end"))
+		{
+			cubeMax.z = jsonAreaArr[i]["z_end"].GetFloat();
+		}
+		roomArea.insertCube(cubeMin, cubeMax);
+	}
+	targetRoom->SetArea(roomArea);
+}
+
 void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 {
 	gJSON->LoadJSON(fileName);
@@ -126,6 +169,10 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	if (gJSON->mDocument.HasMember("door"))
 	{
 		LoadObjectFromJson("door", targetRoom);
+	}
+	if (gJSON->mDocument.HasMember("area"))
+	{
+		LoadAreaFromJson(targetRoom);
 	}
 	if (gJSON->mDocument.HasMember("2A0304_SM_Prop_Chair_05"))
 	{
@@ -288,7 +335,7 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 void GameObjectAssemblyLine::MakeRoomConnector(Room* firstRoom, eRoomName eFirst, Room* secondRoom,
 	eRoomName eSecond, D3DXVECTOR3 doorPos, RoomCenter* roomCenter, eDir dirFirst2Second)
 {
-	D3DXVECTOR3 fisrtPos, secondPos;
+	/*D3DXVECTOR3 fisrtPos, secondPos;
 	float colGap = 0.5;
 	fisrtPos = secondPos = doorPos;
 
@@ -370,7 +417,7 @@ void GameObjectAssemblyLine::MakeRoomConnector(Room* firstRoom, eRoomName eFirst
 
 	secondRoom->InsertObject(portalSecond);
 
-	portalcnt++;
+	portalcnt++;*/
 }
 
 void GameObjectAssemblyLine::CreateStartSceneGameObject(Scene* newScene)
@@ -449,23 +496,21 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
 	LoadFromJson("Resources/Json/wall3D01.json", room2D01);
 	
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A07, eRoomName::R2A07, D3DXVECTOR3(25.0f, 0.f, 17.f), roomCenter, eDir::UP);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A04, eRoomName::R2A04, D3DXVECTOR3(45.0f, 0.f, 35.25f), roomCenter, eDir::UP);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 54.5f), roomCenter, eDir::UP);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 116.5f), roomCenter, eDir::UP);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A06, eRoomName::R2A06, D3DXVECTOR3(60.0f, 0.f, 4.f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2A05, eRoomName::R2A05, D3DXVECTOR3(60.0f, 0.f, 30.f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2A01, eRoomName::R2A01, room2C01, eRoomName::R2C01, D3DXVECTOR3(60.0f, 0.f, 118.5f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2C01, eRoomName::R2C01, room2C03, eRoomName::R2C03, D3DXVECTOR3(66.25f, 0.f, 135.5f), roomCenter, eDir::RIGHT);
-	MakeRoomConnector(room2C01, eRoomName::R2C01, room2B01, eRoomName::R2B01, D3DXVECTOR3(72.5f, 0.f, 118.0f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2B01, eRoomName::R2B01, room2B02, eRoomName::R2B02, D3DXVECTOR3(85.75f, 0.f, 120.5f), roomCenter, eDir::RIGHT);
-	MakeRoomConnector(room2B02, eRoomName::R2B02, room2B03, eRoomName::R2B03, D3DXVECTOR3(93.0f, 0.f, 133.5f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2B01, eRoomName::R2B01, room2B04, eRoomName::R2B04, D3DXVECTOR3(87.5f, 0.f, 99.5f), roomCenter, eDir::DOWN);
-	MakeRoomConnector(room2B04, eRoomName::R2B04, room2B03, eRoomName::R2B03, D3DXVECTOR3(140.0f, 0.f, 108.0f), roomCenter, eDir::RIGHT);
-	MakeRoomConnector(room2C01, eRoomName::R2C01, room2C02, eRoomName::R2C02, D3DXVECTOR3(97.5f, 0.f, 45.0f), roomCenter, eDir::LEFT);
-	MakeRoomConnector(room2C02, eRoomName::R2C02, room2D01, eRoomName::R2D01, D3DXVECTOR3(142.0f, 0.f, 40.0f), roomCenter, eDir::RIGHT);
-
-	roomCenter->SetCurRoom(eRoomName::R2C03);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A07, eRoomName::R2A07, D3DXVECTOR3(25.0f, 0.f, 17.f), roomCenter, eDir::UP);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A04, eRoomName::R2A04, D3DXVECTOR3(45.0f, 0.f, 35.25f), roomCenter, eDir::UP);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 54.5f), roomCenter, eDir::UP);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A03, eRoomName::R2A03, D3DXVECTOR3(45.0f, 0.f, 116.5f), roomCenter, eDir::UP);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A06, eRoomName::R2A06, D3DXVECTOR3(60.0f, 0.f, 4.f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2A05, eRoomName::R2A05, D3DXVECTOR3(60.0f, 0.f, 30.f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2A01, eRoomName::R2A01, room2C01, eRoomName::R2C01, D3DXVECTOR3(60.0f, 0.f, 118.5f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2C01, eRoomName::R2C01, room2C03, eRoomName::R2C03, D3DXVECTOR3(66.25f, 0.f, 135.5f), roomCenter, eDir::RIGHT);
+	//MakeRoomConnector(room2C01, eRoomName::R2C01, room2B01, eRoomName::R2B01, D3DXVECTOR3(72.5f, 0.f, 118.0f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2B01, eRoomName::R2B01, room2B02, eRoomName::R2B02, D3DXVECTOR3(85.75f, 0.f, 120.5f), roomCenter, eDir::RIGHT);
+	//MakeRoomConnector(room2B02, eRoomName::R2B02, room2B03, eRoomName::R2B03, D3DXVECTOR3(93.0f, 0.f, 133.5f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2B01, eRoomName::R2B01, room2B04, eRoomName::R2B04, D3DXVECTOR3(87.5f, 0.f, 99.5f), roomCenter, eDir::DOWN);
+	//MakeRoomConnector(room2B04, eRoomName::R2B04, room2B03, eRoomName::R2B03, D3DXVECTOR3(140.0f, 0.f, 108.0f), roomCenter, eDir::RIGHT);
+	//MakeRoomConnector(room2C01, eRoomName::R2C01, room2C02, eRoomName::R2C02, D3DXVECTOR3(97.5f, 0.f, 45.0f), roomCenter, eDir::LEFT);
+	//MakeRoomConnector(room2C02, eRoomName::R2C02, room2D01, eRoomName::R2D01, D3DXVECTOR3(142.0f, 0.f, 40.0f), roomCenter, eDir::RIGHT);
 	
 	Static3DObject* floor = CreateStatic3DObject("floor", "mapTile.x", D3DXVECTOR3(75, 0, 75), D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
 	floor->SetTypeTag(eTypeTag::FLOOR);
@@ -500,28 +545,16 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	Portal * portal1 = new Portal(D3DXVECTOR3(1, 0, 0));
 	portal1->SetObjectName("portal1");
-	portal1->AddColliderCube("portal1ColliderCube");
 	portal1->CollideHandle = bind(&Portal::PortalColliderHandler, portal1, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 	portal1->SetPos(D3DXVECTOR3(25, 0, 123.5));
 	portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
-	portal1->Setup();
 	room2A02->InsertObject(portal1);
-
-	Static3DObject* portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
-		D3DXVECTOR3(25, 2, 123.5), 
-		D3DXVECTOR3(1, 2, 1), 
-		D3DXVECTOR3(0, 0, 0)
-	);
-	portalDraw->SetTypeTag(eTypeTag::PORTAL);
-	newScene->mGameObjects.insert(make_pair("portalDraw", portalDraw));
 
 	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
 	portal2->SetObjectName("portal2");
-	portal2->AddColliderCube("portal2ColliderCube");
 	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 	portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
 	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
-	portal2->Setup();
 	room2A02->InsertObject(portal2);
 
 	Interactable3DObject* door = new Interactable3DObject;
@@ -547,7 +580,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	{
 		player->UseItem(eInventorySlot::Key);
 	});
-	door->AddInteractionBehavior([=]()->void
+	/*door->AddInteractionBehavior([=]()->void
 	{
 		portal1->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
 		{
@@ -557,7 +590,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 		{
 			roomCenter->SetCurRoom(eRoomName::R2A01);
 		};
-	});
+	});*/
 	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
 	room2A02->InsertObject(door);
 

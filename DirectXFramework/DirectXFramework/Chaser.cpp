@@ -96,6 +96,7 @@ Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
 	, mBasePos(basePos)
 	, mRoomCenter(roomCenter)
 	, mLastFindTime(0)
+	, testSightDir(0, 0, 0)
 {
 	mPos = basePos;
 	SetScale(D3DXVECTOR3(0.003f, 0.003f, 0.003f));
@@ -152,9 +153,10 @@ void Chaser::Update()
 		if(ObjectInSightFrustum(player, sightFrustum))
 		{
 			D3DXVECTOR3 sightRayDir = playerPos - mPos;
+			testSightDir = sightRayDir;
 			float distanceToPlayer = D3DXVec3Length(&sightRayDir);
 			D3DXVec3Normalize(&sightRayDir, &sightRayDir);
-			map<string, Base3DObject*>& objectsInRoom = mRoomCenter->GetCurRoom()->GetObjectsInRoomRef();
+			map<string, Base3DObject*>& objectsInRoom = mRoomCenter->FindRoomIncludePos(mPos)->GetObjectsInRoomRef();
 			BOOL canSeePlayer = true;
 			float distanceToHitPoint = 0.f;
 			for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
@@ -189,4 +191,17 @@ void Chaser::Render()
 {
 	Base3DObject::Render();
 	mSkinnedMesh->Render(nullptr);
+
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
+	
+	D3DXVECTOR3 lineVec[2];
+	lineVec[0] = mPos;
+	lineVec[1] = mPos + testSightDir * baseSightLength;
+	
+	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
+	gD3Device->SetTexture(0, nullptr);
+	gD3Device->SetFVF(D3DFVF_XYZ);
+	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, 1, lineVec, sizeof(D3DXVECTOR3));
 }

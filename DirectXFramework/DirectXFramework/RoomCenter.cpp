@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "RoomCenter.h"
 #include "Room.h"
+#include "Player.h"
 
 
 RoomCenter::RoomCenter()
-	: mCurRoom(nullptr)
-	, mPlayer(nullptr)
+	: mPlayer(nullptr)
 {
 	mObjectName = string("RoomCenter");
 }
@@ -13,18 +13,42 @@ RoomCenter::RoomCenter()
 
 RoomCenter::~RoomCenter()
 {
+	for (map<eRoomName, Room*>::value_type& roomMap : mRoomMap)
+	{
+		SAFE_DELETE(roomMap.second);
+	}
 }
 
 void RoomCenter::Update()
 {
-	mCurRoom->Update(mPlayer);
+	for (map<eRoomName, Room*>::value_type& room : mRoomMap)
+	{
+		if (room.second->isInRoom(mPlayer->GetPos()))
+		{
+			room.second->Update(mPlayer);
+		}
+	}
 }
 
 void RoomCenter::Render()
 {
-	mCurRoom->Render();
-	/*for (map<eRoomName, Room*>::value_type& room : mRoomMap)
+	for (map<eRoomName, Room*>::value_type& room : mRoomMap)
 	{
-		room.second->Render();
-	}*/
+		if (room.second->isInRoom(mPlayer->GetPos()))
+		{
+			room.second->Render();
+		}
+	}
+}
+
+Room* RoomCenter::FindRoomIncludePos(D3DXVECTOR3& pos)
+{
+	for (map<eRoomName, Room*>::value_type& roomMap : mRoomMap)
+	{
+		if(roomMap.second->isInRoom(pos))
+		{
+			return roomMap.second;
+		}
+	}
+	return nullptr;
 }
