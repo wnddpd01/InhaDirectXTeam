@@ -33,6 +33,10 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 			colliderScale.x,
 			colliderScale.y,
 			colliderScale.z);
+
+		float big = max(colliderScale.x, colliderScale.y);
+		newStaticObject->SetCullingSize(max(big, colliderScale.z));
+
 		newStaticObject->GetColliderSphere()->SetRadius(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
 	}
 
@@ -546,20 +550,21 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	portal1->SetExitPos(D3DXVECTOR3(25, 0, 142.5));
 	room2A02->InsertObject(portal1);
 
-	/*Static3DObject* portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
-		D3DXVECTOR3(25, 2, 123.5), 
-		D3DXVECTOR3(1, 2, 1), 
-		D3DXVECTOR3(0, 0, 0)
-	);
-	portalDraw->SetTypeTag(eTypeTag::PORTAL);
-	newScene->mGameObjects.insert(make_pair("portalDraw", portalDraw));*/
-
 	Portal * portal2 = new Portal(D3DXVECTOR3(1, 0, 0));
 	portal2->SetObjectName("portal2");
 	portal2->CollideHandle = bind(&Portal::PortalColliderHandler, portal2, placeholders::_1, placeholders::_2, placeholders::_3, placeholders::_4);
 	portal2->SetPos(D3DXVECTOR3(25, 0, 142.5));
 	portal2->SetExitPos(D3DXVECTOR3(25, 0, 123.5));
 	room2A02->InsertObject(portal2);
+
+	portalDraw = CreateStatic3DObject("portalDraw", "simplePlane.x",
+		D3DXVECTOR3(25, 2, 142.5),
+		D3DXVECTOR3(1, 2, 1),
+		D3DXVECTOR3(0, 0, 0)
+	);
+
+	portalDraw->SetTypeTag(eTypeTag::PORTAL);
+	newScene->mGameObjects.insert(make_pair("portalDraw2", portalDraw));
 
 	Interactable3DObject* door = new Interactable3DObject;
 	door->SetObjectName("door");

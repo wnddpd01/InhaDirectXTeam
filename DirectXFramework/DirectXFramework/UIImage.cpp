@@ -39,10 +39,12 @@ UIImage::~UIImage()
 
 }
 
+
 void UIImage::Render()
 {
 	if (mbVisible == false)
 		return;
+	
 	
 	D3DXMATRIXA16 matWorld = mMatWorld;
 	D3DXMATRIXA16 matS, matT;
@@ -51,14 +53,19 @@ void UIImage::Render()
 	matWorld = matS * matT;
 	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	mSprite->SetTransform(&matWorld);
+
 	mSprite->Draw(mTextureUI, &mDrawRect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+
 	mSprite->End();
 
 	for(pair<string, UIImage*> child : mChildSprite)
 	{
 		child.second->Render();
 	}
+}
 
+void UIImage::ShaderPart()
+{
 }
 
 void UIImage::AddChild(string UIname, UIImage* child)

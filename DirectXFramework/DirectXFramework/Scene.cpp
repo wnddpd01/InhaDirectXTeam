@@ -97,6 +97,9 @@ void Scene::Render()
 		gameUI.second->Render();
 	}
 
+
+
+
 	gD3Device->EndScene();
 	gD3Device->Present(nullptr, nullptr, nullptr, nullptr);
 }

@@ -21,6 +21,7 @@ public:
 	void SetDrawRect(RECT drawRect) { mDrawRect = drawRect; }
 
 	void Render() override;
+	void ShaderPart();
 	
 	void AddChild(string UIname, UIImage* child);
 

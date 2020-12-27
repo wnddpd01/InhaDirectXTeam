@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Static3DObject.h"
 #include "ModelLoader.h"
+#include "ColliderCube.h"
 
 void render()
 {
@@ -74,7 +75,7 @@ void Static3DObject::Render()
 		
 		case eTypeTag::ITEM :
 		{
-			if (!gCullingManager->CheckFrustumCulling(&mPos))
+			if (!gCullingManager->CheckFrustumCulling(this))
 			{
 				return;
 			}
@@ -84,7 +85,7 @@ void Static3DObject::Render()
 		break;
 		case eTypeTag::WALL:
 		{
-			if (!gCullingManager->CheckFrustumCulling(&mPos))
+			if (!gCullingManager->CheckFrustumCulling(this))
 			{
 				return;
 			}
