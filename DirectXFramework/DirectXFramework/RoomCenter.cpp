@@ -22,8 +22,9 @@ void RoomCenter::Update()
 
 void RoomCenter::Render()
 {
-	for (map<eRoomName, Room*>::value_type& room : mRoomMap)
+	mCurRoom->Render();
+	/*for (map<eRoomName, Room*>::value_type& room : mRoomMap)
 	{
 		room.second->Render();
-	}
+	}*/
 }

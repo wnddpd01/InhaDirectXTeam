@@ -22,7 +22,7 @@ public:
 	void SetScale(D3DXVECTOR3 * scale) { mScale = scale; }
 	D3DXVECTOR3* GetScale() const { return mScale; }
 
-	LPD3DXMESH& GetMash() { return mMesh; }
+	LPD3DXMESH& GetMesh() { return mMesh; }
 protected:
 	LPD3DXMESH mMesh;
 	D3DXVECTOR3 * mPosition;

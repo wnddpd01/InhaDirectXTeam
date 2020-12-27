@@ -469,7 +469,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	MakeRoomConnector(room2C01, eRoomName::R2C01, room2C02, eRoomName::R2C02, D3DXVECTOR3(97.5f, 0.f, 45.0f), roomCenter, eDir::LEFT);
 	MakeRoomConnector(room2C02, eRoomName::R2C02, room2D01, eRoomName::R2D01, D3DXVECTOR3(142.0f, 0.f, 40.0f), roomCenter, eDir::RIGHT);
 
-	roomCenter->SetCurRoom(eRoomName::R2A02);
+	roomCenter->SetCurRoom(eRoomName::R2C03);
 	
 	Static3DObject* floor = CreateStatic3DObject("floor", "mapTile.x", D3DXVECTOR3(75, 0, 75), D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, 0));
 	floor->SetTypeTag(eTypeTag::FLOOR);

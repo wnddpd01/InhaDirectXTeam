@@ -3,11 +3,11 @@
 #include "SkinnedMesh.h"
 #include "RoomCenter.h"
 #include "Player.h"
-#include "ColliderSphere.h"
+#include "ColliderCube.h"
 #include "Room.h"
 
 D3DXVECTOR3 Chaser::baseSightDir = { 0, 0, 1 };
-float Chaser::baseSightLength = 10.f;
+float Chaser::baseSightLength = 30.f;
 float Chaser::baseSightAngle = D3DX_PI / 6.f;
 vector<D3DXPLANE> Chaser::baseSightFrustum;
 
@@ -151,11 +151,29 @@ void Chaser::Update()
 		MakeSightFrustum(sightFrustum);
 		if(ObjectInSightFrustum(player, sightFrustum))
 		{
-			SetTarget(playerPos);
 			D3DXVECTOR3 sightRayDir = playerPos - mPos;
 			float distanceToPlayer = D3DXVec3Length(&sightRayDir);
 			D3DXVec3Normalize(&sightRayDir, &sightRayDir);
 			map<string, Base3DObject*>& objectsInRoom = mRoomCenter->GetCurRoom()->GetObjectsInRoomRef();
+			BOOL canSeePlayer = true;
+			float distanceToHitPoint = 0.f;
+			for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
+			{
+				(*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint);
+				cout << "hitPoint" << distanceToHitPoint << " pa" << distanceToPlayer << endl;
+				if((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
+				{
+					if(distanceToHitPoint > 0 && distanceToHitPoint < distanceToPlayer)
+					{
+						canSeePlayer = false;
+						break;
+					}
+				}
+			}
+			if(canSeePlayer == true)
+			{
+				SetTarget(playerPos);
+			}
 		}
 	}
 

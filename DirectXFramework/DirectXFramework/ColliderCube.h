@@ -23,7 +23,7 @@ public:
 	static D3DXVECTOR3 CheckCollidePosNormal(ColliderCube* obj1Cube, ColliderCube* obj2Cube);
 	static bool isIntersect(pair<D3DXVECTOR3, D3DXVECTOR3> line1, pair<D3DXVECTOR3, D3DXVECTOR3> line2);
 	static int ccw(D3DXVECTOR3 point1, D3DXVECTOR3 point2, D3DXVECTOR3 point3);
-	
+	bool isIntersectRay(D3DXVECTOR3& rayPos, D3DXVECTOR3& rayDir, OUT float* distance);
 private:
 	float mCubeHeight;
 	float mCubeWidth;
