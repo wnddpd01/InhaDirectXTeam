@@ -33,6 +33,10 @@ Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, 
 			colliderScale.x,
 			colliderScale.y,
 			colliderScale.z);
+
+		float big = max(colliderScale.x, colliderScale.y);
+		newStaticObject->SetCullingSize(max(big, colliderScale.z));
+
 		newStaticObject->GetColliderSphere()->SetRadius(D3DXVec3Length(&(D3DXVECTOR3(colliderScale.x / 2, colliderScale.y / 2, colliderScale.z / 2) - D3DXVECTOR3(colliderScale.x, colliderScale.y, colliderScale.z))));
 	}
 

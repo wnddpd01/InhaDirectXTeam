@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "CullingManager.h"
+#include "ColliderCube.h"
 
 void CullingManager::Setup()
 {
 	// 생성시 필요한 것
-	float one = 2.0f;
+	float one = 1.0f;
 	mVecFrustumPlanes.resize(6);
 	mVecOriFrustumCube.resize(8);
 	mVecWorldFrustumCube.resize(8);
@@ -82,12 +83,12 @@ void CullingManager::SetFrustum()
 
 }
 
-bool CullingManager::CheckFrustumCulling(D3DXVECTOR3* pos)
+bool CullingManager::CheckFrustumCulling(Base3DObject* obj)
 {
 	// 개별 업데이트마다 필요한 것
 	for each(D3DXPLANE p in mVecFrustumPlanes)
 	{
-		if(D3DXPlaneDotCoord(&p, pos) > 0)
+		if(D3DXPlaneDotCoord(&p, &obj->GetPos()) > obj->GetCullingSize())
 			return false;
 	}
 	return true;

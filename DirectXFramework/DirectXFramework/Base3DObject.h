@@ -20,6 +20,7 @@ protected:
 	BOOL mbIsInteractable;
 	ColliderSphere* mColliderSphere;
 	map<string,ColliderCube*> mColliderCubeMap;
+	float mCullingSize;
 
 	eStateTag mStateTag;
 	eTypeTag mTypeTag;
@@ -41,6 +42,10 @@ public:
 
 	void SetShaderPath(eShaderPath tag) { mShaderPath = tag; }
 	eShaderPath GetShaderPath() const { return mShaderPath; }
+
+	void SetCullingSize(float tag) { mCullingSize = tag; }
+	float GetCullingSize() const { return mCullingSize; }
+
 
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);
