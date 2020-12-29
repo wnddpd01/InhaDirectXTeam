@@ -137,6 +137,8 @@ void Chaser::SetTarget(D3DXVECTOR3& targetPos)
 		mChaserState = ChaserState::CHASING;
 		mSkinnedMesh->SetAnimationIndexBlend(6);
 		mSpeed = Chaser::angrySpeed;
+		if(!gSoundManager->Playing("Chaser"))
+			gSoundManager->Play("Chaser", 0.3f);
 	}
 	FindPath(targetPos);
 }

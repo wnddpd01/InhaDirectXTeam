@@ -91,6 +91,9 @@ void SoundManager::SoundSet()
 	AddSound("CLICK", "Resources/Sound/Click.wav", false);
 	AddSound("GET", "Resources/Sound/attack1.wav", false);
 	AddSound("WALK", "Resources/Sound/character/character_walkNormal.mp3", false);
+
+	AddSound("Chaser", "Resources/Sound/chaser.mp3", false);
+
 }
 
 void SoundManager::Play(string name, float volume)
