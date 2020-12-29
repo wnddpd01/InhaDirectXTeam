@@ -13,8 +13,14 @@ using namespace std;
 
 void SceneCenter::LoadScene(eSceneName sceneName)
 {
-	Scene* newScene = mSceneFactory.CreateScene(sceneName);
-	RegisterScene(newScene);
+	Scene* newScene = nullptr;
+	cout << "load Start" << endl;
+	newScene = mSceneFactory.CreateScene(sceneName);
+	newScene->AttachAllSubscriberInSubscriberList();
+	EnterScene(newScene->GetSceneName());
+	gCameraManager->SetCamera(newScene->GetCamera());
+	this->mCurScene = newScene;
+	cout << "end Loading\n";
 }
 
 void SceneCenter::EnterScene(eSceneName sceneName)
@@ -46,12 +52,20 @@ SceneCenter::SceneCenter()
 	gSoundManager->SoundSet();
 	gShader->LoadAllShader();
 	
-	ChangeScene(eSceneName::START_SCENE);
 	gEventManager->AttachSubscriber(eEventName::SCENE_CHANGE, 0, this);
+	
+	mLoadingScene = mSceneFactory.CreateScene(eSceneName::LOADING_SCENE);
+	gCameraManager->SetCamera(mLoadingScene->GetCamera());
+
+	ChangeScene(eSceneName::INGAME_SCENE);
 }
 
 SceneCenter::~SceneCenter()
 {
+	/*if(mLoadingThread.joinable())
+	{
+		mLoadingThread.join();
+	}*/
 	for (auto scene : mSceneMap)
 	{
 		SAFE_DELETE(scene.second);
@@ -61,20 +75,15 @@ SceneCenter::~SceneCenter()
 
 void SceneCenter::ChangeScene(eSceneName sceneName)
 {
-	if (mSceneMap.find(sceneName) == mSceneMap.end())
-	{
-		LoadScene(sceneName);
-	}
 	if (mCurScene != nullptr)
 	{
 		mCurScene->DetachAllSubscriberInSubscriberList();
 	}
-	mCurScene = mSceneMap.find(sceneName)->second;
-	mCurScene->AttachAllSubscriberInSubscriberList();
-	EnterScene(mCurScene->GetSceneName());
-	gCameraManager->SetCamera(mSceneMap.find(sceneName)->second->GetCamera());
+	SAFE_DELETE(mCurScene);
+	mCurScene = mLoadingScene;
+	LoadScene(sceneName);
+	//mLoadingThread = std::thread{ &SceneCenter::LoadScene, this, sceneName };
 }
-
 
 void SceneCenter::RegisterScene(Scene* scene)
 {
@@ -102,6 +111,7 @@ void SceneCenter::Update()
 
 	if (mCurScene != nullptr)
 	{
+		//cout << static_cast<int>(mCurScene->GetSceneName()) << endl;
 		mCurScene->Update();
 	}
 
@@ -120,6 +130,7 @@ bool SceneCenter::Update(eEventName eventName, void* parameter)
 
 void SceneCenter::Render()
 {
+	//cout << "Render\n";
 	if (mCurScene != nullptr)
 	{
 		mCurScene->Render();

@@ -1,9 +1,11 @@
 #pragma once
+#include <thread>
+
 #include "SceneFactory.h"
 
 enum class eSceneName
 {
-	START_SCENE = 0, INGAME_SCENE
+	START_SCENE = 0, INGAME_SCENE, LOADING_SCENE
 };
 
 class Scene;
@@ -11,6 +13,7 @@ class Scene;
 class SceneCenter : public BaseObserver
 {
 private :
+	Scene* mLoadingScene;
 	void LoadScene(eSceneName sceneName);
 	void EnterScene(eSceneName sceneName);
 public :

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UIImage.h"
 
-
 UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 	: mTextureUI(nullptr)
 	, mSprite(nullptr)

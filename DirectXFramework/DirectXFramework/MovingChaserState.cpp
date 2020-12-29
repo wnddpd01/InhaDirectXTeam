@@ -62,8 +62,11 @@ void MovingChaserState::Enter(Chaser* chaser)
 	ChaserState::Enter(chaser);
 	chaser->GetSkinnedMesh()->SetAnimationIndex(6);
 	FindPath(chaser->GetTarget());
+	
 	if (!gSoundManager->Playing("Chaser"))
+	{
 		gSoundManager->Play("Chaser", 0.3f);
+	}
 }
 
 ChaserState* MovingChaserState::Update(Chaser* chaser)
