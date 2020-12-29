@@ -200,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Astar.cpp" />
+    <ClCompile Include="UIConversation.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -363,5 +366,8 @@
     </ClInclude>
     <ClInclude Include="Node.h" />
     <ClInclude Include="Astar.h" />
+    <ClInclude Include="UIConversation.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

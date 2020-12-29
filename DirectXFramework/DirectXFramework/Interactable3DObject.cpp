@@ -29,22 +29,32 @@ Interactable3DObject::Interactable3DObject()
 	mShaderPath = eShaderPath::PATH1;
 }
 
+Interactable3DObject::Interactable3DObject(eObjTag type)
+	: mbTryInteractionCalled(false)
+	, Static3DObject()
+{
+	mObjectTag = type;
+	mShaderPath = eShaderPath::PATH1;
+}
+
 Interactable3DObject::~Interactable3DObject()
 {
 }
 
 void Interactable3DObject::Update()
 {
-	if(CheckCondition())
+	if (mObjectTag == eObjTag::INTERACTABLE_OBJECT)
 	{
-		DoBehavior();
-	}
+		if (CheckCondition())
+		{
+			DoBehavior();
+		}
 
-	if(mbTryInteractionCalled == true)
-	{
-		mbTryInteractionCalled = false;
+		if (mbTryInteractionCalled == true)
+		{
+			mbTryInteractionCalled = false;
+		}
 	}
-	
 	Static3DObject::Update();
 }
 
@@ -58,4 +68,10 @@ void Interactable3DObject::ChangeToStaticObject()
 {
 	mShaderPath = eShaderPath::PATH1;
 	mObjectTag = eObjTag::STATIC_OBJECT;
+}
+
+void Interactable3DObject::ChangeToInteractObject()
+{
+	mShaderPath = eShaderPath::PATH1;
+	mObjectTag = eObjTag::INTERACTABLE_OBJECT;
 }

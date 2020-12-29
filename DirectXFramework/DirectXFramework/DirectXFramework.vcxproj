@@ -76,6 +76,7 @@
     <ClCompile Include="UIAssemblyLine.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UICellGrid.cpp" />
+    <ClCompile Include="UIConversation.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="WalkCharacterState.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="UIAssemblyLine.h" />
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="UICellGrid.h" />
+    <ClInclude Include="UIConversation.h" />
     <ClInclude Include="UIEventListener.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WalkCharacterState.h" />
