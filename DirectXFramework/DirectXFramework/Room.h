@@ -56,7 +56,7 @@ private:
 protected:
 private:
 	static ColliderChecker mColliderChecker;
-	bool mbCheckCollision;
+	static bool mbCheckCollision;
 	RoomArea mArea;
 	map<string, Base3DObject*> mObjectsInRoom;
 };

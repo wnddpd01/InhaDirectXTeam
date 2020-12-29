@@ -3,6 +3,7 @@
 
 bool Interactable3DObject::CheckCondition()
 {
+	Interactable3DObject* asd = static_cast<Interactable3DObject*>(new Static3DObject);
 	for (vector<function<bool()>>::value_type condition : mInteractionCondition)
 	{
 		if (!condition())

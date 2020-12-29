@@ -16,10 +16,9 @@ UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 		cellSize = (float)viewPort.Width / HORIZONTAL_CELL_NUM;
 	}
 	D3DXCreateSprite(gD3Device, &mSprite);
-	D3DXIMAGE_INFO imageInfo;
-	ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
-	mTextureUI = gTextureManager->GetUITexture(texturePath, imageInfo);
-	SetRect(&mDrawRect, 0, 0, imageInfo.Width, imageInfo.Height);
+	ZeroMemory(&mImageInfo, sizeof(D3DXIMAGE_INFO));
+	mTextureUI = gTextureManager->GetUITexture(texturePath, mImageInfo);
+	SetRect(&mDrawRect, 0, 0, mImageInfo.Width, mImageInfo.Height);
 	mWidth = cellSize * width;
 	mHeight = cellSize * height;
 	mPos.x = cellSize * pos.x;
@@ -35,10 +34,7 @@ UIImage::~UIImage()
 	{
 		SAFE_DELETE(child.second);
 	}
-
-
 }
-
 
 void UIImage::Render()
 {

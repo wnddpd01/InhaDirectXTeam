@@ -16,6 +16,7 @@ Player::Player()
 	, mCurState(nullptr)
 	, mMoveVelocity(0, 0, 0)
 	, mInteractingObject(nullptr)
+	, mLifeBar(nullptr)
 {
 	D3DXVECTOR3 yAxis = { 0, 1, 0 };
 	float yAngle = D3DX_PI * 1.75f;

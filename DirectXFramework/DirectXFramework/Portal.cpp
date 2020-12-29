@@ -22,7 +22,6 @@ Portal::Portal(D3DXVECTOR3 portalDir)
 
 	mScale = D3DXVECTOR3(1, 2, 1);
 
-
 	AddColliderCube("portalColliderCube");
 
 	ColliderCube* portalColliderCube = mColliderCubeMap["portalColliderCube"];

@@ -4,55 +4,58 @@
 #include "RoomCenter.h"
 #include "Player.h"
 #include "ColliderCube.h"
+#include "IdleChaserState.h"
 #include "Room.h"
 
 D3DXVECTOR3 Chaser::baseSightDir = { 0, 0, 1 };
 float Chaser::baseSightLength = 30.f;
-float Chaser::baseSightAngle = D3DX_PI / 6.f;
+float Chaser::baseSightAngle = D3DX_PI / 5.f;
 vector<D3DXPLANE> Chaser::baseSightFrustum;
 
-void Chaser::FollowingPath()
-{
-	D3DXVECTOR3 moveDir = mPath.back() - mPos;
-	const float distance = D3DXVec3Length(&moveDir);
-	if(distance < 0.1f)
-	{
-		mPos = mPath.back();
-		mPath.pop_back();
-		if (mPath.empty() == false)
-		{
-			RotateToNextNode();
-		}
-		else
-		{
-			if(mChaserState == ChaserState::CHASING)
-			{
-				ReturnToBasePos();
-			}
-			else
-			{
-				mChaserState = ChaserState::STOP;
-				mSkinnedMesh->SetAnimationIndexBlend(8);
-			}
-		}
-	}
-	else
-	{
-		D3DXVec3Normalize(&moveDir, &moveDir);
-		mPos += moveDir * mSpeed;
-	}
-}
+//void Chaser::FollowingPath()
+//{
+//	D3DXVECTOR3 moveDir = mPath.back() - mPos;
+//	const float distance = D3DXVec3Length(&moveDir);
+//	if(distance < 0.1f)
+//	{
+//		mPos = mPath.back();
+//		mPath.pop_back();
+//		if (mPath.empty() == false)
+//		{
+//			RotateToNextNode();
+//		}
+//		else
+//		{
+//			if(mChaserState == ChaserState::CHASING)
+//			{
+//				ReturnToBasePos();
+//			}
+//			else
+//			{
+//				mChaserState = ChaserState::IDLE;
+//				mSkinnedMesh->SetAnimationIndexBlend(8);
+//			}
+//		}
+//	}
+//	else
+//	{
+//		D3DXVec3Normalize(&moveDir, &moveDir);
+//		mPos += moveDir * mSpeed;
+//	}
+//}
 
-void Chaser::RotateToNextNode()
+void Chaser::RotateToTarget()
 {
 	D3DXQUATERNION quatRot;
 	D3DXMATRIXA16 matRot;
-	D3DXMatrixLookAtLH(&matRot, &(GetPos()), &mPath.back(), &D3DXVECTOR3(0, 1, 0));
+	D3DXVECTOR3 dir = mTargetPos - mPos;
+	D3DXVec3Normalize(&dir, &dir);
+	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &dir, &D3DXVECTOR3(0, 1, 0));
 	D3DXMatrixInverse(&matRot, nullptr, &matRot);
 	D3DXQuaternionRotationMatrix(&quatRot, &matRot);
 
 	static D3DXQUATERNION idleRot = *D3DXQuaternionRotationYawPitchRoll(&idleRot, D3DX_PI, 0, 0);
-	SetRot(idleRot * quatRot);
+	this->SetRot(idleRot * quatRot);
 }
 
 bool Chaser::ObjectInSightFrustum(Base3DObject* object, vector<D3DXPLANE>& sightFrustum)
@@ -91,18 +94,19 @@ void Chaser::MakeSightFrustum(vector<D3DXPLANE>& sightPlane)
 }
 
 Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
-	: mChaserState(ChaserState::STOP)
-	, mSpeed(0.05f)
+	: mSpeed(0.05f)
 	, mBasePos(basePos)
 	, mRoomCenter(roomCenter)
-	, mLastFindTime(0)
-	, testSightDir(0, 0, 0)
+	, mLastUpdateTime(0)
+	, mCycleTime(findCycleTime)
 {
 	mPos = basePos;
 	SetScale(D3DXVECTOR3(0.003f, 0.003f, 0.003f));
+	AddColliderCube("basicColliderCube");
 	mSkinnedMesh = new SkinnedMesh("Resources/XFile/Chaser", "Chaser.X");
 	mSkinnedMesh->SetAnimationIndex(8);
-
+	mChaserState = new IdleChaserState;
+	mChaserState->Enter(this);
 	if(baseSightFrustum.size() == 0)
 	{
 		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::baseSightAngle, Chaser::baseSightFrustum);
@@ -115,45 +119,109 @@ Chaser::~Chaser()
 	SAFE_DELETE(mSkinnedMesh);
 }
 
-void Chaser::FindPath(D3DXVECTOR3& endPos)
+void Chaser::MatchTargetToPlayer()
 {
-	mPath.clear();
-	mPath.push_back(endPos);
-	RotateToNextNode();
+	mTargetPos = mRoomCenter->GetPlayer()->GetPos();
+}
+
+
+void Chaser::FollowingPath()
+{
 }
 
 void Chaser::ReturnToBasePos()
 {
-	mChaserState = ChaserState::RETURNING;
-	mSkinnedMesh->SetAnimationIndex(4);
-	mSpeed = Chaser::basicSpeed;
-	FindPath(mBasePos);
 }
 
-void Chaser::SetTarget(D3DXVECTOR3& targetPos)
+void Chaser::Attack(Player* player)
 {
-	if (mChaserState != ChaserState::CHASING)
+}
+
+//void Chaser::ReturnToBasePos()
+//{
+//	mChaserState = ChaserState::RETURNING;
+//	mSkinnedMesh->SetAnimationIndexBlend(4);
+//	mSpeed = Chaser::basicSpeed;
+//	FindPath(mBasePos);
+//}
+//
+//void Chaser::Attack(Player* player)
+//{
+//	mPath.clear();
+//	mChaserState = ChaserState::ATTACKING;
+//	mSkinnedMesh->SetAnimationIndexBlend(2);
+//	mSkinnedMesh->SetCurrentAnimationSpeed(3);
+//	mCycleTime = attackCycleTime;
+//}
+//
+//void Chaser::SetTarget(D3DXVECTOR3& targetPos)
+//{
+//	if (mChaserState != ChaserState::CHASING)
+//	{
+//		mChaserState = ChaserState::CHASING;
+//		mSkinnedMesh->SetAnimationIndexBlend(6);
+//		mSpeed = Chaser::angrySpeed;
+//		mCycleTime = findCycleTime;
+//	}
+//	FindPath(targetPos);
+//}
+
+bool Chaser::IsPlayerInSight(OUT D3DXVECTOR3* outPlayerPos)
+{
+	Player* player = mRoomCenter->GetPlayer();
+
+	vector<D3DXPLANE> sightFrustum;
+	MakeSightFrustum(sightFrustum);
+	if (ObjectInSightFrustum(player, sightFrustum))
 	{
-		mChaserState = ChaserState::CHASING;
-		mSkinnedMesh->SetAnimationIndexBlend(6);
-		mSpeed = Chaser::angrySpeed;
+		D3DXVECTOR3 playerPos = player->GetPos();
+		D3DXVECTOR3 sightRayDir = playerPos - mPos;
+		float distanceToPlayer = D3DXVec3Length(&sightRayDir);
+		D3DXVec3Normalize(&sightRayDir, &sightRayDir);
+		Room* currentRoom = mRoomCenter->FindRoomIncludePos(mPos);
+		if(currentRoom == nullptr)
+		{
+			return false;
+		}
+		map<string, Base3DObject*>& objectsInRoom = currentRoom->GetObjectsInRoomRef();
+		BOOL canSeePlayer = true;
+		float distanceToHitPoint = 0.f;
+		for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
+		{
+			if ((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
+			{
+				if (distanceToHitPoint > 0 && distanceToHitPoint < distanceToPlayer)
+				{
+					canSeePlayer = false;
+					break;
+				}
+			}
+		}
+		if (canSeePlayer == true)
+		{
+			if(outPlayerPos != nullptr)
+			{
+				*outPlayerPos = playerPos;
+			}
+			return true;
+		}
 	}
-	FindPath(targetPos);
+	return false;
 }
 
 void Chaser::Update()
 {
-	if(GetTickCount() - mLastFindTime > findCycleTime)
+	/*if(GetTickCount() - mLastUpdateTime > mCycleTime)
 	{
-		mLastFindTime = GetTickCount();
+		mLastUpdateTime = GetTickCount();
 		Player* player = mRoomCenter->GetPlayer();
-		D3DXVECTOR3 playerPos = player->GetPos();
+		
 		vector<D3DXPLANE> sightFrustum;
 		MakeSightFrustum(sightFrustum);
 		if(ObjectInSightFrustum(player, sightFrustum))
 		{
+			D3DXVECTOR3 playerPos = player->GetPos();
 			D3DXVECTOR3 sightRayDir = playerPos - mPos;
-			testSightDir = sightRayDir;
 			float distanceToPlayer = D3DXVec3Length(&sightRayDir);
 			D3DXVec3Normalize(&sightRayDir, &sightRayDir);
 			map<string, Base3DObject*>& objectsInRoom = mRoomCenter->FindRoomIncludePos(mPos)->GetObjectsInRoomRef();
@@ -161,8 +229,6 @@ void Chaser::Update()
 			float distanceToHitPoint = 0.f;
 			for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
 			{
-				(*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint);
-				cout << "hitPoint" << distanceToHitPoint << " pa" << distanceToPlayer << endl;
 				if((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
 				{
 					if(distanceToHitPoint > 0 && distanceToHitPoint < distanceToPlayer)
@@ -174,7 +240,21 @@ void Chaser::Update()
 			}
 			if(canSeePlayer == true)
 			{
-				SetTarget(playerPos);
+				if(distanceToPlayer < attackRange)
+				{
+					Attack(player);
+				}
+				else
+				{
+					SetTarget(playerPos);
+				}
+			}
+		}
+		else
+		{
+			if(mChaserState != ChaserState::IDLE && mPath.empty() == true)
+			{
+				ReturnToBasePos();
 			}
 		}
 	}
@@ -182,6 +262,12 @@ void Chaser::Update()
 	if(mPath.empty() == false)
 	{
 		FollowingPath();
+	}*/
+	if(ChaserState * newChaserState =  mChaserState->Update(this))
+	{
+		SAFE_DELETE(mChaserState);
+		newChaserState->Enter(this);
+		mChaserState = newChaserState;
 	}
 	mSkinnedMesh->Update();
 	Base3DObject::Update();
@@ -191,17 +277,4 @@ void Chaser::Render()
 {
 	Base3DObject::Render();
 	mSkinnedMesh->Render(nullptr);
-
-	D3DXMATRIXA16 matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
-	
-	D3DXVECTOR3 lineVec[2];
-	lineVec[0] = mPos;
-	lineVec[1] = mPos + testSightDir * baseSightLength;
-	
-	gD3Device->SetRenderState(D3DRS_LIGHTING, false);
-	gD3Device->SetTexture(0, nullptr);
-	gD3Device->SetFVF(D3DFVF_XYZ);
-	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, 1, lineVec, sizeof(D3DXVECTOR3));
 }
