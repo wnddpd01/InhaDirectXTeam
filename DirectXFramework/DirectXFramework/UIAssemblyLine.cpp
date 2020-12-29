@@ -2,6 +2,7 @@
 #include "UIAssemblyLine.h"
 #include "Scene.h"
 #include "UIAnimation.h"
+#include "UIConversation.h"
 
 void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 {
@@ -32,6 +33,8 @@ void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 	newScene->AddEventSubscriberList(eEventName::MOUSE_MOVE, 9, uiImage);
 	uiImage->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("btnExit", uiImage));
+
+
 }
 
 void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
@@ -112,6 +115,15 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	animUi->SetObjectName("LifeLine");
 	animUi->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("LifeLine", animUi));
+
+	UIConversation* uitest = new UIConversation();
+	uitest->EventProcess = BtnConversationUI;
+	newScene->AddEventSubscriberList(eEventName::MOUSE_L_DOWN, 0, uitest);
+	newScene->AddEventSubscriberList(eEventName::KEY_DOWN, 0, uitest);
+	uitest->SetObjectName("conversation");
+	uitest->SetVisible(false);
+	newScene->mGameUIs.insert(make_pair("conversation", uitest));
+
 
 	UIImage* MiniGameUI = new UIImage("Resources/UI/MiniGame/GameScene.png", { 5,2 }, 54, 32);
 	MiniGameUI->SetObjectName("MiniGameLayer");

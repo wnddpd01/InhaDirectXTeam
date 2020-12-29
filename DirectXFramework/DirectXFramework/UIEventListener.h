@@ -412,3 +412,23 @@ inline bool MiniGameEventListen(eEventName eventName, void* parameter, UIBase* u
 
 	return false;
 }
+
+
+
+inline bool BtnConversationUI(eEventName eventName, void* parameter, UIBase* uiImage)
+{
+	UIImage* uiImageConvert = (UIImage*)uiImage;
+	
+	switch (eventName)
+	{
+		case eEventName::KEY_DOWN:
+		case eEventName::MOUSE_L_DOWN:
+		{
+			uiImageConvert->SetVisible(false);
+		}
+		break;
+		default:
+		break;
+	}
+	return false;
+}

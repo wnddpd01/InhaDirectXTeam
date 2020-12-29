@@ -25,6 +25,10 @@ private :
 	void LoadFromJson(string fileName, Room* targetRoom);
 	void CreateStartSceneGameObject(Scene* newScene);
 	void CreateIngameSceneGameObject(Scene* newScene);
+
+	void Room2A03EventObject(Room* room, Scene* newScene, Player* player);
+
+
 public :
 	void MakeGameObject(Scene* newScene);
 };
