@@ -48,23 +48,32 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 		FollowingPath();
 	}
 	DWORD deltaTimeFromLastUpdate = GetTickCount() - mLastUpdateTime;
-	chaser->MatchTargetToPlayer();
 	if (deltaTimeFromLastUpdate > Chaser::attackCycleTime)
 	{
 		if(mPath.empty() == false)
 		{
 			mChaser->SetPos(mPath.front());
 		}
-		return new MovingChaserState;
+		if (chaser->IsPlayerInSight(nullptr))
+		{
+			return new MovingChaserState;
+		}
+		else
+		{
+			return new IdleChaserState;
+		}
 	}
-	else if(deltaTimeFromLastUpdate > Chaser::attackCycleTime * 0.3f)
+	else if(deltaTimeFromLastUpdate > Chaser::attackCycleTime * 0.3f && mbMakePath == false)
 	{
+		if(chaser->IsPlayerInSight(nullptr))
+		{
+			chaser->MatchTargetToPlayer();
+		}
 		float distanceToTarget = 0;
-		chaser->MatchTargetToPlayer();
 		D3DXVECTOR3 toTargetVec = chaser->GetPos() - chaser->GetTarget();
 		distanceToTarget = D3DXVec3Length(&toTargetVec);
 		bool isPlayerInAttackRange = distanceToTarget < Chaser::attackRange ? true : false;
-		if (isPlayerInAttackRange == false && mbMakePath == false)
+		if (isPlayerInAttackRange == false)
 		{
 			D3DXVECTOR3 dir = mLastFindedPlayerPos - mChaser->GetPos();
 			mPath.push_back(mChaser->GetPos() + dir * 1.1f);
@@ -74,11 +83,10 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 	}
 	else
 	{
-		if (deltaTimeFromLastUpdate < Chaser::attackCycleTime * 0.3f)
-		{
-			chaser->IsPlayerInSight(&mLastFindedPlayerPos);
-			chaser->RotateToTarget();
-		}
+		chaser->MatchTargetToPlayer();
+		chaser->IsPlayerInSight(&mLastFindedPlayerPos);
+		chaser->RotateToTarget();
+
 	}
 	return nullptr;
 }

@@ -64,6 +64,17 @@ CharacterState* WalkCharacterState::HandleInput(Player& player, eEventName event
 				}
 				break;
 		}
+
+		if (!gSoundManager->Playing("WALK"))
+		{
+			gSoundManager->Play("WALK");
+		}
+
+
+	}
+	else if (eventName == eEventName::KEY_UP)
+	{
+		gSoundManager->Stop("WALK");
 	}
 	/*else if(eventName == eEventName::KEY_UP)
 	{

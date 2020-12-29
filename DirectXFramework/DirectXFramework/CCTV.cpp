@@ -111,6 +111,8 @@ CCTV::CCTV(const LPD3DXMESH& floorMesh, D3DXVECTOR3 eyeDir, D3DXVECTOR3 pos)
 		nullptr,
 		&mDetectRangeMesh
 	);
+	AddColliderCube("basicColliderCube");
+	Base3DObject::Setup();
 }
 
 CCTV::~CCTV()

@@ -111,6 +111,8 @@ Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
 	{
 		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::baseSightAngle, Chaser::baseSightFrustum);
 	}
+	AddColliderCube("basicColliderCube");
+	Base3DObject::Setup();
 }
 
 Chaser::~Chaser()

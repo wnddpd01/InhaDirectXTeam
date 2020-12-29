@@ -120,6 +120,9 @@ Inventory::Inventory()
 
 	mItemUIImageMap["key1"] = new UIImage("Resources/item/goodKey.png", {0, 0}, 4, 4);
 	mItemUIImageMap["key1"]->SetObjectName("key1UIImage");
+
+	mItemUIImageMap["key2"] = new UIImage("Resources/item/SecurityCard.png", { 0, 0 }, 4, 4);
+	mItemUIImageMap["key2"]->SetObjectName("key2UIImage");
 }
 
 Inventory::~Inventory()

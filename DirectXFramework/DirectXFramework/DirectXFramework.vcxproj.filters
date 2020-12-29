@@ -218,6 +218,9 @@
     <ClCompile Include="AttackingChaserState.cpp">
       <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
     </ClCompile>
+    <ClCompile Include="UIConversation.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -392,6 +395,9 @@
     </ClInclude>
     <ClInclude Include="AttackingChaserState.h">
       <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClInclude>
+    <ClInclude Include="UIConversation.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

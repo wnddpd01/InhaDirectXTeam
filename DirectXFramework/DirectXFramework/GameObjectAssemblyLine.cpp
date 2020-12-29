@@ -13,6 +13,7 @@
 #include "CCTV.h"
 #include "Chaser.h"
 #include "FlashLight.h"
+#include "UIConversation.h"
 
 Static3DObject* GameObjectAssemblyLine::CreateStatic3DObject(string objectName, string sourceFileName, D3DXVECTOR3 position,
                                                      D3DXVECTOR3 scale, D3DXVECTOR3 colliderScale, D3DXQUATERNION rotation, string colliderName)
@@ -430,7 +431,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	Player* player = new Player;
 	player->AddColliderCube("playerCubeCollider");
-	player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(4.f, 1.f, 1.f);
+	player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(8.f, 1.f, 1.f);
 	player->Setup();
 	player->SetObjectName("player");
 	newScene->GetCamera()->SetTarget(player->GetPosRef());
@@ -446,6 +447,11 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	chaser1->SetRot(chaserRot);
 	newScene->mGameObjects.insert(make_pair("Chaser1",chaser1));
 	
+	Static3DObject* key = new Static3DObject;
+	key->SetObjectName("key1");
+	//key->Setup("Resources/Xfile/", "Key.X");
+	//key->AddColliderCube("basicColliderCube");
+
 	Room* room2A01 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
@@ -453,10 +459,16 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 	LoadFromJson("Resources/Json/wall3A02.json", room2A02);
 	LoadFromJson("Resources/Json/OBJ2A02.json", room2A02);
+
 	Room* room2A03 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
 	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
 	LoadFromJson("Resources/Json/OBJ2A03.json", room2A03);
+	
+	Room2A03EventObject(room2A03, newScene, player);
+
+	
+
 	Room* room2A04 = new Room;
 	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
 	LoadFromJson("Resources/Json/wall3A04.json", room2A04);
@@ -514,13 +526,9 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	floor->SetTypeTag(eTypeTag::FLOOR);
 	newScene->mGameObjects.insert(make_pair("AAfloor", floor));
 
-	Static3DObject* key = new Static3DObject;
-	key->SetObjectName("key1");
-	key->Setup("Resources/Xfile/", "Key.X");
-	key->AddColliderCube("basicColliderCube");
+	
 
 	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-0.3f,-1), D3DXVECTOR3(59, 3, 134));
-	cctv->AddColliderCube("basicColliderCube");
 	cctv->SetObjectName("CCTV1");
 	cctv->ConnectChaser(chaser1);
 	room2A01->InsertObject(cctv);
@@ -602,6 +610,85 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
 	newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 
+}
+
+void GameObjectAssemblyLine::Room2A03EventObject(Room* room, Scene * newScene, Player* player)
+{
+	Static3DObject* key2 = new Static3DObject;
+	key2->SetObjectName("key2");
+
+	Interactable3DObject* plant1 = new Interactable3DObject;
+	plant1->SetObjectName("plant1");
+	plant1->AddColliderCube("basicColliderCube");
+	plant1->Setup("Resources/XFile/", "2A0304_SM_Prop_Plant_14.X");
+	plant1->SetScale(D3DXVECTOR3(0.02f, 0.02f, 0.02f));
+	plant1->SetPos(D3DXVECTOR3(3.434, 2.1, 50.5 + 3.56));
+	plant1->SetRot(D3DXQUATERNION(0, 0, 0, 1));
+	plant1->GetColliderSphere()->SetRadius(2.f);
+	plant1->SetIsInteractable(true);
+	plant1->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, plant1));
+	plant1->AddInteractionBehavior([=]()->void
+	{
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("아무것도 없어...");
+	});
+	plant1->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, plant1));
+	room->InsertObject(plant1);
+
+	plant1 = new Interactable3DObject;
+	plant1->SetObjectName("plant2");
+	plant1->AddColliderCube("basicColliderCube");
+	plant1->Setup("Resources/XFile/", "2A0304_SM_Prop_Plant_14.X");
+	plant1->SetScale(D3DXVECTOR3(0.02f, 0.02f, 0.02f));
+	plant1->SetPos(D3DXVECTOR3(42.31, 2.1, 50.5 + 27.02));
+	plant1->SetRot(D3DXQUATERNION(0, 0, 0, 1));
+	plant1->GetColliderSphere()->SetRadius(2.f);
+	plant1->SetIsInteractable(true);
+	plant1->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, plant1));
+	plant1->AddInteractionBehavior([=]()->void
+	{
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("아무것도 없어...");
+	});
+	plant1->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, plant1));
+	room->InsertObject(plant1);
+	
+
+	plant1 = new Interactable3DObject;
+	plant1->SetObjectName("plant2");
+	plant1->AddColliderCube("basicColliderCube");
+	plant1->Setup("Resources/XFile/", "2A0304_SM_Prop_Plant_14.X");
+	plant1->SetScale(D3DXVECTOR3(0.02f, 0.02f, 0.02f));
+	plant1->SetPos(D3DXVECTOR3(38.434, 2.1, 50.5 + 3.56));
+	plant1->SetRot(D3DXQUATERNION(0, 0, 0, 1));
+	plant1->GetColliderSphere()->SetRadius(2.f);
+	plant1->SetIsInteractable(true);
+	plant1->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, plant1));
+	plant1->AddInteractionBehavior([=]()->void
+	{
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("찾았다!");
+		player->AddItem(eInventorySlot::Key, key2);
+	});
+	plant1->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, plant1));
+	room->InsertObject(plant1);
+
+
+	D3DXQUATERNION rotY;
+	D3DXQuaternionRotationAxis(&rotY, &D3DXVECTOR3(0, 1, 0), D3DX_PI * 0.5f);
+	Interactable3DObject* table = new Interactable3DObject;
+	table->SetObjectName("table");
+	table->AddColliderCube("basicColliderCube");
+	table->Setup("Resources/XFile/", "2A0304_SM_Prop_Table_01.X");
+	table->SetScale(D3DXVECTOR3(0.03f, 0.03f, 0.03f));
+	table->SetPos(D3DXVECTOR3(11.09, 1.0, 50.5 + 35.0));
+	table->SetRot(rotY);
+	table->GetColliderSphere()->SetRadius(3.f);
+	table->SetIsInteractable(true);
+	table->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, table));
+	table->AddInteractionBehavior([=]()->void
+	{
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("\"퇴근시 카드키는 화분 속에 넣어둘것\"");
+	});
+	table->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, table));
+	room->InsertObject(table);
 }
 
 void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)
