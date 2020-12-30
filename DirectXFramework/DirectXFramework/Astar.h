@@ -1,14 +1,20 @@
 #pragma once
 #include <set>
+#include "Singleton.h"
 #include "Node.h"
-class Node;
 
-class Astar
+#define gAstarManager Astar::GetInstance()
+
+class Astar : public Singleton<Astar>
 {
 public:
+	friend Singleton;
 	Astar();
 	~Astar();
+
+	void Setup();
 	
+	// Json Load  Run Only Once
 	void LoadNode();
 
 	vector<D3DXVECTOR3> FindPath(Node * startNode, Node * destNode);

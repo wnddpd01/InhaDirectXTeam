@@ -15,6 +15,13 @@ Astar::~Astar()
 	mNode.clear();
 }
 
+void Astar::Setup()
+{
+	mSetOpenList.clear();
+	mSetCloseList.clear();
+	mPath.clear();
+}
+
 void Astar::LoadNode()
 {
 	mNode.clear();
@@ -58,6 +65,13 @@ void Astar::LoadNode()
 
 vector<D3DXVECTOR3> Astar::FindPath(Node* startNode, Node* destNode)
 {
+	Setup();
+
+	for (auto e : mNode)
+	{
+		e->Setup();
+	}
+	
 	startNode->SetG(0.0);
 	startNode->SetH(CalcHeuristic(startNode, destNode));
 	startNode->SetF(startNode->GetG() + startNode->GetH());
