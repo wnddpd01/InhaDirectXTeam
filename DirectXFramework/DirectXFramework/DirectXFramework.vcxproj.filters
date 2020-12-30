@@ -221,6 +221,9 @@
     <ClCompile Include="UIConversation.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="TextMap.cpp">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -398,6 +401,9 @@
     </ClInclude>
     <ClInclude Include="UIConversation.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMap.h">
+      <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

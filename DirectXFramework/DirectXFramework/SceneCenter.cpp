@@ -131,7 +131,6 @@ void SceneCenter::Update()
 
 	if (mCurScene != nullptr)
 	{
-		//cout << static_cast<int>(mCurScene->GetSceneName()) << endl;
 		mCurScene->Update();
 	}
 
@@ -153,8 +152,6 @@ void SceneCenter::Render()
 	//cout << "Render\n";
 	if (mCurScene != nullptr)
 	{
-		EnterCriticalSection(&CS);
 		mCurScene->Render();
-		LeaveCriticalSection(&CS);
 	}
 }

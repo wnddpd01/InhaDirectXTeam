@@ -1,6 +1,7 @@
 #pragma once
 #include "Base3DObject.h"
 #include "Inventory.h"
+#include "TextMap.h"
 
 class SkinnedMesh;
 class CharacterState;
@@ -16,6 +17,7 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXVECTOR3 mPrevPos;
 	D3DXQUATERNION mPrevRot;
 	Inventory mInventory;
+	TextMap mTextMap;
 	queue<CollisionEvent> mCollisionEventQueue;
 	queue<CollisionEvent> mCollisionEventQueue2;
 

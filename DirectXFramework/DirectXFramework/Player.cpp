@@ -139,6 +139,7 @@ void Player::Render()
 	}
 
 	mInventory.Render();
+	mTextMap.Render(eRoomName::R2A01);
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
