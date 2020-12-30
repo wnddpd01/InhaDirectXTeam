@@ -63,8 +63,12 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 			return new IdleChaserState;
 		}
 	}
-	else if(deltaTimeFromLastUpdate > Chaser::attackCycleTime * 0.3f && mbMakePath == false)
+	else if(deltaTimeFromLastUpdate > Chaser::attackCycleTime * 0.3f)
 	{
+		if(mbMakePath == true)
+		{
+			return nullptr;
+		}
 		if(chaser->IsPlayerInSight(nullptr))
 		{
 			chaser->MatchTargetToPlayer();
