@@ -34,12 +34,12 @@ void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 	uiImage->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("btnExit", uiImage));
 
-
+	
 }
 
 void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 {
-	UIImage* uiImage = new UIImage("Resources/UI/Setting/Layer.png", { 12, 6 }, 40, 24);
+	UIImage* uiImage = new UIImage("Resources/UI/Setting/Layer2.png", { 17, 6 }, 30, 25);
 	uiImage->SetObjectName("SettingLayer");
 	uiImage->EventProcess = BtnSettingEventListen;
 	newScene->AddEventSubscriberList(eEventName::KEY_UP, 0, uiImage);
@@ -51,43 +51,43 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	uiImage->SetVisible(false);
 	newScene->mGameUIs.insert(make_pair("SettingLayer", uiImage));
 
-	UIImage* childUI = new UIImage("Resources/UI/Setting/Exit_off.png", { 14, 28 }, 4, 1);
+	UIImage* childUI = new UIImage("Resources/UI/Setting/Exit2_off.png", { 25, 21 }, 13, 2);
 	childUI->SetObjectName("ExitBtn");
-	childUI->SetUIPath("Resources/UI/Setting/Exit_off.png", eStateUI::off);
-	childUI->SetUIPath("Resources/UI/Setting/Exit_on.png", eStateUI::on);
+	childUI->SetUIPath("Resources/UI/Setting/Exit2_off.png", eStateUI::off);
+	childUI->SetUIPath("Resources/UI/Setting/Exit2_on.png", eStateUI::on);
 	childUI->SetVisible(true);
 	uiImage->AddChild("ExitBtn", childUI);
 
-	childUI = new UIImage("Resources/UI/Setting/BGM_off.png", { 16, 10 }, 6, 2);
+	childUI = new UIImage("Resources/UI/Setting/BgmBox.png", { 25, 12 }, 3, 3);
 	childUI->SetObjectName("BGMText");
 	childUI->SetUIPath("Resources/UI/Setting/BGM_off.png", eStateUI::off);
 	childUI->SetUIPath("Resources/UI/Setting/BGM_on.png", eStateUI::on);
 	childUI->SetVisible(true);
 	uiImage->AddChild("BGMText", childUI);
 
-	childUI = new UIImage("Resources/UI/Setting/Line.png", { 24, 10 }, 16, 2);
+	childUI = new UIImage("Resources/UI/Setting/BgmLine.png", { 28, 11 }, 10, 4);
 	childUI->SetObjectName("BGMLine");
 	childUI->SetVisible(true);
 	uiImage->AddChild("BGMLine", childUI);
 
-	childUI = new UIImage("Resources/UI/Setting/Button_set.png", { 30 , 10 }, 4, 2);
+	childUI = new UIImage("Resources/UI/Setting/BgmButton.png", { 32, 13 }, 1, 1);
 	childUI->SetObjectName("BGMBtn");
-	childUI->SetUIPath("Resources/UI/Setting/Button_set.png", eStateUI::off);
-	childUI->SetUIPath("Resources/UI/Setting/Button_click.png", eStateUI::on);
+	childUI->SetUIPath("Resources/UI/Setting/BgmButton.png", eStateUI::off);
+	childUI->SetUIPath("Resources/UI/Setting/BgmButton.png", eStateUI::on);
 	childUI->SetVisible(true);
 	uiImage->GetChildUI("BGMLine")->AddChild("BGMBtn", childUI);
 
-	childUI = new UIImage("Resources/UI/Setting/Control_off.png", { 16, 14 }, 6, 2);
+	childUI = new UIImage("Resources/UI/Setting/key_off.png", { 25, 15 }, 13, 3);
 	childUI->SetObjectName("Control");
-	childUI->SetUIPath("Resources/UI/Setting/Control_off.png", eStateUI::off);
-	childUI->SetUIPath("Resources/UI/Setting/Control_on.png", eStateUI::on);
+	childUI->SetUIPath("Resources/UI/Setting/key_off.png", eStateUI::off);
+	childUI->SetUIPath("Resources/UI/Setting/key_on.png", eStateUI::on);
 	childUI->SetVisible(true);
 	uiImage->AddChild("Control", childUI);
 
-	childUI = new UIImage("Resources/UI/Setting/OptionText.png", { 36, 26 }, 15, 2);
-	childUI->SetObjectName("OptionText");
+	childUI = new UIImage("Resources/UI/Setting/etc.png", { 25, 18 }, 13, 3);
+	childUI->SetObjectName("Etc");
 	childUI->SetVisible(true);
-	uiImage->AddChild("OptionText", childUI);
+	uiImage->AddChild("Etc", childUI);
 
 	childUI = new UIImage("Resources/UI/Setting/Control.png", { 12, 6 }, 40, 24);
 	childUI->SetObjectName("ControlLayer");
