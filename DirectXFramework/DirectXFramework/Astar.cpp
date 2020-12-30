@@ -26,7 +26,7 @@ void Astar::LoadNode()
 {
 	mNode.clear();
 
-	gJSON->LoadJSON("Resource/json/Node.json");
+	gJSON->LoadJSON("Resources/Json/Node.json");
 	Value& documentValue = gJSON->mDocument["Node"];
 
 	for (SizeType i = 0; i < documentValue.Size(); ++i)
@@ -165,4 +165,50 @@ void Astar::Extend(Node * currNode, Node * destNode)
 bool Astar::IsInList(Node * pNode, std::set<Node*>& setNodeList)
 {
 	return setNodeList.find(pNode) != setNodeList.end();
+}
+
+Node * Astar::SearchToChaserNode(D3DXVECTOR3 & chaserPos)
+{
+	Node* shortNode = new Node;
+	float minDistance;
+	
+	for (size_t i = 0; i < mNode.size(); ++i)
+	{
+		if(shortNode == NULL)
+		{
+			minDistance = D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint()));
+			shortNode = mNode[i];
+		}
+
+		if(D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint())) < minDistance)
+		{
+			minDistance = D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint()));
+			shortNode = mNode[i];
+		}
+	}
+
+	return shortNode;
+}
+
+Node* Astar::SearchToPlayerNode(D3DXVECTOR3& playerPos)
+{
+	Node* shortNode = new Node;
+	float minDistance;
+
+	for (size_t i = 0; i < mNode.size(); ++i)
+	{
+		if (shortNode == NULL)
+		{
+			minDistance = D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint()));
+			shortNode = mNode[i];
+		}
+
+		if (D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint())) < minDistance)
+		{
+			minDistance = D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint()));
+			shortNode = mNode[i];
+		}
+	}
+
+	return shortNode;
 }

@@ -23,6 +23,9 @@ public:
 	Node*	GetMinFNodeAtOpenList();
 	void	Extend(Node* pCurrNode, Node* pDestNode);
 	bool	IsInList(Node* pNode, std::set<Node*>& setNodeList);
+
+	Node* SearchToChaserNode(D3DXVECTOR3& chaserPos);
+	Node* SearchToPlayerNode(D3DXVECTOR3& playerPos);
 	
 private:
 	vector<D3DXVECTOR3> mPath;

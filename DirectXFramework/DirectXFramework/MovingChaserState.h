@@ -8,7 +8,7 @@ private :
 	constexpr static float angrySpeed = 8.5f;
 	float mSpeed;
 	vector<D3DXVECTOR3> mPath;
-	void FindPath(D3DXVECTOR3& targetPos);
+	void FindPath(Chaser* chaser);
 	void FollowingPath();
 	void RotateToNextNode();
 public :

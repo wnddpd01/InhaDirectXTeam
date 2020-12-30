@@ -611,6 +611,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	onlyFlashLight->Setup(player->GetPosRef(), player->GetRotPt());
 	newScene->mGameObjects.insert(make_pair("ZFlashLight", onlyFlashLight));
 
+	
 }
 
 void GameObjectAssemblyLine::Room2A03EventObject(Room* room, Scene * newScene, Player* player)
@@ -690,6 +691,8 @@ void GameObjectAssemblyLine::Room2A03EventObject(Room* room, Scene * newScene, P
 	});
 	table->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, table));
 	room->InsertObject(table);
+
+	gAstarManager->LoadNode();
 }
 
 void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)

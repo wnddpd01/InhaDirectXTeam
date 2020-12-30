@@ -5,12 +5,13 @@
 #include "AttackingChaserState.h"
 #include "IdleChaserState.h"
 
-void MovingChaserState::FindPath(D3DXVECTOR3& targetPos)
+void MovingChaserState::FindPath(Chaser * chaser)
 {
 	mPath.clear();
-	mPath.push_back(targetPos);
+	mPath = gAstarManager->FindPath(gAstarManager->SearchToChaserNode(chaser->GetPos()), gAstarManager->SearchToPlayerNode(chaser->GetTarget()));
 	RotateToNextNode();
 }
+
 
 void MovingChaserState::FollowingPath()
 {
@@ -61,7 +62,7 @@ void MovingChaserState::Enter(Chaser* chaser)
 {
 	ChaserState::Enter(chaser);
 	chaser->GetSkinnedMesh()->SetAnimationIndex(6);
-	FindPath(chaser->GetTarget());
+	FindPath(chaser);
 	
 	if (!gSoundManager->Playing("Chaser"))
 	{

@@ -265,6 +265,7 @@ void Chaser::Update()
 	{
 		FollowingPath();
 	}*/
+	
 	if(ChaserState * newChaserState =  mChaserState->Update(this))
 	{
 		SAFE_DELETE(mChaserState);
