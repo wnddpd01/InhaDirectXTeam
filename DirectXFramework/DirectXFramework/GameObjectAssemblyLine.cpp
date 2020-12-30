@@ -585,6 +585,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	});
 	door->AddInteractionBehavior([=]()->void
 	{
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("열렸다!");
 		player->UseItem(eInventorySlot::Key);
 	});
 	door->AddInteractionBehavior([=]()->void
@@ -646,18 +647,18 @@ void GameObjectAssemblyLine::Room2A03EventObject(Room* room, Scene * newScene, P
 	plant1->AddInteractionCondition(bind(&Interactable3DObject::GetTryInteractionCalled, plant1));
 	plant1->AddInteractionBehavior([=]()->void
 	{
-		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("아무것도 없어...");
+		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("여기엔 없는것 같아...");
 	});
 	plant1->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, plant1));
 	room->InsertObject(plant1);
 	
 
 	plant1 = new Interactable3DObject;
-	plant1->SetObjectName("plant2");
+	plant1->SetObjectName("plant3");
 	plant1->AddColliderCube("basicColliderCube");
 	plant1->Setup("Resources/XFile/", "2A0304_SM_Prop_Plant_14.X");
 	plant1->SetScale(D3DXVECTOR3(0.02f, 0.02f, 0.02f));
-	plant1->SetPos(D3DXVECTOR3(38.434, 2.1, 50.5 + 3.56));
+	plant1->SetPos(D3DXVECTOR3(20.434, 2.1, 50.5 + 3.56));
 	plant1->SetRot(D3DXQUATERNION(0, 0, 0, 1));
 	plant1->GetColliderSphere()->SetRadius(2.f);
 	plant1->SetIsInteractable(true);
@@ -709,3 +710,11 @@ void GameObjectAssemblyLine::MakeGameObject(Scene* newScene)
 			break;
 	}
 }
+
+
+
+
+
+
+
+

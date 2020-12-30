@@ -5,7 +5,7 @@
 void CullingManager::Setup()
 {
 	// 생성시 필요한 것
-	float one = 1.0f;
+	float one = 1.2f;
 	mVecFrustumPlanes.resize(6);
 	mVecOriFrustumCube.resize(8);
 	mVecWorldFrustumCube.resize(8);
