@@ -59,7 +59,7 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 		player->SetInteractingObject(nullptr);
 	}
 	
-	for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(), 1); ++iter)
+	/*for (map<string, Base3DObject*>::iterator iter = objects.begin(); iter != prev(objects.end(), 1); ++iter)
 	{
 		for (map<string, Base3DObject*>::iterator iter2 = next(iter, 1); iter2 != objects.end(); ++iter2)
 		{
@@ -83,7 +83,7 @@ void ColliderChecker::CheckCollider(Player * player, map<string, Base3DObject*>&
 				}
 			}
 		}
-	}
+	}*/
 	
 
 	while(collisionEventQueue.empty() == false)
