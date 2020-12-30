@@ -430,6 +430,7 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	newScene->mGameObjects.insert(make_pair("RoomCenter", roomCenter));
 
 	Player* player = new Player;
+	player->SetRoomCenter(roomCenter);
 	player->AddColliderCube("playerCubeCollider");
 	player->GetColliderCube()["playerCubeCollider"]->SetCubeCollider(8.f, 1.f, 1.f);
 	player->Setup();
@@ -452,15 +453,15 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	//key->Setup("Resources/Xfile/", "Key.X");
 	//key->AddColliderCube("basicColliderCube");
 
-	Room* room2A01 = new Room;
+	Room* room2A01 = new Room(eRoomName::R2A01);
 	roomCenter->InsertRoom(eRoomName::R2A01, room2A01);
 	LoadFromJson("Resources/Json/wall3A01.json", room2A01);
-	Room * room2A02 = new Room;
+	Room * room2A02 = new Room(eRoomName::R2A02);
 	roomCenter->InsertRoom(eRoomName::R2A02, room2A02);
 	LoadFromJson("Resources/Json/wall3A02.json", room2A02);
 	LoadFromJson("Resources/Json/OBJ2A02.json", room2A02);
 
-	Room* room2A03 = new Room;
+	Room* room2A03 = new Room(eRoomName::R2A03);
 	roomCenter->InsertRoom(eRoomName::R2A03, room2A03);
 	LoadFromJson("Resources/Json/wall3A03.json", room2A03);
 	LoadFromJson("Resources/Json/OBJ2A03.json", room2A03);
@@ -469,40 +470,40 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 
 	
 
-	Room* room2A04 = new Room;
+	Room* room2A04 = new Room(eRoomName::R2A04);
 	roomCenter->InsertRoom(eRoomName::R2A04, room2A04);
 	LoadFromJson("Resources/Json/wall3A04.json", room2A04);
-	Room* room2A05 = new Room;
+	Room* room2A05 = new Room(eRoomName::R2A05);
 	roomCenter->InsertRoom(eRoomName::R2A05, room2A05);
 	LoadFromJson("Resources/Json/wall3A05.json", room2A05);
-	Room* room2A06 = new Room;
+	Room* room2A06 = new Room(eRoomName::R2A06);
 	roomCenter->InsertRoom(eRoomName::R2A06, room2A06);
 	LoadFromJson("Resources/Json/wall3A06.json", room2A06);
-	Room* room2A07 = new Room;
+	Room* room2A07 = new Room(eRoomName::R2A07);
 	roomCenter->InsertRoom(eRoomName::R2A07, room2A07);
 	LoadFromJson("Resources/Json/wall3A07.json", room2A07);
-	Room* room2B01 = new Room;
+	Room* room2B01 = new Room(eRoomName::R2B01);
 	roomCenter->InsertRoom(eRoomName::R2B01, room2B01);
 	LoadFromJson("Resources/Json/wall3B01.json", room2B01);
-	Room* room2B02 = new Room;
+	Room* room2B02 = new Room(eRoomName::R2B02);
 	roomCenter->InsertRoom(eRoomName::R2B02, room2B02);
 	LoadFromJson("Resources/Json/wall3B02.json", room2B02);
-	Room* room2B03 = new Room;
+	Room* room2B03 = new Room(eRoomName::R2B03);
 	roomCenter->InsertRoom(eRoomName::R2B03, room2B03);
 	LoadFromJson("Resources/Json/wall3B03.json", room2B03);
-	Room* room2B04 = new Room;
+	Room* room2B04 = new Room(eRoomName::R2B04);
 	roomCenter->InsertRoom(eRoomName::R2B04, room2B04);
 	LoadFromJson("Resources/Json/wall3B04.json", room2B04);
-	Room* room2C01 = new Room;
+	Room* room2C01 = new Room(eRoomName::R2C01);
 	roomCenter->InsertRoom(eRoomName::R2C01, room2C01);
 	LoadFromJson("Resources/Json/wall3C01.json", room2C01);
-	Room* room2C02 = new Room;
+	Room* room2C02 = new Room(eRoomName::R2C02);
 	roomCenter->InsertRoom(eRoomName::R2C02, room2C02);
 	LoadFromJson("Resources/Json/wall3C02.json", room2C02);
-	Room* room2C03 = new Room;
+	Room* room2C03 = new Room(eRoomName::R2C03);
 	roomCenter->InsertRoom(eRoomName::R2C03, room2C03);
 	LoadFromJson("Resources/Json/wall3C03.json", room2C03);
-	Room* room2D01 = new Room;
+	Room* room2D01 = new Room(eRoomName::R2D01);
 	roomCenter->InsertRoom(eRoomName::R2D01, room2D01);
 	LoadFromJson("Resources/Json/wall3D01.json", room2D01);
 	

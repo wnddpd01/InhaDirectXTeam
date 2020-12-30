@@ -117,7 +117,6 @@ Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
 
 Chaser::~Chaser()
 {
-	mPath.clear();
 	SAFE_DELETE(mSkinnedMesh);
 }
 

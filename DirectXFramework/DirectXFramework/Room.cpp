@@ -7,8 +7,9 @@
 ColliderChecker Room::mColliderChecker;
 bool Room::mbCheckCollision = false;
 
-Room::Room()
+Room::Room(eRoomName roomName)
 {
+	mRoomName = roomName;
 	gEventManager->AttachSubscriber(eEventName::KEY_UP, 10, this);
 }
 
