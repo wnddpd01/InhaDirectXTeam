@@ -12,7 +12,7 @@ class Player : public Base3DObject, public BaseObserver
 	CharacterState* mCurState;
 	D3DXVECTOR3 mMoveVelocity;
 	Base3DObject * mInteractingObject;
-	UIImage * mInteractingObjectMark;
+	UIImage* mInteractingObjectMark;
 	D3DXVECTOR3 mPrevPos;
 	D3DXQUATERNION mPrevRot;
 	Inventory mInventory;
@@ -26,7 +26,6 @@ class Player : public Base3DObject, public BaseObserver
 
 
 public:
-	SkinnedMesh* m_pSkinnedMesh;
 #pragma region GetterAndSetter
 	D3DXQUATERNION& GetRotRef()
 	{
@@ -59,9 +58,10 @@ public:
 	}
 	void SetInteractingObject(Base3DObject* interactObject) { mInteractingObject = interactObject; }
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
-
 #pragma endregion
 
+	SkinnedMesh* m_pSkinnedMesh;
+	
 	void Setup() override;
 	void Update() override;
 	void Render() override;
@@ -83,7 +83,6 @@ public:
 
 	void HandleInteractableObjectSphereCollideEvent(Base3DObject* interactableObject);
 	void HandlePlayerCubeCollideEvent(Base3DObject* player, string& myColliderTag, Base3DObject * otherCollider, string& otherColliderTag);
-
 
 	void ProcessCollisionEventQueue();
 };

@@ -13,6 +13,7 @@ protected:
 	void DoBehavior();
 public :
 	Interactable3DObject();
+	Interactable3DObject(eObjTag type);
 	~Interactable3DObject();
 
 	void Update() override;
@@ -31,5 +32,6 @@ public :
 	
 	bool TryInteraction();
 	void ChangeToStaticObject();
+	void ChangeToInteractObject();
 };
 

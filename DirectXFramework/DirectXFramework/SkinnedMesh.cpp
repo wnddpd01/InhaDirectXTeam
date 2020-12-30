@@ -311,10 +311,17 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_pAnimController->SetTrackWeight(0, 0.0f);
 	m_pAnimController->SetTrackWeight(1, 1.0f);
 
+	m_pAnimController->SetTrackSpeed(0, 1.f);
+
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
 
 	m_animationStartTime = GetTickCount();
+}
+
+void SkinnedMesh::SetCurrentAnimationSpeed(float time)
+{
+	m_pAnimController->SetTrackSpeed(0, time);
 }
 
 void SkinnedMesh::PrintAnimationList()

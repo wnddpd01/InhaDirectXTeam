@@ -10,7 +10,7 @@ class ShaderManager : public Singleton<ShaderManager>
 private:
 	map<string, LPD3DXEFFECT>		mShaders;
 	LPDIRECT3DTEXTURE9				mTexA1, mTexFloor;
-	LPDIRECT3DTEXTURE9				mTexRound, mTexVoronoi;
+	LPDIRECT3DTEXTURE9				mTexRound, mTexVoronoi, mTexCCTV;
 
 public:
 	void LoadAllShader();
@@ -24,5 +24,6 @@ public:
 	void RenderWithFlashShader(function<void()> FunctionPtr);
 	void RenderWithFloorShader(function<void()> FunctionPtr);
 	void RenderWithPortalShader(function<void()> FunctionPtr);
+	void RenderWithCCTVShader(function<void()> FunctionPtr);
 };
 

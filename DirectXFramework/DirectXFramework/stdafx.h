@@ -50,7 +50,7 @@ namespace  std
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-#define ORTHO_WIDTH 40.f
+#define ORTHO_WIDTH 20.f
 #define SHADER_BRIGHTNESS 0.3f
 
 enum class eDir
@@ -205,6 +205,7 @@ inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& 
 
 	return &frustum;
 }
+
 
 #include "Base3DObject.h"
 struct CollisionEvent

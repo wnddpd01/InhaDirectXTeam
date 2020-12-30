@@ -5,9 +5,9 @@
 #include "Player.h"
 
 ColliderChecker Room::mColliderChecker;
+bool Room::mbCheckCollision = false;
 
 Room::Room()
-	: mbCheckCollision(false)
 {
 	gEventManager->AttachSubscriber(eEventName::KEY_UP, 10, this);
 }

@@ -13,7 +13,9 @@ void CCTV::RenderDetectRangeMesh()
 	D3DXMatrixTranslation(&matT, mDetectSpherePos.x, mDetectSpherePos.y + 0.0001f, mDetectSpherePos.z);
 	matWorld = matS * matT;
 	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
-	mDetectRangeMesh->DrawSubset(0);
+
+	gShader->GetInstance()->RenderWithCCTVShader(bind(&CCTV::RenderMesh, this));
+	//mDetectRangeMesh->DrawSubset(0);
 
 	//for (int i = 1; i < 3; ++i)
 	//{
@@ -23,6 +25,11 @@ void CCTV::RenderDetectRangeMesh()
 	//	gD3Device->SetTransform(D3DTS_WORLD, &matWorld);
 	//	mDetectRangeMesh->DrawSubset(0);
 	//}
+}
+
+void CCTV::RenderMesh()
+{
+	mDetectRangeMesh->DrawSubset(0);
 }
 
 void CCTV::Rotate()
@@ -111,6 +118,8 @@ CCTV::CCTV(const LPD3DXMESH& floorMesh, D3DXVECTOR3 eyeDir, D3DXVECTOR3 pos)
 		nullptr,
 		&mDetectRangeMesh
 	);
+	AddColliderCube("basicColliderCube");
+	Base3DObject::Setup();
 }
 
 CCTV::~CCTV()

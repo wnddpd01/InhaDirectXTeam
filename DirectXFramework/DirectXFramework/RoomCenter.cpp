@@ -26,6 +26,7 @@ void RoomCenter::Update()
 		if (room.second->isInRoom(mPlayer->GetPos()))
 		{
 			room.second->Update(mPlayer);
+			break;
 		}
 	}
 }
