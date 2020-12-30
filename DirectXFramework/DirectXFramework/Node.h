@@ -2,15 +2,15 @@
 
 class Node
 {
-
 public:
 	Node();
 	~Node();
 
+	void Setup();
 	
-	D3DXVECTOR3 GetNodePoint() { return mPosition; }
 	static void ConnectNodePoint(Node* node1, Node* node2);
 
+	D3DXVECTOR3 GetNodePoint() { return mPosition; }
 	void SetNodePoint(D3DXVECTOR3 position) { mPosition = position; }
 	
 	float GetF() { return mF; }
@@ -28,6 +28,7 @@ public:
 	
 	void SetParent(Node* parent) { mParent = parent; }
 	Node* GetParent() { return mParent; }
+	
 private:
 	vector<Node*> mPath;
 	D3DXVECTOR3 mPosition;
