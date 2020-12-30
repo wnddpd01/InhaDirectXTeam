@@ -288,6 +288,39 @@ void ShaderManager::RenderWithPortalShader(function<void()> FunctionPtr)
 		MessageBoxA(GetActiveWindow(), "PortalShader shader End 실패", "에러", MB_ICONERROR);
 }
 
+void ShaderManager::RenderWithCCTVShader(function<void()> FunctionPtr)
+{
+	D3DXMATRIXA16 matView, matProjection, matWorld, matWorldViewProj;
+
+	gD3Device->GetTransform(D3DTS_VIEW, &matView);
+	gD3Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+	gD3Device->GetTransform(D3DTS_WORLD, &matWorld);
+
+	matWorldViewProj = matWorld * matView * matProjection;
+
+	mShaders["CCTVShader"]->SetMatrix("gWorldViewProj", &matWorldViewProj);
+	mShaders["CCTVShader"]->SetTexture("gRoundTexture", mTexCCTV);
+
+	UINT numPasses = 0;
+	if (FAILED(mShaders["CCTVShader"]->Begin(&numPasses, NULL)))
+		MessageBoxA(GetActiveWindow(), "CCTVShader shader Begin 실패", "에러", MB_ICONERROR);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			if (FAILED(mShaders["CCTVShader"]->BeginPass(i)))
+				MessageBoxA(GetActiveWindow(), "CCTVShader shader Begin pass 실패", "에러", MB_ICONERROR);
+			{
+				FunctionPtr();
+			}
+			if (FAILED(mShaders["CCTVShader"]->EndPass()))
+				MessageBoxA(GetActiveWindow(), "CCTVShader shader End pass 실패", "에러", MB_ICONERROR);
+		}
+	}
+	if (FAILED(mShaders["CCTVShader"]->End()))
+		MessageBoxA(GetActiveWindow(), "CCTVShader shader End 실패", "에러", MB_ICONERROR);
+
+}
+
 LPD3DXEFFECT ShaderManager::LoadShader(const char* filename)
 {
 	LPD3DXEFFECT ret = NULL;
@@ -345,6 +378,7 @@ void ShaderManager::LoadAllShader()
 	mTexFloor = LoadTexture("Resources/XFile/floorTile.png");
 	mTexRound = LoadTexture("Resources/Shader/round.png");
 	mTexVoronoi = LoadTexture("Resources/Shader/voronoi2.png");
+	mTexCCTV = LoadTexture("Resources/Shader/CCTVArea.png");
 
 	//mShaders["Toon"]			= LoadShader("Resources/Shader/test/ToonShader.fx");
 	//mShaders["OutLine"]		= LoadShader("Resources/Shader/outLine.fx");
@@ -357,5 +391,7 @@ void ShaderManager::LoadAllShader()
 	mShaders["FlashShader"]		= LoadShader("Resources/Shader/FlashShader.fx");
 	mShaders["FloorShader"]		= LoadShader("Resources/Shader/FloorShader.fx");
 	mShaders["PortalShader"]	= LoadShader("Resources/Shader/PortalShader.fx");
+	mShaders["CCTVShader"]		= LoadShader("Resources/Shader/CCTVShader.fx");
+	
 }
 

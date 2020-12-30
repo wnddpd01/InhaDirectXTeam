@@ -23,6 +23,7 @@ private :
 	ColliderSphere* mDetectSphere;
 
 	void RenderDetectRangeMesh();
+	void RenderMesh();
 	void Rotate();
 	bool DetectedTarget();
 public :
@@ -31,6 +32,7 @@ public :
 
 	void Update() override;
 	void Render() override;
+	
 
 	void ConnectChaser(Chaser* chaser) { mChasers.push_back(chaser); }
 };
