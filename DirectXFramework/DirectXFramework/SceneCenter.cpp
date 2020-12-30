@@ -31,7 +31,6 @@ void SceneCenter::LoadScene(eSceneName sceneName)
 		}
 	}*/
 	Scene* newScene = nullptr;
-	cout << "load Start" << endl;
 	newScene = mSceneFactory.CreateScene(sceneName);
 	newScene->AttachAllSubscriberInSubscriberList();
 	EnterCriticalSection(&CS);
@@ -39,7 +38,6 @@ void SceneCenter::LoadScene(eSceneName sceneName)
 	gCameraManager->SetCamera(newScene->GetCamera());
 	this->mCurScene = newScene;
 	LeaveCriticalSection(&CS);
-	cout << "end Loading\n";
 }
 
 void SceneCenter::EnterScene(eSceneName sceneName)
@@ -82,10 +80,11 @@ SceneCenter::SceneCenter()
 
 SceneCenter::~SceneCenter()
 {
-	if(mLoadingThread.joinable())
+	while(mCurScene == mLoadingScene)
 	{
-		mLoadingThread.join();
+		Sleep(1);
 	}
+	
 	for (auto scene : mSceneMap)
 	{
 		SAFE_DELETE(scene.second);

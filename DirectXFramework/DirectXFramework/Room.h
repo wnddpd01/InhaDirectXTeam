@@ -38,7 +38,7 @@ class Room :
 	public BaseObject, public BaseObserver
 {
 public :
-	Room();
+	Room(eRoomName roomName);
 	~Room();
 	void Update(Player* player);
 	void Render() override;
@@ -50,6 +50,9 @@ public :
 	bool isInRoom(D3DXVECTOR3& pos);
 
 	void SetArea(RoomArea& area) { mArea = area; }
+
+	eRoomName GetRoomName() const { return mRoomName; }
+	
 	map<string, Base3DObject*>& GetObjectsInRoomRef() { return mObjectsInRoom; }
 protected:
 private:
@@ -58,6 +61,7 @@ private:
 	static ColliderChecker mColliderChecker;
 	static bool mbCheckCollision;
 	RoomArea mArea;
+	eRoomName mRoomName;
 	map<string, Base3DObject*> mObjectsInRoom;
 };
 

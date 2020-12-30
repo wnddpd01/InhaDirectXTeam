@@ -11,6 +11,6 @@ public :
 	TextMap();
 	~TextMap();
 
-	void Render(eRoomName roomName);
+	void Render(eRoomName* roomName);
 };
 

@@ -6,6 +6,7 @@
 class SkinnedMesh;
 class CharacterState;
 class UIImage;
+class RoomCenter;
 
 class Player : public Base3DObject, public BaseObserver
 {
@@ -18,6 +19,7 @@ class Player : public Base3DObject, public BaseObserver
 	D3DXQUATERNION mPrevRot;
 	Inventory mInventory;
 	TextMap mTextMap;
+	RoomCenter* mRoomCenter;
 	queue<CollisionEvent> mCollisionEventQueue;
 	queue<CollisionEvent> mCollisionEventQueue2;
 
@@ -60,6 +62,8 @@ public:
 	}
 	void SetInteractingObject(Base3DObject* interactObject) { mInteractingObject = interactObject; }
 	Base3DObject * GetInteractingObject() { return mInteractingObject; }
+
+	void SetRoomCenter(RoomCenter* roomCenter) { mRoomCenter = roomCenter; }
 #pragma endregion
 
 	SkinnedMesh* m_pSkinnedMesh;

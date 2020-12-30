@@ -16,7 +16,6 @@ private :
 	RoomCenter* mRoomCenter;
 	ChaserState* mChaserState;
 	SkinnedMesh* mSkinnedMesh;
-	vector<D3DXVECTOR3> mPath;
 	D3DXVECTOR3 mBasePos;
 	D3DXVECTOR3 mTargetPos;
 	DWORD mCycleTime;
@@ -25,7 +24,6 @@ private :
 
 	bool ObjectInSightFrustum(Base3DObject* object, vector<D3DXPLANE>& sightFrustum);
 	void MakeSightFrustum(OUT vector<D3DXPLANE>& sightPlane);
-	void FindPath(D3DXVECTOR3& endPos);
 	void FollowingPath();
 	void ReturnToBasePos();
 	void Attack(Player* player);

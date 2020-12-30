@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "ColliderCube.h"
 #include "ColliderChecker.h"
+#include "Room.h"
 
 Player::Player()
 	: m_pSkinnedMesh(nullptr)
@@ -139,7 +140,21 @@ void Player::Render()
 	}
 
 	mInventory.Render();
-	mTextMap.Render(eRoomName::R2A01);
+	if (mRoomCenter)
+	{
+		eRoomName roomName;
+		Room* room = mRoomCenter->FindRoomIncludePos(mPos);
+		if(room)
+		{
+			roomName = room->GetRoomName();
+			mTextMap.Render(&roomName);
+		}
+		else
+		{
+			mTextMap.Render(nullptr);
+		}
+		
+	}	
 }
 
 bool Player::Update(eEventName eventName, void* parameter)
