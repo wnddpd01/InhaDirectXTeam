@@ -170,16 +170,10 @@ bool Astar::IsInList(Node * pNode, std::set<Node*>& setNodeList)
 Node * Astar::SearchToChaserNode(D3DXVECTOR3 & chaserPos)
 {
 	Node* shortNode = new Node;
-	float minDistance;
+	float minDistance = 9999.0f;
 	
 	for (size_t i = 0; i < mNode.size(); ++i)
 	{
-		if(shortNode == NULL)
-		{
-			minDistance = D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint()));
-			shortNode = mNode[i];
-		}
-
 		if(D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint())) < minDistance)
 		{
 			minDistance = D3DXVec3Length(&D3DXVECTOR3(chaserPos - mNode[i]->GetNodePoint()));
@@ -193,16 +187,10 @@ Node * Astar::SearchToChaserNode(D3DXVECTOR3 & chaserPos)
 Node* Astar::SearchToPlayerNode(D3DXVECTOR3& playerPos)
 {
 	Node* shortNode = new Node;
-	float minDistance;
+	float minDistance = 9999.0f;
 
 	for (size_t i = 0; i < mNode.size(); ++i)
 	{
-		if (shortNode == NULL)
-		{
-			minDistance = D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint()));
-			shortNode = mNode[i];
-		}
-
 		if (D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint())) < minDistance)
 		{
 			minDistance = D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint()));
