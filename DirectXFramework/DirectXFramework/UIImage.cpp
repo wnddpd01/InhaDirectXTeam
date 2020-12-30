@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "UIImage.h"
 
+extern CRITICAL_SECTION CS;
+
 UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 	: mTextureUI(nullptr)
 	, mSprite(nullptr)
 {
+	EnterCriticalSection(&CS);
 	if (texturePath.size() == 0)
 		return;
 	static float cellSize = 0;
@@ -23,6 +26,7 @@ UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 	mPos.x = cellSize * pos.x;
 	mPos.y = cellSize * pos.y;
 	D3DXMatrixIdentity(&mMatWorld);
+	LeaveCriticalSection(&CS);
 }
 
 UIImage::~UIImage()

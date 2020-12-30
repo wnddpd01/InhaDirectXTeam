@@ -14,6 +14,7 @@ class SceneCenter : public BaseObserver
 {
 private :
 	Scene* mLoadingScene;
+	thread mLoadingThread;
 	void LoadScene(eSceneName sceneName);
 	void EnterScene(eSceneName sceneName);
 public :

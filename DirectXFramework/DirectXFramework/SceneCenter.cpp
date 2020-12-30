@@ -13,6 +13,21 @@ using namespace std;
 
 void SceneCenter::LoadScene(eSceneName sceneName)
 {
+	/*int count = 0;
+	DWORD last = GetTickCount();
+	while(count < 10)
+	{
+		if(GetTickCount() - last > 30)
+		{
+			last = GetTickCount();
+			cout << "Asd\n";
+			count++;
+		}
+		else
+		{
+			this_thread::yield();
+		}
+	}*/
 	Scene* newScene = nullptr;
 	cout << "load Start" << endl;
 	newScene = mSceneFactory.CreateScene(sceneName);
@@ -48,6 +63,7 @@ void SceneCenter::EnterScene(eSceneName sceneName)
 
 SceneCenter::SceneCenter()
 	: mCurScene(nullptr)
+	, mLoadingThread{}
 {
 	gSoundManager->SoundSet();
 	gShader->LoadAllShader();
@@ -57,15 +73,15 @@ SceneCenter::SceneCenter()
 	mLoadingScene = mSceneFactory.CreateScene(eSceneName::LOADING_SCENE);
 	gCameraManager->SetCamera(mLoadingScene->GetCamera());
 
-	ChangeScene(eSceneName::INGAME_SCENE);
+	ChangeScene(eSceneName::START_SCENE);
 }
 
 SceneCenter::~SceneCenter()
 {
-	/*if(mLoadingThread.joinable())
+	if(mLoadingThread.joinable())
 	{
 		mLoadingThread.join();
-	}*/
+	}
 	for (auto scene : mSceneMap)
 	{
 		SAFE_DELETE(scene.second);
@@ -81,8 +97,8 @@ void SceneCenter::ChangeScene(eSceneName sceneName)
 	}
 	SAFE_DELETE(mCurScene);
 	mCurScene = mLoadingScene;
-	LoadScene(sceneName);
-	//mLoadingThread = std::thread{ &SceneCenter::LoadScene, this, sceneName };
+	mLoadingThread = std::thread{ &SceneCenter::LoadScene, this, sceneName };
+	mLoadingThread.detach();
 }
 
 void SceneCenter::RegisterScene(Scene* scene)
