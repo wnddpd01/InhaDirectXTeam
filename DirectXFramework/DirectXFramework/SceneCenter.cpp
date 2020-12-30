@@ -11,6 +11,8 @@
 
 using namespace std;
 
+extern CRITICAL_SECTION CS;
+
 void SceneCenter::LoadScene(eSceneName sceneName)
 {
 	/*int count = 0;
@@ -32,9 +34,11 @@ void SceneCenter::LoadScene(eSceneName sceneName)
 	cout << "load Start" << endl;
 	newScene = mSceneFactory.CreateScene(sceneName);
 	newScene->AttachAllSubscriberInSubscriberList();
+	EnterCriticalSection(&CS);
 	EnterScene(newScene->GetSceneName());
 	gCameraManager->SetCamera(newScene->GetCamera());
 	this->mCurScene = newScene;
+	LeaveCriticalSection(&CS);
 	cout << "end Loading\n";
 }
 
@@ -149,6 +153,8 @@ void SceneCenter::Render()
 	//cout << "Render\n";
 	if (mCurScene != nullptr)
 	{
+		EnterCriticalSection(&CS);
 		mCurScene->Render();
+		LeaveCriticalSection(&CS);
 	}
 }
