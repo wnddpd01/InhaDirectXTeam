@@ -176,7 +176,19 @@ void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)
 	MiniGameObjectUI->SetObjectName("telephone");
 	MiniGameObjectUI->SetVisible(true);
 	MiniGameUI->AddChild("telephone", MiniGameObjectUI);
+}
 
+void UIAssemblyLine::MakeLoadingSceneUI(Scene* newScene)
+{
+	UIImage* loadingMain = new UIImage("Resources/UI/Loading/Loading_UI_Main.png", { 0, 0 }, 64, 36);
+	loadingMain->SetObjectName("loadingMain");
+	loadingMain->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("loadingMain", loadingMain));
+
+	UIAnimation* loadingSpin = new UIAnimation("Resources/UI/Loading/Loading_Spin.png", { 56, 30 }, 4, 4, 4);
+	loadingSpin->SetObjectName("loadingSpin");
+	loadingSpin->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("loadingSpin", loadingSpin));
 }
 
 void UIAssemblyLine::MakeSceneUI(Scene* newScene)
@@ -193,6 +205,11 @@ void UIAssemblyLine::MakeSceneUI(Scene* newScene)
 		case eSceneName::INGAME_SCENE :
 			{
 				MakeIngameSceneUI(newScene);
+			}
+			break;
+		case eSceneName::LOADING_SCENE:
+			{
+				MakeLoadingSceneUI(newScene);
 			}
 			break;
 		default :

@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "ColliderCube.h"
 #include "ColliderSphere.h"
+#include "CollideHandle.h"
 #include "CCTV.h"
 #include "Chaser.h"
 #include "FlashLight.h"
@@ -328,9 +329,6 @@ void GameObjectAssemblyLine::LoadFromJson(string fileName, Room* targetRoom)
 	{
 		LoadObjectFromJson("2A02_SM_Prop_Table_Round_01", targetRoom);
 	}
-	
-
-
 }
 
 void GameObjectAssemblyLine::MakeRoomConnector(Room* firstRoom, eRoomName eFirst, Room* secondRoom,
@@ -533,8 +531,8 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	CCTV* cctv = new CCTV(floor->GetMesh(), D3DXVECTOR3(-1,-0.3f,-1), D3DXVECTOR3(59, 3, 134));
 	cctv->SetObjectName("CCTV1");
 	cctv->ConnectChaser(chaser1);
-	//room2A01->InsertObject(cctv);
-	newScene->mGameObjects.insert(make_pair("cctv", cctv));
+	room2A01->InsertObject(cctv);
+	//newScene->mGameObjects.insert(make_pair("cctv", cctv));
 	
 	Interactable3DObject* box = new Interactable3DObject;
 	box->SetObjectName("box");
@@ -589,17 +587,11 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 	{
 		player->UseItem(eInventorySlot::Key);
 	});
-	/*door->AddInteractionBehavior([=]()->void
+	door->AddInteractionBehavior([=]()->void
 	{
-		portal1->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-		{
-			roomCenter->SetCurRoom(eRoomName::R2A01);
-		};
-		portal2->CollideHandle = [=](Base3DObject* myObject, string& myColliderTag, Base3DObject* otherObject, string& otherColliderTag)->void
-		{
-			roomCenter->SetCurRoom(eRoomName::R2A01);
-		};
-	});*/
+		portal1->CollideHandle = DefaultColliderHandler;
+		portal2->CollideHandle = DefaultColliderHandler;
+	});
 	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
 	room2A02->InsertObject(door);
 

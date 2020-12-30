@@ -206,6 +206,7 @@ inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& 
 	return &frustum;
 }
 
+
 #include "Base3DObject.h"
 struct CollisionEvent
 {

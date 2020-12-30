@@ -30,7 +30,7 @@ DeviceManager::DeviceManager()
 	stD3DPP.AutoDepthStencilFormat = D3DFMT_D16;
 	mD3D->CreateDevice(D3DADAPTER_DEFAULT,
 	                   D3DDEVTYPE_HAL, GetActiveWindow(),
-	                   nVertexProcessing, &stD3DPP,
+	                   nVertexProcessing | D3DCREATE_MULTITHREADED, &stD3DPP,
 	                   &mD3DDevice);
 }
 

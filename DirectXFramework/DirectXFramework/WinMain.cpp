@@ -2,6 +2,9 @@
 #include "SceneCenter.h"
 #include "Scene.h"
 #include "MouseInputManager.h"
+
+extern CRITICAL_SECTION CS;
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GenerateWindow(HINSTANCE hIns, int nCmdShow, LPWSTR className, LPWSTR windowTitle, UINT windowWidth = 1600,
                     UINT windowHeight = 900);
@@ -16,6 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 	//gJSON->WriteJSON("jsonTest2.json");
 	if (GenerateWindow(hIns, nCmdShow, L"Win32Window", L"DirectXFramework"))
 	{
+		InitializeCriticalSection(&CS);
 		MSG msg;
 		SceneCenter sceneCenter;
 		while (true)
@@ -36,6 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hIns,
 				sceneCenter.Render();
 			}
 		}
+		DeleteCriticalSection(&CS);
 		return msg.wParam;
 	}
 	return 0;

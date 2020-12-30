@@ -43,6 +43,12 @@
     <Filter Include="3DObject\AnimatingObject\CCTV">
       <UniqueIdentifier>{d6213462-2c18-4c2d-9138-0a7122ccc8ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DObject\AnimatingObject\Player\PlayerState">
+      <UniqueIdentifier>{703e6a21-83e3-4dbe-b773-f0a2b70a7635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DObject\AnimatingObject\Chaser\ChaserState">
+      <UniqueIdentifier>{43484519-952d-4239-8fd1-0013b5d09c0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -104,18 +110,6 @@
     </ClCompile>
     <ClCompile Include="Static3DObject.cpp">
       <Filter>3DObject</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterState.cpp">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="IdleCharacterState.cpp">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="InteractCharacterState.cpp">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkCharacterState.cpp">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>3DObject\AnimatingObject</Filter>
@@ -200,6 +194,30 @@
     </ClCompile>
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Astar.cpp" />
+    <ClCompile Include="WalkCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleCharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterState.cpp">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleChaserState.cpp">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaserState.cpp">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingChaserState.cpp">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackingChaserState.cpp">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClCompile>
     <ClCompile Include="UIConversation.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -267,18 +285,6 @@
     </ClInclude>
     <ClInclude Include="Static3DObject.h">
       <Filter>3DObject</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterState.h">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="IdleCharacterState.h">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="InteractCharacterState.h">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkCharacterState.h">
-      <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>3DObject\AnimatingObject</Filter>
@@ -366,6 +372,30 @@
     </ClInclude>
     <ClInclude Include="Node.h" />
     <ClInclude Include="Astar.h" />
+    <ClInclude Include="WalkCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleCharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>3DObject\AnimatingObject\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleChaserState.h">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaserState.h">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingChaserState.h">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackingChaserState.h">
+      <Filter>3DObject\AnimatingObject\Chaser\ChaserState</Filter>
+    </ClInclude>
     <ClInclude Include="UIConversation.h">
       <Filter>UI</Filter>
     </ClInclude>

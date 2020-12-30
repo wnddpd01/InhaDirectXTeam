@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "UIImage.h"
 
+extern CRITICAL_SECTION CS;
 
 UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 	: mTextureUI(nullptr)
 	, mSprite(nullptr)
 {
+	EnterCriticalSection(&CS);
 	if (texturePath.size() == 0)
 		return;
 	static float cellSize = 0;
@@ -16,15 +18,15 @@ UIImage::UIImage(string texturePath, POINT pos, LONG width, LONG height)
 		cellSize = (float)viewPort.Width / HORIZONTAL_CELL_NUM;
 	}
 	D3DXCreateSprite(gD3Device, &mSprite);
-	D3DXIMAGE_INFO imageInfo;
-	ZeroMemory(&imageInfo, sizeof(D3DXIMAGE_INFO));
-	mTextureUI = gTextureManager->GetUITexture(texturePath, imageInfo);
-	SetRect(&mDrawRect, 0, 0, imageInfo.Width, imageInfo.Height);
+	ZeroMemory(&mImageInfo, sizeof(D3DXIMAGE_INFO));
+	mTextureUI = gTextureManager->GetUITexture(texturePath, mImageInfo);
+	SetRect(&mDrawRect, 0, 0, mImageInfo.Width, mImageInfo.Height);
 	mWidth = cellSize * width;
 	mHeight = cellSize * height;
 	mPos.x = cellSize * pos.x;
 	mPos.y = cellSize * pos.y;
 	D3DXMatrixIdentity(&mMatWorld);
+	LeaveCriticalSection(&CS);
 }
 
 UIImage::~UIImage()
@@ -35,10 +37,7 @@ UIImage::~UIImage()
 	{
 		SAFE_DELETE(child.second);
 	}
-
-
 }
-
 
 void UIImage::Render()
 {

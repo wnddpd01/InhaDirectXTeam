@@ -7,6 +7,7 @@ class UIImage :
 	public UIBase
 {
 	LPDIRECT3DTEXTURE9	mTextureUI;
+	D3DXIMAGE_INFO		mImageInfo;
 	LPD3DXSPRITE		mSprite;
 	RECT				mDrawRect;
 
