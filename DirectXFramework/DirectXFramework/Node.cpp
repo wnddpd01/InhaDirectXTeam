@@ -3,7 +3,12 @@
 
 
 Node::Node()
-	: mPosition(0,0,0)
+	: mPosition(0, 0, 0)
+	, mF(0.0f)
+	, mG(0.0f)
+	, mH(0.0f)
+	, mParent(nullptr)
+	, mIsClosed(false)
 {
 }
 
@@ -11,15 +16,8 @@ Node::~Node()
 {
 }
 
-void Node::SetNodePoint(D3DXVECTOR3 position)
-{
-	mPosition = position;
-}
-
 void Node::ConnectNodePoint(Node * node1, Node * node2)
 {
-	FLOAT length;
-	length = D3DXVec3Length(&(node1->GetNodePoint() - node2->GetNodePoint()));
-	node1->mPath.insert(make_pair(length, node2));
-	node2->mPath.insert(make_pair(length, node1));
+	node1->mPath.push_back(node2);
+	node2->mPath.push_back(node1);	
 }
