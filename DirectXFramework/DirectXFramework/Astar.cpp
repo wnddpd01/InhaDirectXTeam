@@ -20,12 +20,12 @@ void Astar::Setup()
 	mSetOpenList.clear();
 	mSetCloseList.clear();
 	mPath.clear();
+	mPath.push_back(mTarget);
 }
 
 void Astar::LoadNode()
 {
 	mNode.clear();
-
 	gJSON->LoadJSON("Resources/Json/Node.json");
 	Value& documentValue = gJSON->mDocument["Node"];
 
@@ -189,6 +189,8 @@ Node* Astar::SearchToPlayerNode(D3DXVECTOR3& playerPos)
 	Node* shortNode = new Node;
 	float minDistance = 9999.0f;
 
+	mTarget = playerPos;
+	
 	for (size_t i = 0; i < mNode.size(); ++i)
 	{
 		if (D3DXVec3Length(&D3DXVECTOR3(playerPos - mNode[i]->GetNodePoint())) < minDistance)

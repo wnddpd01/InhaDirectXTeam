@@ -36,6 +36,10 @@ void MovingChaserState::FollowingPath()
 
 void MovingChaserState::RotateToNextNode()
 {
+	if(mPath.empty() == true)
+	{
+		return;
+	}
 	D3DXQUATERNION quatRot;
 	D3DXMATRIXA16 matRot;
 	D3DXVECTOR3 dir = mPath.back() - mChaser->GetPos();
@@ -62,8 +66,17 @@ void MovingChaserState::Enter(Chaser* chaser)
 {
 	ChaserState::Enter(chaser);
 	chaser->GetSkinnedMesh()->SetAnimationIndex(6);
-	FindPath(chaser);
-	
+	chaser->SetSightFrustum(&Chaser::angrySightFrustum);
+	if(chaser->IsTargetInSight())
+	{
+		mPath.clear();
+		mPath.push_back(chaser->GetTarget());
+		RotateToNextNode();
+	}
+	else
+	{
+		FindPath(chaser);
+	}
 	if (!gSoundManager->Playing("Chaser"))
 	{
 		gSoundManager->Play("Chaser", 0.3f);
@@ -85,19 +98,13 @@ ChaserState* MovingChaserState::Update(Chaser* chaser)
 	{
 		return new AttackingChaserState;
 	}
-	if (GetTickCount() - mLastUpdateTime > Chaser::findCycleTime || mPath.empty() == true)
+	if (GetTickCount() - mLastUpdateTime > Chaser::findCycleTime)
 	{
-		D3DXQUATERNION prevRot = chaser->GetRot();
-		chaser->RotateToTarget();
-		if(chaser->IsPlayerInSight(nullptr))
+		if(chaser->IsTargetInSight())
 		{
 			mPath.clear();
 			mPath.push_back(chaser->GetTarget());
 			RotateToNextNode();
-		}
-		else
-		{
-			chaser->SetRot(prevRot);
 		}
 		mLastUpdateTime = GetTickCount();
 	}

@@ -35,10 +35,7 @@ void RoomCenter::Render()
 {
 	for (map<eRoomName, Room*>::value_type& room : mRoomMap)
 	{
-		if (room.second->isInRoom(mPlayer->GetPos()))
-		{
-			room.second->Render();
-		}
+		room.second->Render();
 	}
 }
 

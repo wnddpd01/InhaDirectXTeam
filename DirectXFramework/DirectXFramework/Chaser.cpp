@@ -10,7 +10,9 @@
 D3DXVECTOR3 Chaser::baseSightDir = { 0, 0, 1 };
 float Chaser::baseSightLength = 30.f;
 float Chaser::baseSightAngle = D3DX_PI / 5.f;
+float Chaser::angrySightAngle = D3DX_PI / 2.5f;
 vector<D3DXPLANE> Chaser::baseSightFrustum;
+vector<D3DXPLANE> Chaser::angrySightFrustum;
 
 //void Chaser::FollowingPath()
 //{
@@ -58,16 +60,23 @@ void Chaser::RotateToTarget()
 	this->SetRot(idleRot * quatRot);
 }
 
-bool Chaser::ObjectInSightFrustum(Base3DObject* object, vector<D3DXPLANE>& sightFrustum)
+void Chaser::ChangeState(ChaserState* newState)
 {
-	if(D3DXVec3Length(&(mPos - object->GetPos())) > baseSightLength)
+	SAFE_DELETE(mChaserState);
+	newState->Enter(this);
+	mChaserState = newState;
+}
+
+bool Chaser::ObjectInSightFrustum(D3DXVECTOR3& objectPos, vector<D3DXPLANE>& sightFrustum)
+{
+	if(D3DXVec3Length(&(mPos - objectPos)) > baseSightLength)
 	{
 		return false;
 	}
 
 	for (vector<D3DXPLANE>::value_type plane : sightFrustum)
 	{
-		if(D3DXPlaneDotCoord(&plane, &object->GetPos()) < 0.f)
+		if(D3DXPlaneDotCoord(&plane, &objectPos) < 0.f)
 		{
 			return false;
 		}
@@ -85,7 +94,7 @@ void Chaser::MakeSightFrustum(vector<D3DXPLANE>& sightPlane)
 	D3DXMatrixInverse(&matWorld, nullptr, &matWorld);
 	D3DXMatrixTranspose(&matWorld, &matWorld);
 	D3DXPLANE transformPlane;
-	for (vector<D3DXPLANE>::value_type& plane : baseSightFrustum)
+	for (vector<D3DXPLANE>::value_type& plane : *mSightFrustum)
 	{
 		D3DXPlaneNormalize(&transformPlane, &plane);
 		D3DXPlaneTransform(&transformPlane, &plane, &matWorld);
@@ -110,7 +119,9 @@ Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
 	if(baseSightFrustum.size() == 0)
 	{
 		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::baseSightAngle, Chaser::baseSightFrustum);
+		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::angrySightAngle, Chaser::angrySightFrustum);
 	}
+	mSightFrustum = &baseSightFrustum;
 	AddColliderCube("basicColliderCube");
 	Base3DObject::Setup();
 }
@@ -167,43 +178,52 @@ void Chaser::Attack(Player* player)
 //	FindPath(targetPos);
 //}
 
-bool Chaser::IsPlayerInSight(OUT D3DXVECTOR3* outPlayerPos)
+bool Chaser::IsTargetInSight()
 {
-	Player* player = mRoomCenter->GetPlayer();
-
 	vector<D3DXPLANE> sightFrustum;
 	MakeSightFrustum(sightFrustum);
-	if (ObjectInSightFrustum(player, sightFrustum))
+	if (ObjectInSightFrustum(mTargetPos, sightFrustum))
 	{
-		D3DXVECTOR3 playerPos = player->GetPos();
-		D3DXVECTOR3 sightRayDir = playerPos - mPos;
-		float distanceToPlayer = D3DXVec3Length(&sightRayDir);
+		D3DXVECTOR3 sightRayDir = mTargetPos - mPos;
+		float distanceToTarget = D3DXVec3Length(&sightRayDir);
 		D3DXVec3Normalize(&sightRayDir, &sightRayDir);
 		Room* currentRoom = mRoomCenter->FindRoomIncludePos(mPos);
-		if(currentRoom == nullptr)
+		Room* targetRoom = mRoomCenter->FindRoomIncludePos(mTargetPos);
+		if(currentRoom == nullptr || targetRoom == nullptr)
 		{
 			return false;
 		}
 		map<string, Base3DObject*>& objectsInRoom = currentRoom->GetObjectsInRoomRef();
-		BOOL canSeePlayer = true;
+		BOOL canSeeTarget = true;
 		float distanceToHitPoint = 0.f;
 		for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
 		{
 			if ((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
 			{
-				if (distanceToHitPoint > 0 && distanceToHitPoint < distanceToPlayer)
+				if (distanceToHitPoint > 0 && distanceToHitPoint < distanceToTarget)
 				{
-					canSeePlayer = false;
+					canSeeTarget = false;
 					break;
 				}
 			}
 		}
-		if (canSeePlayer == true)
+		if(currentRoom != targetRoom)
 		{
-			if(outPlayerPos != nullptr)
+			objectsInRoom = targetRoom->GetObjectsInRoomRef();
+			for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
 			{
-				*outPlayerPos = playerPos;
+				if ((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
+				{
+					if (distanceToHitPoint > 0 && distanceToHitPoint < distanceToTarget)
+					{
+						canSeeTarget = false;
+						break;
+					}
+				}
 			}
+		}
+		if (canSeeTarget == true)
+		{
 			return true;
 		}
 	}
@@ -267,9 +287,7 @@ void Chaser::Update()
 	
 	if(ChaserState * newChaserState =  mChaserState->Update(this))
 	{
-		SAFE_DELETE(mChaserState);
-		newChaserState->Enter(this);
-		mChaserState = newChaserState;
+		ChangeState(newChaserState);
 	}
 	mSkinnedMesh->Update();
 	Base3DObject::Update();

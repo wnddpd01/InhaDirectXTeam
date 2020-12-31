@@ -54,7 +54,9 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 		{
 			mChaser->SetPos(mPath.front());
 		}
-		if (chaser->IsPlayerInSight(nullptr))
+		chaser->MatchTargetToPlayer();
+		chaser->RotateToTarget();
+		if (chaser->IsTargetInSight())
 		{
 			return new MovingChaserState;
 		}
@@ -69,7 +71,7 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 		{
 			return nullptr;
 		}
-		if(chaser->IsPlayerInSight(nullptr))
+		if(chaser->IsTargetInSight())
 		{
 			chaser->MatchTargetToPlayer();
 		}
@@ -88,7 +90,10 @@ ChaserState* AttackingChaserState::Update(Chaser* chaser)
 	else
 	{
 		chaser->MatchTargetToPlayer();
-		chaser->IsPlayerInSight(&mLastFindedPlayerPos);
+		if(chaser->IsTargetInSight())
+		{
+			mLastFindedPlayerPos = chaser->GetTarget();
+		}
 		chaser->RotateToTarget();
 
 	}

@@ -5,7 +5,7 @@ class IdleChaserState :
 	public ChaserState
 {
 private :
-
+	DWORD mIdleEnterTime;
 public :
 	IdleChaserState();
 	virtual ~IdleChaserState();

@@ -28,6 +28,7 @@ public:
 	Node* SearchToPlayerNode(D3DXVECTOR3& playerPos);
 	
 private:
+	D3DXVECTOR3 mTarget;
 	vector<D3DXVECTOR3> mPath;
 	vector<Node*> mNode;
 	set<Node*>	mSetOpenList;

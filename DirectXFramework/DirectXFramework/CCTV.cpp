@@ -5,6 +5,7 @@
 #include "SkinnedMesh.h"
 #include "Camera.h"
 #include "Chaser.h"
+#include "MovingChaserState.h"
 
 void CCTV::RenderDetectRangeMesh()
 {
@@ -138,7 +139,11 @@ void CCTV::Update()
 			mbFindTarget = true;
 			for (Chaser* chaser : mChasers)
 			{
-				chaser->SetTarget(*gCameraManager->GetCurrentCamera()->GetTarget());
+				chaser->MatchTargetToPlayer();
+				if (chaser->GetChaserState()->GetChaserStateName() == eChaserStateName::IDLE)
+				{
+					chaser->ChangeState(new MovingChaserState);
+				}
 			}
 		}
 	}

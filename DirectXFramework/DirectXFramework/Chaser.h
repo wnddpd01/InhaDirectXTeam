@@ -11,18 +11,19 @@ private :
 	static D3DXVECTOR3 baseSightDir;
 	static float baseSightLength;
 	static float baseSightAngle;
-	static vector<D3DXPLANE> baseSightFrustum;
+	static float angrySightAngle;
 	
 	RoomCenter* mRoomCenter;
 	ChaserState* mChaserState;
 	SkinnedMesh* mSkinnedMesh;
 	D3DXVECTOR3 mBasePos;
 	D3DXVECTOR3 mTargetPos;
+	vector<D3DXPLANE>* mSightFrustum;
 	DWORD mCycleTime;
 	DWORD mLastUpdateTime;
 	float mSpeed;
 
-	bool ObjectInSightFrustum(Base3DObject* object, vector<D3DXPLANE>& sightFrustum);
+	bool ObjectInSightFrustum(D3DXVECTOR3& objectPos, vector<D3DXPLANE>& sightFrustum);
 	void MakeSightFrustum(OUT vector<D3DXPLANE>& sightPlane);
 	void FollowingPath();
 	void ReturnToBasePos();
@@ -32,6 +33,8 @@ public :
 	constexpr static DWORD attackCycleTime = 1500;
 	constexpr static float attackRange = 1.f;
 	constexpr static float findRange = 10.f;
+	static vector<D3DXPLANE> baseSightFrustum;
+	static vector<D3DXPLANE> angrySightFrustum;
 	
 	Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter);
 	virtual ~Chaser();
@@ -43,8 +46,14 @@ public :
 	void SetTarget(D3DXVECTOR3& targetPos) { mTargetPos = targetPos; }
 	D3DXVECTOR3 GetTarget() const { return mTargetPos; }
 
-	bool IsPlayerInSight(OUT D3DXVECTOR3* outPlayerPos);
+	void SetSightFrustum(vector<D3DXPLANE>* sightFrustum) { mSightFrustum = sightFrustum; }
+
+	ChaserState* GetChaserState() const { return mChaserState; }
+	
+	bool IsTargetInSight();
 	void RotateToTarget();
+
+	void ChangeState(ChaserState* newState);
 	
 	void Update() override;
 	void Render() override;
