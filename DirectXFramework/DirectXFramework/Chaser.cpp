@@ -193,10 +193,10 @@ bool Chaser::IsTargetInSight()
 		{
 			return false;
 		}
-		map<string, Base3DObject*>& objectsInRoom = currentRoom->GetObjectsInRoomRef();
+		map<string, Base3DObject*> * objectsInRoom = &currentRoom->GetObjectsInRoomRef();
 		BOOL canSeeTarget = true;
 		float distanceToHitPoint = 0.f;
-		for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
+		for (map<string, Base3DObject*>::value_type& objectInRoom : *objectsInRoom)
 		{
 			if ((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
 			{
@@ -207,10 +207,10 @@ bool Chaser::IsTargetInSight()
 				}
 			}
 		}
-		if(currentRoom != targetRoom)
+		if(targetRoom != nullptr && currentRoom != targetRoom)
 		{
-			objectsInRoom = targetRoom->GetObjectsInRoomRef();
-			for (map<string, Base3DObject*>::value_type& objectInRoom : objectsInRoom)
+			objectsInRoom = &targetRoom->GetObjectsInRoomRef();
+			for (map<string, Base3DObject*>::value_type& objectInRoom : *objectsInRoom)
 			{
 				if ((*objectInRoom.second->GetColliderCube().begin()).second->isIntersectRay(mPos, sightRayDir, &distanceToHitPoint))
 				{

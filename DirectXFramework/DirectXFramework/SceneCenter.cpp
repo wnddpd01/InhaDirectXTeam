@@ -100,13 +100,9 @@ void SceneCenter::ChangeScene(eSceneName sceneName)
 	}
 	SAFE_DELETE(mCurScene);
 	mCurScene = mLoadingScene;
-	LoadScene(sceneName);
-	/*if(mLoadingThread.joinable())
-	{
-		mLoadingThread.join();
-	}
+	Sleep(1);
 	mLoadingThread = std::thread{ &SceneCenter::LoadScene, this, sceneName };
-	mLoadingThread.detach();*/
+	mLoadingThread.detach();
 }
 
 void SceneCenter::RegisterScene(Scene* scene)
