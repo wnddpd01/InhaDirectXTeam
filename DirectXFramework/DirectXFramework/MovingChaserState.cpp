@@ -98,9 +98,9 @@ ChaserState* MovingChaserState::Update(Chaser* chaser)
 	{
 		return new AttackingChaserState;
 	}
-	else if (GetTickCount() - mLastUpdateTime > Chaser::findCycleTime || distanceToTarget < Chaser::findRange)
+	if (distanceToTarget < Chaser::findRange)
 	{
-		if(chaser->IsTargetInSight())
+		if(GetTickCount() - mLastUpdateTime > Chaser::findCycleTime && chaser->IsTargetInSight())
 		{
 			mPath.clear();
 			mPath.push_back(chaser->GetTarget());
@@ -108,7 +108,7 @@ ChaserState* MovingChaserState::Update(Chaser* chaser)
 		}
 		mLastUpdateTime = GetTickCount();
 	}
-	else if(mPath.empty() == true)
+	if(mPath.empty() == true)
 	{
 		return new IdleChaserState;
 	}
