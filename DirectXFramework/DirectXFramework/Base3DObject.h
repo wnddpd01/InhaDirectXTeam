@@ -46,7 +46,6 @@ public:
 	void SetCullingSize(float tag) { mCullingSize = tag; }
 	float GetCullingSize() const { return mCullingSize; }
 
-
 	void AddColliderCube(string colliderName);
 	void DeleteColliderCube(string colliderName);
 

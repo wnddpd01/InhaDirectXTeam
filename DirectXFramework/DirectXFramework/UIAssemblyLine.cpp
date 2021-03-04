@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "UIAnimation.h"
 #include "UIConversation.h"
+#include "UICellGrid.h"
 
 void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 {
@@ -34,7 +35,9 @@ void UIAssemblyLine::MakeStartSceneUI(Scene* newScene)
 	uiImage->SetVisible(true);
 	newScene->mGameUIs.insert(make_pair("btnExit", uiImage));
 
-	
+	/*UICellGrid* uiCellGrid = new UICellGrid();
+	uiCellGrid->SetVisible(true);
+	newScene->mGameUIs.insert(make_pair("cellGrid",uiCellGrid));*/
 }
 
 void UIAssemblyLine::MakeIngameSceneUI(Scene* newScene)

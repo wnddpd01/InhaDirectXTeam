@@ -38,6 +38,7 @@ void SceneCenter::LoadScene(eSceneName sceneName)
 	gCameraManager->SetCamera(newScene->GetCamera());
 	this->mCurScene = newScene;
 	LeaveCriticalSection(&CS);
+	cout << "asdasd" << endl;
 }
 
 void SceneCenter::EnterScene(eSceneName sceneName)

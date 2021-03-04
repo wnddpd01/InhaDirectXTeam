@@ -151,6 +151,9 @@
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WalkCharacterState.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{CED0C905-C3FB-43D3-8148-D661C9B7C7E1}</ProjectGuid>

@@ -28,6 +28,7 @@ private :
 	void FollowingPath();
 	void ReturnToBasePos();
 	void Attack(Player* player);
+	void RenderFrustum();
 public :
 	constexpr static DWORD findCycleTime = 300;
 	constexpr static DWORD attackCycleTime = 1500;
@@ -35,6 +36,8 @@ public :
 	constexpr static float findRange = 10.f;
 	static vector<D3DXPLANE> baseSightFrustum;
 	static vector<D3DXPLANE> angrySightFrustum;
+	static vector<D3DXVECTOR3> baseFrustumPoints;
+	static vector<D3DXVECTOR3> angryFrustumPoints;
 	
 	Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter);
 	virtual ~Chaser();

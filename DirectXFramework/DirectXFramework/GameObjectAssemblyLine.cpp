@@ -1,3 +1,4 @@
+// ReSharper disable CppClangTidyModernizeAvoidBind
 #include "stdafx.h"
 #include "GameObjectAssemblyLine.h"
 #include "Scene.h"
@@ -589,12 +590,12 @@ void GameObjectAssemblyLine::CreateIngameSceneGameObject(Scene* newScene)
 		dynamic_cast<UIConversation*>(newScene->mGameUIs["conversation"])->SetConversation("¿­·È´Ù!");
 		player->UseItem(eInventorySlot::Key);
 	});
-	door->AddInteractionBehavior([=]()->void
-	{
-		portal1->CollideHandle = DefaultColliderHandler;
-		portal2->CollideHandle = DefaultColliderHandler;
-	});
 	door->AddInteractionBehavior(bind(&Interactable3DObject::ChangeToStaticObject, door));
+	door->AddInteractionBehavior([=]()->void
+		{
+			portal1->CollideHandle = DefaultColliderHandler;
+			portal2->CollideHandle = DefaultColliderHandler;
+		});
 	room2A02->InsertObject(door);
 
 	Door* tempDoor = new Door;

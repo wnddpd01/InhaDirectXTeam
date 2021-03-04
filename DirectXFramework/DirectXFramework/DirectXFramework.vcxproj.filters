@@ -406,4 +406,7 @@
       <Filter>3DObject\AnimatingObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>

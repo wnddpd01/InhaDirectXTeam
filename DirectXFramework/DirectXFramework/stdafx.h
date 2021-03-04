@@ -167,7 +167,7 @@ inline D3DXVECTOR3 BezierSecond(D3DXVECTOR3& vec0, D3DXVECTOR3& vec1, D3DXVECTOR
 	return pow(1 - t, 2) * vec0 + 2 * t * (1 - t) * vec1 + pow(t, 2) * vec2;
 }
 
-inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& dir, const float& dirLength, const float& angle, OUT vector<D3DXPLANE>& frustum)
+inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& dir, const float& dirLength, const float& horizontalAngle, const float& verticalAngle,OUT vector<D3DXPLANE>& frustum, OUT vector<D3DXVECTOR3>* planePoints = nullptr)
 {
 	int sign[2] = { -1, 1 };
 	D3DXVECTOR3 frustumPoints[4];
@@ -177,7 +177,7 @@ inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& 
 	{
 		for (int j = 0; j < 2; ++j)
 		{
-			D3DXQuaternionRotationYawPitchRoll(&quatR, angle * sign[i], angle * sign[j], 0);
+			D3DXQuaternionRotationYawPitchRoll(&quatR, horizontalAngle * sign[i], verticalAngle * sign[j], 0);
 			D3DXMatrixRotationQuaternion(&matR, &quatR);
 			D3DXVec3TransformNormal(&frustumPoints[i * 2 + j], &dir, &matR);
 			frustumPoints[i * 2 + j] = frustumPoints[i * 2 + j] * dirLength + pos;
@@ -199,7 +199,14 @@ inline vector<D3DXPLANE>* GetFrustum(const D3DXVECTOR3& pos, const D3DXVECTOR3& 
 	D3DXPlaneFromPoints(&frustumPlane, &pos, &frustumPoints[3], &frustumPoints[1]);
 	D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
 	frustum.emplace_back(frustumPlane); // down
-	
+
+	if(planePoints != nullptr)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			planePoints->push_back(frustumPoints[i]);
+		}
+	}
 	//D3DXPlaneFromPoints(&frustumPlane, &frustumPoints[0], &frustumPoints[3], &frustumPoints[2]);
 	//D3DXPlaneNormalize(&frustumPlane, &frustumPlane);
 	//frustum.emplace_back(frustumPlane); // back
@@ -216,3 +223,28 @@ struct CollisionEvent
 	Base3DObject * obj2;
 	string obj2ColliderTag;
 };
+
+inline void Draw3DLine(const D3DVECTOR& p1, const D3DVECTOR& p2, D3DCOLOR color)
+{
+	struct T_LINE_3D
+	{
+		D3DVECTOR pos;
+		D3DCOLOR color;
+	};
+	const DWORD fvf = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+	D3DXMATRIX zero_mat;
+	D3DXMatrixTranslation(&zero_mat, 0.0f, 0.0f, 0.0f);
+	gD3Device->SetTransform(D3DTS_WORLD, &zero_mat);
+
+	T_LINE_3D lines[2];
+	lines[0].pos = p1;
+	lines[0].color = color;
+	lines[1].pos = p2;
+	lines[1].color = color;
+
+	gD3Device->SetFVF(fvf);
+	gD3Device->SetTexture(0, NULL);
+	gD3Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	gD3Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	gD3Device->DrawPrimitiveUP(D3DPT_LINELIST, 1, lines, sizeof(T_LINE_3D));
+}

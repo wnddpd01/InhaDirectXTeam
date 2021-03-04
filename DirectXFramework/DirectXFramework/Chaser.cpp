@@ -8,11 +8,14 @@
 #include "Room.h"
 
 D3DXVECTOR3 Chaser::baseSightDir = { 0, 0, 1 };
-float Chaser::baseSightLength = 30.f;
-float Chaser::baseSightAngle = D3DX_PI / 5.f;
+float Chaser::baseSightLength = 20.f;
+float Chaser::baseSightAngle = D3DX_PI / 12.f;
 float Chaser::angrySightAngle = D3DX_PI / 2.5f;
 vector<D3DXPLANE> Chaser::baseSightFrustum;
 vector<D3DXPLANE> Chaser::angrySightFrustum;
+vector<D3DXVECTOR3> Chaser::baseFrustumPoints;
+vector<D3DXVECTOR3> Chaser::angryFrustumPoints;
+ID3DXLine* line = nullptr;
 
 //void Chaser::FollowingPath()
 //{
@@ -69,6 +72,7 @@ void Chaser::ChangeState(ChaserState* newState)
 
 bool Chaser::ObjectInSightFrustum(D3DXVECTOR3& objectPos, vector<D3DXPLANE>& sightFrustum)
 {
+	cout << D3DXVec3Length(&(mPos - objectPos)) << endl;
 	if(D3DXVec3Length(&(mPos - objectPos)) > baseSightLength)
 	{
 		return false;
@@ -118,8 +122,8 @@ Chaser::Chaser(D3DXVECTOR3 basePos, RoomCenter* roomCenter)
 	mChaserState->Enter(this);
 	if(baseSightFrustum.size() == 0)
 	{
-		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::baseSightAngle, Chaser::baseSightFrustum);
-		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::angrySightAngle, Chaser::angrySightFrustum);
+		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::baseSightAngle, D3DX_PI / 14, Chaser::baseSightFrustum, &baseFrustumPoints);
+		GetFrustum((D3DXVECTOR3(0, 0, 0)), Chaser::baseSightDir, Chaser::baseSightLength, Chaser::angrySightAngle, D3DX_PI / 10, Chaser::angrySightFrustum, &angryFrustumPoints);
 	}
 	mSightFrustum = &baseSightFrustum;
 	AddColliderCube("basicColliderCube");
@@ -147,6 +151,34 @@ void Chaser::ReturnToBasePos()
 
 void Chaser::Attack(Player* player)
 {
+}
+
+void Chaser::RenderFrustum()
+{
+	D3DXMATRIX matWorld, matR, matView;
+	D3DXMatrixTranslation(&matWorld, mPos.x, mPos.y, mPos.z);
+	static D3DXQUATERNION idleRot = *D3DXQuaternionRotationYawPitchRoll(&idleRot, D3DX_PI, 0, 0);
+	D3DXMatrixRotationQuaternion(&matR, &(mRot * idleRot));
+	matWorld = matR * matWorld;
+	D3DXVECTOR3 linePoints[8];
+	linePoints[0] = D3DXVECTOR3(0, 0, 0);
+	D3DXVec3TransformCoord(&linePoints[0], &linePoints[0], &matWorld);
+	linePoints[1] = (baseFrustumPoints[0]);
+	linePoints[2] = (baseFrustumPoints[1]);
+	linePoints[3] = (baseFrustumPoints[2]);
+	linePoints[4] = (baseFrustumPoints[3]);
+	/*linePoints[0] = D3DXVECTOR3(-5.0f, 0.0f, 0.0f);
+	linePoints[1] = D3DXVECTOR3(5.0f, 0.0f, 0.0f);*/
+	D3DCOLOR color = mChaserState->GetChaserStateName() != eChaserStateName::MOVING ? D3DCOLOR_XRGB(10, 255, 10) : D3DCOLOR_XRGB(255, 10, 10);
+	for (int i = 1; i < 5; i++)
+	{
+		D3DXVec3TransformCoord(&linePoints[i], &linePoints[i], &matWorld);
+		Draw3DLine(linePoints[0], linePoints[i], color);
+		cout << to_string(linePoints[i]) << endl;
+	}
+	Draw3DLine(linePoints[1], linePoints[2], color);
+	Draw3DLine(linePoints[1], linePoints[3], color);
+	Draw3DLine(linePoints[3], linePoints[4], color);
 }
 
 //void Chaser::ReturnToBasePos()
@@ -297,4 +329,5 @@ void Chaser::Render()
 {
 	Base3DObject::Render();
 	mSkinnedMesh->Render(nullptr);
+	RenderFrustum();
 }
